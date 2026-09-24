@@ -1,0 +1,346 @@
+/* Account */
+.account-main {
+    padding: 30px;
+}
+
+.profile-card {
+    width: min(680px, 100%);
+    margin: 0 auto;
+    min-height: 125px;
+    padding: 22px 25px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.profile-image-wrap {
+    width: 76px;
+    height: 76px;
+    position: relative;
+    flex: 0 0 76px;
+}
+
+.profile-image-wrap img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--soft);
+}
+
+.camera-button {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    background: var(--black);
+    color: #fff;
+    font-size: 8px;
+}
+
+.profile-copy {
+    min-width: 0;
+    flex: 1;
+    position: relative;
+}
+
+.profile-copy h2 {
+    font-size: 19px;
+    line-height: 1.1;
+}
+
+.profile-contact {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.profile-contact p {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    color: #8b8b8b;
+    font-size: 9px;
+}
+
+.profile-contact i {
+    color: #a0a0a0;
+}
+
+.profile-copy .outline-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.account-grid {
+    width: min(680px, 100%);
+    margin: 28px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.section-label {
+    margin: 0 0 10px 3px;
+    color: #999;
+    font-size: 9px;
+    letter-spacing: .7px;
+}
+
+.settings-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.setting-row {
+    min-height: 62px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-bottom: 1px solid var(--border);
+}
+
+.setting-row:last-child {
+    border-bottom: 0;
+}
+
+.setting-icon {
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--soft);
+    color: #999;
+    font-size: 9px;
+}
+
+.setting-copy {
+    min-width: 0;
+    flex: 1;
+}
+
+.setting-copy p:first-child {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.setting-copy p:last-child {
+    margin-top: 3px;
+    color: #999;
+    font-size: 8px;
+}
+
+.setting-arrow {
+    color: #bbb;
+    font-size: 8px;
+}
+
+.account-footer {
+    grid-column: 1 / -1;
+    margin-top: 32px;
+    text-align: center;
+}
+
+.account-footer > p {
+    margin-bottom: 8px;
+    color: #aaa;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+}
+
+.account-footer > div {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.account-footer button {
+    background: transparent;
+    color: #999;
+    font-size: 8px;
+}
+
+.account-footer button:hover {
+    color: var(--black);
+}
+
+/* Readable desktop sizing */
+.account-main,
+.post-job-main {
+    padding: 36px;
+}
+
+.profile-card {
+    min-height: 160px;
+        padding: 28px 32px;
+}
+
+.profile-copy h2 {
+    font-size: 26px;
+}
+
+.profile-contact p {
+    font-size: 12px;
+}
+
+.setting-copy p:first-child {
+    font-size: 13px;
+}
+
+.setting-copy p:last-child {
+    font-size: 11px;
+}
+
+.section-label {
+    font-size: 11px;
+}
+
+/* Final page sizing */
+/* Account */
+.account-main {
+    padding: 40px;
+}
+
+.profile-card {
+    width: min(820px, 100%);
+    min-height: 170px;
+    padding: 30px 34px;
+    gap: 24px;
+}
+
+.profile-image-wrap {
+    width: 96px;
+    height: 96px;
+    flex-basis: 96px;
+}
+
+.camera-button {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 11px;
+}
+
+.profile-copy h2 {
+    font-size: 26px;
+}
+
+.profile-contact {
+    margin-top: 11px;
+    gap: 18px;
+}
+
+.profile-contact p {
+    font-size: 13px;
+}
+
+.profile-copy .outline-button {
+    min-height: 42px;
+    padding: 0 17px;
+    font-size: 13px;
+}
+
+.account-grid {
+    width: min(820px, 100%);
+    margin-top: 34px;
+    gap: 24px;
+}
+
+.section-label {
+    margin-bottom: 12px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.settings-card {
+    border-radius: 14px;
+}
+
+.setting-row {
+    min-height: 76px;
+    padding: 0 16px;
+    gap: 13px;
+}
+
+.setting-icon {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+    font-size: 13px;
+}
+
+.setting-copy p:first-child {
+    font-size: 14px;
+}
+
+.setting-copy p:last-child {
+    margin-top: 4px;
+    font-size: 12px;
+}
+
+.setting-arrow {
+    font-size: 12px;
+}
+
+.account-footer {
+    margin-top: 38px;
+}
+
+.account-footer > p,
+.account-footer button {
+    font-size: 11px;
+}
+
+.account-footer > div {
+    gap: 20px;
+}
+
+/* Profile editing */
+.profile-edit-form {
+    display: grid;
+        gap: 8px;
+}
+
+.profile-edit-form input {
+    width: min(320px, 100%);
+        min-height: 34px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        outline: 0;
+        background: #fff;
+        font-size: 10px;
+}
+
+.profile-edit-form input:focus {
+    border-color: var(--border-strong);
+}
+
+.profile-edit-actions {
+    display: flex;
+        gap: 8px;
+        margin-top: 3px;
+}
+
+.profile-edit-actions .outline-button,
+.profile-edit-actions .dark-button {
+    min-height: 32px;
+}
