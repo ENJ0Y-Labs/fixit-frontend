@@ -2406,6 +2406,416 @@ textarea::placeholder {
     }
 }
 
+/* Reference layout: compact desktop */
+@media (max-width: 800px) {
+    :root {
+        --nav-width: 114px;
+    }
+
+    .sidebar {
+        width: var(--nav-width);
+        padding: 10px 7px 8px;
+    }
+
+    .sidebar .logo {
+        justify-content: flex-start;
+        padding: 0 3px;
+        margin-bottom: 16px;
+    }
+
+    .sidebar .logo-text,
+    .nav-item span,
+    .user-info {
+        display: block;
+    }
+
+    .logo {
+        gap: 6px;
+        font-size: 11px;
+    }
+
+    .logo-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        font-size: 9px;
+    }
+
+    .nav-links {
+        gap: 2px;
+    }
+
+    .nav-item {
+        min-height: 25px;
+        padding: 0 6px;
+        gap: 6px;
+        border-radius: 6px;
+        font-size: 8px;
+    }
+
+    .nav-item i {
+        width: 11px;
+        font-size: 8px;
+    }
+
+    .post-job-button {
+        min-height: 22px;
+        margin-top: auto;
+        padding: 0 7px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 5px;
+        background: var(--soft);
+        color: #555;
+        font-size: 7px;
+        font-weight: 700;
+    }
+
+    .post-job-button:hover {
+        background: #eaeaea;
+        color: var(--black);
+    }
+
+    .post-job-button i {
+        font-size: 7px;
+    }
+
+    .user-profile {
+        padding: 8px 3px 0;
+        gap: 6px;
+    }
+
+    .user-avatar {
+        width: 20px;
+        height: 20px;
+        flex-basis: 20px;
+        font-size: 7px;
+    }
+
+    .user-name {
+        font-size: 7px;
+    }
+
+    .user-role {
+        font-size: 6px;
+    }
+
+    .home-header {
+        min-height: 34px;
+        padding: 0 14px;
+        gap: 7px;
+    }
+
+    .search-box {
+        width: 202px;
+        height: 22px;
+    }
+
+    .search-box i,
+    .location-select i {
+        margin-left: 7px;
+        font-size: 7px;
+    }
+
+    .search-box input,
+    .location-select select {
+        font-size: 7px;
+    }
+
+    .location-select {
+        height: 22px;
+        padding-right: 3px;
+    }
+
+    .location-select select {
+        padding: 0 5px 0 4px;
+    }
+
+    .icon-button {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        font-size: 7px;
+    }
+
+    .home-main {
+        padding: 15px;
+    }
+
+    .hero {
+        min-height: 146px;
+        padding: 18px;
+        border-radius: 11px;
+    }
+
+    .hero::after {
+        width: 260px;
+        height: 160px;
+        right: -45px;
+        top: -10px;
+        border: 0;
+        border-radius: 0;
+        transform: rotate(10deg);
+        opacity: .9;
+        background:
+            linear-gradient(105deg, transparent 0 12%, rgba(255,255,255,.09) 12% 34%, transparent 34% 40%, rgba(255,255,255,.07) 40% 63%, transparent 63% 69%, rgba(255,255,255,.06) 69% 92%, transparent 92%),
+            linear-gradient(15deg, transparent 0 8%, rgba(255,255,255,.08) 8% 31%, transparent 31% 38%, rgba(255,255,255,.06) 38% 62%, transparent 62% 69%, rgba(255,255,255,.05) 69% 93%, transparent 93%);
+    }
+
+    .hero h1 {
+        max-width: 270px;
+        margin-bottom: 8px;
+        font-size: 20px;
+        line-height: 1.12;
+    }
+
+    .hero > div > p:nth-of-type(1) {
+        max-width: 260px;
+        margin-bottom: 12px;
+        font-size: 7px;
+    }
+
+    .hero-button {
+        min-height: 26px;
+        padding: 0 12px;
+        border-radius: 6px;
+        font-size: 7px;
+    }
+
+    .categories-section,
+    .services-section {
+        margin-top: 17px;
+    }
+
+    .section-heading h2,
+    .service-header h2 {
+        font-size: 11px;
+    }
+
+    .section-heading button,
+    .service-header select,
+    .filter-heading button {
+        font-size: 7px;
+    }
+
+    .categories-list {
+        margin-top: 8px;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .category {
+        min-height: 67px;
+        padding: 7px 4px;
+        gap: 6px;
+        border-radius: 7px;
+    }
+
+    .category-icon {
+        width: 25px;
+        height: 25px;
+        border-radius: 6px;
+        font-size: 8px;
+    }
+
+    .category-name {
+        font-size: 7px;
+    }
+
+    .services-section {
+        grid-template-columns: 131px minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .service-filters {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .filter-heading {
+        padding-bottom: 8px;
+    }
+
+    .filter-heading h2,
+    .filter-group h3,
+    .option-group legend {
+        font-size: 8px;
+    }
+
+    .filter-group {
+        padding: 9px 0;
+    }
+
+    .price-inputs {
+        margin-top: 5px;
+        gap: 5px;
+    }
+
+    .price-inputs input {
+        min-height: 20px;
+        padding: 0 5px;
+        border-radius: 5px;
+        font-size: 7px;
+    }
+
+    .double-range-slider {
+        height: 35px;
+        margin-top: 5px;
+        --slider-height: 18px;
+        --thumb-size: 10px;
+        --track-height: 3px;
+    }
+
+    .double-range-slider__track {
+        top: 7px;
+    }
+
+    .double-range-slider__input::-webkit-slider-thumb {
+        border-width: 1px;
+        margin-top: calc((var(--track-height) - var(--thumb-size)) / 2);
+    }
+
+    .double-range-slider__input::-moz-range-thumb {
+        border-width: 1px;
+    }
+
+    .option-group label,
+    .availability-filter > div {
+        margin-top: 5px;
+        gap: 5px;
+        font-size: 7px;
+    }
+
+    .option-group {
+        padding: 9px 0;
+    }
+
+    .availability-filter > div {
+        margin-top: 5px;
+    }
+
+    .toggle-switch {
+        width: 22px;
+        height: 12px;
+        padding: 1px;
+    }
+
+    .toggle-switch span {
+        width: 10px;
+        height: 10px;
+    }
+
+    .service-providers {
+        gap: 10px;
+    }
+
+    .service-header p {
+        display: none;
+    }
+
+    .service-header label {
+        gap: 3px;
+        font-size: 7px;
+    }
+
+    .service-card {
+        padding: 9px;
+        border-radius: 9px;
+    }
+
+    .service-card-top {
+        gap: 7px;
+    }
+
+    .service-card-top > img {
+        width: 35px;
+        height: 35px;
+        flex-basis: 35px;
+        border-radius: 8px;
+    }
+
+    .service-details h3 {
+        font-size: 8px;
+    }
+
+    .service-details p,
+    .service-rating,
+    .service-distance {
+        font-size: 6px;
+    }
+
+    .favorite-button {
+        font-size: 7px;
+    }
+
+    .service-card-bottom {
+        margin-top: 7px;
+        padding-top: 7px;
+    }
+
+    .service-price span,
+    .service-price small {
+        font-size: 5px;
+    }
+
+    .service-price strong {
+        font-size: 11px;
+    }
+
+    .service-card .dark-button {
+        min-height: 20px;
+        padding: 0 8px;
+        border-radius: 5px;
+        font-size: 6px;
+    }
+
+    .load-more-button {
+        grid-column: 1 / -1;
+        min-height: 26px;
+        padding: 0 14px;
+        border-radius: 7px;
+        font-size: 7px;
+        justify-self: center;
+    }
+
+    .site-footer {
+        margin-top: 25px;
+        padding: 16px 15px 10px;
+    }
+
+    .footer-top {
+        gap: 18px;
+    }
+
+    .footer-top .logo {
+        margin-bottom: 7px;
+    }
+
+    .footer-top > div > p {
+        max-width: 150px;
+        font-size: 6px;
+    }
+
+    .footer-top h2 {
+        font-size: 6px;
+    }
+
+    .footer-top p {
+        font-size: 6px;
+    }
+
+    .footer-bottom {
+        padding-top: 9px;
+        margin-top: 12px;
+        font-size: 5px;
+    }
+
+    .footer-bottom a {
+        margin-left: 10px;
+    }
+}
+
 @media (max-width: 800px) {
     :root {
         --nav-width: 72px;
@@ -2471,7 +2881,7 @@ textarea::placeholder {
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 520px) {
     .home-header {
         flex-wrap: wrap;
         padding-top: 10px;
