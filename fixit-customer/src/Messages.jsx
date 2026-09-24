@@ -75,8 +75,11 @@ const conversations = [
     },
 ];
 
-function Messages() {
-    const [activeId, setActiveId] = useState('emeka');
+function Messages({ selectedJob, onViewJob }) {
+    const [activeId, setActiveId] = useState(() => {
+        const match = conversations.find((conversation) => conversation.name === selectedJob?.provider);
+        return match?.id ?? 'emeka';
+    });
     const [draft, setDraft] = useState('');
     const [sentMessages, setSentMessages] = useState({});
 
@@ -179,7 +182,7 @@ function Messages() {
                         <button type="button" aria-label="Call provider">
                             <i className="fa-solid fa-phone"></i>
                         </button>
-                        <button type="button" aria-label="View job">
+                        <button type="button" aria-label="View job" onClick={onViewJob}>
                             <i className="fa-solid fa-briefcase"></i>
                         </button>
                         <button type="button" aria-label="More options">
@@ -260,13 +263,13 @@ function Messages() {
                 </div>
 
                 <article className="context-job-card">
-                    <h2>Fixing Kitchen Sink Leak</h2>
+                    <h2>{selectedJob?.title || 'Fixing Kitchen Sink Leak'}</h2>
                     <span className="context-status">IN PROGRESS</span>
 
                     <dl>
                         <div>
                             <dt>AGREED PRICE</dt>
-                            <dd>₦12,500</dd>
+                            <dd>₦{(selectedJob?.price || 12500).toLocaleString('en-NG')}</dd>
                         </div>
                         <div>
                             <dt>SCHEDULED</dt>
