@@ -1,28 +1,24 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function Toggle({ label = 'Toggle', defaultChecked = true, disabled = false }) {
-    const [checked, setChecked] = useState(defaultChecked);
-
+function Toggle({ label = 'Toggle', isOn = false, onChange }) {
     return (
         <button
             type="button"
+            className={`toggle-switch${isOn ? ' is-on' : ''}`}
             role="switch"
-            aria-checked={checked}
+            aria-checked={isOn}
             aria-label={label}
-            className={`toggle-switch${checked ? ' is-on' : ''}`}
-            onClick={() => setChecked((current) => !current)}
-            disabled={disabled}
+            onClick={() => onChange?.(!isOn)}
         >
-            <span aria-hidden="true"></span>
+            <span></span>
         </button>
     );
 }
 
 Toggle.propTypes = {
     label: PropTypes.string,
-    defaultChecked: PropTypes.bool,
-    disabled: PropTypes.bool,
+    isOn: PropTypes.bool,
+    onChange: PropTypes.func,
 };
 
 export default Toggle;
