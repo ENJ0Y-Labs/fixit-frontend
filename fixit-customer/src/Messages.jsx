@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import avatarPlaceholder from './assets/avatar-placeholder.svg';
-import './Messages.css';
+
 
 const conversations = [
     {
