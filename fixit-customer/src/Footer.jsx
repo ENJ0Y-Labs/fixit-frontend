@@ -7,14 +7,14 @@ function Footer() {
                         <div className="logo-icon">F</div>
                         <div className="logo-text">FixIt</div>
                     </div>
-                    <p>Connecting trusted local service providers with customers across Nigeria since 2026.</p>
+                    <p>Connecting trusted local service providers with customers across Nigeria since 2024.</p>
                 </div>
                 <FooterColumn title="Company" items={["About Us", "Career", "Trust & Safety", "Terms of Service"]} />
                 <FooterColumn title="Services" items={["Plumbing", "Electrical", "Cleaning", "Painting"]} />
                 <FooterColumn title="Support" items={["Help Center", "Contact Us", "Privacy Policy"]} />
             </div>
             <div className="footer-bottom">
-                <p>&copy; 2026 FixIt Technologies LTD.</p>
+                <p>&copy; 2024 FixIt Technologies LTD.</p>
                 <div>
                     <a href="#twitter">Twitter</a>
                     <a href="#instagram">Instagram</a>
