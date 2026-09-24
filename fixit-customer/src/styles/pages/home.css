@@ -784,3 +784,27 @@
 .footer-bottom {
     font-size: 12px;
 }
+
+/* Accessibility refinements */
+.search-box i,
+.location-select i,
+.service-header p,
+.service-header label,
+.service-distance,
+.service-price span,
+.service-price small {
+    color: #6f6f6f;
+}
+
+.section-heading button,
+.filter-heading button {
+    color: #666;
+}
+
+.favorite-button {
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    color: #666;
+}
