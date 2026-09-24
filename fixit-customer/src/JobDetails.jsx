@@ -1,3 +1,4 @@
+import './styles/pages/jobs.css';
 import JobDetailsPageProps from './jobdetails/JobDetailsPageProps';
 
 function JobDetails({ job, onBack, onPayment, onMessages, onCancel }) {
