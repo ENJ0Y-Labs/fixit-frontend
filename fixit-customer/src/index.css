@@ -2816,7 +2816,7 @@ textarea::placeholder {
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 520px) {
     :root {
         --nav-width: 72px;
     }
