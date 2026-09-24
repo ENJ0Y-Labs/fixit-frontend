@@ -1,11 +1,11 @@
 import PaymentMethod from './payment/PaymentMethod';
 import OrderSummary from './payment/OrderSummary';
 
-function Payment() {
+function Payment({ job, onBack, onPaymentComplete }) {
     return (
         <div className="payment page-surface">
             <header className="page-header payment-header">
-                <button type="button" className="back-button" aria-label="Go back">
+                <button type="button" className="back-button" aria-label="Go back" onClick={onBack}>
                     <i className="fa-solid fa-arrow-left"></i>
                 </button>
                 <h1>Checkout</h1>
@@ -44,7 +44,7 @@ function Payment() {
 
                 <aside className="payment-right">
                     <section className="order-summary">
-                        <OrderSummary />
+                        <OrderSummary title={job?.title} provider={job?.provider} price={job?.price} onPayment={onPaymentComplete} />
                     </section>
                     <button type="button" className="help-card">
                         <span className="help-icon"><i className="fa-solid fa-headset"></i></span>
