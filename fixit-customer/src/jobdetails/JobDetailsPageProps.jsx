@@ -22,7 +22,10 @@ function JobDetailsPageProps({
     urgency = 'Normal',
     photos = [],
     provider = defaultProvider,
+    providerName = 'Emeka Nwachukwu',
     agreedprice = 12500,
+    onPayment,
+    onMessages,
     progresstimeline = [
         { icon: 'fa-solid fa-check', title: 'Job posted', description: 'Your job was posted successfully.', timestamp: '9:00 AM' },
         { icon: 'fa-solid fa-user-check', title: 'Provider assigned', description: 'Emeka Nwachukwu accepted the job.', timestamp: '9:30 AM' },
@@ -73,7 +76,7 @@ function JobDetailsPageProps({
 
             <aside className="job-details-right">
                 <section className="assigned-provider-card">
-                    <ProviderData {...provider} />
+                    <ProviderData {...provider} name={providerName} onMessages={onMessages} />
                 </section>
 
                 <section className="payment-overview-card">
@@ -86,7 +89,7 @@ function JobDetailsPageProps({
                         <i className="fa-solid fa-shield-halved" aria-hidden="true"></i>
                         <p>Payment is held in secure escrow. Funds will be released only after you confirm completion.</p>
                     </div>
-                    <button type="button" className="dark-button full-width">Release Payment</button>
+                    <button type="button" className="dark-button full-width" onClick={onPayment}>Release Payment</button>
                     <p className="warning-text">Only click this after the job is finished and inspected.</p>
                 </section>
 
