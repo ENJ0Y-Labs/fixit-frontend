@@ -7,10 +7,12 @@ import JobDetails from './JobDetails';
 import Payment from './Payment';
 import Review from './Review';
 import Account from './Account';
+import Messages from './Messages';
 
 const pageComponents = {
     home: Home,
     myJobs: MyJobs,
+    messages: Messages,
     postJob: PostJob,
     jobDetails: JobDetails,
     payment: Payment,
