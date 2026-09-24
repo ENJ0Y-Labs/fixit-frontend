@@ -1,106 +1,83 @@
-// fixit-customer/src/DoubleRangeSlider.jsx
-
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import "./DoubleRangeSlider.css";
 
 function DoubleRangeSlider({
     min = 0,
     max = 100,
+    step = 1,
     onChange
 }) {
     const [minVal, setMinVal] = useState(min);
     const [maxVal, setMaxVal] = useState(max);
 
-    const range = useRef(null);
-    const thumbLeft = useRef(null);
-    const thumbRight = useRef(null);
-
-    const getPercent = useCallback(
-        (value) => {
-            if (max === min) {
-                return 0;
-            }
-
-            return Math.round(
-                ((value - min) / (max - min)) * 100
-            );
-        },
-        [min, max]
-    );
-
     useEffect(() => {
-        const minPercent = getPercent(minVal);
-        const maxPercent = getPercent(maxVal);
-
-        if (thumbLeft.current) {
-            thumbLeft.current.style.left = `${minPercent}%`;
-            thumbLeft.current.style.transform = "translateX(-50%)";
-        }
-
-        if (thumbRight.current) {
-            thumbRight.current.style.left = `${maxPercent}%`;
-            thumbRight.current.style.transform = "translateX(-50%)";
-        }
-
-        if (range.current) {
-            range.current.style.left = `${minPercent}%`;
-            range.current.style.width = `${maxPercent - minPercent}%`;
-        }
-    }, [minVal, maxVal, getPercent]);
+        setMinVal(min);
+        setMaxVal(max);
+    }, [min, max]);
 
     useEffect(() => {
         onChange(minVal, maxVal);
     }, [minVal, maxVal, onChange]);
 
-    return (
-        <div className="double-range-slider">
+    const range = max - min || 1;
+    const minPercent = ((minVal - min) / range) * 100;
+    const maxPercent = ((maxVal - min) / range) * 100;
 
-            <div className="slider-track">
-                <div
-                    ref={range}
-                    className="slider-range"
-                ></div>
+    const handleMinChange = (event) => {
+        const value = Number(event.target.value);
+        setMinVal(Math.min(value, maxVal - step));
+    };
+
+    const handleMaxChange = (event) => {
+        const value = Number(event.target.value);
+        setMaxVal(Math.max(value, minVal + step));
+    };
+
+    return (
+        <div
+            className="double-range-slider"
+            style={{
+                "--range-start": `${minPercent}%`,
+                "--range-end": `${maxPercent}%`
+            }}
+        >
+            <div className="double-range-slider__track" aria-hidden="true">
+                <div className="double-range-slider__range" />
             </div>
 
             <input
-                ref={thumbLeft}
-                className="range-input range-input-left"
+                className="double-range-slider__input double-range-slider__input--min"
                 type="range"
                 min={min}
                 max={max}
+                step={step}
                 value={minVal}
-                onChange={(event) => {
-                    const value = Math.min(
-                        Number(event.target.value),
-                        maxVal - 1
-                    );
-
-                    setMinVal(value);
-                }}
+                onChange={handleMinChange}
+                aria-label="Minimum price"
+                aria-valuemin={min}
+                aria-valuemax={max}
+                aria-valuenow={minVal}
             />
 
             <input
-                ref={thumbRight}
-                className="range-input range-input-right"
+                className="double-range-slider__input double-range-slider__input--max"
                 type="range"
                 min={min}
                 max={max}
+                step={step}
                 value={maxVal}
-                onChange={(event) => {
-                    const value = Math.max(
-                        Number(event.target.value),
-                        minVal + 1
-                    );
-
-                    setMaxVal(value);
-                }}
+                onChange={handleMaxChange}
+                aria-label="Maximum price"
+                aria-valuemin={min}
+                aria-valuemax={max}
+                aria-valuenow={maxVal}
             />
 
-            <div className="range-values">
+            <div className="double-range-slider__values" aria-live="polite">
                 <span>₦{minVal.toLocaleString("en-NG")}</span>
                 <span>₦{maxVal.toLocaleString("en-NG")}</span>
             </div>
-
         </div>
     );
 }
@@ -108,6 +85,7 @@ function DoubleRangeSlider({
 DoubleRangeSlider.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
+    step: PropTypes.number,
     onChange: PropTypes.func.isRequired
 };
 
