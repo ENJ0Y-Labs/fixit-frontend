@@ -16,14 +16,14 @@ const categories = [
 ];
 
 const providers = [
-    { name: 'Emeka Nwachukwu', job: 'Professional Plumber', category: 'PLUMBING', serviceTitle: 'Fixing Kitchen Sink Leak', rating: 4.9, review: 124, distance: 2.4, price: 4500, available: true },
-    { name: 'Chioma Adeyemi', job: 'Expert Cleaner', category: 'CLEANING', serviceTitle: 'Deep House Cleaning', rating: 4.8, review: 89, distance: 0.8, price: 3000, available: true },
-    { name: 'Tunde Bello', job: 'Master Electrician', category: 'ELECTRICAL', serviceTitle: 'Circuit Breaker Repair', rating: 5.0, review: 55, distance: 4.1, price: 6000, available: true },
-    { name: 'Blessing Okafor', job: 'Interior Painter', category: 'PAINTING', serviceTitle: 'Interior Painting', rating: 4.7, review: 42, distance: 1.2, price: 4000, available: false },
-    { name: 'Chinedu Obi', job: 'Carpenter', category: 'CARPENTRY', serviceTitle: 'Custom Cabinet Repair', rating: 4.6, review: 31, distance: 3.5, price: 5000, available: true },
-    { name: 'Aisha Yusuf', job: 'Home Cleaner', category: 'CLEANING', serviceTitle: 'Move-out Cleaning', rating: 4.5, review: 67, distance: 5.6, price: 3500, available: true },
-    { name: 'Samuel Eze', job: 'Electrician', category: 'ELECTRICAL', serviceTitle: 'Socket & Wiring Repair', rating: 4.4, review: 24, distance: 7.2, price: 4200, available: true },
-    { name: 'Ifeoma Nnaji', job: 'Plumber', category: 'PLUMBING', serviceTitle: 'Bathroom Pipe Repair', rating: 4.3, review: 19, distance: 9.5, price: 3800, available: false },
+    { name: 'Emeka Nwachukwu', job: 'Professional Plumber', category: 'PLUMBING', serviceTitle: 'Fixing Kitchen Sink Leak', location: 'Victoria Island', rating: 4.9, review: 124, distance: 2.4, price: 4500, available: true },
+    { name: 'Chioma Adeyemi', job: 'Expert Cleaner', category: 'CLEANING', serviceTitle: 'Deep House Cleaning', location: 'Surulere', rating: 4.8, review: 89, distance: 0.8, price: 3000, available: true },
+    { name: 'Tunde Bello', job: 'Master Electrician', category: 'ELECTRICAL', serviceTitle: 'Circuit Breaker Repair', location: 'Ikeja', rating: 5.0, review: 55, distance: 4.1, price: 6000, available: true },
+    { name: 'Blessing Okafor', job: 'Interior Painter', category: 'PAINTING', serviceTitle: 'Interior Painting', location: 'Ikoyi', rating: 4.7, review: 42, distance: 1.2, price: 4000, available: false },
+    { name: 'Chinedu Obi', job: 'Carpenter', category: 'CARPENTRY', serviceTitle: 'Custom Cabinet Repair', location: 'Yaba', rating: 4.6, review: 31, distance: 3.5, price: 5000, available: true },
+    { name: 'Aisha Yusuf', job: 'Home Cleaner', category: 'CLEANING', serviceTitle: 'Move-out Cleaning', location: 'Surulere', rating: 4.5, review: 67, distance: 5.6, price: 3500, available: true },
+    { name: 'Samuel Eze', job: 'Electrician', category: 'ELECTRICAL', serviceTitle: 'Socket & Wiring Repair', location: 'Lekki Phase 1', rating: 4.4, review: 24, distance: 7.2, price: 4200, available: true },
+    { name: 'Ifeoma Nnaji', job: 'Plumber', category: 'PLUMBING', serviceTitle: 'Bathroom Pipe Repair', location: 'Victoria Island', rating: 4.3, review: 19, distance: 9.5, price: 3800, available: false },
 ];
 
 function Home({ onSelectProvider }) {
@@ -48,13 +48,7 @@ function Home({ onSelectProvider }) {
                 || provider.job.toLowerCase().includes(searchValue)
                 || provider.serviceTitle.toLowerCase().includes(searchValue)
                 || provider.category.toLowerCase().includes(searchValue);
-            const matchesLocation = !location || (provider.distance <= ({
-                'Lekki Phase 1': 10,
-                'Victoria Island': 5,
-                'Ikoyi': 5,
-                'Yaba': 10,
-                'Surulere': 15,
-            }[location] || 100));
+            const matchesLocation = !location || provider.location === location;
             const matchesRating = !rating || provider.rating >= Number(rating);
             const matchesDistance = !distance || provider.distance <= Number(distance);
             const matchesAvailability = !availableNow || provider.available;
