@@ -9,7 +9,7 @@
     --border: #e8e8e8;
     --border-strong: #d6d6d6;
     --soft: #f3f3f3;
-    --nav-width: 176px;
+    --nav-width: 114px;
     --radius: 12px;
     --shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
@@ -85,7 +85,7 @@ textarea::placeholder {
     z-index: 20;
     width: var(--nav-width);
     height: 100vh;
-    padding: 18px 12px 12px;
+    padding: 10px 7px 8px;
     display: flex;
     flex-direction: column;
     background: var(--surface);
@@ -95,22 +95,22 @@ textarea::placeholder {
 .logo {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 0 4px;
-    margin-bottom: 24px;
-    font-size: 16px;
+    gap: 6px;
+    padding: 0 3px;
+    margin-bottom: 16px;
+    font-size: 11px;
     font-weight: 700;
 }
 
 .logo-icon {
-    width: 27px;
-    height: 27px;
+    width: 20px;
+    height: 20px;
     display: grid;
     place-items: center;
-    border-radius: 6px;
+    border-radius: 4px;
     background: var(--black);
     color: #fff;
-    font-size: 13px;
+    font-size: 9px;
 }
 
 .logo-text {
@@ -120,21 +120,21 @@ textarea::placeholder {
 .nav-links {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
 }
 
 .nav-item {
     width: 100%;
-    min-height: 38px;
-    padding: 0 10px;
+    min-height: 25px;
+    padding: 0 6px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    border-radius: 8px;
+    gap: 6px;
+    border-radius: 6px;
     background: transparent;
     color: #777;
     text-align: left;
-    font-size: 12px;
+    font-size: 8px;
 }
 
 .nav-item:hover:not(:disabled) {
@@ -152,30 +152,56 @@ textarea::placeholder {
 }
 
 .nav-item i {
-    width: 15px;
+    width: 11px;
     text-align: center;
-    font-size: 11px;
+    font-size: 8px;
+}
+
+.post-job-button {
+    width: 100%;
+    min-height: 22px;
+    margin-top: auto;
+    padding: 0 7px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 5px;
+    background: var(--soft);
+    color: #555;
+    text-align: left;
+    font-size: 7px;
+    font-weight: 700;
+}
+
+.post-job-button:hover {
+    background: #eaeaea;
+    color: var(--black);
+}
+
+.post-job-button i {
+    width: 11px;
+    text-align: center;
+    font-size: 7px;
 }
 
 .user-profile {
-    margin-top: auto;
-    padding: 12px 4px 4px;
+    margin-top: 8px;
+    padding: 0 3px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    border-top: 1px solid var(--border);
+    gap: 6px;
 }
 
 .user-avatar {
-    width: 30px;
-    height: 30px;
-    flex: 0 0 30px;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
     display: grid;
     place-items: center;
     border-radius: 50%;
     background: var(--black);
     color: #fff;
-    font-size: 11px;
+    font-size: 7px;
 }
 
 .user-info {
@@ -184,13 +210,13 @@ textarea::placeholder {
 
 .user-name {
     font-weight: 700;
-    font-size: 11px;
+    font-size: 7px;
 }
 
 .user-role {
-    margin-top: 2px;
+    margin-top: 1px;
     color: var(--light-text);
-    font-size: 9px;
+    font-size: 6px;
 }
 
 /* Shared page header / controls */
@@ -2415,90 +2441,6 @@ textarea::placeholder {
     .sidebar {
         width: var(--nav-width);
         padding: 10px 7px 8px;
-    }
-
-    .sidebar .logo {
-        justify-content: flex-start;
-        padding: 0 3px;
-        margin-bottom: 16px;
-    }
-
-    .sidebar .logo-text,
-    .nav-item span,
-    .user-info {
-        display: block;
-    }
-
-    .logo {
-        gap: 6px;
-        font-size: 11px;
-    }
-
-    .logo-icon {
-        width: 20px;
-        height: 20px;
-        border-radius: 4px;
-        font-size: 9px;
-    }
-
-    .nav-links {
-        gap: 2px;
-    }
-
-    .nav-item {
-        min-height: 25px;
-        padding: 0 6px;
-        gap: 6px;
-        border-radius: 6px;
-        font-size: 8px;
-    }
-
-    .nav-item i {
-        width: 11px;
-        font-size: 8px;
-    }
-
-    .post-job-button {
-        min-height: 22px;
-        margin-top: auto;
-        padding: 0 7px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        border-radius: 5px;
-        background: var(--soft);
-        color: #555;
-        font-size: 7px;
-        font-weight: 700;
-    }
-
-    .post-job-button:hover {
-        background: #eaeaea;
-        color: var(--black);
-    }
-
-    .post-job-button i {
-        font-size: 7px;
-    }
-
-    .user-profile {
-        padding: 8px 3px 0;
-        gap: 6px;
-    }
-
-    .user-avatar {
-        width: 20px;
-        height: 20px;
-        flex-basis: 20px;
-        font-size: 7px;
-    }
-
-    .user-name {
-        font-size: 7px;
-    }
-
-    .user-role {
-        font-size: 6px;
     }
 
     .home-header {
