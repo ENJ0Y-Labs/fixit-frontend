@@ -44,9 +44,9 @@ function Payment({ job, onBack, onPaymentComplete }) {
 
                 <aside className="payment-right">
                     <section className="order-summary">
-                        <OrderSummary title={job?.title} provider={job?.provider} price={job?.price} onPayment={onPaymentComplete} />
+                        <OrderSummary title={job?.title} provider={job?.provider || job?.providerName} price={job?.price || job?.priceValue || 0} onPayment={onPaymentComplete} />
                     </section>
-                    <button type="button" className="help-card">
+                    <button type="button" className="help-card" onClick={onBack}>
                         <span className="help-icon"><i className="fa-solid fa-headset"></i></span>
                         <span>
                             <strong>Need help with payment?</strong>
