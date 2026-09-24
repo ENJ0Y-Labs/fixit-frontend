@@ -28,7 +28,7 @@ function Nav({ activePage, onNavigate }) {
                             aria-current={isActive ? 'page' : undefined}
                             title={disabled ? `${item.label} is not implemented yet` : undefined}
                         >
-                            <i className={item.icon}></i>
+                            <i aria-hidden="true" className={item.icon}></i>
                             <span>{item.label}</span>
                         </button>
                     );
@@ -36,13 +36,13 @@ function Nav({ activePage, onNavigate }) {
             </div>
 
             <button type="button" className="post-job-button" onClick={() => onNavigate('postJob')}>
-                <i className="fa-solid fa-plus"></i>
+                <i aria-hidden="true" className="fa-solid fa-plus"></i>
                 <span>Post a Job</span>
             </button>
 
             <div className="user-profile">
                 <div className="user-avatar" aria-hidden="true">
-                    <i className="fa-solid fa-user"></i>
+                    <i aria-hidden="true" className="fa-solid fa-user"></i>
                 </div>
                 <div className="user-info">
                     <div className="user-name">O. Ajayi</div>
