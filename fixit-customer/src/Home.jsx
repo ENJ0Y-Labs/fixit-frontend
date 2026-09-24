@@ -81,7 +81,7 @@ function Home({ onSelectProvider }) {
             <header className="home-header">
                 <div className="search-box">
                     <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                    <i aria-hidden="true"nput type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search services" aria-label="Search services" />
+                    <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search services" aria-label="Search services" />
                 </div>
                 <div className="location-select">
                     <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
@@ -130,24 +130,24 @@ function Home({ onSelectProvider }) {
                         <div className="filter-group">
                             <h3>Price Range (₦)</h3>
                             <div className="price-inputs">
-                                <i aria-hidden="true"nput type="number" min={PRICE_MIN} max={maxPrice - 1} value={minPrice} aria-label="Minimum price" onChange={(event) => setMinPrice(Math.min(Math.max(Number(event.target.value) || PRICE_MIN, PRICE_MIN), maxPrice - 1))} />
-                                <i aria-hidden="true"nput type="number" min={minPrice + 1} max={PRICE_MAX} value={maxPrice} aria-label="Maximum price" onChange={(event) => setMaxPrice(Math.max(Math.min(Number(event.target.value) || PRICE_MAX, PRICE_MAX), minPrice + 1))} />
+                                <input type="number" min={PRICE_MIN} max={maxPrice - 1} value={minPrice} aria-label="Minimum price" onChange={(event) => setMinPrice(Math.min(Math.max(Number(event.target.value) || PRICE_MIN, PRICE_MIN), maxPrice - 1))} />
+                                <input type="number" min={minPrice + 1} max={PRICE_MAX} value={maxPrice} aria-label="Maximum price" onChange={(event) => setMaxPrice(Math.max(Math.min(Number(event.target.value) || PRICE_MAX, PRICE_MAX), minPrice + 1))} />
                             </div>
                             <DoubleRangeSlider min={PRICE_MIN} max={PRICE_MAX} minValue={minPrice} maxValue={maxPrice} onChange={(nextMin, nextMax) => { setMinPrice(nextMin); setMaxPrice(nextMax); }} />
                         </div>
 
                         <fieldset className="filter-group option-group">
                             <legend>Minimum Rating</legend>
-                            <label><i aria-hidden="true"nput type="radio" name="rating" value="4.5" checked={rating === '4.5'} onChange={(event) => setRating(event.target.value)} /> 4.5 &amp; Above</label>
-                            <label><i aria-hidden="true"nput type="radio" name="rating" value="4" checked={rating === '4'} onChange={(event) => setRating(event.target.value)} /> 4.0 &amp; Above</label>
-                            <label><i aria-hidden="true"nput type="radio" name="rating" value="3.5" checked={rating === '3.5'} onChange={(event) => setRating(event.target.value)} /> 3.5 &amp; Above</label>
+                            <label><input type="radio" name="rating" value="4.5" checked={rating === '4.5'} onChange={(event) => setRating(event.target.value)} /> 4.5 &amp; Above</label>
+                            <label><input type="radio" name="rating" value="4" checked={rating === '4'} onChange={(event) => setRating(event.target.value)} /> 4.0 &amp; Above</label>
+                            <label><input type="radio" name="rating" value="3.5" checked={rating === '3.5'} onChange={(event) => setRating(event.target.value)} /> 3.5 &amp; Above</label>
                         </fieldset>
 
                         <fieldset className="filter-group option-group">
                             <legend>Distance</legend>
-                            <label><i aria-hidden="true"nput type="radio" name="distance" value="5" checked={distance === '5'} onChange={(event) => setDistance(event.target.value)} /> Within 5 km</label>
-                            <label><i aria-hidden="true"nput type="radio" name="distance" value="10" checked={distance === '10'} onChange={(event) => setDistance(event.target.value)} /> Within 10 km</label>
-                            <label><i aria-hidden="true"nput type="radio" name="distance" value="20" checked={distance === '20'} onChange={(event) => setDistance(event.target.value)} /> Within 20 km</label>
+                            <label><input type="radio" name="distance" value="5" checked={distance === '5'} onChange={(event) => setDistance(event.target.value)} /> Within 5 km</label>
+                            <label><input type="radio" name="distance" value="10" checked={distance === '10'} onChange={(event) => setDistance(event.target.value)} /> Within 10 km</label>
+                            <label><input type="radio" name="distance" value="20" checked={distance === '20'} onChange={(event) => setDistance(event.target.value)} /> Within 20 km</label>
                         </fieldset>
 
                         <div className="filter-group availability-filter">
