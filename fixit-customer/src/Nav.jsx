@@ -1,9 +1,9 @@
 const navItems = [
     { id: 'home', label: 'Home', icon: 'fa-solid fa-house' },
     { id: 'myJobs', label: 'My Jobs', icon: 'fa-solid fa-briefcase' },
-    { id: 'postJob', label: 'Post Job', icon: 'fa-solid fa-plus' },
     { id: 'messages', label: 'Messages', icon: 'fa-solid fa-message' },
     { id: 'account', label: 'Profile', icon: 'fa-solid fa-user' },
+    { id: 'settings', label: 'Settings', icon: 'fa-solid fa-gear' },
 ];
 
 function Nav({ activePage, onNavigate }) {
@@ -17,7 +17,7 @@ function Nav({ activePage, onNavigate }) {
             <div className="nav-links">
                 {navItems.map((item) => {
                     const isActive = activePage === item.id;
-                    const disabled = item.id === 'messages';
+                    const disabled = item.id === 'messages' || item.id === 'settings';
 
                     return (
                         <button
@@ -27,7 +27,7 @@ function Nav({ activePage, onNavigate }) {
                             onClick={() => !disabled && onNavigate(item.id)}
                             disabled={disabled}
                             aria-current={isActive ? 'page' : undefined}
-                            title={disabled ? 'Messages are not implemented yet' : undefined}
+                            title={disabled ? `${item.label} is not implemented yet` : undefined}
                         >
                             <i className={item.icon}></i>
                             <span>{item.label}</span>
@@ -35,6 +35,11 @@ function Nav({ activePage, onNavigate }) {
                     );
                 })}
             </div>
+
+            <button type="button" className="post-job-button" onClick={() => onNavigate('postJob')}>
+                <i className="fa-solid fa-plus"></i>
+                <span>Post a Job</span>
+            </button>
 
             <div className="user-profile">
                 <div className="user-avatar" aria-hidden="true">
