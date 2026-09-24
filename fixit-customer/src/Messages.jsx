@@ -1,3 +1,4 @@
+import './styles/pages/messages.css';
 import { useMemo, useState } from 'react';
 import avatarPlaceholder from './assets/avatar-placeholder.svg';
 
