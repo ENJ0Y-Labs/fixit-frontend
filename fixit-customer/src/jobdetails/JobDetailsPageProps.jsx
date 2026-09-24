@@ -89,7 +89,7 @@ function JobDetailsPageProps({
                         <i className="fa-solid fa-shield-halved" aria-hidden="true"></i>
                         <p>Payment is held in secure escrow. Funds will be released only after you confirm completion.</p>
                     </div>
-                    <button type="button" className="dark-button full-width" onClick={onPayment} disabled={status === 'CANCELLED'}>Release Payment</button>
+                    <button type="button" className="dark-button full-width" onClick={onPayment} disabled={status === 'CANCELLED' || status === 'AWAITING BIDS'}>Release Payment</button>
                     <p className="warning-text">Only click this after the job is finished and inspected.</p>
                 </section>
 
