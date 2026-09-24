@@ -6,40 +6,61 @@ function DoubleRangeSlider({
     min = 0,
     max = 100,
     step = 1,
-    minValue = min,
-    maxValue = max,
+    minValue,
+    maxValue,
     onChange
 }) {
-    const [minVal, setMinVal] = useState(minValue);
-    const [maxVal, setMaxVal] = useState(maxValue);
+    const [localMin, setLocalMin] = useState(
+        minValue ?? min
+    );
+    const [localMax, setLocalMax] = useState(
+        maxValue ?? max
+    );
+
+    const currentMin = minValue ?? localMin;
+    const currentMax = maxValue ?? localMax;
 
     useEffect(() => {
-        setMinVal(minValue);
+        if (minValue !== undefined) {
+            setLocalMin(minValue);
+        }
     }, [minValue]);
 
     useEffect(() => {
-        setMaxVal(maxValue);
+        if (maxValue !== undefined) {
+            setLocalMax(maxValue);
+        }
     }, [maxValue]);
 
+    const range = max - min || 1;
+    const minPercent = ((currentMin - min) / range) * 100;
+    const maxPercent = ((currentMax - min) / range) * 100;
+
     const updateValues = (nextMin, nextMax) => {
-        setMinVal(nextMin);
-        setMaxVal(nextMax);
+        if (minValue === undefined) {
+            setLocalMin(nextMin);
+        }
+
+        if (maxValue === undefined) {
+            setLocalMax(nextMax);
+        }
+
         onChange(nextMin, nextMax);
     };
 
     const handleMinChange = (event) => {
         const value = Number(event.target.value);
-        updateValues(Math.min(value, maxVal - step), maxVal);
+        const nextMin = Math.min(value, currentMax - step);
+
+        updateValues(nextMin, currentMax);
     };
 
     const handleMaxChange = (event) => {
         const value = Number(event.target.value);
-        updateValues(minVal, Math.max(value, minVal + step));
-    };
+        const nextMax = Math.max(value, currentMin + step);
 
-    const range = max - min || 1;
-    const minPercent = ((minVal - min) / range) * 100;
-    const maxPercent = ((maxVal - min) / range) * 100;
+        updateValues(currentMin, nextMax);
+    };
 
     return (
         <div
@@ -59,12 +80,12 @@ function DoubleRangeSlider({
                 min={min}
                 max={max}
                 step={step}
-                value={minVal}
+                value={currentMin}
                 onChange={handleMinChange}
                 aria-label="Minimum price"
                 aria-valuemin={min}
                 aria-valuemax={max}
-                aria-valuenow={minVal}
+                aria-valuenow={currentMin}
             />
 
             <input
@@ -73,12 +94,12 @@ function DoubleRangeSlider({
                 min={min}
                 max={max}
                 step={step}
-                value={maxVal}
+                value={currentMax}
                 onChange={handleMaxChange}
                 aria-label="Maximum price"
                 aria-valuemin={min}
                 aria-valuemax={max}
-                aria-valuenow={maxVal}
+                aria-valuenow={currentMax}
             />
         </div>
     );
