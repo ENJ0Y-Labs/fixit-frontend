@@ -18,8 +18,8 @@ const categories = [
 const providers = [
     { name: 'Emeka Nwachukwu', job: 'Professional Plumber', rating: 4.9, review: 124, distance: 2.4, price: 4500 },
     { name: 'Chioma Adeyemi', job: 'Expert Cleaner', rating: 4.8, review: 89, distance: 0.8, price: 3000 },
-    { name: 'John Okafor', job: 'Certified Electrician', rating: 4.7, review: 76, distance: 3.2, price: 5000 },
-    { name: 'Amina Yusuf', job: 'Professional Painter', rating: 4.6, review: 61, distance: 4.1, price: 3500 },
+    { name: 'Tunde Bello', job: 'Master Electrician', rating: 5.0, review: 55, distance: 4.1, price: 6000 },
+    { name: 'Blessing Okafor', job: 'Interior Painter', rating: 4.7, review: 42, distance: 1.2, price: 4000 },
 ];
 
 function Home() {
@@ -178,7 +178,6 @@ function Home() {
                         <div className="service-header">
                             <div>
                                 <h2>Recommended Service Providers</h2>
-                                <p>Find a trusted professional near you.</p>
                             </div>
                             <label>
                                 Sort by:
@@ -192,7 +191,7 @@ function Home() {
 
                         {providers.map((provider) => <ServiceProvider key={provider.name} {...provider} />)}
 
-                        <button type="button" className="load-more-button">Load More Profiles</button>
+                        <button type="button" className="load-more-button">Load More Providers</button>
                     </div>
                 </section>
             </main>
