@@ -1,5457 +1,2638 @@
-/* =========================
-   RESET / GLOBAL
-========================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 :root {
-    /* Colors */
-    --background-color: #f8f8f8;
-    --surface-color: #ffffff;
+    --background: #f7f7f7;
+    --surface: #ffffff;
     --black: #171717;
-    --text-color: #333333;
-    --text-dark: #111111;
-    --text-muted: #737373;
-    --text-light: #999999;
+    --text: #222222;
+    --muted: #777777;
+    --light-text: #a0a0a0;
+    --border: #e8e8e8;
+    --border-strong: #d6d6d6;
+    --soft: #f3f3f3;
+    --nav-width: 176px;
+    --radius: 12px;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
 
-    --border-color: #eeeeee;
-    --border-light: #e5e5e5;
-    --border-dark: #cccccc;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    --light-color: #f5f5f5;
-    --lighter-color: #fafafa;
-
-    --white: #ffffff;
-
-    /* Sizes */
-    --nav-width: 170px;
-
-    /* Radius */
-    --radius-small: 5px;
-    --radius-medium: 7px;
-    --radius-large: 10px;
-
-    /* Shadows */
-    --shadow-small: 0 3px 10px rgba(0, 0, 0, 0.04);
-    --shadow-medium: 0 4px 14px rgba(0, 0, 0, 0.05);
+html {
+    min-width: 320px;
 }
 
 body {
+    background: var(--background);
+    color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
-    background: var(--background-color);
-    color: var(--text-dark);
-    font-size: 12px;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 button,
 input,
-select {
-    font-family: inherit;
+select,
+textarea {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
 }
 
 button {
+    border: 0;
     cursor: pointer;
 }
 
-
-/* =========================
-   SIDEBAR / NAVIGATION
-========================= */
-
-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: var(--nav-width);
-    height: 100vh;
-
-    padding: 16px 12px;
-
-    display: flex;
-    flex-direction: column;
-
-    background: var(--surface-color);
-    border-right: 1px solid var(--border-color);
-
-    color: var(--text-color);
-
-    z-index: 1000;
+button:disabled {
+    cursor: not-allowed;
 }
 
+input,
+select,
+textarea {
+    color: var(--text);
+}
 
-/* =========================
-   LOGO
-========================= */
+input::placeholder,
+textarea::placeholder {
+    color: #a1a1a1;
+}
+
+.app-shell {
+    min-height: 100vh;
+}
+
+.app-content {
+    min-height: 100vh;
+    margin-left: var(--nav-width);
+}
+
+.page-surface {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+/* Navigation */
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 20;
+    width: var(--nav-width);
+    height: 100vh;
+    padding: 18px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+}
 
 .logo {
     display: flex;
     align-items: center;
-
+    gap: 8px;
+    padding: 0 4px;
     margin-bottom: 24px;
-    padding-left: 4px;
-
     font-size: 16px;
     font-weight: 700;
 }
 
 .logo-icon {
-    width: 26px;
-    height: 26px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    width: 27px;
+    height: 27px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
     background: var(--black);
-    color: var(--white);
-
-    border-radius: var(--radius-small);
-
+    color: #fff;
     font-size: 13px;
-    font-weight: 700;
 }
 
 .logo-text {
-    margin-left: 8px;
+    color: var(--black);
 }
-
-
-/* =========================
-   NAVIGATION LINKS
-========================= */
 
 .nav-links {
     display: flex;
     flex-direction: column;
-
-    gap: 3px;
+    gap: 4px;
 }
 
 .nav-item {
     width: 100%;
-
-    padding: 8px 9px;
-
-    border-radius: var(--radius-medium);
-
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
-}
-
-.nav-item a {
+    min-height: 38px;
+    padding: 0 10px;
     display: flex;
     align-items: center;
-
-    gap: 9px;
-
-    width: 100%;
-
-    text-decoration: none;
-
-    color: var(--text-muted);
-
+    gap: 10px;
+    border-radius: 8px;
+    background: transparent;
+    color: #777;
+    text-align: left;
     font-size: 12px;
 }
 
-.nav-item i {
-    width: 14px;
-
-    text-align: center;
-
-    font-size: 11px;
-}
-
-
-/* Hover */
-
-.nav-item:hover {
-    background-color: var(--light-color);
-}
-
-.nav-item:hover a {
+.nav-item:hover:not(:disabled) {
+    background: var(--soft);
     color: var(--black);
 }
 
-
-/* Active Home */
-
-.nav-item:first-child {
-    background-color: var(--black);
+.nav-item.active {
+    background: var(--black);
+    color: #fff;
 }
 
-.nav-item:first-child a {
-    color: var(--white);
+.nav-item:disabled {
+    opacity: 0.5;
 }
 
-
-/* =========================
-   USER PROFILE
-========================= */
+.nav-item i {
+    width: 15px;
+    text-align: center;
+    font-size: 11px;
+}
 
 .user-profile {
     margin-top: auto;
-
-    padding: 10px 4px 4px;
-
+    padding: 12px 4px 4px;
     display: flex;
     align-items: center;
-
     gap: 8px;
-
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border);
 }
 
 .user-avatar {
-    width: 28px;
-    height: 28px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    display: grid;
+    place-items: center;
     border-radius: 50%;
-
     background: var(--black);
-    color: var(--white);
-
+    color: #fff;
     font-size: 11px;
 }
 
 .user-info {
     min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 2px;
 }
 
 .user-name {
+    font-weight: 700;
     font-size: 11px;
-    font-weight: 600;
-
-    color: var(--black);
 }
 
 .user-role {
-    font-size: 8px;
-
-    color: var(--text-muted);
+    margin-top: 2px;
+    color: var(--light-text);
+    font-size: 9px;
 }
 
-
-/* =========================
-   HOME
-========================= */
-
-.home {
-    min-height: 100vh;
-
-    margin-left: var(--nav-width);
-
-    background: var(--background-color);
-}
-
-
-/* =========================
-   HEADER
-========================= */
-
-header {
-    height: 58px;
-
-    border-bottom: 1px solid var(--border-color);
-
-    display: flex;
-    align-items: center;
-
+/* Shared page header / controls */
+.page-header {
+    min-height: 58px;
     padding: 0 28px;
+    display: flex;
+    align-items: center;
     gap: 12px;
-
-    background: var(--surface-color);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
 }
 
-
-/* Search */
-
-header > div:first-child {
-    width: 320px;
-    height: 34px;
-
-    display: flex;
-    align-items: center;
-
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-medium);
-
-    background: var(--lighter-color);
+.page-header h1 {
+    font-size: 15px;
+    line-height: 1;
 }
 
-header > div:first-child i {
-    margin-left: 11px;
-
-    color: var(--text-light);
-
-    font-size: 10px;
+.back-button,
+.plain-icon-button {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    color: #666;
+    border-radius: 7px;
 }
 
-header input[type="search"] {
+.back-button:hover,
+.plain-icon-button:hover {
+    background: var(--soft);
+    color: var(--black);
+}
+
+.dark-button,
+.outline-button {
+    min-height: 35px;
+    padding: 0 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.dark-button {
+    background: var(--black);
+    color: #fff;
+}
+
+.dark-button:hover {
+    background: #000;
+}
+
+.outline-button {
+    background: #fff;
+    color: var(--black);
+    border: 1px solid var(--border-strong);
+}
+
+.outline-button:hover {
+    background: var(--soft);
+}
+
+.full-width {
     width: 100%;
-    height: 100%;
-
-    border: none;
-    outline: none;
-
-    background: transparent;
-
-    padding: 0 8px;
-
-    font-size: 10px;
-    color: var(--text-color);
 }
 
-header input[type="search"]::placeholder {
-    color: var(--text-light);
-}
-
-
-/* Location */
-
-header > div:nth-child(2) {
-    height: 34px;
-
+/* Home */
+.home-header {
+    min-height: 58px;
+    padding: 0 28px;
     display: flex;
     align-items: center;
-
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-medium);
-
-    padding: 0 10px;
-
-    margin-left: auto;
-
-    background: var(--surface-color);
+    gap: 10px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
 }
 
-header > div:nth-child(2) i {
-    color: #555555;
-
-    font-size: 10px;
-
-    margin-right: 7px;
+.search-box,
+.location-select,
+.compact-search {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 8px;
 }
 
-header select {
-    border: none;
-    outline: none;
+.search-box {
+    width: 310px;
+    height: 34px;
+}
 
+.search-box i,
+.location-select i,
+.compact-search i {
+    margin-left: 10px;
+    color: #999;
+    font-size: 11px;
+}
+
+.search-box input,
+.compact-search input {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 0 10px 0 8px;
+    border: 0;
+    outline: 0;
     background: transparent;
-
-    font-size: 10px;
-    color: var(--text-color);
+    font-size: 11px;
 }
 
+.location-select {
+    height: 34px;
+    margin-left: auto;
+    padding-right: 6px;
+}
 
-/* Header buttons */
+.location-select select {
+    height: 100%;
+    border: 0;
+    outline: 0;
+    padding: 0 8px 0 6px;
+    background: transparent;
+    font-size: 11px;
+}
 
-header > button {
+.icon-button {
     width: 34px;
     height: 34px;
-
-    border: 1px solid var(--border-light);
-
-    background: var(--surface-color);
-
-    border-radius: var(--radius-medium);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: #444444;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: #555;
 }
 
-header > button:hover {
-    background: var(--light-color);
+.icon-button:hover {
+    background: var(--soft);
 }
 
-
-/* =========================
-   MAIN
-========================= */
-
-main {
-    padding: 30px 30px 60px;
-    background-color: var(--background-color);
+.home-main {
+    padding: 28px;
 }
-
-
-/* =========================
-   HERO
-========================= */
 
 .hero {
-    min-height: 155px;
-
-    background: var(--black);
-
-    border-radius: 12px;
-
-    padding: 25px 28px;
-
-    position: relative;
-    overflow: hidden;
-
-    color: var(--white);
-
+    min-height: 190px;
+    padding: 30px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    max-width: 100%;
+    align-items: center;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: var(--black);
+    color: #fff;
 }
 
 .hero::after {
     content: "";
-
     position: absolute;
-
-    right: -30px;
-    top: -30px;
-
-    width: 45%;
-    height: 180%;
-
-    background:
-        linear-gradient(
-            135deg,
-            transparent 20%,
-            rgba(255, 255, 255, 0.08) 20%,
-            rgba(255, 255, 255, 0.08) 40%,
-            transparent 40%
-        );
-
-    transform: rotate(-5deg);
-
-    pointer-events: none;
+    width: 330px;
+    height: 330px;
+    right: -100px;
+    top: -120px;
+    border-radius: 50%;
+    border: 50px solid rgba(255,255,255,.08);
 }
 
-.hero h2 {
-    width: 350px;
-
-    font-size: 22px;
-    line-height: 1.1;
-
-    margin-bottom: 10px;
-
-    font-weight: 700;
+.hero > div {
+    max-width: 500px;
+    position: relative;
+    z-index: 1;
 }
 
-.hero p {
-    width: 390px;
-
-    font-size: 10px;
-    line-height: 1.6;
-
-    color: #cfcfcf;
-
-    margin-bottom: 15px;
-}
-
-.hero button {
-    width: fit-content;
-
-    padding: 10px 17px;
-
-    border: none;
-    border-radius: 6px;
-
-    background: var(--white);
-    color: var(--text-dark);
-
+.eyebrow {
+    margin-bottom: 8px;
     font-size: 9px;
     font-weight: 700;
+    letter-spacing: 1px;
+    color: #bfbfbf;
 }
 
-.hero button:hover {
-    background: #f1f1f1;
+.hero h1 {
+    max-width: 460px;
+    margin-bottom: 10px;
+    font-size: 27px;
+    line-height: 1.15;
 }
 
-
-/* =========================
-   CATEGORIES
-========================= */
-
-.categories-section {
-    margin-top: 24px;
+.hero > div > p:nth-of-type(2) {
+    max-width: 440px;
+    margin-bottom: 18px;
+    color: #d2d2d2;
+    font-size: 11px;
 }
 
-.categories-header {
+.hero-button {
+    min-height: 37px;
+    padding: 0 16px;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--black);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.categories-section,
+.services-section {
+    margin-top: 26px;
+}
+
+.section-heading,
+.service-header,
+.filter-heading,
+.payment-section-heading,
+.photo-header,
+.jobs-toolbar,
+.job-details-header > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    margin-bottom: 12px;
 }
 
-.categories-header span:first-child {
-    font-size: 14px;
-    font-weight: 700;
+.section-heading h2,
+.service-header h2 {
+    font-size: 15px;
 }
 
-.categories-header span:last-child {
-    font-size: 8px;
-    color: var(--text-muted);
+.section-heading button,
+.service-header select,
+.filter-heading button,
+.payment-section-heading button,
+.job-photos-card .section-heading button {
+    background: transparent;
+    color: #888;
+    font-size: 10px;
+}
+
+.section-heading button:hover,
+.filter-heading button:hover,
+.payment-section-heading button:hover,
+.job-photos-card .section-heading button:hover {
+    color: var(--black);
 }
 
 .categories-list {
+    margin-top: 12px;
     display: grid;
-
-    grid-template-columns: repeat(6, 1fr);
-
-    gap: 12px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
 }
 
 .category {
-    height: 72px;
-
-    background: var(--surface-color);
-
-    border: 1px solid #ededed;
-
-    border-radius: 8px;
-
+    min-height: 82px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-
-    justify-content: center;
     align-items: center;
-
-    transition: 0.2s ease;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
 }
 
 .category:hover {
-    border-color: #d2d2d2;
-
-    box-shadow: var(--shadow-small);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
 }
 
 .category-icon {
-    width: 29px;
-    height: 29px;
-
-    border-radius: 7px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: var(--lighter-color);
-
-    margin-bottom: 7px;
-}
-
-.category-icon i {
-    font-size: 11px;
-    color: var(--text-dark);
+    width: 31px;
+    height: 31px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--soft);
+    color: #666;
 }
 
 .category-name {
-    font-size: 8px;
-    font-weight: 600;
-}
-
-
-/* =========================
-   SERVICES SECTION
-========================= */
-
-.services-section {
-    margin-top: 24px;
-
-    display: grid;
-
-    grid-template-columns: 135px 1fr;
-
-    gap: 20px;
-}
-
-
-/* =========================
-   FILTERS
-========================= */
-
-.service-filters {
-    border: 1px solid var(--border-color);
-
-    border-radius: 9px;
-
-    padding: 12px;
-
-    background: var(--surface-color);
-
-    height: fit-content;
-}
-
-.filter-header {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 18px;
-}
-
-.filter-header h4 {
     font-size: 10px;
     font-weight: 700;
 }
 
-.filter-header p {
-    font-size: 7px;
-    color: var(--text-light);
+.services-section {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
 }
 
-
-.price-range,
-.rating-filter,
-.distance-filter,
-.availability-filter {
-    margin-bottom: 18px;
+.service-filters {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
 }
 
-.price-range h6,
-.rating-filter h6,
-.distance-filter h6,
-.availability-filter h6 {
-    font-size: 8px;
-
-    margin-bottom: 9px;
+.filter-heading {
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--border);
 }
 
-
-/* Price inputs */
-
-.price-range > div {
-    display: flex;
-
-    gap: 5px;
+.filter-heading h2,
+.filter-group h3,
+.option-group legend {
+    font-size: 11px;
+    font-weight: 700;
 }
 
-.price-range input[type="text"] {
-    width: 50%;
-    height: 24px;
-
-    border: 1px solid #e4e4e4;
-
-    border-radius: 5px;
-
-    padding: 0 6px;
-
-    font-size: 8px;
-
-    outline: none;
+.filter-group {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
 }
 
-.price-range input[type="text"]:focus {
-    border-color: var(--text-dark);
+.filter-group:last-child {
+    border-bottom: 0;
 }
 
+.price-inputs {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
 
-/* Range */
-
-.price-range > input[type="range"] {
+.price-inputs input {
     width: 100%;
+    min-height: 30px;
+    padding: 0 7px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: 0;
+    font-size: 10px;
+}
 
+.price-inputs input:focus {
+    border-color: #bbb;
+}
+
+.price-range-label {
+    margin-top: 8px;
+}
+
+.filter-group > input[type='range'] {
+    width: 100%;
     margin-top: 10px;
-
     accent-color: var(--black);
 }
 
+.option-group {
+    border: 0;
+    padding: 14px 0;
+}
 
-/* Radio buttons */
-
-.rating-filter,
-.distance-filter {
+.option-group label {
+    margin-top: 9px;
     display: flex;
-
-    flex-wrap: wrap;
-}
-
-.rating-filter h6,
-.distance-filter h6 {
-    width: 100%;
-}
-
-.rating-filter input,
-.distance-filter input {
-    margin-right: 5px;
-
-    accent-color: var(--black);
-}
-
-.rating-filter label,
-.distance-filter label {
-    width: calc(100% - 18px);
-
-    margin-bottom: 7px;
-
-    font-size: 7px;
-
-    color: #444444;
-}
-
-
-/* =========================
-   AVAILABILITY
-========================= */
-
-.availability-option {
-    display: flex;
-
-    justify-content: space-between;
+    gap: 7px;
     align-items: center;
+    color: #555;
+    font-size: 10px;
 }
 
-.availability-option p {
-    font-size: 7px;
-    color: #444444;
+.option-group input {
+    accent-color: var(--black);
 }
 
-
-/* Toggle */
+.availability-filter > div {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #555;
+    font-size: 10px;
+}
 
 .toggle-switch {
-    width: 25px;
-    height: 13px;
-
-    border-radius: 20px;
-
-    background: var(--black);
-
+    width: 34px;
+    height: 18px;
     padding: 2px;
-
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 99px;
+    background: #d8d8d8;
+    transition: background .2s ease;
+}
 
+.toggle-switch.is-on {
     justify-content: flex-end;
+    background: var(--black);
 }
 
-.toggle-switch div {
-    width: 9px;
-    height: 9px;
-
+.toggle-switch span {
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-
-    background: var(--white);
+    background: #fff;
 }
-
-
-/* =========================
-   SERVICE PROVIDERS
-========================= */
 
 .service-providers {
+    min-width: 0;
     display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
 }
 
 .service-header {
     grid-column: 1 / -1;
+    align-items: flex-end;
+}
 
+.service-header p {
+    margin-top: 3px;
+    color: #999;
+    font-size: 10px;
+}
+
+.service-header label {
     display: flex;
-
     align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 2px;
+    gap: 5px;
+    color: #999;
+    font-size: 10px;
 }
 
-.service-header h2 {
-    font-size: 14px;
-    font-weight: 700;
+.service-header select {
+    color: #333;
 }
-
-.sort-filter {
-    display: flex;
-
-    align-items: center;
-
-    font-size: 8px;
-
-    color: #888888;
-}
-
-.sort-filter label {
-    margin-right: 3px;
-}
-
-.sort-filter select {
-    border: none;
-
-    background: transparent;
-
-    outline: none;
-
-    font-size: 8px;
-
-    font-weight: 600;
-
-    color: var(--text-color);
-}
-
-
-/* =========================
-   SERVICE CARD
-========================= */
 
 .service-card {
-    background: var(--surface-color);
-
-    border: 1px solid var(--border-light);
-
-    border-radius: var(--radius-large);
-
-    padding: 11px;
-
     min-width: 0;
-
-    transition: 0.2s ease;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
 }
 
 .service-card:hover {
-    border-color: var(--border-dark);
-
-    box-shadow: var(--shadow-medium);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
 }
 
-
-/* Top section */
-
-.section-one {
+.service-card-top {
     display: flex;
-
-    align-items: flex-start;
-
-    min-height: 74px;
-}
-
-
-/* Profile image */
-
-.section-one > img {
-    width: 43px;
-    height: 43px;
-
-    border-radius: 8px;
-
-    object-fit: cover;
-
-    background: #f2f2f2;
-
-    margin-right: 9px;
-}
-
-
-/* Details */
-
-.service-details {
-    flex: 1;
-
+    gap: 10px;
     min-width: 0;
 }
 
-.service-details h4 {
-    font-size: 9px;
-    font-weight: 700;
+.service-card-top > img {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: var(--soft);
+}
 
-    margin-bottom: 3px;
+.service-details {
+    min-width: 0;
+    flex: 1;
+}
+
+.service-details h3 {
+    font-size: 11px;
 }
 
 .service-details > p {
-    font-size: 7px;
-
-    color: var(--text-muted);
-
-    margin-bottom: 9px;
+    margin-top: 2px;
+    color: #777;
+    font-size: 9px;
 }
 
-
-/* Rating */
-
-.service-rating {
+.service-rating,
+.service-distance {
+    margin-top: 7px;
     display: flex;
-
     align-items: center;
+    gap: 5px;
+    font-size: 9px;
 }
 
 .service-rating i {
-    font-size: 7px;
-
-    color: var(--black);
-
-    margin-right: 4px;
+    color: #555;
 }
 
-.service-rating p {
-    font-size: 7px;
-    color: #444444;
+.service-distance {
+    color: #999;
 }
 
-
-/* Divider */
-
-.service-details hr {
-    border: none;
-
-    border-top: 1px solid var(--border-color);
-
-    margin: 7px 0;
-}
-
-
-/* Distance */
-
-.service-distance p {
-    font-size: 7px;
-    color: var(--text-muted);
-}
-
-
-/* Heart */
-
-.section-one > div:last-child {
-    margin-left: 6px;
-}
-
-.section-one > div:last-child i {
-    font-size: 10px;
-    color: var(--text-light);
-}
-
-.section-one > div:last-child i:hover {
-    color: var(--text-dark);
-}
-
-
-/* Card divider */
-
-.service-card > hr {
-    border: none;
-
-    border-top: 1px solid var(--border-color);
-
-    margin: 4px 0 10px;
-}
-
-
-/* Bottom */
-
-.section-two {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-}
-
-.service-price p:first-child {
-    font-size: 7px;
-
-    color: #888888;
-
-    margin-bottom: 2px;
-}
-
-.service-price p:last-child {
-    font-size: 7px;
-    color: var(--text-muted);
-}
-
-.price-amount {
-    color: var(--text-dark);
-
-    font-size: 12px;
-
-    font-weight: 700;
-}
-
-
-/* Button */
-
-.service-button {
-    border: none;
-
-    background: var(--black);
-    color: var(--white);
-
-    border-radius: 6px;
-
-    padding: 8px 10px;
-
-    font-size: 7px;
-    font-weight: 600;
-}
-
-.service-button:hover {
-    background: #2c2c2c;
-}
-
-
-/* =========================
-   LOAD MORE
-========================= */
-
-.service-providers > button:last-child {
-    grid-column: 1 / -1;
-
-    justify-self: center;
-
-    margin-top: 8px;
-
-    border: 1px solid #dddddd;
-
-    background: var(--surface-color);
-
-    padding: 9px 20px;
-
-    border-radius: 6px;
-
-    font-size: 8px;
-
-    color: var(--text-color);
-}
-
-.service-providers > button:last-child:hover {
-    background: #f7f7f7;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    /* margin-left: var(--nav-width); */
-
-    padding: 20px 28px 10px;
-
-    background: var(--surface-color);
-
-    color: var(--text-color);
-
-    border-top: 1px solid var(--border-color);
-}
-
-
-/* =========================
-   FOOTER TOP
-========================= */
-
-footer > div:first-child {
-    max-width: 1100px;
-
-    margin: 0 auto;
-
+.favorite-button {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
     display: grid;
-
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-
-    column-gap: 45px;
-
-    padding-bottom: 18px;
+    place-items: center;
+    border-radius: 7px;
+    background: transparent;
+    color: #aaa;
 }
 
-
-/* =========================
-   BRAND
-========================= */
-
-footer .logo {
-    margin: 0 0 8px 0;
-
-    padding: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    font-size: 10px;
-
-    font-weight: 700;
-}
-
-footer .logo-icon {
-    width: 16px;
-    height: 16px;
-
-    border-radius: 3px;
-
-    background: var(--black);
-    color: var(--white);
-
-    font-size: 8px;
-}
-
-footer .logo-text {
-    margin-left: 5px;
-}
-
-
-/* Brand description */
-
-footer > div:first-child > div:first-child > p {
-    max-width: 145px;
-
-    font-size: 6px;
-
-    line-height: 1.45;
-
-    color: var(--text-muted);
-}
-
-
-/* =========================
-   FOOTER COLUMNS
-========================= */
-
-footer h6 {
-    margin: 0 0 9px 0;
-
-    font-size: 6px;
-
-    font-weight: 600;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.3px;
-
-    color: var(--text-muted);
-}
-
-
-/* Footer text */
-
-footer > div:first-child > div:not(:first-child) p {
-    margin: 0 0 6px 0;
-
-    font-size: 6px;
-
-    line-height: 1.2;
-
-    color: var(--text-color);
-
-    cursor: pointer;
-}
-
-footer > div:first-child > div:not(:first-child) p:hover {
+.favorite-button:hover {
+    background: var(--soft);
     color: var(--black);
 }
 
-
-/* =========================
-   FOOTER BOTTOM
-========================= */
-
-footer > div:last-child {
-    max-width: 1100px;
-
-    margin: 0 auto;
-
-    padding-top: 10px;
-
-    border-top: 1px solid var(--border-color);
-
+.service-card-bottom {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
     display: flex;
-
+    align-items: end;
     justify-content: space-between;
-
-    align-items: center;
+    gap: 10px;
 }
 
-
-/* Copyright */
-
-footer > div:last-child p {
-    margin: 0;
-
-    font-size: 5px;
-
-    color: var(--text-light);
-
-    text-transform: uppercase;
-}
-
-
-/* =========================
-   SOCIAL LINKS
-========================= */
-
-footer > div:last-child > div:last-child {
+.service-price {
     display: flex;
-
-    align-items: center;
-
-    gap: 15px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 3px;
 }
 
-footer > div:last-child a {
-    text-decoration: none;
-
-    font-size: 5px;
-
-    text-transform: uppercase;
-
-    color: var(--text-light);
-
-    transition: color 0.2s ease;
+.service-price span {
+    width: 100%;
+    color: #999;
+    font-size: 9px;
 }
 
-footer > div:last-child a:hover {
-    color: var(--black);
+.service-price strong {
+    font-size: 14px;
 }
 
-/* =========================================================
-   POST JOB PAGE
-   ========================================================= */
-
-.post-job {
-  margin-left: var(--nav-width);
-  min-height: 100vh;
-  background: #fafafa;
-  color: #111;
+.service-price small {
+    color: #999;
+    font-size: 9px;
 }
 
-
-/* =========================================================
-   PAGE HEADER
-   ========================================================= */
-
-.post-job > header {
-  height: 64px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 0 32px;
-  background: #fff;
-  border-bottom: 1px solid #ededed;
-}
-
-.post-job > header i {
-  font-size: 14px;
-  color: #171717;
-  cursor: pointer;
-}
-
-.post-job > header h2 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #111;
-}
-
-
-/* =========================================================
-   MAIN CONTENT
-   ========================================================= */
-
-.post-job > main {
-  width: 694px;
-  min-height: 754px;
-  margin: 27px auto 45px;
-  padding: 36px 34px 32px;
-
-  background: #fff;
-  border: 1px solid #e8e8e8;
-  border-radius: 20px;
-
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.015);
-}
-
-
-/* =========================================================
-   TWO COLUMN FORM
-   ========================================================= */
-
-.post-job .job-form {
-  display: grid;
-  grid-template-columns: 293px 293px;
-  column-gap: 40px;
-}
-
-.post-job .form-section {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.post-job .form-section > div {
-  width: 100%;
-}
-
-
-/* =========================================================
-   LABELS
-   ========================================================= */
-
-.post-job label {
-  display: block;
-  margin-bottom: 9px;
-
-  color: #111;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-
-/* Your first label is currently empty in JSX */
-.post-job .form-section:first-child > div:first-child label::after {
-  content: "Job Title";
-}
-
-
-/* Fix the "Cartegory" typo visually without changing JSX */
-.post-job .form-section:first-child > div:nth-child(2) > label {
-  font-size: 0;
-}
-
-.post-job .form-section:first-child > div:nth-child(2) > label::after {
-  content: "Service Category";
-  font-size: 12px;
-}
-
-
-/* =========================================================
-   INPUTS / SELECT
-   ========================================================= */
-
-.post-job input[type="text"],
-.post-job input[type="date"],
-.post-job input[type="time"],
-.post-job select,
-.post-job textarea {
-  width: 100%;
-  height: 42px;
-
-  padding: 0 13px;
-
-  background: #fff;
-  border: 1px solid #e4e4e4;
-  border-radius: 10px;
-
-  color: #222;
-  font-size: 12px;
-  outline: none;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.post-job input::placeholder,
-.post-job textarea::placeholder {
-  color: #98a2b3;
-}
-
-.post-job input:focus,
-.post-job select:focus,
-.post-job textarea:focus {
-  border-color: #bcbcbc;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
-}
-
-
-/* Select */
-.post-job select {
-  appearance: auto;
-  cursor: pointer;
-}
-
-
-/* =========================================================
-   TEXTAREA
-   ========================================================= */
-
-.post-job textarea {
-  height: 142px;
-  padding: 14px;
-  resize: vertical;
-  line-height: 1.5;
-}
-
-
-/* =========================================================
-   DATE + TIME
-   ========================================================= */
-
-.post-job .form-section:nth-child(2) > div:first-child {
-  display: grid;
-  grid-template-columns: 140px 140px;
-  gap: 13px;
-}
-
-.post-job .form-section:nth-child(2) > div:first-child > div {
-  min-width: 0;
-}
-
-.post-job input[type="date"],
-.post-job input[type="time"] {
-  padding-left: 13px;
-  padding-right: 8px;
-}
-
-
-/* =========================================================
-   SERVICE LOCATION
-   ========================================================= */
-
-.post-job .form-section:nth-child(2) > div:nth-child(2) > div {
-  position: relative;
-}
-
-.post-job .form-section:nth-child(2) > div:nth-child(2) > div i {
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-
-  color: #a4a4a4;
-  font-size: 13px;
-  z-index: 2;
-}
-
-.post-job .form-section:nth-child(2) > div:nth-child(2) input {
-  padding-left: 37px;
-}
-
-.post-job .form-section:nth-child(2) > div:nth-child(2) input::placeholder {
-  color: #98a2b3;
-}
-
-
-/* =========================================================
-   URGENCY
-   ========================================================= */
-
-.post-job .form-section:first-child > div:last-child {
-  margin-top: 7px;
-}
-
-.post-job .form-section:first-child > div:last-child > label:first-child {
-  margin-bottom: 11px;
-}
-
-
-/* Hide the actual radio buttons */
-.post-job input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-
-/*
-   Radio labels:
-   Normal / Urgent / ASAP
-*/
-.post-job input[type="radio"] + label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 88px;
-  height: 40px;
-
-  margin: 0 9px 0 0;
-
-  border: 1px solid #dedede;
-  border-radius: 10px;
-
-  background: #fff;
-  color: #111;
-
-  font-size: 12px;
-  font-weight: 700;
-
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-
-/* Selected radio */
-.post-job input[type="radio"]:checked + label {
-  background: #171717;
-  border-color: #171717;
-  color: #fff;
-
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-}
-
-
-/* Hover */
-.post-job input[type="radio"] + label:hover {
-  border-color: #bdbdbd;
-}
-
-
-/* =========================================================
-   PHOTO UPLOAD
-   ========================================================= */
-
-.post-job .upload-box {
-  width: 100%;
-  height: 183px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  border: 2px dashed #e1e1e1;
-  border-radius: 13px;
-
-  background: #fff;
-
-  cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.post-job .upload-box:hover {
-  background: #fafafa;
-  border-color: #cfcfcf;
-}
-
-
-/* Cloud icon circle */
-.post-job .upload-box > div:first-child {
-  width: 52px;
-  height: 52px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 11px;
-
-  background: #f5f5f5;
-  border-radius: 50%;
-}
-
-.post-job .upload-box > div:first-child i {
-  color: #a6a6a6;
-  font-size: 20px;
-}
-
-
-/* Upload text */
-.post-job .upload-box .main-text {
-  margin: 0 0 5px;
-
-  color: #111;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.post-job .upload-box .sub-text {
-  margin: 0;
-
-  color: #8f8f8f;
-  font-size: 10px;
-}
-
-
-/* Hide file input */
-.post-job #hiddenFileInput {
-  display: none;
-}
-
-
-/* =========================================================
-   ESTIMATED BUDGET
-   ========================================================= */
-
-.post-job .form-section:nth-child(2) > div:last-child > div {
-  position: relative;
-}
-
-.post-job .form-section:nth-child(2) > div:last-child > div > i {
-  position: absolute;
-  left: 14px;
-  top: 14px;
-
-  color: #9c9c9c;
-  font-size: 12px;
-
-  z-index: 2;
-}
-
-.post-job .form-section:nth-child(2) > div:last-child > div > input {
-  padding-left: 36px;
-}
-
-
-/* Budget information box */
-.post-job .form-section:nth-child(2) > div:last-child > div > div {
-  min-height: 60px;
-
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-
-  margin-top: 13px;
-  padding: 10px 11px;
-
-  background: #fafafa;
-  border-radius: 10px;
-}
-
-.post-job .form-section:nth-child(2) > div:last-child > div > div i {
-  position: static;
-  flex-shrink: 0;
-
-  margin-top: 2px;
-
-  color: #777;
-  font-size: 10px;
-}
-
-.post-job .form-section:nth-child(2) > div:last-child > div > div p {
-  margin: 0;
-
-  color: #777;
-  font-size: 9px;
-  line-height: 1.55;
-}
-
-
-/* =========================================================
-   DIVIDER
-   ========================================================= */
-
-.post-job > main > hr {
-  height: 1px;
-  margin: 39px 0 26px;
-
-  border: 0;
-  background: #eeeeee;
-}
-
-
-/* =========================================================
-   BOTTOM BUTTONS
-   ========================================================= */
-
-.post-job > main > div:last-child {
-  display: flex;
-  justify-content: flex-end;
-  gap: 13px;
-}
-
-.post-job > main > div:last-child button {
-  height: 51px;
-  padding: 0 27px;
-
-  border-radius: 10px;
-
-  font-size: 12px;
-  font-weight: 700;
-
-  transition: all 0.2s ease;
-}
-
-
-/* Save Draft */
-.post-job > main > div:last-child button:first-child {
-  min-width: 132px;
-
-  background: #fff;
-  color: #111;
-
-  border: 1px solid #dedede;
-}
-
-.post-job > main > div:last-child button:first-child:hover {
-  background: #f8f8f8;
-}
-
-
-/* Post Job */
-.post-job > main > div:last-child button:last-child {
-  min-width: 180px;
-
-  background: #171717;
-  color: #fff;
-
-  border: 1px solid #171717;
-}
-
-.post-job > main > div:last-child button:last-child:hover {
-  background: #000;
-}
-
-/* ==========================================================================
-   MY JOBS PAGE
-   ========================================================================== */
-
-.my-jobs {
-    margin-left: var(--nav-width);
-    min-height: 100vh;
-
-    background: #fafafa;
-    color: #111;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-}
-
-
-/* ==========================================================================
-   HEADER
-   ========================================================================== */
-
-.my-jobs > header {
-    height: 65px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 38px;
-
+.load-more-button {
+    grid-column: 1 / -1;
+    min-height: 35px;
+    justify-self: center;
+    padding: 0 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
     background: #fff;
-    border-bottom: 1px solid #eeeeee;
+    color: #333;
+    font-size: 10px;
 }
 
-.my-jobs > header h2 {
-    margin: 0;
-
-    color: #111;
-    font-size: 16px;
-    font-weight: 700;
+.load-more-button:hover {
+    background: var(--soft);
 }
 
+.site-footer {
+    padding: 30px 28px 16px;
+    background: #fff;
+    border-top: 1px solid var(--border);
+}
 
-/* Header right side */
+.footer-top {
+    max-width: 1050px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 25px;
+}
 
-.my-jobs > header > div {
+.footer-top > div > p {
+    max-width: 260px;
+    color: #888;
+    font-size: 10px;
+}
+
+.footer-top .logo {
+    margin-bottom: 8px;
+    padding: 0;
+}
+
+.footer-top .logo-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+}
+
+.footer-top h2 {
+    margin-bottom: 8px;
+    font-size: 11px;
+}
+
+.footer-top h2 ~ p {
+    margin: 5px 0;
+    color: #777;
+    font-size: 10px;
+}
+
+.footer-bottom {
+    max-width: 1050px;
+    margin: 22px auto 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    color: #999;
+    font-size: 9px;
+}
+
+.footer-bottom div {
+    display: flex;
     gap: 12px;
 }
 
+.footer-bottom a {
+    color: inherit;
+    text-decoration: none;
+}
 
-/* ==========================================================================
-   HEADER SEARCH
+.footer-bottom a:hover {
+    color: var(--black);
+}
 
-   IMPORTANT:
-   Don't use:
-   .my-jobs header div:has(input)
-   
-   because that can accidentally style the parent wrapper.
-   ========================================================================== */
+/* Account */
+.account-main {
+    padding: 30px;
+}
 
-.my-jobs > header input[type="text"] {
-    width: 205px;
-    height: 33px;
-
-    padding: 0 12px 0 34px;
-
-    border: 1px solid #e5e5e5;
-    border-radius: 7px;
-
-    outline: none;
-
+.profile-card {
+    width: min(680px, 100%);
+    margin: 0 auto;
+    min-height: 125px;
+    padding: 22px 25px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
     background: #fff;
-
-    color: #222;
-    font-size: 11px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
 }
 
-.my-jobs > header input[type="text"]::placeholder {
-    color: #999;
-}
-
-
-/* Search icon */
-
-.my-jobs > header > div > i {
+.profile-image-wrap {
+    width: 76px;
+    height: 76px;
     position: relative;
-    left: 27px;
+    flex: 0 0 76px;
+}
 
-    margin-right: -17px;
+.profile-image-wrap img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--soft);
+}
 
+.camera-button {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    background: var(--black);
+    color: #fff;
+    font-size: 8px;
+}
+
+.profile-copy {
+    min-width: 0;
+    flex: 1;
+    position: relative;
+}
+
+.profile-copy h2 {
+    font-size: 19px;
+    line-height: 1.1;
+}
+
+.profile-contact {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.profile-contact p {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    color: #8b8b8b;
+    font-size: 9px;
+}
+
+.profile-contact i {
+    color: #a0a0a0;
+}
+
+.profile-copy .outline-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.account-grid {
+    width: min(680px, 100%);
+    margin: 28px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.section-label {
+    margin: 0 0 10px 3px;
     color: #999;
-    font-size: 11px;
-
-    pointer-events: none;
+    font-size: 9px;
+    letter-spacing: .7px;
 }
 
-
-/* Post button */
-
-.my-jobs > header button {
-    height: 33px;
-
-    padding: 0 15px;
-
-    background: #171717;
-    color: #fff;
-
-    border: none;
-    border-radius: 7px;
-
-    font-size: 11px;
-    font-weight: 700;
-
-    cursor: pointer;
-}
-
-.my-jobs > header button:hover {
-    background: #000;
-}
-
-
-/* ==========================================================================
-   MAIN CONTENT
-
-   This centers the content and gives it the width seen in the Figma.
-   ========================================================================== */
-
-.my-jobs > .label,
-.my-jobs > .jobs-list {
-    width: min(908px, calc(100% - 80px));
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-/* ==========================================================================
-   FILTER BAR
-   ========================================================================== */
-
-.my-jobs > .label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-top: 26px;
-    margin-bottom: 26px;
-}
-
-
-/* ==========================================================================
-   STATUS FILTERS
-   ========================================================================== */
-
-.job-status {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-}
-
-.job-status div {
-    height: 36px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0 20px;
-
+.settings-card {
     background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+}
 
-    border: 1px solid #e3e3e3;
-    border-radius: 20px;
+.setting-row {
+    min-height: 62px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-bottom: 1px solid var(--border);
+}
 
-    color: #111;
+.setting-row:last-child {
+    border-bottom: 0;
+}
 
-    font-size: 11px;
-    font-weight: 600;
+.setting-icon {
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--soft);
+    color: #999;
+    font-size: 9px;
+}
 
+.setting-copy {
+    min-width: 0;
+    flex: 1;
+}
+
+.setting-copy p:first-child {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.setting-copy p:last-child {
+    margin-top: 3px;
+    color: #999;
+    font-size: 8px;
+}
+
+.setting-arrow {
+    color: #bbb;
+    font-size: 8px;
+}
+
+.account-footer {
+    grid-column: 1 / -1;
+    margin-top: 32px;
+    text-align: center;
+}
+
+.account-footer > p {
+    margin-bottom: 8px;
+    color: #aaa;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+}
+
+.account-footer > div {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.account-footer button {
+    background: transparent;
+    color: #999;
+    font-size: 8px;
+}
+
+.account-footer button:hover {
+    color: var(--black);
+}
+
+/* Post Job */
+.post-job-main {
+    padding: 28px;
+}
+
+.job-form {
+    width: min(900px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.form-section {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.form-field {
+    margin-bottom: 16px;
+}
+
+.form-field:last-child {
+    margin-bottom: 0;
+}
+
+.form-field > label,
+.form-field > legend,
+.urgency-field > legend {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea,
+.input-with-icon,
+.budget-input {
+    width: 100%;
+    min-height: 37px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: 0;
+    background: #fff;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    padding: 9px 10px;
+    font-size: 10px;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: #bdbdbd;
+}
+
+.form-field textarea {
+    min-height: 115px;
+    resize: vertical;
+}
+
+.urgency-field {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.urgency-field legend {
+    width: 100%;
+}
+
+.urgency-field label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: #555;
+}
+
+.urgency-field input {
+    width: auto;
+    min-height: auto;
+    accent-color: var(--black);
+}
+
+.date-time-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.input-with-icon,
+.budget-input {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.input-with-icon i,
+.budget-input i {
+    color: #999;
+    font-size: 10px;
+}
+
+.input-with-icon input,
+.budget-input input {
+    border: 0;
+    min-height: 35px;
+}
+
+.upload-box {
+    min-height: 120px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: 1px dashed #cfcfcf;
+    border-radius: 10px;
+    background: #fafafa;
     cursor: pointer;
+    text-align: center;
 }
 
-.job-status div:first-child {
-    background: #171717;
-    color: #fff;
-    border-color: #171717;
+.upload-box:hover {
+    border-color: #999;
+    background: #f6f6f6;
 }
 
-.job-status div:hover:not(:first-child) {
-    background: #f5f5f5;
+.upload-box input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
 }
 
+.upload-icon {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    color: #777;
+    box-shadow: 0 2px 7px rgba(0,0,0,.05);
+}
 
-/* ==========================================================================
-   SORT
-   ========================================================================== */
+.upload-main {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.upload-sub,
+.file-count {
+    color: #999;
+    font-size: 8px;
+}
+
+.file-count {
+    margin-top: 6px;
+}
+
+.info-note {
+    margin-top: 8px;
+    display: flex;
+    gap: 7px;
+    color: #888;
+    font-size: 8px;
+}
+
+.info-note i {
+    margin-top: 2px;
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* My Jobs */
+.my-jobs-header {
+    justify-content: space-between;
+}
+
+.my-jobs-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.compact-search {
+    width: 220px;
+    height: 34px;
+}
+
+.my-jobs-main {
+    padding: 28px;
+}
+
+.jobs-toolbar {
+    width: min(1050px, 100%);
+    margin: 0 auto 16px;
+}
+
+.job-status-tabs {
+    display: flex;
+    gap: 4px;
+}
+
+.job-status-tabs button {
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 7px;
+    background: transparent;
+    color: #888;
+    font-size: 10px;
+}
+
+.job-status-tabs button:hover,
+.job-status-tabs button.active {
+    background: #fff;
+    color: var(--black);
+    border: 1px solid var(--border);
+}
 
 .job-sort {
     display: flex;
     align-items: center;
     gap: 6px;
-
-    color: #777;
-    font-size: 11px;
-}
-
-.job-sort i {
-    font-size: 11px;
-}
-
-.job-sort p {
-    margin: 0;
+    color: #888;
+    font-size: 10px;
 }
 
 .job-sort select {
-    border: none;
-    outline: none;
-
+    border: 0;
     background: transparent;
-
-    color: #666;
-
-    font-size: 11px;
-    cursor: pointer;
+    outline: 0;
+    font-size: 10px;
 }
-
-
-/* ==========================================================================
-   JOB LIST
-   ========================================================================== */
 
 .jobs-list {
-    display: flex;
-    flex-direction: column;
-
-    gap: 20px;
+    width: min(1050px, 100%);
+    margin: 0 auto;
+    display: grid;
+    gap: 12px;
 }
-
-
-/* ==========================================================================
-   JOB CARD
-
-   The important change here is that the columns are smaller and flexible.
-   This prevents the buttons from being pushed outside the card.
-   ========================================================================== */
 
 .job-card {
-    width: 100%;
-    min-height: 142px;
-
     display: grid;
-
-    grid-template-columns:
-        80px
-        minmax(0, 1.55fr)
-        1px
-        minmax(90px, 0.8fr)
-        1px
-        minmax(200px, 1.35fr);
-
+    grid-template-columns: 48px minmax(0, 1.7fr) minmax(150px, .8fr) minmax(280px, 1.2fr);
+    gap: 16px;
     align-items: center;
-
-    column-gap: 18px;
-
-    padding: 20px 27px;
-
+    padding: 15px;
     background: #fff;
-
-    border: 1px solid #e5e5e5;
-    border-radius: 20px;
-
-    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 14px;
 }
 
-
-/* ==========================================================================
-   SERVICE ICON
-   ========================================================================== */
-
-.job-card > div:first-of-type {
-    width: 80px;
-    height: 80px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #fafafa;
-    border-radius: 13px;
+.job-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
 }
 
-.job-card > div:first-of-type i {
-    color: #aaa;
-    font-size: 25px;
+.job-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--soft);
+    color: #666;
 }
 
-
-/* ==========================================================================
-   DETAILS COLUMN
-   ========================================================================== */
-
-.job-card > div:nth-of-type(2) {
+.job-main-details {
     min-width: 0;
+}
 
+.job-badges {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 5px;
 }
 
-
-/*
-   IMPORTANT:
-   Remove the old styling that was accidentally creating the tall box.
-*/
-
-.job-card > div:nth-of-type(2) > div:first-of-type {
-    display: flex;
-    align-items: center;
-
-    width: fit-content;
-
-    gap: 8px;
-
-    padding: 0;
-
-    background: transparent;
-    border: none;
-}
-
-
-/* Category */
-
-.job-card .category {
-    color: #111;
-
-    font-size: 8px;
-    font-weight: 700;
-
-    letter-spacing: .6px;
-    text-transform: uppercase;
-}
-
-
-/* ==========================================================================
-   STATUS
-   ========================================================================== */
-
-.job-card .status {
+.job-category,
+.job-status {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-
-    width: fit-content;
-
-    min-height: 19px;
-
-    padding: 4px 9px;
-
-    border-radius: 6px;
-
-    font-size: 8px;
+    min-height: 20px;
+    padding: 0 7px;
+    border-radius: 999px;
+    font-size: 7px;
     font-weight: 700;
-
-    line-height: 1;
-
-    text-transform: uppercase;
+    letter-spacing: .3px;
 }
 
-
-/* In Progress */
-
-.job-card .status.in-progress {
-    background: #171717;
-    color: #fff;
-
-    border: none;
+.job-category {
+    background: #f2f2f2;
+    color: #666;
 }
 
-
-/* Awaiting bids */
-
-.job-card .status.awaiting-bids {
-    background: #fff;
-    color: #999;
-
-    border: 1px solid #e7e7e7;
-}
-
-
-/* Completed */
-
-.job-card .status.completed {
-    background: #e6f8ed;
-    color: #52b982;
-
-    border: none;
-}
-
-
-/* ==========================================================================
-   TITLE
-   ========================================================================== */
-
-.job-card h2 {
-    margin: 0;
-
-    color: #111;
-
-    font-size: 16px;
-    font-weight: 700;
-
-    line-height: 1.25;
-}
-
-
-/* ==========================================================================
-   DATE + LOCATION
-   ========================================================================== */
-
-.job-card > div:nth-of-type(2) > div:last-of-type {
-    display: flex;
-    align-items: flex-start;
-
-    gap: 15px;
-
-    margin-top: 2px;
-}
-
-.job-card .date,
-.job-card .location {
-    display: flex;
-    align-items: flex-start;
-
-    gap: 5px;
-
-    color: #777;
-
-    font-size: 9px;
-    line-height: 1.3;
-}
-
-.job-card .date i,
-.job-card .location i {
-    margin-top: 1px;
-
-    color: #777;
-    font-size: 9px;
-}
-
-
-/* ==========================================================================
-   DIVIDERS
-   ========================================================================== */
-
-.job-card hr {
-    width: 1px;
-    height: 65px;
-
-    margin: 0;
-
-    border: none;
-    border-left: 1px solid #eeeeee;
-}
-
-
-/* ==========================================================================
-   PRICE
-   ========================================================================== */
-
-.price-details {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.price-details .label {
-    margin: 0;
-
-    color: #999;
-
-    font-size: 8px;
-    font-weight: 700;
-
-    letter-spacing: .6px;
-    text-transform: uppercase;
-}
-
-.price-details .price {
-    margin: 0;
-
-    color: #111;
-
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.price-details .price-subtext {
-    margin: 0;
-
-    color: #42a86e;
-
-    font-size: 9px;
-    font-weight: 600;
-}
-
-
-/* Awaiting bids */
-
-.job-card:has(.status.awaiting-bids) .price-subtext {
-    color: #999;
-}
-
-
-/* ==========================================================================
-   RIGHT SIDE
-   ========================================================================== */
-
-.job-card > div:last-of-type {
-    min-width: 0;
-    width: 100%;
-}
-
-.job-card > div:last-of-type > div {
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 12px;
-}
-
-
-/* ==========================================================================
-   PROVIDER
-   ========================================================================== */
-
-.job-card > div:last-of-type > div > div:first-child {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 3px;
-}
-
-.job-card h6 {
-    margin: 0;
-
-    color: #111;
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-.job-card p {
-    margin: 0;
-
-    color: #777;
-
-    font-size: 9px;
-}
-
-
-/* ==========================================================================
-   BUTTONS
-   ========================================================================== */
-
-.job-card > div:last-of-type > div > div:last-child {
-    flex-shrink: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 7px;
-
-    min-width: 80px;
-}
-
-.job-card button {
-    width: 80px;
-    height: 37px;
-
-    padding: 0 8px;
-
-    border-radius: 10px;
-
-    font-size: 10px;
-    font-weight: 700;
-
-    white-space: nowrap;
-
-    cursor: pointer;
-}
-
-
-/* Primary */
-
-.job-card button:first-of-type {
-    background: #171717;
-    color: #fff;
-
-    border: 1px solid #171717;
-}
-
-.job-card button:first-of-type:hover {
-    background: #000;
-}
-
-
-/* Secondary */
-
-.job-card button:last-of-type {
-    background: #fff;
-    color: #111;
-
-    border: 1px solid #e5e5e5;
-}
-
-.job-card button:last-of-type:hover {
-    background: #f7f7f7;
-}
-
-
-/* ==========================================================================
-   BID BOX
-   ========================================================================== */
-
-.job-card .bid-count {
-    min-width: 110px;
-    min-height: 75px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    background: #fafafa;
-    border-radius: 12px;
-}
-
-.job-card .bid-count p {
-    color: #111;
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-.job-card .bid-count span {
-    margin-top: 3px;
-
-    color: #999;
-
-    font-size: 8px;
-}
-
-
-/* ==========================================================================
-   RATING
-   ========================================================================== */
-
-.job-card div:has(.fa-star) {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-
-    margin-top: 4px;
-}
-
-.job-card .fa-star {
-    color: #707070;
-    font-size: 10px;
-}
-
-.job-card div:has(.fa-star) p {
-    margin-left: 5px;
-
+.job-status {
+    background: #ececec;
     color: #555;
-
-    font-size: 9px;
-    font-weight: 600;
 }
 
-
-/* ==========================================================================
-   COMPLETED CARD
-   ========================================================================== */
-
-.job-card:has(.status.completed) h2,
-.job-card:has(.status.completed) .price,
-.job-card:has(.status.completed) h6 {
-    color: #777;
+.job-status.in-progress {
+    background: #e8e8e8;
 }
 
-.job-card:has(.status.completed) .category,
-.job-card:has(.status.completed) .date,
-.job-card:has(.status.completed) .location {
-    color: #999;
-}
-
-
-/* Rebook button */
-
-.job-card:has(.status.completed) button:first-of-type {
-    width: 122px;
-
-    background: #fff;
-    color: #777;
-
-    border: 1px solid #777;
-}
-
-.job-card:has(.status.completed) button:last-of-type {
-    width: 122px;
-
-    background: transparent;
-    color: #aaa;
-
-    border: none;
-
-    font-size: 9px;
-}
-
-/* =========================================================
-   JOB DETAILS PAGE
-   Content section only - NAV NOT INCLUDED
-   ========================================================= */
-
-#root > .job-details {
-    min-height: 100vh;
-
-    margin-left: var(--nav-width);
-
-    background: #f8f8f8;
-    color: #111;
-
-    font-size: 10px;
-}
-
-
-/* =========================================================
-   PAGE HEADER
-   ========================================================= */
-
-#root > .job-details > header {
-    height: 43px;
-
-    padding: 0 16px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    background: #fff;
-
-    border-bottom: 1px solid #e9e9e9;
-}
-
-
-/* Left side */
-
-#root > .job-details > header > div:first-child {
-    display: flex;
-    align-items: center;
-
-    gap: 12px;
-}
-
-#root > .job-details > header > div:first-child i {
-    font-size: 10px;
-    color: #222;
-
-    cursor: pointer;
-}
-
-#root > .job-details > header h2 {
-    margin: 0;
-
-    font-size: 10px;
-    font-weight: 700;
-
-    color: #111;
-}
-
-
-/* Right side */
-
-#root > .job-details > header > div:last-child {
-    display: flex;
-    align-items: center;
-
-    gap: 7px;
-}
-
-#root > .job-details > header button {
-    height: 23px;
-
-    padding: 0 10px;
-
-    border-radius: 6px;
-
-    font-size: 7px;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-#root > .job-details > header button:first-child {
-    background: #fff;
-
-    color: #333;
-
-    border: 1px solid #ededed;
-}
-
-#root > .job-details > header button:last-child {
-    background: #171717;
-
-    color: #fff;
-
-    border: 1px solid #171717;
-}
-
-
-/* =========================================================
-   MAIN CONTENT
-   ========================================================= */
-
-#root > .job-details > main {
-    width: 100%;
-
-    padding: 18px 17px 25px;
-
-    display: grid;
-
-    grid-template-columns:
-        minmax(0, 1fr)
-        211px;
-
-    gap: 16px;
-
-    align-items: start;
-
-    background: #f8f8f8;
-}
-
-
-/* =========================================================
-   LEFT COLUMN
-   ========================================================= */
-
-#root > .job-details > main > div:first-child {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 16px;
-}
-
-
-/* =========================================================
-   JOB SUMMARY CARD
-   ========================================================= */
-
-#root > .job-details > main > div:first-child > .job-details {
-    min-height: 190px;
-
-    padding: 17px;
-
-    background: #fff;
-
-    border: 1px solid #e8e8e8;
-
-    border-radius: 14px;
-
-    display: flex;
-    flex-direction: column;
-}
-
-
-/* Category + status */
-
-#root > .job-details > main > div:first-child > .job-details
-> div:first-child {
-    display: flex;
-    align-items: center;
-
-    gap: 8px;
-
-    margin-bottom: 9px;
-}
-
-#root > .job-details > main > div:first-child > .job-details
-> div:first-child > div:first-child {
-    color: #111;
-
-    font-size: 7px;
-    font-weight: 700;
-
-    letter-spacing: .5px;
-
-    text-transform: uppercase;
-}
-
-#root > .job-details > main > div:first-child > .job-details
-> div:first-child > div:last-child {
-    padding: 4px 8px;
-
-    border-radius: 5px;
-
-    background: #171717;
-
-    color: #fff;
-
-    font-size: 6px;
-    font-weight: 700;
-
-    line-height: 1;
-
-    text-transform: uppercase;
-}
-
-
-/* Job title */
-
-#root > .job-details > main > div:first-child
-> .job-details > h1 {
-    margin: 0 0 7px;
-
-    color: #111;
-
-    font-size: 17px;
-    font-weight: 700;
-
+.job-main-details h2 {
+    margin-top: 6px;
+    font-size: 13px;
     line-height: 1.2;
 }
 
-
-/* Description */
-
-#root > .job-details > main > div:first-child
-> .job-details > p {
-    max-width: 430px;
-
-    margin: 0;
-
-    color: #737373;
-
-    font-size: 8px;
-
-    line-height: 1.5;
-}
-
-
-/* Divider before metadata */
-
-#root > .job-details > main > div:first-child
-> .job-details > h1 + p {
-    padding-bottom: 13px;
-
-    border-bottom: 1px solid #eeeeee;
-}
-
-
-/* =========================================================
-   DATE / LOCATION / URGENCY
-   ========================================================= */
-
-#root > .job-details > main > div:first-child
-> .job-details > div:last-child {
-    margin-top: auto;
-
-    padding-top: 13px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 10px;
-}
-
-
-/* Each item */
-
-#root > .job-details > main > div:first-child
-> .job-details > div:last-child > div {
+.job-meta {
+    margin-top: 8px;
     display: flex;
-    align-items: center;
-
-    gap: 8px;
-
-    min-width: 0;
-}
-
-
-/* Icon container */
-
-#root > .job-details > main > div:first-child
-> .job-details > div:last-child
-> div > div:first-child {
-    width: 27px;
-    height: 27px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #f5f5f5;
-}
-
-#root > .job-details > main > div:first-child
-> .job-details > div:last-child
-> div > div:first-child i {
-    color: #9b9b9b;
-
+    flex-wrap: wrap;
+    gap: 11px;
+    color: #999;
     font-size: 9px;
 }
 
-
-/* Labels */
-
-#root > .job-details > main > div:first-child
-> .job-details > div:last-child
-> div > div:last-child p:first-child {
-    margin: 0 0 3px;
-
-    color: #a0a0a0;
-
-    font-size: 5.5px;
-    font-weight: 700;
-
-    letter-spacing: .5px;
-}
-
-
-/* Values */
-
-#root > .job-details > main > div:first-child
-> .job-details > div:last-child
-> div > div:last-child p:last-child {
-    margin: 0;
-
-    color: #111;
-
-    font-size: 7px;
-    font-weight: 700;
-
-    line-height: 1.35;
-}
-
-
-/* Urgency value */
-
-#root > .job-details > main > div:first-child
-> .job-details > div:last-child
-> div:last-child p:last-child {
-    color: #b00000;
-}
-
-
-/* =========================================================
-   JOB PHOTOS CARD
-   ========================================================= */
-
-#root > .job-details > main > div:first-child
-> .job-photos {
-    min-height: 145px;
-
-    padding: 16px 17px;
-
-    background: #fff;
-
-    border: 1px solid #e8e8e8;
-
-    border-radius: 14px;
-}
-
-
-/* Header */
-
-#root > .job-details > main > div:first-child
-> .job-photos > div:first-child {
-    margin-bottom: 14px;
-
-    display: flex;
+.job-meta span {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-}
-
-#root > .job-details > main > div:first-child
-> .job-photos h2 {
-    margin: 0;
-
-    color: #111;
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-#root > .job-details > main > div:first-child
-> .job-photos > div:first-child > p {
-    margin: 0;
-
-    color: #111;
-
-    font-size: 7px;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-
-/* Photo row */
-
-#root > .job-details > main > div:first-child
-> .job-photos > div:last-child > div {
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-}
-
-
-/* Photo boxes */
-
-#root > .job-details > main > div:first-child
-> .job-photos > div:last-child
-> div > div {
-    width: 82px;
-    height: 82px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #f5f5f5;
-
-    border: 1px solid #eeeeee;
-
-    border-radius: 9px;
-
-    overflow: hidden;
-}
-
-#root > .job-details > main > div:first-child
-> .job-photos > div:last-child
-> div > div i {
-    color: #d2d2d2;
-
-    font-size: 13px;
-}
-
-
-/* Real image */
-
-#root > .job-details > main > div:first-child
-> .job-photos img {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    object-fit: cover;
-}
-
-
-/* Plus box */
-
-#root > .job-details > main > div:first-child
-> .job-photos > div:last-child
-> div > div:last-child {
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   JOB PROGRESS
-   ========================================================= */
-
-#root > .job-details > main > div:first-child
-> .job-progress {
-    min-height: 253px;
-
-    padding: 18px 17px;
-
-    background: #fff;
-
-    border: 1px solid #e8e8e8;
-
-    border-radius: 14px;
-}
-
-#root > .job-details > main > div:first-child
-> .job-progress > h2 {
-    margin: 0 0 17px;
-
-    color: #111;
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-
-/* Timeline item */
-
-#root > .job-details > main > div:first-child
-> .job-progress > div {
-    min-height: 40px;
-
-    display: grid;
-
-    grid-template-columns: 27px minmax(0, 1fr) auto;
-
-    gap: 10px;
-
-    position: relative;
-}
-
-
-/* Timeline icon */
-
-#root > .job-details > main > div:first-child
-> .job-progress > div > div:first-child {
-    width: 21px;
-    height: 21px;
-
-    margin-left: 2px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #171717;
-
-    color: #fff;
-
-    position: relative;
-
-    z-index: 2;
-}
-
-#root > .job-details > main > div:first-child
-> .job-progress > div > div:first-child i {
-    font-size: 7px;
-}
-
-
-/* Timeline vertical line */
-
-#root > .job-details > main > div:first-child
-> .job-progress > div:not(:last-child)::after {
-    content: "";
-
-    position: absolute;
-
-    left: 12px;
-    top: 21px;
-    bottom: -8px;
-
-    width: 1px;
-
-    background: #dedede;
-}
-
-
-/* Progress title */
-
-#root > .job-details > main > div:first-child
-> .job-progress > div > div:nth-child(2) h2 {
-    margin: 1px 0 3px;
-
-    color: #111;
-
-    font-size: 7px;
-    font-weight: 700;
-}
-
-#root > .job-details > main > div:first-child
-> .job-progress > div > div:nth-child(2) p {
-    margin: 0;
-
-    color: #999;
-
-    font-size: 6px;
-
-    line-height: 1.4;
-}
-
-
-/* Time */
-
-#root > .job-details > main > div:first-child
-> .job-progress > div > div:last-child {
-    padding-top: 2px;
-
-    text-align: right;
-}
-
-#root > .job-details > main > div:first-child
-> .job-progress > div > div:last-child p {
-    margin: 0;
-
-    color: #999;
-
-    font-size: 5.5px;
-}
-
-
-/* =========================================================
-   RIGHT COLUMN
-   ========================================================= */
-
-#root > .job-details > main > div:last-child {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 16px;
-}
-
-
-/* =========================================================
-   ASSIGNED PROVIDER
-   ========================================================= */
-
-#root > .job-details > main
-> div:last-child > .assigned-provider {
-    min-height: 226px;
-
-    padding: 17px;
-
-    background: #fff;
-
-    border: 1px solid #e8e8e8;
-
-    border-radius: 14px;
-}
-
-
-#root > .job-details > main
-> div:last-child > .assigned-provider > h2 {
-    margin: 0 0 13px;
-
-    color: #a0a0a0;
-
-    font-size: 7px;
-    font-weight: 700;
-
-    letter-spacing: .8px;
-
-    text-transform: uppercase;
-}
-
-
-/* Provider details */
-
-.provider-details {
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-}
-
-
-/* Profile picture */
-
-.provider-details > img {
-    width: 40px;
-    height: 40px;
-
-    flex-shrink: 0;
-
-    object-fit: cover;
-
-    border-radius: 50%;
-
-    background: #f1f1f1;
-}
-
-
-/* Provider text */
-
-.provider-details > div {
-    min-width: 0;
-
-    flex: 1;
-}
-
-.provider-details > div > div:first-child {
-    display: flex;
-    align-items: center;
-
     gap: 5px;
 }
 
-.provider-details h2 {
-    margin: 0;
-
-    color: #111;
-
-    font-size: 8px;
-    font-weight: 700;
-}
-
-.provider-details > div > p {
-    margin: 3px 0 6px;
-
-    color: #777;
-
-    font-size: 6px;
-}
-
-
-/* Online dot */
-
-.provider-details .online {
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
-
-    background: #52b982;
-}
-
-
-/* Rating */
-
-.provider-details > div > div:last-child {
-    display: flex;
-    align-items: center;
-
-    gap: 3px;
-}
-
-.provider-details .fa-star {
-    color: #111;
-
-    font-size: 6px;
-}
-
-.provider-details > div > div:last-child p {
-    margin: 0;
-
-    color: #555;
-
-    font-size: 6px;
-}
-
-
-/* Contact buttons */
-
-.contact-buttons {
-    display: flex;
-    flex-direction: column;
-
-    gap: 7px;
-
-    margin-top: 12px;
-}
-
-.contact-buttons button {
-    width: 100%;
-    height: 29px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 7px;
-
-    border-radius: 7px;
-
-    font-size: 7px;
-    font-weight: 700;
-}
-
-.contact-buttons button:first-child {
-    background: #171717;
-
-    color: #fff;
-
-    border: 1px solid #171717;
-}
-
-.contact-buttons button:last-child {
-    background: #fff;
-
-    color: #222;
-
-    border: 1px solid #e7e7e7;
-}
-
-.contact-buttons p {
-    margin: 0;
-}
-
-
-/* Full profile */
-
-#root > .job-details > main
-> div:last-child > .assigned-provider > button:last-child {
-    width: 100%;
-
-    margin-top: 13px;
-
-    padding: 7px 0;
-
-    background: transparent;
-
-    color: #888;
-
-    border: none;
-
-    font-size: 6px;
-    font-weight: 700;
-
-    letter-spacing: .5px;
-
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   PAYMENT OVERVIEW
-   ========================================================= */
-
-#root > .job-details > main
-> div:last-child > .payment-overview {
-    min-height: 195px;
-
-    padding: 17px;
-
-    background: #171717;
-
-    border-radius: 14px;
-
-    color: #fff;
-}
-
-
-.payment-overview > h2 {
-    margin: 0 0 17px;
-
-    color: #999;
-
-    font-size: 6px;
-    font-weight: 700;
-
-    letter-spacing: .8px;
-}
-
-
-.payment-overview > div:nth-of-type(1) {
-    margin-bottom: 13px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-
-.payment-overview > div:nth-of-type(1) p:first-child {
-    margin: 0;
-
-    color: #aaa;
-
-    font-size: 7px;
-}
-
-
-.payment-overview > div:nth-of-type(1) p:last-child {
-    margin: 0;
-
-    color: #fff;
-
-    font-size: 12px;
-    font-weight: 700;
-}
-
-
-/* Escrow message */
-
-.payment-overview > div:nth-of-type(2) {
-    padding: 9px;
-
-    display: flex;
-    align-items: flex-start;
-
-    gap: 7px;
-
-    background: #292929;
-
-    border-radius: 7px;
-}
-
-.payment-overview > div:nth-of-type(2) i {
-    margin-top: 1px;
-
-    color: #bbb;
-
-    font-size: 7px;
-}
-
-.payment-overview > div:nth-of-type(2) p {
-    margin: 0;
-
-    color: #aaa;
-
-    font-size: 5.5px;
-
-    line-height: 1.5;
-}
-
-
-/* Release button */
-
-.payment-overview > button {
-    width: 100%;
-    height: 38px;
-
-    margin-top: 14px;
-
-    background: #fff;
-
-    color: #111;
-
-    border: none;
-
-    border-radius: 7px;
-
-    font-size: 7px;
-    font-weight: 700;
-
-    cursor: pointer;
-}
-
-
-/* Payment note */
-
-.payment-overview > p:last-child {
-    margin: 11px 0 0;
-
-    color: #777;
-
-    font-size: 5px;
-
-    text-align: center;
-}
-
-
-/* =========================================================
-   LOCATION CARD
-   ========================================================= */
-
-#root > .job-details > main
-> div:last-child > .location-details {
-    min-height: 144px;
-
-    padding: 12px;
-
-    background: #fff;
-
-    border: 1px solid #e8e8e8;
-
-    border-radius: 14px;
-}
-
-
-/* Map placeholder */
-
-.location-details > div:first-child {
-    width: 100%;
-    height: 87px;
-
-    margin-bottom: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #f4f4f4;
-
-    border: 1px solid #ededed;
-
-    border-radius: 9px;
-}
-
-.location-details > div:first-child
-> div {
-    width: 23px;
-    height: 23px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #171717;
-
-    color: #fff;
-}
-
-.location-details > div:first-child
-i {
-    font-size: 8px;
-}
-
-
-/* Address */
-
-.location-details > div:last-child {
-    display: flex;
-    align-items: flex-start;
-
-    gap: 7px;
-}
-
-.location-details > div:last-child
-> i {
-    margin-top: 1px;
-
-    color: #222;
-
-    font-size: 7px;
-}
-
-.location-details > div:last-child
-> div p:first-child {
-    margin: 0 0 3px;
-
-    color: #222;
-
-    font-size: 6px;
-    font-weight: 700;
-}
-
-.location-details > div:last-child
-> div p:last-child {
-    margin: 0;
-
-    color: #888;
-
-    font-size: 5px;
-
-    line-height: 1.4;
-}
-
-/* =========================================================
-   CHECKOUT / PAYMENT PAGE
-   Navigation intentionally excluded
-========================================================= */
-
-.payment {
-    width: 100%;
-    min-height: 100vh;
-
-    background: #f8f8f8;
-    color: #171717;
-
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.payment > header {
-    height: 44px;
-
-    padding: 0 22px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 12px;
-
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
-}
-
-.payment > header i {
-    color: #171717;
-    font-size: 10px;
-
-    cursor: pointer;
-}
-
-.payment > header h2 {
-    margin: 0;
-
-    color: #111111;
-
-    font-size: 11px;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   MAIN PAGE LAYOUT
-========================================================= */
-
-.payment > main {
-    width: 100%;
-
-    padding: 18px 27px 40px;
-
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 221px;
-
-    gap: 24px;
-
-    align-items: start;
-
-    background: #f8f8f8;
-}
-
-
-/* =========================================================
-   LEFT COLUMN
-========================================================= */
-
-.payment > main > div:first-child {
+.job-price {
+    padding: 0 16px;
+    border-left: 1px solid var(--border);
     min-width: 0;
+}
 
+.job-price p {
+    color: #999;
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.job-price strong {
+    display: block;
+    margin-top: 3px;
+    font-size: 13px;
+}
+
+.job-price span {
+    display: block;
+    margin-top: 2px;
+    color: #777;
+    font-size: 8px;
+}
+
+.job-card-action-area {
+    min-width: 0;
+    padding-left: 16px;
+    border-left: 1px solid var(--border);
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
 
+.job-provider-summary {
+    min-width: 0;
+    flex: 1;
+}
+
+.job-provider-summary > p {
+    color: #999;
+    font-size: 7px;
+    font-weight: 700;
+}
+
+.job-provider-summary > strong {
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+}
+
+.job-provider-summary > span {
+    display: block;
+    margin-top: 4px;
+    color: #999;
+    font-size: 8px;
+}
+
+.progress-label {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 8px;
+}
+
+.progress-num {
+    font-weight: 700;
+}
+
+.progress-track {
+    height: 5px;
+    margin-top: 5px;
+    border-radius: 99px;
+    background: #eee;
+    overflow: hidden;
+}
+
+.progress-track span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--black);
+}
+
+.rating-stars {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: #666;
+    font-size: 8px;
+}
+
+.rating-stars span {
+    margin-left: 5px;
+    color: #777;
+}
+
+.action-buttons {
+    display: grid;
+    gap: 6px;
+    flex: 0 0 auto;
+}
+
+.action-buttons button {
+    min-width: 82px;
+    min-height: 30px;
+    padding: 0 9px;
+}
+
+.text-button {
+    background: transparent;
+    color: #777;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.text-button:hover {
+    color: var(--black);
+}
+
+/* Job Details */
+.job-details-main {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(260px, .85fr);
     gap: 18px;
 }
 
-
-/* =========================================================
-   ESCROW PAYMENT BANNER
-========================================================= */
-
-.escrow-payment {
-    min-height: 93px;
-
-    padding: 17px 18px;
-
-    display: flex;
-    align-items: flex-start;
-
-    gap: 14px;
-
-    background: #171717;
-
-    border-radius: 13px;
-
-    color: #ffffff;
-
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-}
-
-.escrow-payment > i {
-    width: 34px;
-    height: 34px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 9px;
-
-    background: #292929;
-    color: #a9a9a9;
-
-    font-size: 14px;
-}
-
-.escrow-payment > div {
-    min-width: 0;
-}
-
-.escrow-payment h2 {
-    margin: 1px 0 6px;
-
-    color: #ffffff;
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-.escrow-payment p {
-    max-width: 350px;
-
-    margin: 0;
-
-    color: #a9a9a9;
-
-    font-size: 7px;
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   PAYMENT METHOD CARD
-========================================================= */
-
-.payment-method {
-    min-height: 218px;
-
-    padding: 18px;
-
-    background: #ffffff;
-
-    border: 1px solid #e8e8e8;
-    border-radius: 13px;
-}
-
-
-/* Header */
-
-.payment-method > div:first-child {
-    margin-bottom: 15px;
-
-    display: flex;
-    align-items: center;
+.job-details-header {
     justify-content: space-between;
 }
 
-.payment-method > div:first-child h2 {
-    margin: 0;
-
-    color: #111111;
-
-    font-size: 10px;
-    font-weight: 700;
-}
-
-/* Fix "Payment Mathod" visually without changing JSX */
-
-.payment-method > div:first-child h2 {
-    font-size: 0;
-}
-
-.payment-method > div:first-child h2::after {
-    content: "Payment Method";
-
-    font-size: 10px;
-}
-
-
-.payment-method > div:first-child p {
-    margin: 0;
-
-    color: #171717;
-
-    font-size: 8px;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   METHOD LIST
-========================================================= */
-
-.method-list {
-    display: flex;
-    flex-direction: column;
-
-    gap: 8px;
-}
-
-
-/* Individual method */
-
-.method {
-    width: 100%;
-    height: 43px;
-
-    padding: 0 11px;
-
+.job-details-header > div:first-child {
     display: flex;
     align-items: center;
-
-    background: #ffffff;
-
-    border: 1px solid #e8e8e8;
-    border-radius: 8px;
-
-    transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease;
-}
-
-
-/* Method inner row */
-
-.method > div {
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-}
-
-
-/* Selected payment method */
-
-.method:first-child {
-    border: 1px solid #171717;
-    box-shadow: 0 0 0 1px #171717;
-}
-
-
-/* Payment icon */
-
-.method > div > i {
-    width: 25px;
-    height: 25px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 6px;
-
-    background: #f5f5f5;
-    color: #999999;
-
-    font-size: 10px;
-}
-
-
-/* Visa icon */
-
-.method:nth-child(2) > div > i {
-    font-size: 12px;
-}
-
-
-/* Method text */
-
-.method > div > div {
-    min-width: 0;
-}
-
-
-/*
-   The final empty div is the radio circle.
-   Keep the text div separate from it.
-*/
-
-.method > div > div:nth-child(2) {
-    flex: 1;
-}
-
-.method > div > div:nth-child(2) p:first-child {
-    margin: 0 0 2px;
-
-    color: #555555;
-
-    font-size: 7px;
-    font-weight: 600;
-}
-
-.method > div > div:nth-child(2) p:last-child {
-    margin: 0;
-
-    color: #b1b1b1;
-
-    font-size: 5px;
-
-    text-transform: uppercase;
-}
-
-
-/* Radio circle */
-
-.method > div > div:last-child {
-    width: 13px;
-    height: 13px;
-
-    flex-shrink: 0;
-
-    border: 1px solid #e0e0e0;
-
-    border-radius: 50%;
-
-    background: #ffffff;
-}
-
-
-/* Selected radio */
-
-.method:first-child > div > div:last-child {
-    position: relative;
-
-    border-color: #171717;
-    background: #171717;
-}
-
-.method:first-child > div > div:last-child::after {
-    content: "";
-
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    width: 4px;
-    height: 4px;
-
-    transform: translate(-50%, -50%);
-
-    border-radius: 50%;
-
-    background: #ffffff;
-}
-
-
-/* =========================================================
-   PROMO CODE
-========================================================= */
-
-.promo-code {
-    height: 64px;
-
-    padding: 12px 18px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-
-    background: #ffffff;
-
-    border: 1px solid #e8e8e8;
-    border-radius: 13px;
-}
-
-
-/* Input wrapper */
-
-.promo-code > div {
-    height: 28px;
-
-    flex: 1;
-
-    display: flex;
-    align-items: center;
-
-    border: 1px solid #e5e5e5;
-    border-radius: 7px;
-
-    background: #fafafa;
-}
-
-.promo-code > div i {
-    margin-left: 10px;
-
-    color: #a8a8a8;
-
-    font-size: 8px;
-}
-
-.promo-code input {
-    width: 100%;
-    height: 100%;
-
-    padding: 0 8px;
-
-    border: none;
-    outline: none;
-
-    background: transparent;
-
-    color: #333333;
-
-    font-size: 7px;
-}
-
-.promo-code input::placeholder {
-    color: #9d9d9d;
-}
-
-
-/* Apply button */
-
-.promo-code button {
-    width: 59px;
-    height: 28px;
-
-    border: 1px solid #171717;
-    border-radius: 7px;
-
-    background: #ffffff;
-
-    color: #171717;
-
-    font-size: 7px;
-    font-weight: 700;
-
-    cursor: pointer;
-}
-
-.promo-code button:hover {
-    background: #171717;
-    color: #ffffff;
-}
-
-
-/* =========================================================
-   RIGHT COLUMN
-========================================================= */
-
-.payment > main > div:last-child {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 14px;
-}
-
-
-/* =========================================================
-   ORDER SUMMARY
-========================================================= */
-
-.order-summary {
-    min-height: 381px;
-
-    padding: 18px;
-
-    background: #ffffff;
-
-    border: 1px solid #e8e8e8;
-    border-radius: 14px;
-}
-
-.order-summary h2 {
-    margin: 0 0 17px;
-
-    color: #171717;
-
-    font-size: 9px;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   ORDER DETAILS
-========================================================= */
-
-.order-details {
-    min-height: 49px;
-
-    display: flex;
-    align-items: center;
-
     gap: 10px;
 }
 
-.order-details > i {
-    width: 35px;
-    height: 35px;
-
-    flex-shrink: 0;
-
+.header-actions {
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 9px;
-
-    background: #f8f8f8;
-
-    color: #b1b1b1;
-
-    font-size: 10px;
-}
-
-.order-details > div {
-    min-width: 0;
-}
-
-.order-details > div p:first-child {
-    margin: 0 0 3px;
-
-    color: #333333;
-
-    font-size: 7px;
-    font-weight: 700;
-}
-
-.order-details > div p:nth-child(2) {
-    margin: 0 0 2px;
-
-    color: #888888;
-
-    font-size: 5.5px;
-}
-
-.order-details > div p:last-child {
-    margin: 0;
-
-    color: #777777;
-
-    font-size: 5px;
-}
-
-
-/* =========================================================
-   ORDER DIVIDERS
-========================================================= */
-
-.order-summary > hr {
-    margin: 14px 0;
-
-    border: 0;
-    border-top: 1px solid #eeeeee;
-}
-
-
-/* =========================================================
-   PAYMENT BREAKDOWN
-========================================================= */
-
-.payment-breakdown {
-    display: flex;
-    flex-direction: column;
-
     gap: 8px;
 }
 
-.payment-breakdown > div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.job-details-left,
+.job-details-right {
+    min-width: 0;
 }
 
-.payment-breakdown p {
-    margin: 0;
-
-    font-size: 6.5px;
-}
-
-.payment-breakdown p:first-child {
-    color: #888888;
-}
-
-.payment-breakdown p:last-child {
-    color: #333333;
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   CONFIRM / TOTAL
-========================================================= */
-
-.confirm-submit > div:first-child {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
+.job-details-left > section,
+.job-details-right > section {
     margin-bottom: 14px;
 }
 
-.confirm-submit > div:first-child p {
-    margin: 0;
+.job-summary-card,
+.job-photos-card,
+.job-progress-card,
+.assigned-provider-card,
+.payment-overview-card,
+.location-details-card {
+    padding: 16px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
 }
 
-.confirm-submit > div:first-child p:first-child {
-    color: #171717;
+.job-summary-badges {
+    display: flex;
+    gap: 6px;
+}
 
+.job-summary-badges span {
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #f1f1f1;
+    color: #666;
     font-size: 8px;
     font-weight: 700;
 }
 
-.confirm-submit > div:first-child p:last-child {
-    color: #171717;
-
-    font-size: 16px;
-    font-weight: 700;
+.job-summary-card h2 {
+    margin-top: 10px;
+    font-size: 18px;
 }
 
-
-/* Pay button */
-
-.confirm-submit > button {
-    width: 100%;
-    height: 37px;
-
-    border: none;
-    border-radius: 8px;
-
-    background: #171717;
-    color: #ffffff;
-
-    font-size: 8px;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+.job-description {
+    margin-top: 8px;
+    color: #777;
+    font-size: 10px;
 }
 
-.confirm-submit > button:hover {
-    background: #2a2a2a;
+.job-facts {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
 }
 
-
-/* =========================================================
-   SSL TEXT
-========================================================= */
-
-.confirm-submit > p {
-    margin: 9px 0 14px;
-
+.job-fact {
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 4px;
-
-    color: #a5a5a5;
-
-    font-size: 5px;
-    font-weight: 700;
-
-    letter-spacing: .5px;
-}
-
-.confirm-submit > p i {
-    font-size: 5px;
-}
-
-
-/* =========================================================
-   TERMS BOX
-========================================================= */
-
-.confirm-submit > div:last-child {
-    min-height: 37px;
-
-    padding: 9px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 7px;
-
-    background: #fafafa;
-}
-
-.confirm-submit > div:last-child p {
-    margin: 0;
-
-    color: #777777;
-
-    font-size: 5px;
-    line-height: 1.4;
-
-    text-align: center;
-}
-
-.confirm-submit > div:last-child a {
-    color: #555555;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   HELP CARD
-========================================================= */
-
-.help {
-    min-height: 53px;
-
-    padding: 11px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-
-    background: #ffffff;
-
-    border: 1px solid #e8e8e8;
-    border-radius: 13px;
-}
-
-
-/* Headset circle */
-
-.help > div:first-child {
-    width: 26px;
-    height: 26px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #fafafa;
-}
-
-.help > div:first-child i {
-    color: #999999;
-
-    font-size: 9px;
-}
-
-
-/* Text */
-
-.help > div:nth-child(2) {
-    flex: 1;
+    align-items: flex-start;
+    gap: 8px;
     min-width: 0;
 }
 
-.help > div:nth-child(2) p:first-child {
-    margin: 0 0 3px;
+.fact-icon {
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--soft);
+    color: #888;
+    font-size: 9px;
+}
 
-    color: #333333;
-
-    font-size: 6px;
+.job-fact p {
+    color: #aaa;
+    font-size: 7px;
     font-weight: 700;
 }
 
-.help > div:nth-child(2) p:last-child {
-    margin: 0;
-
-    color: #999999;
-
-    font-size: 5px;
+.job-fact strong {
+    display: block;
+    margin-top: 2px;
+    font-size: 9px;
 }
 
-
-/* Arrow */
-
-.help > div:last-child i {
-    color: #b2b2b2;
-
-    font-size: 7px;
+.job-photos-card .section-heading h2,
+.job-progress-card > h2,
+.payment-overview-card > h2 {
+    font-size: 12px;
 }
 
-/* =========================================================
-   REVIEW PAGE
-   Navigation intentionally excluded
-========================================================= */
+.job-photo-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
 
-.review {
+.job-photo {
+    min-height: 84px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--soft);
+}
+
+.job-photo img {
     width: 100%;
-    min-height: 100vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 25px;
-
-    background: #f8f8f8;
-
-    font-family: Arial, Helvetica, sans-serif;
-    color: #111;
-
-    box-sizing: border-box;
+    height: 100%;
+    display: block;
+    object-fit: cover;
 }
 
-
-/* =========================================================
-   REVIEW MODAL
-========================================================= */
-
-.review > .provider-details,
-.review > .review-content {
-    box-sizing: border-box;
+.job-photo.empty {
+    display: grid;
+    place-items: center;
+    color: #aaa;
 }
 
+.job-photo.empty:hover {
+    background: #eee;
+    color: #555;
+}
 
-/* Left + right panels sit together */
+.progress-list {
+    margin-top: 14px;
+}
 
-.review {
+.progress-step {
+    min-height: 58px;
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: start;
     position: relative;
 }
 
-.review::before {
+.progress-step:not(:last-child)::after {
     content: "";
     position: absolute;
-    inset: 0;
-
-    border: 1px solid #eeeeee;
-
-    pointer-events: none;
+    left: 14px;
+    top: 30px;
+    width: 1px;
+    height: 34px;
+    background: var(--border);
 }
 
+.progress-icon {
+    width: 29px;
+    height: 29px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--soft);
+    color: #777;
+    font-size: 8px;
+}
 
-/* =========================================================
-   LEFT PROVIDER PANEL
-========================================================= */
+.progress-copy h3 {
+    font-size: 10px;
+}
 
-.review > .provider-details {
-    width: 175px;
-    height: 489px;
+.progress-copy p,
+.progress-time {
+    margin-top: 3px;
+    color: #999;
+    font-size: 8px;
+}
 
-    padding: 22px 21px;
-
+.provider-heading-row {
     display: flex;
-    flex-direction: column;
-
-    background: #171717;
-
-    color: #ffffff;
-
-    border-radius: 15px 0 0 15px;
-
-    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.provider-heading-row h2 {
+    font-size: 12px;
+}
 
-/* =========================================================
-   PROVIDER IMAGE
-========================================================= */
+.online-badge {
+    padding: 3px 6px;
+    border-radius: 999px;
+    background: #f1f1f1;
+    color: #777;
+    font-size: 7px;
+    font-weight: 700;
+}
 
-.review > .provider-details > div:first-child {
-    width: 68px;
-    height: 68px;
+.online-badge.online {
+    color: #333;
+}
 
-    margin: 0 auto 11px;
-
+.provider-details {
+    margin-top: 14px;
     display: flex;
     align-items: center;
-    justify-content: center;
-
-    border-radius: 13px;
-
-    background: #242424;
-
-    overflow: hidden;
+    gap: 10px;
 }
 
-.review > .provider-details > div:first-child img {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
+.provider-details img {
+    width: 49px;
+    height: 49px;
+    border-radius: 10px;
     object-fit: cover;
-
-    border-radius: 13px;
+    background: var(--soft);
 }
 
-
-/* =========================================================
-   PROVIDER NAME
-========================================================= */
-
-.review > .provider-details > div:nth-child(2) {
-    width: 100%;
-
-    text-align: center;
-
-    padding-bottom: 17px;
-
-    border-bottom: 1px solid #343434;
+.provider-details h3 {
+    font-size: 11px;
 }
 
-.review > .provider-details > div:nth-child(2) h2 {
-    margin: 0 0 5px;
-
-    color: #ffffff;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    line-height: 1.2;
+.provider-details > div > p {
+    margin-top: 2px;
+    color: #888;
+    font-size: 8px;
 }
 
-.review > .provider-details > div:nth-child(2) p {
-    margin: 0;
-
-    color: #a6a6a6;
-
-    font-size: 7px;
-    line-height: 1.3;
-}
-
-
-/* =========================================================
-   SERVICE INFORMATION
-========================================================= */
-
-.review > .provider-details > div:nth-child(3) {
-    width: 100%;
-
+.provider-rating {
+    margin-top: 6px;
     display: flex;
-    flex-direction: column;
-
-    gap: 15px;
-
-    padding-top: 18px;
+    gap: 5px;
+    align-items: center;
+    color: #777;
+    font-size: 8px;
 }
 
-.review > .provider-details > div:nth-child(3) > div {
-    width: 100%;
+.provider-rating i {
+    color: #555;
 }
 
-.review > .provider-details > div:nth-child(3) > div p:first-child {
-    margin: 0 0 5px;
-
-    color: #8f8f8f;
-
-    font-size: 5px;
-    font-weight: 700;
-
-    letter-spacing: .7px;
+.contact-buttons {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
 }
 
-.review > .provider-details > div:nth-child(3) > div p:last-child {
-    margin: 0;
-
-    color: #ffffff;
-
-    font-size: 7px;
-    font-weight: 700;
-
-    line-height: 1.3;
-}
-
-
-/* =========================================================
-   LEFT PANEL FOOTER TEXT
-========================================================= */
-
-.review > .provider-details > p:last-child {
-    margin: auto 0 0;
-
-    color: #888888;
-
-    font-size: 5px;
-    line-height: 1.45;
-
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: .4px;
-}
-
-
-/* =========================================================
-   RIGHT CONTENT PANEL
-========================================================= */
-
-.review > .review-content {
-    width: 315px;
-    height: 489px;
-
-    padding: 28px 25px 24px;
-
-    background: #ffffff;
-
-    border: 1px solid #e6e6e6;
-    border-left: none;
-
-    border-radius: 0 15px 15px 0;
-
-    box-sizing: border-box;
-
+.contact-buttons .outline-button {
+    min-height: 34px;
+    padding: 0 8px;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    font-size: 8px;
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.review > .review-content > header {
+.profile-link-button {
     width: 100%;
+    margin-top: 8px;
+    min-height: 33px;
+    background: #f4f4f4;
+    border-radius: 8px;
+    color: #555;
+    font-size: 8px;
+    font-weight: 700;
+}
 
-    height: 20px;
+.profile-link-button:hover {
+    background: #eee;
+}
 
-    margin-bottom: 19px;
-
+.payment-amount-row {
+    margin-top: 13px;
+    padding-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    font-size: 9px;
 }
 
-.review > .review-content > header h2 {
-    margin: 0;
-
-    color: #111111;
-
-    font-size: 16px;
-    font-weight: 700;
+.payment-amount-row strong {
+    font-size: 14px;
 }
 
-.review > .review-content > header i {
-    color: #aaaaaa;
-
-    font-size: 11px;
-
-    cursor: pointer;
-}
-
-.review > .review-content > header i:hover {
-    color: #555555;
-}
-
-
-/* =========================================================
-   SECTION LABELS
-========================================================= */
-
-.review > .review-content > p,
-.review > .review-content > div > p {
-    color: #9a9a9a;
-
-    font-size: 6px;
-    font-weight: 700;
-
-    letter-spacing: .8px;
-
-    text-transform: uppercase;
-}
-
-
-/* =========================================================
-   RATING SECTION
-========================================================= */
-
-.review > .review-content > header + p {
-    margin: 0 0 11px;
-}
-
-
-/* Rating row */
-
-.review > .review-content > header + p + div {
-    width: 100%;
-
+.escrow-note {
+    margin: 12px 0;
     display: flex;
-    align-items: center;
-
-    margin-bottom: 20px;
-}
-
-
-/* Stars */
-
-.review > .review-content > header + p + div > div:first-child {
-    display: flex;
-    align-items: center;
-
     gap: 8px;
-
-    flex-shrink: 0;
+    color: #777;
+    font-size: 8px;
 }
 
-.review > .review-content .fa-star {
-    color: #171717;
-
-    font-size: 22px;
+.escrow-note i {
+    color: #555;
 }
 
-.review > .review-content > header + p + div > div:first-child
-.fa-star:last-child {
-    color: #eeeeee;
+.warning-text {
+    margin-top: 7px;
+    color: #999;
+    font-size: 7px;
+    text-align: center;
 }
 
-
-/* Divider beside stars */
-
-.review > .review-content > header + p + div > hr {
-    width: 1px;
-    height: 33px;
-
-    margin: 0 12px;
-
-    border: none;
-    border-left: 1px solid #eeeeee;
+.location-details-card {
+    padding: 0;
+    overflow: hidden;
 }
 
+.map-placeholder {
+    height: 120px;
+    display: grid;
+    place-items: center;
+    background: repeating-linear-gradient(45deg,#f5f5f5,#f5f5f5 10px,#ededed 10px,#ededed 11px);
+    color: #888;
+    font-size: 24px;
+}
 
-/* Rating text */
+.location-copy {
+    padding: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
 
-.review > .review-content > header + p + div > div:last-child {
+.location-icon {
+    width: 26px;
+    height: 26px;
+    flex: 0 0 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: var(--soft);
+    color: #888;
+    font-size: 8px;
+}
+
+.location-copy h2 {
+    font-size: 10px;
+}
+
+.location-copy p {
+    margin-top: 3px;
+    color: #999;
+    font-size: 8px;
+}
+
+/* Payment */
+.payment-main {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(280px, .9fr);
+    gap: 18px;
+}
+
+.payment-left,
+.payment-right {
+    min-width: 0;
+}
+
+.payment-left > section,
+.payment-right > section,
+.payment-right > button {
+    margin-bottom: 14px;
+}
+
+.escrow-payment,
+.payment-method,
+.promo-code,
+.order-summary,
+.help-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.escrow-payment {
+    padding: 15px;
+    display: flex;
+    gap: 11px;
+}
+
+.escrow-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: var(--soft);
+    color: #555;
+}
+
+.escrow-payment h2 {
+    font-size: 11px;
+}
+
+.escrow-payment p {
+    margin-top: 4px;
+    color: #777;
+    font-size: 8px;
+}
+
+.payment-method {
+    padding: 15px;
+}
+
+.payment-section-heading h2 {
+    font-size: 12px;
+}
+
+.method-list {
+    margin-top: 11px;
+    display: grid;
+    gap: 7px;
+}
+
+.method {
+    width: 100%;
+    min-height: 54px;
+    padding: 0 11px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #fff;
+    text-align: left;
+}
+
+.method:hover,
+.method.selected {
+    border-color: #999;
+}
+
+.method-icon {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: var(--soft);
+    color: #666;
+}
+
+.method-copy {
+    min-width: 0;
+    flex: 1;
     display: flex;
     flex-direction: column;
-
     gap: 2px;
 }
 
-.review > .review-content > header + p + div > div:last-child p:first-child {
-    margin: 0;
+.method-copy strong {
+    font-size: 9px;
+}
 
-    color: #111111;
+.method-copy small {
+    color: #999;
+    font-size: 7px;
+}
 
+.method-radio {
+    width: 13px;
+    height: 13px;
+    border: 1px solid #c8c8c8;
+    border-radius: 50%;
+}
+
+.method.selected .method-radio {
+    border: 4px solid var(--black);
+}
+
+.promo-code {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.promo-code > div {
+    min-width: 0;
+    flex: 1;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 9px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.promo-code input {
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 9px;
+}
+
+.promo-code > button {
+    min-height: 35px;
+    padding: 0 13px;
+    border-radius: 8px;
+    background: var(--black);
+    color: #fff;
     font-size: 9px;
     font-weight: 700;
 }
 
-.review > .review-content > header + p + div > div:last-child p:last-child {
-    margin: 0;
-
-    color: #888888;
-
-    font-size: 5px;
+.order-summary {
+    padding: 16px;
 }
 
-
-/* =========================================================
-   REVIEW TEXTAREA
-========================================================= */
-
-.review > .review-content > div:nth-of-type(2) {
-    width: 100%;
-
-    margin-bottom: 22px;
+.order-summary > h2 {
+    font-size: 13px;
 }
 
-.review > .review-content > div:nth-of-type(2) > p {
-    margin: 0 0 10px;
+.order-details {
+    margin-top: 13px;
+    display: flex;
+    gap: 9px;
 }
 
+.order-icon {
+    width: 37px;
+    height: 37px;
+    flex: 0 0 37px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: var(--soft);
+    color: #666;
+}
 
-/* Textarea */
-
-.review > .review-content textarea {
-    width: 100%;
-    height: 99px;
-
+.order-details strong {
     display: block;
+    font-size: 9px;
+}
 
-    padding: 12px;
-
-    box-sizing: border-box;
-
-    border: 1px solid #e6e6e6;
-    border-radius: 12px;
-
-    background: #ffffff;
-
-    outline: none;
-
-    color: #8c94a1;
-
-    font-family: inherit;
-
+.order-details p {
+    margin-top: 3px;
+    color: #999;
     font-size: 7px;
-    line-height: 1.5;
-
-    resize: none;
 }
 
-.review > .review-content textarea:focus {
-    border-color: #cfcfcf;
-
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.025);
+.order-summary hr {
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid var(--border);
 }
 
-
-/* =========================================================
-   PHOTO UPLOAD SECTION
-========================================================= */
-
-.review > .review-content > div:nth-of-type(3) {
-    width: 100%;
-
-    margin-bottom: 20px;
+.payment-breakdown {
+    display: grid;
+    gap: 8px;
 }
 
-
-/* Upload header */
-
-.review > .review-content > div:nth-of-type(3) > div:first-child {
-    width: 100%;
-
-    margin-bottom: 11px;
-
+.payment-breakdown > div,
+.total-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
+    font-size: 9px;
 }
 
-.review > .review-content > div:nth-of-type(3) > div:first-child p:first-child {
-    margin: 0;
-
-    color: #999999;
-
-    font-size: 6px;
-    font-weight: 700;
-
-    letter-spacing: .8px;
-
-    text-transform: uppercase;
+.payment-breakdown span {
+    color: #777;
 }
 
-.review > .review-content > div:nth-of-type(3) > div:first-child p:last-child {
-    margin: 0;
-
-    color: #b1b1b1;
-
-    font-size: 5px;
+.confirm-submit {
+    margin-top: 3px;
 }
 
-
-/* =========================================================
-   PHOTO BOXES
-========================================================= */
-
-/*
-   Your JSX currently has the image input wrapping divs.
-   These styles are written to match the intended visual
-   structure.
-*/
-
-.review > .review-content > div:nth-of-type(3) {
-    position: relative;
+.total-row strong {
+    font-size: 16px;
 }
 
-
-/* Hide the actual image input */
-
-.review > .review-content > div:nth-of-type(3) > input[type="image"] {
-    position: absolute;
-
-    width: 58px;
-    height: 58px;
-
-    opacity: 0;
-
-    pointer-events: none;
+.confirm-submit > .dark-button {
+    margin-top: 12px;
 }
 
-
-/* Upload box */
-
-.review > .review-content > div:nth-of-type(3) > div:nth-child(2),
-.review > .review-content > div:nth-of-type(3) > div:nth-child(3),
-.review > .review-content > div:nth-of-type(3) > div:nth-child(4),
-.review > .review-content > div:nth-of-type(3) > div:nth-child(5) {
-    width: 58px;
-    height: 58px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    vertical-align: top;
-
-    margin-right: 7px;
-
-    background: #f7f7f7;
-
-    border: 1px solid #e9e9e9;
-
-    border-radius: 9px;
-
-    box-sizing: border-box;
-}
-
-
-/* Remove margin on last */
-
-.review > .review-content > div:nth-of-type(3) > div:nth-child(5) {
-    margin-right: 0;
-}
-
-
-/* Upload icon */
-
-.review > .review-content > div:nth-of-type(3)
-> div:nth-child(2) i {
-    display: block;
-
-    margin-bottom: 5px;
-
-    color: #d0d0d0;
-
-    font-size: 11px;
-}
-
-.review > .review-content > div:nth-of-type(3)
-> div:nth-child(2) p {
-    margin: 0;
-
-    color: #999999;
-
-    font-size: 4px;
-
-    text-transform: uppercase;
-}
-
-
-/* =========================================================
-   BOTTOM DIVIDER
-========================================================= */
-
-.review > .review-content > hr {
-    width: 100%;
-    height: 1px;
-
-    margin: auto 0 17px;
-
-    border: none;
-
-    background: #eeeeee;
-}
-
-
-/* =========================================================
-   BOTTOM ACTIONS
-========================================================= */
-
-.review > .review-content > div:last-child {
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-}
-
-
-/* Anonymous checkbox */
-
-.review > .review-content > div:last-child > div:first-child {
-    flex: 1;
-
-    display: flex;
-    align-items: center;
-
-    gap: 7px;
-
-    min-width: 0;
-}
-
-.review > .review-content > div:last-child
-> div:first-child input[type="checkbox"] {
-    width: 10px;
-    height: 10px;
-
-    margin: 0;
-
-    accent-color: #171717;
-}
-
-.review > .review-content > div:last-child
-> div:first-child label {
-    color: #555555;
-
-    font-size: 6px;
-
-    line-height: 1.3;
-}
-
-
-/* =========================================================
-   CANCEL BUTTON
-========================================================= */
-
-.review > .review-content > div:last-child > button:first-of-type {
-    width: 63px;
-    height: 44px;
-
-    border: 1px solid #e5e5e5;
-    border-radius: 9px;
-
-    background: #ffffff;
-
-    color: #333333;
-
+.ssl-note {
+    margin-top: 9px;
+    color: #999;
     font-size: 7px;
-    font-weight: 700;
-
-    cursor: pointer;
+    text-align: center;
 }
 
-.review > .review-content > div:last-child > button:first-of-type:hover {
-    background: #f8f8f8;
+.terms-copy {
+    margin-top: 10px;
+    color: #999;
+    font-size: 7px;
+    text-align: center;
 }
 
-
-/* =========================================================
-   SUBMIT BUTTON
-========================================================= */
-
-.review > .review-content > div:last-child > button:last-of-type {
-    width: 115px;
-    height: 44px;
-
-    border: 1px solid #171717;
-    border-radius: 9px;
-
-    background: #171717;
-
-    color: #ffffff;
-
-    font-size: 8px;
-    font-weight: 700;
-
-    line-height: 1.25;
-
-    cursor: pointer;
-
-    box-shadow: 0 6px 13px rgba(0, 0, 0, 0.08);
+.terms-copy a {
+    color: #666;
 }
 
-.review > .review-content > div:last-child > button:last-of-type:hover {
-    background: #000000;
-}
-
-/* =========================================================
-   ACCOUNT / MY PROFILE PAGE
-   Navigation component intentionally excluded
-========================================================= */
-
-.account {
-    min-height: 100vh;
-
-    /* Keep the page beside a separately-rendered fixed nav */
-    margin-left: var(--nav-width);
-
-    background: #fafafa;
-    color: #111;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   PAGE HEADER
-========================================================= */
-
-.account > header {
+.help-card {
     width: 100%;
-    height: 49px;
-
-    padding: 0 18px;
-
-    display: flex;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 32px minmax(0,1fr) 14px;
     align-items: center;
-
-    background: #ffffff;
-
-    border-bottom: 1px solid #eeeeee;
-
-    box-sizing: border-box;
+    gap: 9px;
+    text-align: left;
 }
 
-.account > header h2 {
-    margin: 0;
-
-    color: #111111;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    line-height: 1;
+.help-card:hover {
+    border-color: #ccc;
 }
 
+.help-icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--soft);
+    color: #777;
+}
 
-/* =========================================================
-   MAIN
-========================================================= */
+.help-card strong,
+.help-card small {
+    display: block;
+}
 
-.account > main {
-    width: 100%;
+.help-card strong {
+    font-size: 9px;
+    color: #333;
+}
 
-    padding: 29px 30px 35px;
+.help-card small {
+    margin-top: 2px;
+    color: #999;
+    font-size: 7px;
+}
 
+.help-card > i {
+    color: #aaa;
+}
+
+/* Review modal */
+.review-overlay {
+    min-height: 100vh;
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,.38);
+}
+
+.review {
+    width: min(700px, 100%);
+    min-height: 520px;
+    display: grid;
+    grid-template-columns: 190px minmax(0,1fr);
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,.14);
+}
+
+.review-provider {
+    padding: 24px 18px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-
-    background: #fafafa;
-
-    box-sizing: border-box;
+    background: var(--black);
+    color: #fff;
 }
 
-
-/* =========================================================
-   PROFILE CARD
-========================================================= */
-
-.account > main > div:first-child {
-    width: min(540px, 100%);
-
-    min-height: 122px;
-
-    padding: 20px 24px;
-
-    display: flex;
-    align-items: center;
-
-    background: #ffffff;
-
-    border: 1px solid #e6e6e6;
-    border-radius: 17px;
-
-    box-sizing: border-box;
+.review-avatar {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #fff;
 }
 
-
-/* =========================================================
-   PROFILE IMAGE AREA
-========================================================= */
-
-.account > main > div:first-child > div:first-child {
-    width: 76px;
-    height: 76px;
-
-    flex-shrink: 0;
-
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-right: 20px;
-}
-
-
-/* Profile image */
-
-.account > main > div:first-child > div:first-child > img {
-    width: 70px;
-    height: 70px;
-
-    display: block;
-
+.review-avatar img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-
-    border-radius: 50%;
-
-    background: #f3f3f3;
 }
 
-
-/* Camera button */
-
-.account > main > div:first-child
-> div:first-child > div {
-    position: absolute;
-
-    right: 0;
-    bottom: 0;
-
-    width: 19px;
-    height: 19px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 5px;
-
-    background: #171717;
-
-    color: #ffffff;
-
-    border: 2px solid #ffffff;
-
-    box-sizing: border-box;
+.review-provider-copy h2 {
+    font-size: 13px;
 }
 
-.account > main > div:first-child
-> div:first-child > div i {
-    font-size: 7px;
+.review-provider-copy p {
+    margin-top: 3px;
+    color: #aaa;
+    font-size: 8px;
 }
 
-
-/* =========================================================
-   PROFILE TEXT / INFO
-========================================================= */
-
-.account > main > div:first-child > div:nth-child(2) {
-    min-width: 0;
-
-    flex: 1;
-
-    position: relative;
-}
-
-.account > main > div:first-child
-> div:nth-child(2) > p:first-child {
-    margin: 0 0 7px;
-
-    color: #111111;
-
-    font-size: 16px;
-    font-weight: 700;
-
-    line-height: 1.1;
-}
-
-
-/* Contact information row */
-
-.account > main > div:first-child
-> div:nth-child(2) > div {
-    display: flex;
-    align-items: center;
-
+.review-meta {
+    margin-top: 28px;
+    display: grid;
     gap: 13px;
 }
 
-.account > main > div:first-child
-> div:nth-child(2) > div > p {
-    margin: 0;
-
-    display: flex;
-    align-items: center;
-
-    gap: 5px;
-
-    color: #8a8a8a;
-
-    font-size: 7px;
-
-    white-space: nowrap;
+.review-meta span,
+.review-meta strong {
+    display: block;
 }
 
-.account > main > div:first-child
-> div:nth-child(2) > div > p i {
-    color: #a1a1a1;
-
-    font-size: 7px;
-}
-
-
-/* =========================================================
-   EDIT PROFILE BUTTON
-========================================================= */
-
-.account > main > div:first-child
-> div:nth-child(2) > button {
-    position: absolute;
-
-    right: 0;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    width: 83px;
-    height: 33px;
-
-    border: 1px solid #171717;
-    border-radius: 8px;
-
-    background: #ffffff;
-
-    color: #171717;
-
-    font-size: 7px;
+.review-meta span {
+    color: #999;
+    font-size: 6px;
     font-weight: 700;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
+    letter-spacing: .6px;
 }
 
-.account > main > div:first-child
-> div:nth-child(2) > button:hover {
-    background: #171717;
-    color: #ffffff;
-}
-
-
-/* =========================================================
-   SETTINGS AREA
-========================================================= */
-
-.account > main > div:nth-child(2) {
-    width: min(540px, 100%);
-
-    margin-top: 29px;
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    column-gap: 19px;
-    row-gap: 0;
-
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   ACCOUNT SETTINGS / PREFERENCES HEADINGS
-========================================================= */
-
-.account-settings,
-.preference {
-    min-width: 0;
-}
-
-.account-settings > h4,
-.preference > h4 {
-    margin: 0 0 12px 5px;
-
-    color: #999999;
-
-    font-size: 7px;
-    font-weight: 700;
-
-    letter-spacing: .8px;
-
-    text-transform: uppercase;
-}
-
-
-/* =========================================================
-   SETTINGS CARD
-========================================================= */
-
-.account-settings > div,
-.preference > div {
-    width: 100%;
-
-    background: #ffffff;
-
-    border: 1px solid #e7e7e7;
-
-    border-radius: 16px;
-
-    overflow: hidden;
-}
-
-
-/* =========================================================
-   INDIVIDUAL SETTING ROW
-========================================================= */
-
-.account-settings > div > div,
-.preference > div > div {
-    min-height: 56px;
-
-    padding: 0 12px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-
-    box-sizing: border-box;
-
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.account-settings > div > div:last-child,
-.preference > div > div:last-child {
-    border-bottom: none;
-}
-
-
-/* =========================================================
-   SETTING ICON
-========================================================= */
-
-.account-settings > div > div > i:first-child,
-.preference > div > div > i:first-child {
-    width: 27px;
-    height: 27px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #f7f7f7;
-
-    color: #b0b0b0;
-
+.review-meta strong {
+    margin-top: 3px;
+    color: #fff;
     font-size: 8px;
 }
 
+.review-note {
+    margin-top: auto;
+    color: #aaa;
+    font-size: 7px;
+    line-height: 1.5;
+}
 
-/* =========================================================
-   SETTING TEXT
-========================================================= */
-
-.account-settings > div > div > div,
-.preference > div > div > div {
-    min-width: 0;
-
-    flex: 1;
-
+.review-content {
+    padding: 24px;
     display: flex;
     flex-direction: column;
-
-    gap: 3px;
+    min-width: 0;
 }
 
-.account-settings > div > div > div p:first-child,
-.preference > div > div > div p:first-child {
-    margin: 0;
-
-    color: #222222;
-
-    font-size: 7px;
-    font-weight: 700;
-}
-
-.account-settings > div > div > div p:last-child,
-.preference > div > div > div p:last-child {
-    margin: 0;
-
-    color: #9b9b9b;
-
-    font-size: 5px;
-
-    line-height: 1.2;
-}
-
-
-/* =========================================================
-   RIGHT ARROWS
-========================================================= */
-
-.account-settings > div > div > i:last-child,
-.preference > div > div > i:last-child {
-    flex-shrink: 0;
-
-    color: #c1c1c1;
-
-    font-size: 7px;
-}
-
-
-/* =========================================================
-   NOTIFICATION TOGGLE
-========================================================= */
-
-.account .toggle-switch {
-    width: 25px;
-    height: 13px;
-
-    flex: none;
-
-    padding: 2px;
-
+.review-header {
+    padding-bottom: 15px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-
-    border-radius: 20px;
-
-    background: #171717;
-
-    box-sizing: border-box;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
 }
 
-.account .toggle-switch > div {
-    width: 9px;
-    height: 9px;
-
-    border-radius: 50%;
-
-    background: #ffffff;
+.review-header h1 {
+    font-size: 16px;
 }
 
+.review-section {
+    margin-top: 17px;
+}
 
-/* =========================================================
-   BOTTOM VERSION TEXT
-========================================================= */
-
-.account > main > div:nth-child(2) > p {
-    grid-column: 1 / -1;
-
-    margin: 57px 0 8px;
-
-    color: #b3b3b3;
-
-    font-size: 5px;
+.review-label {
+    display: block;
+    margin-bottom: 9px;
+    color: #999;
+    font-size: 7px;
     font-weight: 700;
-
-    text-align: center;
-
-    text-transform: uppercase;
-
     letter-spacing: .8px;
 }
 
-
-/* =========================================================
-   PRIVACY / TERMS / SAFETY
-========================================================= */
-
-.account > main > div:nth-child(2) > div:last-child {
-    grid-column: 1 / -1;
-
+.rating-row {
     display: flex;
-    justify-content: center;
     align-items: center;
-
-    gap: 15px;
+    gap: 12px;
 }
 
-.account > main > div:nth-child(2) > div:last-child p {
+.stars {
+    display: flex;
+    gap: 5px;
+    color: var(--black);
+    font-size: 21px;
+}
+
+.rating-divider {
+    width: 1px;
+    height: 35px;
+    background: var(--border);
+}
+
+.rating-row > div:last-child {
+    display: grid;
+    gap: 2px;
+}
+
+.rating-row strong {
+    font-size: 10px;
+}
+
+.rating-row span {
+    color: #999;
+    font-size: 7px;
+}
+
+.review-section textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: 0;
+    resize: vertical;
+    font-size: 8px;
+    line-height: 1.55;
+}
+
+.review-section textarea:focus {
+    border-color: #bbb;
+}
+
+.photo-header {
+    margin-bottom: 9px;
+}
+
+.photo-header .review-label {
     margin: 0;
-
-    color: #999999;
-
-    font-size: 5px;
-
-    cursor: pointer;
 }
 
-.account > main > div:nth-child(2) > div:last-child p:hover {
-    color: #555555;
+.photo-header > span {
+    color: #aaa;
+    font-size: 7px;
+}
+
+.photo-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 7px;
+}
+
+.photo-row .upload-box,
+.photo-slot {
+    min-height: 66px;
+    border-radius: 9px;
+}
+
+.photo-row .upload-box {
+    padding: 8px;
+}
+
+.photo-row .upload-box i {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.photo-row .upload-box span {
+    color: #888;
+    font-size: 6px;
+    font-weight: 700;
+}
+
+.photo-slot {
+    padding: 5px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    border: 1px solid var(--border);
+    background: var(--soft);
+    color: #999;
+    font-size: 6px;
+    overflow: hidden;
+}
+
+.photo-slot.has-file {
+    background: #eee;
+}
+
+.review-actions {
+    margin-top: auto;
+    padding-top: 17px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.anonymous-option {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #666;
+    font-size: 8px;
+}
+
+.anonymous-option input {
+    accent-color: var(--black);
+}
+
+.review-actions .outline-button,
+.review-actions .dark-button {
+    min-height: 35px;
+}
+
+/* Responsive */
+@media (max-width: 1050px) {
+    .categories-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .services-section,
+    .payment-main,
+    .job-details-main {
+        grid-template-columns: 1fr;
+    }
+
+    .job-card {
+        grid-template-columns: 44px minmax(0, 1fr) minmax(140px, .7fr);
+    }
+
+    .job-card-action-area {
+        grid-column: 2 / -1;
+        padding-left: 0;
+        padding-top: 12px;
+        border-left: 0;
+        border-top: 1px solid var(--border);
+    }
+}
+
+@media (max-width: 800px) {
+    :root {
+        --nav-width: 72px;
+    }
+
+    .sidebar {
+        width: var(--nav-width);
+        padding-inline: 8px;
+    }
+
+    .sidebar .logo {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .sidebar .logo-text,
+    .nav-item span,
+    .user-info {
+        display: none;
+    }
+
+    .nav-item {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .user-profile {
+        justify-content: center;
+    }
+
+    .home-header,
+    .page-header,
+    .home-main,
+    .account-main,
+    .post-job-main,
+    .my-jobs-main,
+    .job-details-main,
+    .payment-main,
+    .site-footer {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .search-box {
+        width: min(300px, 42vw);
+    }
+
+    .job-form,
+    .account-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .account-footer {
+        grid-column: auto;
+    }
+
+    .job-form .form-actions {
+        grid-column: auto;
+    }
+
+    .footer-top {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+}
+
+@media (max-width: 620px) {
+    .home-header {
+        flex-wrap: wrap;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .search-box {
+        width: 100%;
+        order: 5;
+    }
+
+    .location-select {
+        margin-left: auto;
+        max-width: 55%;
+    }
+
+    .hero {
+        min-height: 220px;
+        padding: 24px;
+    }
+
+    .hero h1 {
+        font-size: 23px;
+    }
+
+    .categories-list,
+    .service-providers {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .service-header {
+        grid-column: 1 / -1;
+        display: grid;
+        gap: 8px;
+    }
+
+    .profile-card {
+        align-items: flex-start;
+    }
+
+    .profile-copy .outline-button {
+        position: static;
+        margin-top: 12px;
+        transform: none;
+    }
+
+    .job-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .job-card {
+        grid-template-columns: 44px minmax(0,1fr);
+    }
+
+    .job-price,
+    .job-card-action-area {
+        grid-column: 1 / -1;
+        padding-left: 0;
+        border-left: 0;
+    }
+
+    .job-price {
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+    }
+
+    .job-card-action-area {
+        padding-top: 12px;
+    }
+
+    .my-jobs-header,
+    .jobs-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .my-jobs-actions {
+        width: 100%;
+    }
+
+    .compact-search {
+        flex: 1;
+    }
+
+    .review-overlay {
+        padding: 0;
+    }
+
+    .review {
+        width: 100%;
+        min-height: 100vh;
+        grid-template-columns: 1fr;
+        border-radius: 0;
+    }
+
+    .review-provider {
+        padding: 18px;
+    }
+
+    .review-note {
+        margin-top: 18px;
+    }
+
+    .photo-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .review-actions {
+        flex-wrap: wrap;
+    }
+
+    .anonymous-option {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 440px) {
+    .categories-list,
+    .service-providers {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+    }
+
+    .profile-card {
+        padding: 18px;
+        flex-direction: column;
+    }
+
+    .profile-copy {
+        width: 100%;
+    }
+
+    .profile-contact {
+        display: grid;
+        gap: 5px;
+    }
+
+    .date-time-grid,
+    .photo-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button,
+    .review-actions button {
+        width: 100%;
+    }
+
+    .review-actions .anonymous-option {
+        margin-bottom: 5px;
+    }
 }

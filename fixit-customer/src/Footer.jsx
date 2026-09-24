@@ -1,9 +1,7 @@
-// fixit-customer\src\Footer.jsx
-
 function Footer() {
-    return(
-        <footer>
-            <div>
+    return (
+        <footer className="site-footer">
+            <div className="footer-top">
                 <div>
                     <div className="logo">
                         <div className="logo-icon">F</div>
@@ -11,38 +9,28 @@ function Footer() {
                     </div>
                     <p>Connecting trusted local service providers with customers across Nigeria since 2026.</p>
                 </div>
-                <div>
-                    <h6>Company</h6>
-                    <p>About Us</p>
-                    <p>Career</p>
-                    <p>Trust & Safety</p>
-                    <p>Terms of Service</p>
-                </div>
-                <div>
-                    <h6>Services</h6>
-                    <p>Plumbing</p>
-                    <p>Electrical</p>
-                    <p>Cleaning</p>
-                    <p>Painting</p>
-                </div>
-                <div>
-                    <h6>Support</h6>
-                    <p>Help Center</p>
-                    <p>Contact Us</p>
-                    <p>Privacy Policy</p>
-                </div>
+                <FooterColumn title="Company" items={["About Us", "Career", "Trust & Safety", "Terms of Service"]} />
+                <FooterColumn title="Services" items={["Plumbing", "Electrical", "Cleaning", "Painting"]} />
+                <FooterColumn title="Support" items={["Help Center", "Contact Us", "Privacy Policy"]} />
             </div>
-            <div>
+            <div className="footer-bottom">
+                <p>&copy; 2026 FixIt Technologies LTD.</p>
                 <div>
-                    <p>&copy; 2026 FixIt Technologies LTD.</p>
-                </div>
-                <div>
-                    <a href="">Twitter</a>
-                    <a href="">Instagram</a>
-                    <a href="">LinkedIn</a>
+                    <a href="#twitter">Twitter</a>
+                    <a href="#instagram">Instagram</a>
+                    <a href="#linkedin">LinkedIn</a>
                 </div>
             </div>
         </footer>
+    );
+}
+
+function FooterColumn({ title, items }) {
+    return (
+        <div>
+            <h2>{title}</h2>
+            {items.map((item) => <p key={item}>{item}</p>)}
+        </div>
     );
 }
 

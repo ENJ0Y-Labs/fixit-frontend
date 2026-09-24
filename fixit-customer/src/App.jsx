@@ -1,5 +1,4 @@
-// fixit-customer\src\App.jsx
-
+import { useState } from 'react';
 import Nav from './Nav';
 import Home from './Home';
 import PostJob from './PostJob';
@@ -9,29 +8,31 @@ import Payment from './Payment';
 import Review from './Review';
 import Account from './Account';
 
+const pageComponents = {
+    home: Home,
+    myJobs: MyJobs,
+    postJob: PostJob,
+    jobDetails: JobDetails,
+    payment: Payment,
+    review: Review,
+    account: Account,
+};
+
 function App() {
+    const [activePage, setActivePage] = useState('home');
 
-    // No router yet. Change activePage to preview a page.
-    // Replace this with real routes when the pages are wired together.
-    const showNav = false;
-    const activePage = "payment";
-
-    const pages = {
-        home: <Home />,
-        postJob: <PostJob />,
-        myJobs: <MyJobs />,
-        jobDetails: <JobDetails />,
-        payment: <Payment />,
-        review: <Review />,
-        account: <Account />
-    };
+    const Page = pageComponents[activePage] ?? Home;
+    const isReview = activePage === 'review';
 
     return (
-        <>
-            {showNav && <Nav />}
-            {pages[activePage]}
-        </>
+        <div className="app-shell">
+            <Nav activePage={activePage} onNavigate={setActivePage} />
+            <div className="app-content">
+                <Page />
+            </div>
+            {isReview && null}
+        </div>
     );
 }
 
-export default App
+export default App;

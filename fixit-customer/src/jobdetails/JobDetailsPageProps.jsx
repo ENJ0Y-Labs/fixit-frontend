@@ -1,117 +1,121 @@
-// fixit-customer\src\jobdetails\JobDetailsPageProps.jsx
-import JobPhoto from "./JobPhoto";
-import ProgressStep from "./ProgressStep";
-import ProviderData from "./ProviderData";
+import JobPhoto from './JobPhoto';
+import ProgressStep from './ProgressStep';
+import ProviderData from './ProviderData';
+
+const defaultProvider = {
+    name: 'John Doe',
+    title: 'Unspecified',
+    avatarurl: '',
+    rating: 0,
+    reviewcount: 0,
+    isonline: false,
+};
 
 function JobDetailsPageProps({
-    category = "Unknown",
-    status = "Unknown",
-    title = "Unknown",
-    description = "",
-
-    dateandtimestr = "Sun, 1 Jan, 2000 • 12:00 AM",
-    serviceLocation = "Unknown",
-    fulladdress = "",
-    urgency = "Normal",
-
+    category = 'PLUMBING',
+    status = 'IN PROGRESS',
+    title = 'Fixing Kitchen Sink Leak',
+    description = 'The kitchen sink is leaking from the pipe underneath and needs to be repaired.',
+    dateandtimestr = 'Sat, 21 Feb 2026 • 10:00 AM',
+    serviceLocation = 'Victoria Island, Lagos',
+    fulladdress = '14 Adeola Odeku Street',
+    urgency = 'Normal',
     photos = [],
-
-    provider = { "name": "John Doe", "title": "Unspecified", "avatarurl": "", "rating": 0, "reviewcount": 0, "isonline": true },
-    agreedprice = 0.0,
-    progresstimeline = [{ "icon": "fa-solid fa-spinner", "title": "Loading", "description": "" }]
+    provider = defaultProvider,
+    agreedprice = 12500,
+    progresstimeline = [
+        { icon: 'fa-solid fa-check', title: 'Job posted', description: 'Your job was posted successfully.', timestamp: '9:00 AM' },
+        { icon: 'fa-solid fa-user-check', title: 'Provider assigned', description: 'Emeka Nwachukwu accepted the job.', timestamp: '9:30 AM' },
+        { icon: 'fa-solid fa-spinner', title: 'Work in progress', description: 'The provider is currently working on the issue.', timestamp: 'Now' },
+    ],
 }) {
-
     return (
         <>
-            <div>
-                <div className="job-details">
-                    <div>
-                        <div>{category}</div>
-                        <div>{status}</div>
+            <div className="job-details-left">
+                <section className="job-summary-card">
+                    <div className="job-summary-badges">
+                        <span>{category}</span>
+                        <span>{status}</span>
                     </div>
-                    <h1>{title}</h1>
-                    <p>{description}</p>
-                    <div>
-                        <div>
-                            <div>
-                                <i className="fa-solid fa-calendar"></i>
-                            </div>
-                            <div>
-                                <p>DATE & TIME</p>
-                                <p>{dateandtimestr}</p>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <i className="fa-solid fa-location-dot"></i>
-                            </div>
-                            <div>
-                                <p>SERVICE LOCATION</p>
-                                <p>{serviceLocation}</p>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <i className="fa-solid fa-bolt"></i>
-                            </div>
-                            <div>
-                                <p>URGENCY</p>
-                                <p>{urgency}</p>
-                            </div>
-                        </div>
+                    <h2>{title}</h2>
+                    <p className="job-description">{description}</p>
+
+                    <div className="job-facts">
+                        <Fact icon="fa-solid fa-calendar" label="DATE & TIME" value={dateandtimestr} />
+                        <Fact icon="fa-solid fa-location-dot" label="SERVICE LOCATION" value={serviceLocation} />
+                        <Fact icon="fa-solid fa-bolt" label="URGENCY" value={urgency} />
                     </div>
-                </div>
-                <div className="job-photos">
-                    <div>
+                </section>
+
+                <section className="job-photos-card">
+                    <div className="section-heading">
                         <h2>Job Photos</h2>
-                        <p>+ Add More</p>
+                        <button type="button">+ Add More</button>
                     </div>
-                    <div>
-                        <JobPhoto photos={photos} />
-                    </div>
-                </div>
-                <div className="job-progress">
+                    <JobPhoto photos={photos} />
+                </section>
+
+                <section className="job-progress-card">
                     <h2>Job Progress</h2>
-                    {
-                        progresstimeline.map((progress) => (
-                            <ProgressStep key={progress.title} icon={progress.icon} title={progress.title} description={progress.description} timestamp={progress.timestamp} />
-                        ))
-                    }
-                </div>
-            </div>
-            <div>
-                <div className="assigned-provider">
-                    <ProviderData name={provider.name} title={provider.title} avatarurl={provider.avatarurl} rating={provider.rating} reviewcount={provider.reviewcount} isonline={provider.isonline} />
-                </div>
-                <div className="payment-overview">
-                    <h2>PAYMENT OVERVIEW</h2>
-                    <div>
-                        <p>Agreed Price</p>
-                        <p>N{agreedprice}</p>
+                    <div className="progress-list">
+                        {progresstimeline.map((progress, index) => (
+                            <ProgressStep
+                                key={`${progress.title}-${index}`}
+                                icon={progress.icon}
+                                title={progress.title}
+                                description={progress.description}
+                                timestamp={progress.timestamp}
+                            />
+                        ))}
                     </div>
-                    <div>
-                        <i className="fa-solid fa-shield-halved"></i>
+                </section>
+            </div>
+
+            <aside className="job-details-right">
+                <section className="assigned-provider-card">
+                    <ProviderData {...provider} />
+                </section>
+
+                <section className="payment-overview-card">
+                    <h2>PAYMENT OVERVIEW</h2>
+                    <div className="payment-amount-row">
+                        <span>Agreed Price</span>
+                        <strong>₦{agreedprice.toLocaleString('en-NG')}</strong>
+                    </div>
+                    <div className="escrow-note">
+                        <i className="fa-solid fa-shield-halved" aria-hidden="true"></i>
                         <p>Payment is held in secure escrow. Funds will be released only after you confirm completion.</p>
                     </div>
-                    <button>Release Payment</button>
-                    <p>Only click this after the job is finished and inspected.</p>
-                </div>
-                <div className="location-details">
-                    <div>
-                        <div>
-                            <i className="fa-solid fa-location-dot"></i>
-                        </div>
+                    <button type="button" className="dark-button full-width">Release Payment</button>
+                    <p className="warning-text">Only click this after the job is finished and inspected.</p>
+                </section>
+
+                <section className="location-details-card">
+                    <div className="map-placeholder">
+                        <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
                     </div>
-                    <div>
-                        <i className="fa-solid fa-location-dot"></i>
+                    <div className="location-copy">
+                        <div className="location-icon"><i className="fa-solid fa-location-dot"></i></div>
                         <div>
-                            <p>{serviceLocation}</p>
+                            <h2>{serviceLocation}</h2>
                             <p>{fulladdress}</p>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
+            </aside>
         </>
+    );
+}
+
+function Fact({ icon, label, value }) {
+    return (
+        <div className="job-fact">
+            <div className="fact-icon"><i className={icon}></i></div>
+            <div>
+                <p>{label}</p>
+                <strong>{value}</strong>
+            </div>
+        </div>
     );
 }
 

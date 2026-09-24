@@ -1,62 +1,60 @@
-// fixit-customer\src\Payment.jsx
-import PaymentMethod from "./payment/PaymentMethod"
-import OrderSummary from "./payment/OrderSummary"
+import PaymentMethod from './payment/PaymentMethod';
+import OrderSummary from './payment/OrderSummary';
 
 function Payment() {
-    
-    return(
-        <div className="payment">
-            <header>
-                <button type="button" className="plain-button" aria-label="Go back">
+    return (
+        <div className="payment page-surface">
+            <header className="page-header payment-header">
+                <button type="button" className="back-button" aria-label="Go back">
                     <i className="fa-solid fa-arrow-left"></i>
                 </button>
-                <h2>Checkout</h2>
+                <h1>Checkout</h1>
             </header>
-            <main>
-                <div>
-                    <div className="escrow-payment">
-                        <i className="fa-solid fa-shield-halved"></i>
+
+            <main className="payment-main">
+                <div className="payment-left">
+                    <section className="escrow-payment">
+                        <div className="escrow-icon"><i className="fa-solid fa-shield-halved"></i></div>
                         <div>
                             <h2>Secure Escrow Payment</h2>
-                            <p>FixIt holds your payment securely until you confirm the service is completed. If there's an issue, our support team is here to help with disputes and refunds.</p>
+                            <p>FixIt holds your payment securely until you confirm the service is completed. If there is an issue, our support team can help with disputes and refunds.</p>
                         </div>
-                    </div>
-                    <div className="payment-method">
-                        <div>
+                    </section>
+
+                    <section className="payment-method">
+                        <div className="payment-section-heading">
                             <h2>Payment Method</h2>
-                            <button type="button" className="plain-button">+ Add New</button>
+                            <button type="button">+ Add New</button>
                         </div>
                         <div className="method-list">
                             <PaymentMethod />
-                            <PaymentMethod icon = "fa-brands fa-cc-visa" title="Visa •••• 8812" details="Expires 12/25"/>
-                            <PaymentMethod icon = "fa-solid fa-building-columns" title="Pay with Bank Transfer" details="Via Paystack/Flutterwave"/>
+                            <PaymentMethod icon="fa-brands fa-cc-visa" title="Visa •••• 8812" details="Expires 12/25" />
+                            <PaymentMethod icon="fa-solid fa-building-columns" title="Pay with Bank Transfer" details="Via Paystack/Flutterwave" />
                         </div>
-                    </div>
-                    <div className="promo-code">
+                    </section>
+
+                    <section className="promo-code">
                         <div>
-                            <i className="fa-solid fa-ticket"></i>
+                            <i className="fa-solid fa-ticket" aria-hidden="true"></i>
                             <input type="text" name="promo-code" id="promo-code" placeholder="Promo Code" aria-label="Promo code" />
                         </div>
-                        <button>Apply</button>
-                    </div>
+                        <button type="button">Apply</button>
+                    </section>
                 </div>
-                <div>
-                    <div className="order-summary">
+
+                <aside className="payment-right">
+                    <section className="order-summary">
                         <OrderSummary />
-                    </div>
-                    <div className="help">
-                        <div>
-                            <i className="fa-solid fa-headset"></i>
-                        </div>
-                        <div>
-                            <p>Need help with payment?</p>
-                            <p>Contact our 24/7 support team</p>
-                        </div>
-                        <div>
-                            <i className="fa-solid fa-angle-right"></i>
-                        </div>
-                    </div>
-                </div>
+                    </section>
+                    <button type="button" className="help-card">
+                        <span className="help-icon"><i className="fa-solid fa-headset"></i></span>
+                        <span>
+                            <strong>Need help with payment?</strong>
+                            <small>Contact our 24/7 support team</small>
+                        </span>
+                        <i className="fa-solid fa-angle-right"></i>
+                    </button>
+                </aside>
             </main>
         </div>
     );

@@ -1,82 +1,91 @@
-// fixit-customer\src\Review.jsx
-import avatarPlaceholder from "./assets/avatar-placeholder.svg";
+import { useState } from 'react';
+import avatarPlaceholder from './assets/avatar-placeholder.svg';
 
 function Review() {
+    const [selectedFiles, setSelectedFiles] = useState([]);
+
+    function handleFileChange(event) {
+        setSelectedFiles(Array.from(event.target.files ?? []).slice(0, 4));
+    }
 
     return (
-        <div className="review">
-            <div className="provider-details">
-                <div>
-                    <img src={avatarPlaceholder} alt="Provider profile picture" />
-                </div>
-                <div>
-                    <h2>Emeka Nwachukwu</h2>
-                    <p>Professional Plumber</p>
-                </div>
-                <div>
-                    <div>
-                        <p>SERVICE PROVIDED</p>
-                        <p>Fixing Kitchen Sink Leak</p>
+        <div className="review-overlay" role="dialog" aria-modal="true" aria-labelledby="review-title">
+            <div className="review">
+                <aside className="review-provider">
+                    <div className="review-avatar">
+                        <img src={avatarPlaceholder} alt="Provider" />
                     </div>
-                    <div>
-                        <p>SERVICE RATE</p>
-                        <p>Sat, 21 Feb 2026</p>
+                    <div className="review-provider-copy">
+                        <h2>Emeka Nwachukwu</h2>
+                        <p>Professional Plumber</p>
                     </div>
-                    <div>
-                        <p>TOTAL PAID</p>
-                        <p>N12,500</p>
+                    <div className="review-meta">
+                        <div><span>SERVICE PROVIDED</span><strong>Fixing Kitchen Sink Leak</strong></div>
+                        <div><span>SERVICE DATE</span><strong>Sat, 21 Feb 2026</strong></div>
+                        <div><span>TOTAL PAID</span><strong>₦12,500</strong></div>
                     </div>
-                </div>
-                <p>Reviews help our community grow safely and fairly.</p>
-            </div>
-            <div className="review-content">
-                <header>
-                    <h2>Write a Review</h2>
-                    <button type="button" className="plain-button" aria-label="Close review">
-                        <i className="fa-solid fa-xmark"></i>
-                    </button>
-                </header>
-                <p>RATE YOUR OVERALL EXPERIENCE</p>
-                <div>
-                    <div>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
-                        <i className="fa-solid fa-star"></i>
+                    <p className="review-note">Reviews help our community grow safely and fairly.</p>
+                </aside>
+
+                <section className="review-content">
+                    <header className="review-header">
+                        <h1 id="review-title">Write a Review</h1>
+                        <button type="button" className="plain-icon-button" aria-label="Close review">
+                            <i className="fa-solid fa-xmark"></i>
+                        </button>
+                    </header>
+
+                    <div className="review-section">
+                        <p className="review-label">RATE YOUR OVERALL EXPERIENCE</p>
+                        <div className="rating-row">
+                            <div className="stars" aria-label="4 out of 5 stars">
+                                <i className="fa-solid fa-star"></i>
+                                <i className="fa-solid fa-star"></i>
+                                <i className="fa-solid fa-star"></i>
+                                <i className="fa-solid fa-star"></i>
+                                <i className="fa-regular fa-star"></i>
+                            </div>
+                            <div className="rating-divider"></div>
+                            <div>
+                                <strong>Good</strong>
+                                <span>4.0 out of 5.0</span>
+                            </div>
+                        </div>
                     </div>
-                    <hr />
-                    <div>
-                        <p>Good</p>
-                        <p>4.0 out of 5.0</p>
+
+                    <div className="review-section">
+                        <label className="review-label" htmlFor="review-details">SHARE MORE DETAILS</label>
+                        <textarea name="review-details" id="review-details" placeholder="Was the provider punctual? Did they have the right tools? How satisfied are you with the quality of work?"></textarea>
                     </div>
-                </div>
-                <div>
-                    <p>SHARE MORE DETAILS</p>
-                    <textarea name="review-details" id="review-details" aria-label="Review details" placeholder="Was the provider punctual? Did they have the right tools? How satisfied are you with the quality of work?"></textarea>
-                </div>
-                <div>
-                    <div>
-                        <p>ADD PHOTOS (OPTIONAL)</p>
-                        <p>Up to 4 photos</p>
+
+                    <div className="review-section photo-section">
+                        <div className="photo-header">
+                            <p className="review-label">ADD PHOTOS (OPTIONAL)</p>
+                            <span>Up to 4 photos</span>
+                        </div>
+                        <div className="photo-row">
+                            <label className="upload-box" htmlFor="review-photos">
+                                <i className="fa-solid fa-camera"></i>
+                                <span>Upload</span>
+                                <input type="file" id="review-photos" accept="image/*" multiple onChange={handleFileChange} />
+                            </label>
+                            {[0, 1, 2].map((slot) => (
+                                <div className={`photo-slot${selectedFiles[slot] ? ' has-file' : ''}`} key={slot}>
+                                    {selectedFiles[slot] ? <span>{selectedFiles[slot].name}</span> : null}
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="upload-box">
-                        <i className="fa-solid fa-camera"></i>
-                        <p>Upload</p>
+
+                    <div className="review-actions">
+                        <label className="anonymous-option">
+                            <input type="checkbox" name="anonymous" />
+                            <span>Post anonymously</span>
+                        </label>
+                        <button type="button" className="outline-button">Cancel</button>
+                        <button type="button" className="dark-button">Submit Review</button>
                     </div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <hr />
-                <div>
-                    <div>
-                        <input type="checkbox" name="anonymous" id="anonymous" />
-                        <label htmlFor="anonymous">Post anonymously</label>
-                    </div>
-                    <button>Cancel</button>
-                    <button>Submit Review</button>
-                </div>
+                </section>
             </div>
         </div>
     );

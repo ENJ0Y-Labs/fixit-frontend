@@ -1,50 +1,45 @@
-// fixit-customer\src\home\ServiceProvider.jsx
-import PropTypes from 'prop-types'
-import avatarPlaceholder from "../assets/avatar-placeholder.svg";
+import PropTypes from 'prop-types';
+import avatarPlaceholder from '../assets/avatar-placeholder.svg';
 
 function ServiceProvider({
-    img = "",
-    name = "Guest",
-    job = "Not specified",
-    rate = 0,
+    img = '',
+    name = 'Guest',
+    job = 'Not specified',
+    rating = 0,
     review = 0,
     distance = 0,
-    price = 0
+    price = 0,
 }) {
-
-    return(
-        <div className="service-card">
-            <div className="section-one">
-                <img src={img || avatarPlaceholder} alt={`${name} profile picture`} />
+    return (
+        <article className="service-card">
+            <div className="service-card-top">
+                <img src={img || avatarPlaceholder} alt={`${name} profile`} />
                 <div className="service-details">
-                    <h4>{name}</h4>
+                    <h3>{name}</h3>
                     <p>{job}</p>
-                    <div>
-                        <div className="service-rating">
-                            <i className="fa-solid fa-star"></i>
-                            <p>{rate}({review} reviews)</p>
-                        </div>
-                        <hr />
-                        <div className="service-distance">
-                            <p>{distance} km away</p>
-                        </div>
+                    <div className="service-rating">
+                        <i className="fa-solid fa-star" aria-hidden="true"></i>
+                        <span>{rating.toFixed(1)} ({review} reviews)</span>
+                    </div>
+                    <div className="service-distance">
+                        <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
+                        <span>{distance.toFixed(1)} km away</span>
                     </div>
                 </div>
-                <button type="button" className="plain-button favorite-button" aria-label="Save provider">
+                <button type="button" className="favorite-button" aria-label={`Save ${name}`}>
                     <i className="fa-regular fa-heart"></i>
                 </button>
             </div>
-            <hr />
-            <div className="section-two">
+
+            <div className="service-card-bottom">
                 <div className="service-price">
-                    <p>Rate</p>
-                    <p><span className="price-amount">N{price}</span> /hr</p>
+                    <span>Rate</span>
+                    <strong>₦{price.toLocaleString('en-NG')}</strong>
+                    <small>/hr</small>
                 </div>
-                <button className="service-button">
-                    View Full Profile
-                </button>
+                <button type="button" className="dark-button">View Full Profile</button>
             </div>
-        </div>
+        </article>
     );
 }
 
@@ -52,10 +47,10 @@ ServiceProvider.propTypes = {
     img: PropTypes.string,
     name: PropTypes.string,
     job: PropTypes.string,
-    rate: PropTypes.number,
+    rating: PropTypes.number,
     review: PropTypes.number,
     distance: PropTypes.number,
-    price: PropTypes.number
-}
+    price: PropTypes.number,
+};
 
 export default ServiceProvider;

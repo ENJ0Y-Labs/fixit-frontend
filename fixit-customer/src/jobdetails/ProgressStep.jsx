@@ -1,25 +1,17 @@
-// fixit-customer\src\jobdetails\ProgressStep.jsx
-
 function ProgressStep({
-    icon = "fa-solid fa-flag-checkered",
-    title = "Unknown",
-    description = "",
-    timestamp = "Sun, 1 Jan, • 12:00 AM"
-    // status = "current"
+    icon = 'fa-solid fa-flag-checkered',
+    title = 'Unknown',
+    description = '',
+    timestamp = 'Sun, 1 Jan • 12:00 AM',
 }) {
-
-    return(
+    return (
         <div className="progress-step">
-            <div>
-                <i className={icon}></i>
-            </div>
-            <div>
-                <h2>{title}</h2>
+            <div className="progress-icon"><i className={icon}></i></div>
+            <div className="progress-copy">
+                <h3>{title}</h3>
                 <p>{description}</p>
             </div>
-            <div>
-                <p>{timestamp}</p>
-            </div>
+            <p className="progress-time">{timestamp}</p>
         </div>
     );
 }

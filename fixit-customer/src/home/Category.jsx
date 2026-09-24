@@ -1,22 +1,19 @@
-// fixit-customer\src\home\Category.jsx
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-function Category({
-    icon = "fa-solid fa-screwdriver-wrench",
-    name = "General Services"
-}) {
+function Category({ icon = 'fa-solid fa-screwdriver-wrench', name = 'General Services' }) {
     return (
-        <div className="category">
-            <div className="category-icon">
+        <button type="button" className="category">
+            <span className="category-icon" aria-hidden="true">
                 <i className={icon}></i>
-            </div>
-            <p className="category-name">{name}</p>
-        </div>
+            </span>
+            <span className="category-name">{name}</span>
+        </button>
     );
 }
+
 Category.propTypes = {
     icon: PropTypes.string,
-    name: PropTypes.string
-}
+    name: PropTypes.string,
+};
 
 export default Category;

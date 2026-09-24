@@ -1,47 +1,46 @@
-// fixit-customer\src\jobdetails\ProviderData.jsx
-import avatarPlaceholder from "../assets/avatar-placeholder.svg";
+import avatarPlaceholder from '../assets/avatar-placeholder.svg';
 
 function ProviderData({
-    name = "John Doe",
-    title = "Unspecified",
-    avatarurl = "",
+    name = 'John Doe',
+    title = 'Unspecified',
+    avatarurl = '',
     rating = 0,
     reviewcount = 0,
-    isonline = false
+    isonline = false,
 }) {
-
-    const onlinestatus = <div className="online"></div>
-    const offlinestatus = <div className="offline"></div>
-
-    return(
+    return (
         <>
-            <h2>Assigned Provider</h2>
+            <div className="provider-heading-row">
+                <h2>Assigned Provider</h2>
+                <span className={`online-badge ${isonline ? 'online' : 'offline'}`}>
+                    {isonline ? 'Online' : 'Offline'}
+                </span>
+            </div>
+
             <div className="provider-details">
-                <img src={avatarurl || avatarPlaceholder} alt={`${name} profile picture`} />
+                <img src={avatarurl || avatarPlaceholder} alt={`${name} profile`} />
                 <div>
-                    <div>
-                        <h2>{name}</h2>
-                        {isonline? onlinestatus: offlinestatus}
-                    </div>
+                    <h3>{name}</h3>
                     <p>{title}</p>
-                    <div>
+                    <div className="provider-rating">
                         <i className="fa-solid fa-star"></i>
-                        <p>{rating}</p>
-                        <p>({reviewcount} reviews)</p>
+                        <strong>{Number(rating).toFixed(1)}</strong>
+                        <span>({reviewcount} reviews)</span>
                     </div>
                 </div>
             </div>
+
             <div className="contact-buttons">
-                <button>
+                <button type="button" className="outline-button">
                     <i className="fa-regular fa-message"></i>
-                    <p>Chat with Provider</p>
+                    <span>Chat with Provider</span>
                 </button>
-                <button>
+                <button type="button" className="outline-button">
                     <i className="fa-solid fa-phone"></i>
-                    <p>Call Provider</p>
+                    <span>Call Provider</span>
                 </button>
             </div>
-            <button>VIEW FULL PROFILE</button>
+            <button type="button" className="profile-link-button">VIEW FULL PROFILE</button>
         </>
     );
 }

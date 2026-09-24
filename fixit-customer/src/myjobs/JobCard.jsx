@@ -1,147 +1,119 @@
-// fixit-customer\src\myjobs\JobCard.jsx
+import PropTypes from 'prop-types';
 
 function JobCard({
-    icons = "fa-solid fa-question",
-    category = "Not Specified",
-    status = "COMPLETED",
-    title = "Unknown",
-    dateStr = "Sun, 1 Jan 2000",
-    location = "unknown",
-    priceLabel = "",
+    icon = 'fa-solid fa-question',
+    category = 'NOT SPECIFIED',
+    status = 'COMPLETED',
+    title = 'Unknown',
+    dateStr = 'Sun, 1 Jan 2000',
+    location = 'Unknown',
+    priceLabel = '',
     priceValue = 0,
-    priceSubtext = "",
-    providerName = "Unknown",
+    priceSubtext = '',
+    providerName = 'Unknown',
     providerRating = 3,
-    bidNo = 4,
+    bidNo = 0,
     minBudget = 0,
     maxBudget = 0,
-    progressPercentage = 75 // Added to support progress tracking
+    progressPercentage = 0,
 }) {
-
-    // "IN PROGRESS" -> "in-progress" (used by the CSS for the card and the status badge)
-    const statusClass = status.toLowerCase().replace(/\s+/g, "-");
-
-    // Jobs that are still awaiting bids show the budget range instead of one price
-    const priceText = status.toUpperCase() === "AWAITING BIDS"
-        ? `₦${minBudget.toLocaleString("en-NG")} - ₦${maxBudget.toLocaleString("en-NG")}`
-        : `₦${priceValue.toLocaleString("en-NG")}`;
-
-    const renderinteractiveSection = () => {
-        switch (status.toUpperCase()) {
-            case "IN PROGRESS":
-                return (
-                    <>
-                        <div className="provider-info-side">
-                            <div className="provider-profile">
-                                <div className="avatar-placeholder">🧑‍🔧</div>
-                                <div>
-                                    <p className="small-label">PROVIDER</p>
-                                    <h6>{providerName}</h6>
-                                </div>
-                            </div>
-                            <div className="progress-container">
-                                <div className="progress-labels">
-                                    <p className="small-label">PROGRESS</p>
-                                    <span className="progress-num">{progressPercentage}%</span>
-                                </div>
-                                <div className="progress-track">
-                                    <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="action-buttons-side">
-                            <button className="btn-primary">Details</button>
-                            <button className="btn-secondary">Chat</button>
-                        </div>
-                    </>
-                );
-            case "AWAITING BIDS":
-                return (
-                    <>
-                        <div className="bids-summary-card">
-                            <div className="avatar-group-placeholder">👥</div>
-                            <div className="bids-text-block">
-                                <h6>{bidNo} Bids Received</h6>
-                                <p className="subtext">Providers are waiting</p>
-                            </div>
-                        </div>
-                        <div className="action-buttons-side">
-                            <button className="btn-primary">View Bids</button>
-                            <button className="btn-secondary">Edit Post</button>
-                        </div>
-                    </>
-                );
-            case "COMPLETED":
-                return (
-                    <>
-                        <div className="provider-info-side">
-                            <div className="provider-profile">
-                                <div className="avatar-placeholder">🧑‍🔧</div>
-                                <div>
-                                    <p className="small-label">PROVIDER</p>
-                                    <h6>{providerName}</h6>
-                                </div>
-                            </div>
-                            <div className="rating-row">
-                                <div className="stars">
-                                    {Array.from({ length: Math.floor(providerRating || 0) }).map((_, index) => (
-                                        <i key={index} className="fa-solid fa-star"></i>
-                                    ))}
-                                </div>
-                                <p className="rating-text">{Number(providerRating || 0).toFixed(1)} Given</p>
-                            </div>
-                        </div>
-                        <div className="action-buttons-side">
-                            <button className="btn-outline">Rebook Pro</button>
-                            <button className="btn-link">Get Invoice</button>
-                        </div>
-                    </>
-                );
-            default:
-                return null;
-        }
-    }
+    const statusClass = status.toLowerCase().replace(/\s+/g, '-');
+    const isAwaitingBids = status.toUpperCase() === 'AWAITING BIDS';
+    const priceText = isAwaitingBids
+        ? `₦${minBudget.toLocaleString('en-NG')} - ₦${maxBudget.toLocaleString('en-NG')}`
+        : `₦${priceValue.toLocaleString('en-NG')}`;
 
     return (
-        <div className={`job-card ${statusClass}`}>
-            <div className="icon-container">
-                <i className={icons}></i>
-            </div>
-            
-            <div className="main-details">
-                <div className="badge-row">
-                    <span className="category">{category}</span>
-                    <span className={`status ${statusClass}`}>{status}</span>
+        <article className={`job-card ${statusClass}`}>
+            <div className="job-icon" aria-hidden="true"><i className={icon}></i></div>
+
+            <div className="job-main-details">
+                <div className="job-badges">
+                    <span className="job-category">{category}</span>
+                    <span className={`job-status ${statusClass}`}>{status}</span>
                 </div>
                 <h2>{title}</h2>
-                <div className="meta-row">
-                    <div className="date">
-                        <i className="fa-solid fa-calendar"></i>
-                        <p>{dateStr}</p>
-                    </div>
-                    <div className="location">
-                        <i className="fa-solid fa-location-dot"></i>
-                        <p>{location}</p>
-                    </div>
+                <div className="job-meta">
+                    <span><i className="fa-solid fa-calendar"></i>{dateStr}</span>
+                    <span><i className="fa-solid fa-location-dot"></i>{location}</span>
                 </div>
             </div>
-            
-            <hr className="vertical-divider" />
-            
-            <div className="price-details">
-                <p className="label">{priceLabel}</p>
-                <h4 className="price">{priceText}</h4>
-                <p className="price-subtext">{priceSubtext}</p>
+
+            <div className="job-price">
+                <p>{priceLabel}</p>
+                <strong>{priceText}</strong>
+                <span>{priceSubtext || (isAwaitingBids ? `${bidNo} bids received` : '')}</span>
             </div>
-            
-            <hr className="vertical-divider" />
-            
-            {/* The two fragments returned above become the left and right halves of this row */}
-            <div className="interactive-wrapper">
-                <div>{renderinteractiveSection()}</div>
+
+            <div className="job-card-action-area">
+                {status.toUpperCase() === 'IN PROGRESS' && (
+                    <>
+                        <div className="job-provider-summary">
+                            <p>PROVIDER</p>
+                            <strong>{providerName}</strong>
+                            <div className="progress-label"><span>Progress</span><b>{progressPercentage}%</b></div>
+                            <div className="progress-track"><span style={{ width: `${Math.min(Math.max(progressPercentage, 0), 100)}%` }}></span></div>
+                        </div>
+                        <div className="action-buttons">
+                            <button type="button" className="dark-button">Details</button>
+                            <button type="button" className="outline-button">Chat</button>
+                        </div>
+                    </>
+                )}
+
+                {isAwaitingBids && (
+                    <>
+                        <div className="job-provider-summary">
+                            <p>BIDS</p>
+                            <strong>{bidNo} Bids Received</strong>
+                            <span>Providers are waiting</span>
+                        </div>
+                        <div className="action-buttons">
+                            <button type="button" className="dark-button">View Bids</button>
+                            <button type="button" className="outline-button">Edit Post</button>
+                        </div>
+                    </>
+                )}
+
+                {status.toUpperCase() === 'COMPLETED' && (
+                    <>
+                        <div className="job-provider-summary">
+                            <p>PROVIDER</p>
+                            <strong>{providerName}</strong>
+                            <div className="rating-stars" aria-label={`${providerRating} out of 5 stars`}>
+                                {Array.from({ length: 5 }, (_, index) => (
+                                    <i key={index} className={index < Math.round(providerRating) ? 'fa-solid fa-star' : 'fa-regular fa-star'}></i>
+                                ))}
+                                <span>{providerRating.toFixed(1)} Given</span>
+                            </div>
+                        </div>
+                        <div className="action-buttons">
+                            <button type="button" className="outline-button">Rebook Pro</button>
+                            <button type="button" className="text-button">Get Invoice</button>
+                        </div>
+                    </>
+                )}
             </div>
-        </div>
+        </article>
     );
 }
+
+JobCard.propTypes = {
+    icon: PropTypes.string,
+    category: PropTypes.string,
+    status: PropTypes.string,
+    title: PropTypes.string,
+    dateStr: PropTypes.string,
+    location: PropTypes.string,
+    priceLabel: PropTypes.string,
+    priceValue: PropTypes.number,
+    priceSubtext: PropTypes.string,
+    providerName: PropTypes.string,
+    providerRating: PropTypes.number,
+    bidNo: PropTypes.number,
+    minBudget: PropTypes.number,
+    maxBudget: PropTypes.number,
+    progressPercentage: PropTypes.number,
+};
 
 export default JobCard;

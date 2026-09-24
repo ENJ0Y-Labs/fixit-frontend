@@ -1,60 +1,49 @@
-// fixit-customer\src\payment\OrderSummary.jsx
+function formatNaira(value) {
+    return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+    }).format(value);
+}
 
 function OrderSummary({
-    icon = "fa-solid fa-question",
-    title = "Unknown",
-    provider = "John Doe",
-    id = "JOB-09123",
-    price = 12500
+    icon = 'fa-solid fa-faucet',
+    title = 'Fixing Kitchen Sink Leak',
+    provider = 'Emeka Nwachukwu',
+    id = 'JOB-09123',
+    price = 12500,
 }) {
-    const platformpercent = 0.05
-    const vatpercent = 0.075
-
-    const platformfee = platformpercent * price 
-    const vat = vatpercent * price 
-
-    const total = price + platformfee + vat
+    const platformFee = price * 0.05;
+    const vat = price * 0.075;
+    const total = price + platformFee + vat;
 
     return (
         <>
             <h2>Order Summary</h2>
             <div className="order-details">
-                <i className={icon}></i>
+                <div className="order-icon"><i className={icon}></i></div>
                 <div>
-                    <p>{title}</p>
+                    <strong>{title}</strong>
                     <p>Provider: {provider}</p>
-                    <p>Id: #{id}</p>
+                    <p>Job ID: #{id}</p>
                 </div>
             </div>
             <hr />
             <div className="payment-breakdown">
-                <div>
-                    <p>Service Price</p>
-                    <p>N{price}</p>
-                </div>
-                <div>
-                    <p>Platform Fee (5%)</p>
-                    <p>N {platformfee}</p>
-                </div>
-                <div>
-                    <p>VAT (7.5%)</p>
-                    <p>N{vat}</p>
-                </div>
+                <div><span>Service Price</span><strong>{formatNaira(price)}</strong></div>
+                <div><span>Platform Fee (5%)</span><strong>{formatNaira(platformFee)}</strong></div>
+                <div><span>VAT (7.5%)</span><strong>{formatNaira(vat)}</strong></div>
             </div>
             <hr />
             <div className="confirm-submit">
-                <div>
-                    <p>Total to Pay</p>
-                    <p>N{total}</p>
+                <div className="total-row">
+                    <span>Total to Pay</span>
+                    <strong>{formatNaira(total)}</strong>
                 </div>
-                <button>Pay N{total} Now</button>
-                <p>
-                    <i className="fa-solid fa-lock"></i>
-                     SSL ENCRYPTED PAYMENT
-                </p>
-                <div>
-                    <p>By completing this payment, you agree to our <a href="">Terms of Service</a> and <a href="">Refund Policy</a>.</p>
-                </div>
+                <button type="button" className="dark-button full-width">Pay {formatNaira(total)} Now</button>
+                <p className="ssl-note"><i className="fa-solid fa-lock"></i> SSL ENCRYPTED PAYMENT</p>
+                <p className="terms-copy">By completing this payment, you agree to our <a href="#terms">Terms of Service</a> and <a href="#refund">Refund Policy</a>.</p>
             </div>
         </>
     );
