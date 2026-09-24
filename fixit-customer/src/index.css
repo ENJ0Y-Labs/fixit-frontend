@@ -4759,3 +4759,71 @@ body {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+
+/* Interactive state helpers */
+.empty-state {
+    grid-column: 1 / -1;
+    padding: 28px 16px;
+    border: 1px dashed var(--border-strong);
+    border-radius: 10px;
+    background: #fff;
+    color: #999;
+    text-align: center;
+    font-size: 11px;
+}
+
+.form-error,
+.form-success {
+    margin: 10px 0 0;
+    font-size: 10px;
+}
+
+.form-error {
+    color: #b33;
+}
+
+.form-success {
+    color: #4f7a58;
+}
+
+.profile-edit-form {
+    display: grid;
+    gap: 8px;
+}
+
+.profile-edit-form input {
+    width: min(320px, 100%);
+    min-height: 34px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    outline: 0;
+    background: #fff;
+    font-size: 10px;
+}
+
+.profile-edit-form input:focus {
+    border-color: var(--border-strong);
+}
+
+.profile-edit-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 3px;
+}
+
+.profile-edit-actions .outline-button,
+.profile-edit-actions .dark-button {
+    min-height: 32px;
+}
+
+@media (max-width: 760px) {
+    .profile-edit-form input {
+        width: 100%;
+    }
+
+    .profile-edit-actions {
+        flex-wrap: wrap;
+    }
+}
