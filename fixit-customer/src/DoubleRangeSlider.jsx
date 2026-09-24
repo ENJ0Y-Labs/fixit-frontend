@@ -6,33 +6,40 @@ function DoubleRangeSlider({
     min = 0,
     max = 100,
     step = 1,
+    minValue = min,
+    maxValue = max,
     onChange
 }) {
-    const [minVal, setMinVal] = useState(min);
-    const [maxVal, setMaxVal] = useState(max);
+    const [minVal, setMinVal] = useState(minValue);
+    const [maxVal, setMaxVal] = useState(maxValue);
 
     useEffect(() => {
-        setMinVal(min);
-        setMaxVal(max);
-    }, [min, max]);
+        setMinVal(minValue);
+    }, [minValue]);
 
     useEffect(() => {
-        onChange(minVal, maxVal);
-    }, [minVal, maxVal, onChange]);
+        setMaxVal(maxValue);
+    }, [maxValue]);
 
-    const range = max - min || 1;
-    const minPercent = ((minVal - min) / range) * 100;
-    const maxPercent = ((maxVal - min) / range) * 100;
+    const updateValues = (nextMin, nextMax) => {
+        setMinVal(nextMin);
+        setMaxVal(nextMax);
+        onChange(nextMin, nextMax);
+    };
 
     const handleMinChange = (event) => {
         const value = Number(event.target.value);
-        setMinVal(Math.min(value, maxVal - step));
+        updateValues(Math.min(value, maxVal - step), maxVal);
     };
 
     const handleMaxChange = (event) => {
         const value = Number(event.target.value);
-        setMaxVal(Math.max(value, minVal + step));
+        updateValues(minVal, Math.max(value, minVal + step));
     };
+
+    const range = max - min || 1;
+    const minPercent = ((minVal - min) / range) * 100;
+    const maxPercent = ((maxVal - min) / range) * 100;
 
     return (
         <div
@@ -73,11 +80,6 @@ function DoubleRangeSlider({
                 aria-valuemax={max}
                 aria-valuenow={maxVal}
             />
-
-            <div className="double-range-slider__values" aria-live="polite">
-                <span>₦{minVal.toLocaleString("en-NG")}</span>
-                <span>₦{maxVal.toLocaleString("en-NG")}</span>
-            </div>
         </div>
     );
 }
@@ -86,6 +88,8 @@ DoubleRangeSlider.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     step: PropTypes.number,
+    minValue: PropTypes.number,
+    maxValue: PropTypes.number,
     onChange: PropTypes.func.isRequired
 };
 
