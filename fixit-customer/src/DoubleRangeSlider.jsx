@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import "./DoubleRangeSlider.css";
 
 function DoubleRangeSlider({
     min = 0,
