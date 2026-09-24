@@ -100,6 +100,11 @@ function DoubleRangeSlider({
                 aria-valuemax={max}
                 aria-valuenow={currentMax}
             />
+
+            <div className="double-range-slider__values" aria-live="polite">
+                <span>₦{currentMin.toLocaleString('en-NG')}</span>
+                <span>₦{currentMax.toLocaleString('en-NG')}</span>
+            </div>
         </div>
     );
 }
