@@ -17,7 +17,7 @@ function Nav({ activePage, onNavigate }) {
             <div className="nav-links">
                 {navItems.map((item) => {
                     const isActive = activePage === item.id;
-                    const disabled = item.id === 'messages' || item.id === 'settings';
+                    const disabled = item.id === 'settings';
 
                     return (
                         <button
