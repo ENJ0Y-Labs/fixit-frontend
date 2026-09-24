@@ -1,3 +1,4 @@
+import './styles/pages/home.css';
 import { useMemo, useState } from 'react';
 import Footer from './Footer';
 import Category from './home/Category';
