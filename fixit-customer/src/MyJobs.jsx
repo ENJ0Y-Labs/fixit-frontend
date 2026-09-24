@@ -1,3 +1,4 @@
+import './styles/pages/jobs.css';
 import { useMemo, useState } from 'react';
 import JobCard from './myjobs/JobCard';
 
