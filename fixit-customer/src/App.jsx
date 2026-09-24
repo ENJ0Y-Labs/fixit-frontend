@@ -66,7 +66,12 @@ function App() {
 
     const handleCancelJob = (job) => {
         const cancelledJob = { ...job, status: 'CANCELLED', progressPercentage: 0 };
-        setJobs((current) => current.map((item) => item.id === job.id ? cancelledJob : item));
+        setJobs((current) => {
+            const exists = current.some((item) => item.id === job.id);
+            return exists
+                ? current.map((item) => item.id === job.id ? cancelledJob : item)
+                : [cancelledJob, ...current];
+        });
         setSelectedJob(cancelledJob);
         setActivePage('myJobs');
     };
