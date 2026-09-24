@@ -1,11 +1,11 @@
 import JobDetailsPageProps from './jobdetails/JobDetailsPageProps';
 
-function JobDetails() {
+function JobDetails({ job, onBack, onPayment, onMessages }) {
     return (
         <div className="job-details-page page-surface">
             <header className="page-header job-details-header">
                 <div>
-                    <button type="button" className="back-button" aria-label="Go back">
+                    <button type="button" className="back-button" aria-label="Go back" onClick={onBack}>
                         <i className="fa-solid fa-arrow-left"></i>
                     </button>
                     <h1>Job Details</h1>
@@ -16,7 +16,7 @@ function JobDetails() {
                 </div>
             </header>
             <main className="job-details-main">
-                <JobDetailsPageProps />
+                <JobDetailsPageProps title={job?.title} providerName={job?.provider} agreedprice={job?.price} onPayment={onPayment} onMessages={onMessages} />
             </main>
         </div>
     );
