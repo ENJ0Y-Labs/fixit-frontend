@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import avatarPlaceholder from './assets/avatar-placeholder.svg';
 
-function Review() {
+function Review({ job, onClose, onSubmit }) {
     const [selectedFiles, setSelectedFiles] = useState([]);
 
     function handleFileChange(event) {
@@ -16,11 +16,11 @@ function Review() {
                         <img src={avatarPlaceholder} alt="Provider" />
                     </div>
                     <div className="review-provider-copy">
-                        <h2>Emeka Nwachukwu</h2>
+                        <h2>{job?.provider || 'Emeka Nwachukwu'}</h2>
                         <p>Professional Plumber</p>
                     </div>
                     <div className="review-meta">
-                        <div><span>SERVICE PROVIDED</span><strong>Fixing Kitchen Sink Leak</strong></div>
+                        <div><span>SERVICE PROVIDED</span><strong>{job?.title || 'Fixing Kitchen Sink Leak'}</strong></div>
                         <div><span>SERVICE DATE</span><strong>Sat, 21 Feb 2026</strong></div>
                         <div><span>TOTAL PAID</span><strong>₦12,500</strong></div>
                     </div>
@@ -30,7 +30,7 @@ function Review() {
                 <section className="review-content">
                     <header className="review-header">
                         <h1 id="review-title">Write a Review</h1>
-                        <button type="button" className="plain-icon-button" aria-label="Close review">
+                        <button type="button" className="plain-icon-button" aria-label="Close review" onClick={onClose}>
                             <i className="fa-solid fa-xmark"></i>
                         </button>
                     </header>
@@ -82,8 +82,8 @@ function Review() {
                             <input type="checkbox" name="anonymous" />
                             <span>Post anonymously</span>
                         </label>
-                        <button type="button" className="outline-button">Cancel</button>
-                        <button type="button" className="dark-button">Submit Review</button>
+                        <button type="button" className="outline-button" onClick={onClose}>Cancel</button>
+                        <button type="button" className="dark-button" onClick={onSubmit}>Submit Review</button>
                     </div>
                 </section>
             </div>
