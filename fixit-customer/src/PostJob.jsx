@@ -1,3 +1,4 @@
+import './styles/pages/jobs.css';
 import { useRef, useState } from 'react';
 
 const categories = ['Plumbing', 'Electrical', 'Cleaning', 'Carpentry', 'Painting'];
