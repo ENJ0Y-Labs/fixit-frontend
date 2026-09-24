@@ -1,3 +1,4 @@
+import './styles/pages/account.css';
 import { useState } from 'react';
 import avatarPlaceholder from './assets/avatar-placeholder.svg';
 import Toggle from './Toggle';
