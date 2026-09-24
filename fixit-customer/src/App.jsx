@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import Nav from './Nav';
 import Home from './Home';
-import PostJob from './PostJob';
-import MyJobs from './MyJobs';
-import JobDetails from './JobDetails';
-import Payment from './Payment';
-import Review from './Review';
-import Account from './Account';
-import Messages from './Messages';
+const PostJob = lazy(() => import('./PostJob.jsx'));
+const MyJobs = lazy(() => import('./MyJobs.jsx'));
+const JobDetails = lazy(() => import('./JobDetails.jsx'));
+const Payment = lazy(() => import('./Payment.jsx'));
+const Review = lazy(() => import('./Review.jsx'));
+const Account = lazy(() => import('./Account.jsx'));
+const Messages = lazy(() => import('./Messages.jsx'));
 
 const initialJobs = [
     {
@@ -182,7 +182,11 @@ function App() {
     return (
         <div className="app-shell">
             <Nav activePage={activePage} onNavigate={navigate} />
-            <div className="app-content">{renderPage()}</div>
+            <div className="app-content">
+                <Suspense fallback={<div className="page-loading" role="status" aria-live="polite">Loading…</div>}>
+                    {renderPage()}
+                </Suspense>
+            </div>
         </div>
     );
 }
