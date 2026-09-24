@@ -1,3 +1,4 @@
+import './styles/pages/jobs.css';
 import { useState } from 'react';
 import avatarPlaceholder from './assets/avatar-placeholder.svg';
 
