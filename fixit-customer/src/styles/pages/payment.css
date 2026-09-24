@@ -1,0 +1,485 @@
+/* Payment */
+.payment-main {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(280px, .9fr);
+    gap: 18px;
+}
+
+.payment-left,
+.payment-right {
+    min-width: 0;
+}
+
+.payment-left > section,
+.payment-right > section,
+.payment-right > button {
+    margin-bottom: 14px;
+}
+
+.escrow-payment,
+.payment-method,
+.promo-code,
+.order-summary,
+.help-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.escrow-payment {
+    padding: 15px;
+    display: flex;
+    gap: 11px;
+}
+
+.escrow-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: var(--soft);
+    color: #555;
+}
+
+.escrow-payment h2 {
+    font-size: 11px;
+}
+
+.escrow-payment p {
+    margin-top: 4px;
+    color: #777;
+    font-size: 8px;
+}
+
+.payment-method {
+    padding: 15px;
+}
+
+.payment-section-heading h2 {
+    font-size: 12px;
+}
+
+.method-list {
+    margin-top: 11px;
+    display: grid;
+    gap: 7px;
+}
+
+.method {
+    width: 100%;
+    min-height: 54px;
+    padding: 0 11px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #fff;
+    text-align: left;
+}
+
+.method:hover,
+.method.selected {
+    border-color: #999;
+}
+
+.method-icon {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: var(--soft);
+    color: #666;
+}
+
+.method-copy {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.method-copy strong {
+    font-size: 9px;
+}
+
+.method-copy small {
+    color: #999;
+    font-size: 7px;
+}
+
+.method-radio {
+    width: 13px;
+    height: 13px;
+    border: 1px solid #c8c8c8;
+    border-radius: 50%;
+}
+
+.method.selected .method-radio {
+    border: 4px solid var(--black);
+}
+
+.promo-code {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.promo-code > div {
+    min-width: 0;
+    flex: 1;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 9px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.promo-code input {
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 9px;
+}
+
+.promo-code > button {
+    min-height: 35px;
+    padding: 0 13px;
+    border-radius: 8px;
+    background: var(--black);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.order-summary {
+    padding: 16px;
+}
+
+.order-summary > h2 {
+    font-size: 13px;
+}
+
+.order-details {
+    margin-top: 13px;
+    display: flex;
+    gap: 9px;
+}
+
+.order-icon {
+    width: 37px;
+    height: 37px;
+    flex: 0 0 37px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: var(--soft);
+    color: #666;
+}
+
+.order-details strong {
+    display: block;
+    font-size: 9px;
+}
+
+.order-details p {
+    margin-top: 3px;
+    color: #999;
+    font-size: 7px;
+}
+
+.order-summary hr {
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid var(--border);
+}
+
+.payment-breakdown {
+    display: grid;
+    gap: 8px;
+}
+
+.payment-breakdown > div,
+.total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 9px;
+}
+
+.payment-breakdown span {
+    color: #777;
+}
+
+.confirm-submit {
+    margin-top: 3px;
+}
+
+.total-row strong {
+    font-size: 16px;
+}
+
+.confirm-submit > .dark-button {
+    margin-top: 12px;
+}
+
+.ssl-note {
+    margin-top: 9px;
+    color: #999;
+    font-size: 7px;
+    text-align: center;
+}
+
+.terms-copy {
+    margin-top: 10px;
+    color: #999;
+    font-size: 7px;
+    text-align: center;
+}
+
+.terms-copy a {
+    color: #666;
+}
+
+.help-card {
+    width: 100%;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 32px minmax(0,1fr) 14px;
+    align-items: center;
+    gap: 9px;
+    text-align: left;
+}
+
+.help-card:hover {
+    border-color: #ccc;
+}
+
+.help-icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--soft);
+    color: #777;
+}
+
+.help-card strong,
+.help-card small {
+    display: block;
+}
+
+.help-card strong {
+    font-size: 9px;
+    color: #333;
+}
+
+.help-card small {
+    margin-top: 2px;
+    color: #999;
+    font-size: 7px;
+}
+
+.help-card > i {
+    color: #aaa;
+}
+
+/* Readable desktop sizing */
+.section-heading button,
+.service-header select,
+.filter-heading button,
+.payment-section-heading button,
+.job-photos-card .section-heading button {
+    font-size: 13px;
+}
+
+/* Final page sizing */
+/* Payment */
+.payment-main {
+    padding: 40px;
+    grid-template-columns: minmax(0, 1.6fr) minmax(330px, .9fr);
+    gap: 24px;
+}
+
+.escrow-payment,
+.payment-method,
+.promo-code,
+.order-summary,
+.help-card {
+    border-radius: 16px;
+}
+
+.escrow-payment {
+    padding: 20px;
+    gap: 14px;
+}
+
+.escrow-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    font-size: 16px;
+}
+
+.escrow-payment h2 {
+    font-size: 15px;
+}
+
+.escrow-payment p {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.payment-method {
+    padding: 20px;
+}
+
+.payment-section-heading h2 {
+    font-size: 16px;
+}
+
+.payment-section-heading button {
+    font-size: 13px;
+}
+
+.method-list {
+    margin-top: 14px;
+    gap: 9px;
+}
+
+.method {
+    min-height: 64px;
+    padding: 0 14px;
+    gap: 13px;
+    border-radius: 10px;
+}
+
+.method-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    font-size: 14px;
+}
+
+.method-copy {
+    gap: 3px;
+}
+
+.method-copy strong {
+    font-size: 13px;
+}
+
+.method-copy small {
+    font-size: 10px;
+}
+
+.method-radio {
+    width: 16px;
+    height: 16px;
+}
+
+.promo-code {
+    padding: 13px;
+    gap: 10px;
+}
+
+.promo-code > div {
+    height: 44px;
+    gap: 9px;
+    padding: 0 12px;
+}
+
+.promo-code input {
+    font-size: 13px;
+}
+
+.promo-code > button {
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 13px;
+}
+
+.order-summary {
+    padding: 22px;
+}
+
+.order-summary > h2 {
+    font-size: 17px;
+}
+
+.order-details {
+    margin-top: 16px;
+    gap: 11px;
+}
+
+.order-icon {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+}
+
+.order-details strong {
+    font-size: 12px;
+}
+
+.order-details p {
+    margin-top: 4px;
+    font-size: 10px;
+}
+
+.order-summary hr {
+    margin: 18px 0;
+}
+
+.payment-breakdown {
+    gap: 10px;
+}
+
+.payment-breakdown > div,
+.total-row {
+    font-size: 12px;
+}
+
+.total-row strong {
+    font-size: 20px;
+}
+
+.ssl-note,
+.terms-copy {
+    font-size: 9px;
+}
+
+.help-card {
+    padding: 16px;
+    grid-template-columns: 40px minmax(0,1fr) 16px;
+    gap: 11px;
+}
+
+.help-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.help-card strong {
+    font-size: 12px;
+}
+
+.help-card small {
+    margin-top: 3px;
+    font-size: 10px;
+}
