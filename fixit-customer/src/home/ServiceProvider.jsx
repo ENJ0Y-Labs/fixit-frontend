@@ -9,6 +9,7 @@ function ServiceProvider({
     review = 0,
     distance = 0,
     price = 0,
+    onSelect,
 }) {
     return (
         <article className="service-card">
@@ -37,7 +38,7 @@ function ServiceProvider({
                     <strong>₦{price.toLocaleString('en-NG')}</strong>
                     <small>/hr</small>
                 </div>
-                <button type="button" className="dark-button">View Full Profile</button>
+                <button type="button" className="dark-button" onClick={onSelect}>View Full Profile</button>
             </div>
         </article>
     );
@@ -51,6 +52,7 @@ ServiceProvider.propTypes = {
     review: PropTypes.number,
     distance: PropTypes.number,
     price: PropTypes.number,
+    onSelect: PropTypes.func,
 };
 
 export default ServiceProvider;
