@@ -22,7 +22,7 @@ const providers = [
     { name: 'Blessing Okafor', job: 'Interior Painter', rating: 4.7, review: 42, distance: 1.2, price: 4000 },
 ];
 
-function Home() {
+function Home({ onSelectProvider }) {
     const PRICE_MIN = 1500;
     const PRICE_MAX = 15000;
 
@@ -92,7 +92,7 @@ function Home() {
                         <p className="eyebrow">FAST, TRUSTED HOME SERVICES</p>
                         <h1>Get your home fixed by trusted local pros.</h1>
                         <p>Verified plumbers, electricians, and more, available in your neighborhood today.</p>
-                        <button type="button" className="hero-button">Book a Service Now</button>
+                        <button type="button" className="hero-button" onClick={() => onSelectProvider(providers[0])}>Book a Service Now</button>
                     </div>
                 </section>
 
@@ -189,7 +189,7 @@ function Home() {
                             </label>
                         </div>
 
-                        {providers.map((provider) => <ServiceProvider key={provider.name} {...provider} />)}
+                        {providers.map((provider) => <ServiceProvider key={provider.name} {...provider} onSelect={() => onSelectProvider(provider)} />)}
 
                         <button type="button" className="load-more-button">Load More Providers</button>
                     </div>
