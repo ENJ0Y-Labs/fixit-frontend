@@ -1,6 +1,6 @@
 import JobCard from './myjobs/JobCard';
 
-function MyJobs() {
+function MyJobs({ onPostJob, onViewDetails, onOpenMessages }) {
     return (
         <div className="my-jobs page-surface">
             <header className="page-header my-jobs-header">
@@ -10,7 +10,7 @@ function MyJobs() {
                         <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                         <input type="search" name="job-search" id="job-search" placeholder="Search jobs" aria-label="Search jobs" />
                     </div>
-                    <button type="button" className="dark-button">Post New Job</button>
+                    <button type="button" className="dark-button" onClick={onPostJob}>Post New Job</button>
                 </div>
             </header>
 
@@ -35,6 +35,8 @@ function MyJobs() {
 
                 <div className="jobs-list">
                     <JobCard
+                        onDetails={() => onViewDetails({ title: 'Fixing Kitchen Sink Leak', provider: 'Emeka Nwachukwu', category: 'PLUMBING', price: 12500 })}
+                        onChat={() => onOpenMessages({ title: 'Fixing Kitchen Sink Leak', provider: 'Emeka Nwachukwu', category: 'PLUMBING', price: 12500 })}
                         icon="fa-solid fa-faucet"
                         category="PLUMBING"
                         status="IN PROGRESS"
@@ -48,6 +50,8 @@ function MyJobs() {
                         progressPercentage={75}
                     />
                     <JobCard
+                        onDetails={() => onViewDetails({ title: 'Circuit Breaker Tripping Frequently', provider: 'Tunde Bello', category: 'ELECTRICAL', price: 8000 })}
+                        onChat={() => onOpenMessages({ title: 'Circuit Breaker Tripping Frequently', provider: 'Tunde Bello', category: 'ELECTRICAL', price: 8000 })}
                         icon="fa-solid fa-bolt"
                         category="ELECTRICAL"
                         status="AWAITING BIDS"
@@ -60,6 +64,8 @@ function MyJobs() {
                         bidNo={3}
                     />
                     <JobCard
+                        onDetails={() => onViewDetails({ title: 'Deep House Cleaning (3BR)', provider: 'Chioma Adeyemi', category: 'CLEANING', price: 25000 })}
+                        onChat={() => onOpenMessages({ title: 'Deep House Cleaning (3BR)', provider: 'Chioma Adeyemi', category: 'CLEANING', price: 25000 })}
                         icon="fa-solid fa-broom"
                         category="CLEANING"
                         status="COMPLETED"
