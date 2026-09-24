@@ -1,0 +1,354 @@
+:root {
+    --background: #f7f7f7;
+    --surface: #ffffff;
+    --black: #171717;
+    --text: #222222;
+    --muted: #777777;
+    --light-text: #a0a0a0;
+    --border: #e8e8e8;
+    --border-strong: #d6d6d6;
+    --soft: #f3f3f3;
+    --nav-width: 114px;
+    --radius: 12px;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-width: 320px;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    border: 0;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+    color: var(--text);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #a1a1a1;
+}
+
+.app-shell {
+    min-height: 100vh;
+}
+
+.app-content {
+    min-height: 100vh;
+    margin-left: var(--nav-width);
+}
+
+.page-surface {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+/* Navigation */
+/* Navigation */
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 20;
+    width: var(--nav-width);
+    height: 100vh;
+    padding: 10px 7px 8px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 3px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.logo-icon {
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 4px;
+    background: var(--black);
+    color: #fff;
+    font-size: 9px;
+}
+
+.logo-text {
+    color: var(--black);
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-item {
+    width: 100%;
+    min-height: 25px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 6px;
+    background: transparent;
+    color: #777;
+    text-align: left;
+    font-size: 8px;
+}
+
+.nav-item:hover:not(:disabled) {
+    background: var(--soft);
+    color: var(--black);
+}
+
+.nav-item.active {
+    background: var(--black);
+    color: #fff;
+}
+
+.nav-item:disabled {
+    opacity: 0.5;
+}
+
+.nav-item i {
+    width: 11px;
+    text-align: center;
+    font-size: 8px;
+}
+
+.post-job-button {
+    width: 100%;
+    min-height: 22px;
+    margin-top: auto;
+    padding: 0 7px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 5px;
+    background: var(--soft);
+    color: #555;
+    text-align: left;
+    font-size: 7px;
+    font-weight: 700;
+}
+
+.post-job-button:hover {
+    background: #eaeaea;
+    color: var(--black);
+}
+
+.post-job-button i {
+    width: 11px;
+    text-align: center;
+    font-size: 7px;
+}
+
+.user-profile {
+    margin-top: 8px;
+    padding: 0 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.user-avatar {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--black);
+    color: #fff;
+    font-size: 7px;
+}
+
+.user-info {
+    min-width: 0;
+}
+
+.user-name {
+    font-weight: 700;
+    font-size: 7px;
+}
+
+.user-role {
+    margin-top: 1px;
+    color: var(--light-text);
+    font-size: 6px;
+}
+
+/* Readable desktop navigation/layout refinements */
+body {
+    font-size: 14px;
+}
+
+.sidebar {
+    width: var(--nav-width);
+        padding: 18px 14px 16px;
+}
+
+.logo {
+    gap: 10px;
+        padding: 0 6px;
+        margin-bottom: 28px;
+        font-size: 18px;
+}
+
+.logo-icon {
+    width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        font-size: 15px;
+}
+
+.nav-links {
+    gap: 6px;
+}
+
+.nav-item {
+    min-height: 44px;
+        padding: 0 12px;
+        gap: 11px;
+        border-radius: 9px;
+        font-size: 14px;
+}
+
+.nav-item i {
+    width: 18px;
+        font-size: 14px;
+}
+
+.post-job-button {
+    min-height: 44px;
+        padding: 0 12px;
+        gap: 10px;
+        border-radius: 9px;
+        font-size: 13px;
+}
+
+.post-job-button i {
+    width: 18px;
+        font-size: 13px;
+}
+
+.user-profile {
+    margin-top: 14px;
+        padding: 0 6px;
+        gap: 10px;
+}
+
+.user-avatar {
+    width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+        font-size: 13px;
+}
+
+.user-name {
+    font-size: 12px;
+}
+
+.user-role {
+    margin-top: 2px;
+        font-size: 10px;
+}
+
+.app-content {
+    margin-left: var(--nav-width);
+}
+
+.page-header,
+.home-header {
+    min-height: 72px;
+        padding: 0 36px;
+        gap: 14px;
+}
+
+.page-header h1 {
+    font-size: 22px;
+}
+
+.back-button,
+.plain-icon-button,
+.icon-button {
+    width: 42px;
+        height: 42px;
+        border-radius: 9px;
+}
+
+.search-box {
+    width: min(420px, 42vw);
+        height: 42px;
+}
+
+.search-box i,
+.location-select i,
+.compact-search i {
+    margin-left: 12px;
+        font-size: 14px;
+}
+
+.search-box input,
+.compact-search input,
+.location-select select {
+    font-size: 14px;
+}
+
+.location-select {
+    height: 42px;
+        padding-right: 8px;
+}
+
+.location-select select {
+    padding: 0 10px 0 8px;
+}
+
+.dark-button,
+.outline-button {
+    min-height: 42px;
+        padding: 0 16px;
+        border-radius: 9px;
+        font-size: 13px;
+}
