@@ -1,0 +1,14 @@
+:root {
+    --background: #f7f7f7;
+    --surface: #ffffff;
+    --black: #171717;
+    --text: #222222;
+    --muted: #777777;
+    --light-text: #a0a0a0;
+    --border: #e8e8e8;
+    --border-strong: #d6d6d6;
+    --soft: #f3f3f3;
+    --nav-width: 220px;
+    --radius: 12px;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
