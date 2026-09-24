@@ -17,7 +17,7 @@ function JobDetailsPageProps({
     photos = [],
 
     provider = { "name": "John Doe", "title": "Unspecified", "avatarurl": "", "rating": 0, "reviewcount": 0, "isonline": true },
-    aggreedprice = 0.0,
+    agreedprice = 0.0,
     progresstimeline = [{ "icon": "fa-solid fa-spinner", "title": "Loading", "description": "" }]
 }) {
 
@@ -72,13 +72,11 @@ function JobDetailsPageProps({
                 </div>
                 <div className="job-progress">
                     <h2>Job Progress</h2>
-                    <div>
-                        {
-                            progresstimeline.map((progress) => (
-                                <ProgressStep icon={progress.icon} title={progress.title} description={progress.description} timestamp={progress.timestamp} />
-                            ))
-                        }
-                    </div>
+                    {
+                        progresstimeline.map((progress) => (
+                            <ProgressStep key={progress.title} icon={progress.icon} title={progress.title} description={progress.description} timestamp={progress.timestamp} />
+                        ))
+                    }
                 </div>
             </div>
             <div>
@@ -89,7 +87,7 @@ function JobDetailsPageProps({
                     <h2>PAYMENT OVERVIEW</h2>
                     <div>
                         <p>Agreed Price</p>
-                        <p>N{aggreedprice}</p>
+                        <p>N{agreedprice}</p>
                     </div>
                     <div>
                         <i className="fa-solid fa-shield-halved"></i>

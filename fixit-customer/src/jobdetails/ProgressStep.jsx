@@ -9,7 +9,7 @@ function ProgressStep({
 }) {
 
     return(
-        <>
+        <div className="progress-step">
             <div>
                 <i className={icon}></i>
             </div>
@@ -20,7 +20,7 @@ function ProgressStep({
             <div>
                 <p>{timestamp}</p>
             </div>
-        </>
+        </div>
     );
 }
 

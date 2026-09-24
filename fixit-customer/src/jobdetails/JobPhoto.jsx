@@ -23,9 +23,9 @@ function JobPhoto({
     return(
         <div>
             {
-                photos.map((photo) => (
-                    <div>
-                        <img src={photo} alt="" />
+                photos.map((photo, index) => (
+                    <div key={photo}>
+                        <img src={photo} alt={`Job photo ${index + 1}`} />
                     </div>
                 ))
             }

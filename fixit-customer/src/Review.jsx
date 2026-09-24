@@ -1,4 +1,5 @@
 // fixit-customer\src\Review.jsx
+import avatarPlaceholder from "./assets/avatar-placeholder.svg";
 
 function Review() {
 
@@ -6,7 +7,7 @@ function Review() {
         <div className="review">
             <div className="provider-details">
                 <div>
-                    <img src="" alt="profile picture" />
+                    <img src={avatarPlaceholder} alt="Provider profile picture" />
                 </div>
                 <div>
                     <h2>Emeka Nwachukwu</h2>
@@ -31,7 +32,9 @@ function Review() {
             <div className="review-content">
                 <header>
                     <h2>Write a Review</h2>
-                    <i className="fa-solid fa-xmark"></i>
+                    <button type="button" className="plain-button" aria-label="Close review">
+                        <i className="fa-solid fa-xmark"></i>
+                    </button>
                 </header>
                 <p>RATE YOUR OVERALL EXPERIENCE</p>
                 <div>
@@ -50,8 +53,7 @@ function Review() {
                 </div>
                 <div>
                     <p>SHARE MORE DETAILS</p>
-                    <textarea name="" id="" placeholder="
-                        Was the provider punctual? Did they have the right tools? How satisfied are you with the quality of work?"></textarea>
+                    <textarea name="review-details" id="review-details" aria-label="Review details" placeholder="Was the provider punctual? Did they have the right tools? How satisfied are you with the quality of work?"></textarea>
                 </div>
                 <div>
                     <div>
@@ -59,7 +61,7 @@ function Review() {
                         <p>Up to 4 photos</p>
                     </div>
                     <div className="upload-box">
-                        <i class="fa-solid fa-camera"></i>
+                        <i className="fa-solid fa-camera"></i>
                         <p>Upload</p>
                     </div>
                     <div></div>
@@ -69,7 +71,7 @@ function Review() {
                 <hr />
                 <div>
                     <div>
-                        <input type="checkbox" name="anonymous" id="" />
+                        <input type="checkbox" name="anonymous" id="anonymous" />
                         <label htmlFor="anonymous">Post anonymously</label>
                     </div>
                     <button>Cancel</button>

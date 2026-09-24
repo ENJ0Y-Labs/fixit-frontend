@@ -1,8 +1,9 @@
 // fixit-customer\src\home\ServiceProvider.jsx
 import PropTypes from 'prop-types'
+import avatarPlaceholder from "../assets/avatar-placeholder.svg";
 
 function ServiceProvider({
-    img = "/assets/hero.png",
+    img = "",
     name = "Guest",
     job = "Not specified",
     rate = 0,
@@ -14,7 +15,7 @@ function ServiceProvider({
     return(
         <div className="service-card">
             <div className="section-one">
-                <img src={img} alt="profile-pic" />
+                <img src={img || avatarPlaceholder} alt={`${name} profile picture`} />
                 <div className="service-details">
                     <h4>{name}</h4>
                     <p>{job}</p>
@@ -29,9 +30,9 @@ function ServiceProvider({
                         </div>
                     </div>
                 </div>
-                <div>
+                <button type="button" className="plain-button favorite-button" aria-label="Save provider">
                     <i className="fa-regular fa-heart"></i>
-                </div>
+                </button>
             </div>
             <hr />
             <div className="section-two">
@@ -55,16 +56,6 @@ ServiceProvider.propTypes = {
     review: PropTypes.number,
     distance: PropTypes.number,
     price: PropTypes.number
-}
-
-ServiceProvider.defaultProps = {
-    img: "../assets/hero.png",
-    name: "Guest",
-    job: "Not specified",
-    rate: 0,
-    review: 0,
-    distance: 0,
-    price: 0
 }
 
 export default ServiceProvider;

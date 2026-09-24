@@ -12,7 +12,7 @@ function MyJobs() {
                 <div>
                     <div>
                         <i className="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" name="" id="" />
+                        <input type="text" name="job-search" id="job-search" aria-label="Search jobs" />
                     </div>
                     <button>Post New Job</button>
                 </div>
@@ -20,23 +20,15 @@ function MyJobs() {
             <main>
                 <div className="label">
                     <div className="job-status">
-                        <div>
-                            <p>All Jobs</p>
-                        </div>
-                        <div>
-                            <p>Active</p>
-                        </div>
-                        <div>
-                            <p>Completed</p>
-                        </div>
-                        <div>
-                            <p>Cancelled</p>
-                        </div>
+                        <button type="button">All Jobs</button>
+                        <button type="button">Active</button>
+                        <button type="button">Completed</button>
+                        <button type="button">Cancelled</button>
                     </div>
                     <div className="job-sort">
                         <i className="fa-solid fa-arrow-down-wide-short"></i>
                         <p>Sort:</p>
-                        <select name="job-sort" id="">
+                        <select name="job-sort" id="job-sort" aria-label="Sort jobs">
                             <option value="">Recent First</option>
                         </select>
                     </div>

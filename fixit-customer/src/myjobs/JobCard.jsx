@@ -1,4 +1,4 @@
-// fixit-customer\src\myjobs\Jobscard.jsx
+// fixit-customer\src\myjobs\JobCard.jsx
 
 function JobCard({
     icons = "fa-solid fa-question",
@@ -13,8 +13,18 @@ function JobCard({
     providerName = "Unknown",
     providerRating = 3,
     bidNo = 4,
+    minBudget = 0,
+    maxBudget = 0,
     progressPercentage = 75 // Added to support progress tracking
 }) {
+
+    // "IN PROGRESS" -> "in-progress" (used by the CSS for the card and the status badge)
+    const statusClass = status.toLowerCase().replace(/\s+/g, "-");
+
+    // Jobs that are still awaiting bids show the budget range instead of one price
+    const priceText = status.toUpperCase() === "AWAITING BIDS"
+        ? `₦${minBudget.toLocaleString("en-NG")} - ₦${maxBudget.toLocaleString("en-NG")}`
+        : `₦${priceValue.toLocaleString("en-NG")}`;
 
     const renderinteractiveSection = () => {
         switch (status.toUpperCase()) {
@@ -93,7 +103,7 @@ function JobCard({
     }
 
     return (
-        <div className={`job-card ${status.toLowerCase().replace(" ", "-")}`}>
+        <div className={`job-card ${statusClass}`}>
             <div className="icon-container">
                 <i className={icons}></i>
             </div>
@@ -101,7 +111,7 @@ function JobCard({
             <div className="main-details">
                 <div className="badge-row">
                     <span className="category">{category}</span>
-                    <span className="status-badge">{status}</span>
+                    <span className={`status ${statusClass}`}>{status}</span>
                 </div>
                 <h2>{title}</h2>
                 <div className="meta-row">
@@ -120,15 +130,15 @@ function JobCard({
             
             <div className="price-details">
                 <p className="label">{priceLabel}</p>
-                <h4 className="price">₦{priceValue}</h4>
+                <h4 className="price">{priceText}</h4>
                 <p className="price-subtext">{priceSubtext}</p>
             </div>
             
             <hr className="vertical-divider" />
             
-            {/* The wrapper remains, but fragments allow clean internal split mapping */}
+            {/* The two fragments returned above become the left and right halves of this row */}
             <div className="interactive-wrapper">
-                {renderinteractiveSection()}
+                <div>{renderinteractiveSection()}</div>
             </div>
         </div>
     );

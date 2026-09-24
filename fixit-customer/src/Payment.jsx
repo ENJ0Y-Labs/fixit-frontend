@@ -7,7 +7,9 @@ function Payment() {
     return(
         <div className="payment">
             <header>
-                <i className="fa-solid fa-arrow-left"></i>
+                <button type="button" className="plain-button" aria-label="Go back">
+                    <i className="fa-solid fa-arrow-left"></i>
+                </button>
                 <h2>Checkout</h2>
             </header>
             <main>
@@ -21,8 +23,8 @@ function Payment() {
                     </div>
                     <div className="payment-method">
                         <div>
-                            <h2>Payment Mathod</h2>
-                            <p>+ Add New</p>
+                            <h2>Payment Method</h2>
+                            <button type="button" className="plain-button">+ Add New</button>
                         </div>
                         <div className="method-list">
                             <PaymentMethod />
@@ -33,7 +35,7 @@ function Payment() {
                     <div className="promo-code">
                         <div>
                             <i className="fa-solid fa-ticket"></i>
-                            <input type="text" placeholder="Promo Code"/>
+                            <input type="text" name="promo-code" id="promo-code" placeholder="Promo Code" aria-label="Promo code" />
                         </div>
                         <button>Apply</button>
                     </div>

@@ -1,5 +1,4 @@
 // fixit-customer\src\Home.jsx
-import Nav from './Nav';
 import Footer from './Footer'
 import Category from './home/Category';
 import Toggle from './Toggle' 
@@ -21,12 +20,12 @@ function Home() {
         <div className="home">
             <header>
                 <div>
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" name="" id="" />
+                    <i className="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" name="search" id="search" aria-label="Search services" />
                 </div>
                 <div>
-                    <i class="fa-solid fa-location-dot"></i>
-                    <select name="" id="">
+                    <i className="fa-solid fa-location-dot"></i>
+                    <select name="location" id="location" aria-label="Select location">
                         <option value="">Select Location</option>
                         {locations.map((location) => (
                             <option key={location} value={location}>
@@ -35,11 +34,11 @@ function Home() {
                         ))}
                     </select>
                 </div>
-                <button>
-                    <i class="fa-solid fa-bell"></i>
+                <button type="button" aria-label="Notifications">
+                    <i className="fa-solid fa-bell"></i>
                 </button>
-                <button>
-                    <i class="fa-solid fa-cart-shopping"></i>
+                <button type="button" aria-label="Cart">
+                    <i className="fa-solid fa-cart-shopping"></i>
                 </button>
             </header>
             <main>
@@ -56,12 +55,12 @@ function Home() {
                     <div className="categories-list">
                         {
                             categories.map((category) => (
-                                <Category name={category.name} icon={category.icon} />
+                                <Category key={category.name} name={category.name} icon={category.icon} />
                             ))
                         }
                         <div className="category">
                             <div className="category-icon">
-                                <i class="fa-solid fa-ellipsis"></i>
+                                <i className="fa-solid fa-ellipsis"></i>
                             </div>
                             <p className="category-name">More</p>
                         </div>
@@ -76,19 +75,19 @@ function Home() {
                         <div className="price-range">
                             <h6>Price Range (N)</h6>
                             <div>
-                                <input type="text" placeholder="Min" />
-                                <input type="text" placeholder="Max" />
+                                <input type="text" name="price-min" placeholder="Min" aria-label="Minimum price" />
+                                <input type="text" name="price-max" placeholder="Max" aria-label="Maximum price" />
                             </div>
-                            <input type="range" name="" id="" />
+                            <input type="range" name="price-range" id="price-range" aria-label="Price range" />
                         </div>
                         <div className="rating-filter">
                             <h6>Minimum Rating</h6>
-                            <input type="radio" name="rating" id="rating-405"/>
-                            <label htmlFor="rating-405">4.5 & Above</label>
+                            <input type="radio" name="rating" id="rating-450"/>
+                            <label htmlFor="rating-450">4.5 & Above</label>
                             <input type="radio" name="rating" id="rating-400"/>
                             <label htmlFor="rating-400">4.0 & Above</label>
-                            <input type="radio" name="rating" id="rating-305"/>
-                            <label htmlFor="rating-305">3.5 & Above</label>
+                            <input type="radio" name="rating" id="rating-350"/>
+                            <label htmlFor="rating-350">3.5 & Above</label>
                         </div>
                         <div className="distance-filter">
                             <h6>Distance</h6>
@@ -102,8 +101,8 @@ function Home() {
                         <div className="availability-filter">
                             <h6>Availability</h6>
                             <div className="availability-option">
-                                <p>Avaliable Now</p>
-                                <Toggle />
+                                <p>Available Now</p>
+                                <Toggle label="Available now" />
                             </div>
                         </div>
                     </div>
@@ -112,14 +111,14 @@ function Home() {
                             <h2>Recommended Service Providers</h2>
                             <div className='sort-filter'>
                                 <label htmlFor="sort-by-filter">Sort by: </label>
-                                <select name="" id="sort-by-filter">
+                                <select name="sort-by" id="sort-by-filter">
                                     <option value="">Most Popular</option>
                                 </select>
                             </div>
                         </div>
                         {
                             providers.map((provider) => (
-                                <ServiceProvider name={provider.name} job={provider.job} rating={provider.rating} review={provider.review} distance={provider.distance} price={provider.price}/>
+                                <ServiceProvider key={provider.name} name={provider.name} job={provider.job} rating={provider.rating} review={provider.review} distance={provider.distance} price={provider.price}/>
                             ))
                         }
                         <ServiceProvider />

@@ -1,4 +1,6 @@
 // fixit-customer\src\Account.jsx
+import avatarPlaceholder from "./assets/avatar-placeholder.svg";
+import Toggle from "./Toggle";
 
 function Account() {
 
@@ -10,7 +12,7 @@ function Account() {
             <main>
                 <div>
                     <div>
-                        <img src="" alt="Profile Picture" />
+                        <img src={avatarPlaceholder} alt="Profile Picture" />
                         <div>
                             <i className="fa-solid fa-camera"></i>
                         </div>
@@ -64,23 +66,24 @@ function Account() {
                         <h4>PREFERENCES</h4>
                         <div>
                             <div>
-                                <i class="fa-solid fa-bell"></i>                                <div>
+                                <i className="fa-solid fa-bell"></i>
+                                <div>
                                     <p>Notification</p>
                                     <p>Manage alerts and email preferences</p>
                                 </div>
-                                <div className="toggle-switch">
-                                    <div></div>
-                                </div>
+                                <Toggle label="Notifications" />
                             </div>
                             <div>
-                                <i class="fa-solid fa-circle-question"></i>                                <div>
+                                <i className="fa-solid fa-circle-question"></i>
+                                <div>
                                     <p>Help & Support</p>
                                     <p>FAQs, Chat Support, and Legal</p>
                                 </div>
                                 <i className="fa-solid fa-angle-right"></i>
                             </div>
                             <div>
-                                <i class="fa-solid fa-shield-halved"></i>                                <div>
+                                <i className="fa-solid fa-shield-halved"></i>
+                                <div>
                                     <p>Security</p>
                                     <p>Password, 2FA, and Logged devices</p>
                                 </div>

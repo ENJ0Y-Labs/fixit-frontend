@@ -1,4 +1,5 @@
 // fixit-customer\src\jobdetails\ProviderData.jsx
+import avatarPlaceholder from "../assets/avatar-placeholder.svg";
 
 function ProviderData({
     name = "John Doe",
@@ -16,7 +17,7 @@ function ProviderData({
         <>
             <h2>Assigned Provider</h2>
             <div className="provider-details">
-                <img src={avatarurl} alt="profile picture" />
+                <img src={avatarurl || avatarPlaceholder} alt={`${name} profile picture`} />
                 <div>
                     <div>
                         <h2>{name}</h2>

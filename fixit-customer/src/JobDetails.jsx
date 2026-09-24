@@ -7,7 +7,9 @@ function JobDetails() {
         <div className="job-details">
             <header>
                 <div>
-                    <i className="fa-solid fa-arrow-left"></i>
+                    <button type="button" className="plain-button" aria-label="Go back">
+                        <i className="fa-solid fa-arrow-left"></i>
+                    </button>
                     <h2>Job Details</h2>
                 </div>
                 <div>
