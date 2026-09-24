@@ -14,7 +14,7 @@ function ServiceProvider({
     return (
         <article className="service-card">
             <div className="service-card-top">
-                <img src={img || avatarPlaceholder} alt={`${name} profile`} />
+                <i aria-hidden="true"mg src={img || avatarPlaceholder} alt={`${name} profile`} />
                 <div className="service-details">
                     <h3>{name}</h3>
                     <p>{job}</p>
@@ -22,7 +22,7 @@ function ServiceProvider({
                     <div className="service-distance"><i className="fa-solid fa-location-dot" aria-hidden="true"></i><span>{distance.toFixed(1)} km away</span></div>
                 </div>
                 <button type="button" className="favorite-button" aria-label={`Save ${name}`} onClick={(event) => event.stopPropagation()}>
-                    <i className="fa-regular fa-heart"></i>
+                    <i aria-hidden="true" className="fa-regular fa-heart"></i>
                 </button>
             </div>
             <div className="service-card-bottom">
