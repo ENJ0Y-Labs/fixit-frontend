@@ -13,6 +13,7 @@ function OrderSummary({
     provider = 'Emeka Nwachukwu',
     id = 'JOB-09123',
     price = 12500,
+    onPayment,
 }) {
     const platformFee = price * 0.05;
     const vat = price * 0.075;
@@ -41,7 +42,7 @@ function OrderSummary({
                     <span>Total to Pay</span>
                     <strong>{formatNaira(total)}</strong>
                 </div>
-                <button type="button" className="dark-button full-width">Pay {formatNaira(total)} Now</button>
+                <button type="button" className="dark-button full-width" onClick={onPayment}>Pay {formatNaira(total)} Now</button>
                 <p className="ssl-note"><i className="fa-solid fa-lock"></i> SSL ENCRYPTED PAYMENT</p>
                 <p className="terms-copy">By completing this payment, you agree to our <a href="#terms">Terms of Service</a> and <a href="#refund">Refund Policy</a>.</p>
             </div>
