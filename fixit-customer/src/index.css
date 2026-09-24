@@ -2988,3 +2988,619 @@ textarea::placeholder {
         margin-bottom: 5px;
     }
 }
+
+
+/* Readable sizing pass */
+/* Keep the interface comfortably readable on normal desktop screens. */
+:root {
+    --nav-width: 220px;
+}
+
+body {
+    font-size: 14px;
+}
+
+.sidebar {
+    width: var(--nav-width);
+    padding: 18px 14px 16px;
+}
+
+.logo {
+    gap: 10px;
+    padding: 0 6px;
+    margin-bottom: 28px;
+    font-size: 18px;
+}
+
+.logo-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.nav-links {
+    gap: 6px;
+}
+
+.nav-item {
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 11px;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.nav-item i {
+    width: 18px;
+    font-size: 14px;
+}
+
+.post-job-button {
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 10px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+.post-job-button i {
+    width: 18px;
+    font-size: 13px;
+}
+
+.user-profile {
+    margin-top: 14px;
+    padding: 0 6px;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+    font-size: 13px;
+}
+
+.user-name {
+    font-size: 12px;
+}
+
+.user-role {
+    margin-top: 2px;
+    font-size: 10px;
+}
+
+.app-content {
+    margin-left: var(--nav-width);
+}
+
+.page-header,
+.home-header {
+    min-height: 72px;
+    padding: 0 36px;
+    gap: 14px;
+}
+
+.page-header h1 {
+    font-size: 22px;
+}
+
+.back-button,
+.plain-icon-button,
+.icon-button {
+    width: 42px;
+    height: 42px;
+    border-radius: 9px;
+}
+
+.search-box {
+    width: min(420px, 42vw);
+    height: 42px;
+}
+
+.search-box i,
+.location-select i,
+.compact-search i {
+    margin-left: 12px;
+    font-size: 14px;
+}
+
+.search-box input,
+.compact-search input,
+.location-select select {
+    font-size: 14px;
+}
+
+.location-select {
+    height: 42px;
+    padding-right: 8px;
+}
+
+.location-select select {
+    padding: 0 10px 0 8px;
+}
+
+.home-main {
+    padding: 36px;
+}
+
+.hero {
+    min-height: 260px;
+    padding: 42px;
+    border-radius: 18px;
+}
+
+.hero h1 {
+    max-width: 680px;
+    margin-bottom: 14px;
+    font-size: clamp(32px, 3.2vw, 46px);
+    line-height: 1.08;
+}
+
+.hero > div > p:nth-of-type(1) {
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.hero > div > p:nth-of-type(2) {
+    max-width: 620px;
+    margin-bottom: 22px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.hero-button {
+    min-height: 46px;
+    padding: 0 20px;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.categories-section,
+.services-section {
+    margin-top: 34px;
+}
+
+.section-heading h2,
+.service-header h2 {
+    font-size: 20px;
+}
+
+.section-heading button,
+.service-header select,
+.filter-heading button,
+.payment-section-heading button,
+.job-photos-card .section-heading button {
+    font-size: 13px;
+}
+
+.categories-list {
+    margin-top: 16px;
+    gap: 14px;
+}
+
+.category {
+    min-height: 108px;
+    padding: 16px 12px;
+    gap: 10px;
+    border-radius: 12px;
+}
+
+.category-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.category-name {
+    font-size: 13px;
+}
+
+.services-section {
+    grid-template-columns: 270px minmax(0, 1fr);
+    gap: 24px;
+}
+
+.service-filters {
+    padding: 20px;
+    border-radius: 14px;
+}
+
+.filter-heading {
+    padding-bottom: 14px;
+    margin-bottom: 4px;
+}
+
+.filter-heading h2,
+.filter-group h3,
+.option-group legend {
+    font-size: 14px;
+}
+
+.filter-group,
+.option-group {
+    padding: 18px 0;
+}
+
+.price-inputs {
+    margin-top: 10px;
+    gap: 8px;
+}
+
+.price-inputs input {
+    min-height: 40px;
+    padding: 0 10px;
+    border-radius: 7px;
+    font-size: 13px;
+}
+
+.option-group label,
+.availability-filter > div {
+    margin-top: 10px;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.toggle-switch {
+    width: 42px;
+    height: 22px;
+    padding: 2px;
+}
+
+.toggle-switch span {
+    width: 18px;
+    height: 18px;
+}
+
+.service-providers {
+    gap: 16px;
+}
+
+.service-header {
+    gap: 16px;
+}
+
+.service-header label {
+    gap: 7px;
+    font-size: 13px;
+}
+
+.service-card {
+    padding: 18px;
+    border-radius: 14px;
+}
+
+.service-card-top {
+    gap: 13px;
+}
+
+.service-card-top > img {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+    border-radius: 12px;
+}
+
+.service-details h3 {
+    font-size: 15px;
+}
+
+.service-details > p,
+.service-rating,
+.service-distance {
+    font-size: 12px;
+}
+
+.service-rating,
+.service-distance {
+    margin-top: 8px;
+    gap: 6px;
+}
+
+.favorite-button {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    font-size: 15px;
+}
+
+.service-card-bottom {
+    margin-top: 18px;
+    padding-top: 15px;
+    gap: 14px;
+}
+
+.service-price span {
+    font-size: 11px;
+}
+
+.service-price strong {
+    font-size: 20px;
+}
+
+.service-price small {
+    font-size: 11px;
+}
+
+.dark-button,
+.outline-button {
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+.load-more-button {
+    min-height: 42px;
+    padding: 0 20px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+.site-footer {
+    padding: 38px 36px 20px;
+}
+
+.footer-top > div > p,
+.footer-top h2,
+.footer-top h2 ~ p {
+    font-size: 13px;
+}
+
+.footer-bottom {
+    font-size: 12px;
+}
+
+.account-main,
+.post-job-main {
+    padding: 36px;
+}
+
+.profile-card {
+    min-height: 160px;
+    padding: 28px 32px;
+}
+
+.profile-copy h2 {
+    font-size: 26px;
+}
+
+.profile-contact p {
+    font-size: 12px;
+}
+
+.setting-copy p:first-child {
+    font-size: 13px;
+}
+
+.setting-copy p:last-child {
+    font-size: 11px;
+}
+
+.section-label {
+    font-size: 11px;
+}
+
+.job-form {
+    gap: 24px;
+}
+
+.form-section {
+    padding: 26px;
+}
+
+.form-field {
+    margin-bottom: 20px;
+}
+
+.form-field > label,
+.form-field > legend,
+.urgency-field > legend {
+    margin-bottom: 9px;
+    font-size: 13px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    font-size: 13px;
+}
+
+.form-field input,
+.form-field select,
+.input-with-icon,
+.budget-input {
+    min-height: 44px;
+}
+
+.form-field textarea {
+    min-height: 150px;
+}
+
+.urgency-field label {
+    font-size: 13px;
+}
+
+.review-label,
+.review-meta span {
+    font-size: 10px;
+}
+
+.review-provider-copy h2 {
+    font-size: 17px;
+}
+
+.review-provider-copy p,
+.review-note {
+    font-size: 11px;
+}
+
+.review-meta strong {
+    font-size: 12px;
+}
+
+.review-section textarea {
+    font-size: 13px;
+}
+
+.photo-header > span {
+    font-size: 10px;
+}
+
+.photo-row .upload-box span,
+.photo-slot {
+    font-size: 10px;
+}
+
+/* Tablet: preserve readable controls while giving the content more room. */
+@media (max-width: 1050px) {
+    :root {
+        --nav-width: 190px;
+    }
+
+    .sidebar {
+        padding: 16px 12px;
+    }
+
+    .home-main,
+    .account-main,
+    .post-job-main {
+        padding: 28px;
+    }
+
+    .services-section {
+        grid-template-columns: 230px minmax(0, 1fr);
+        gap: 18px;
+    }
+}
+
+/* Small screens: collapse the sidebar instead of shrinking text to unreadable sizes. */
+@media (max-width: 760px) {
+    :root {
+        --nav-width: 72px;
+    }
+
+    .sidebar {
+        width: var(--nav-width);
+        padding: 14px 8px;
+    }
+
+    .sidebar .logo {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .sidebar .logo-text,
+    .nav-item span,
+    .user-info {
+        display: none;
+    }
+
+    .nav-item {
+        justify-content: center;
+        min-height: 42px;
+        padding: 0;
+    }
+
+    .user-profile {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .home-header,
+    .page-header {
+        padding: 12px 18px;
+        min-height: 64px;
+    }
+
+    .home-main,
+    .account-main,
+    .post-job-main {
+        padding: 22px 18px;
+    }
+
+    .search-box {
+        width: min(360px, 42vw);
+    }
+
+    .services-section {
+        grid-template-columns: 1fr;
+    }
+
+    .service-providers {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .home-header {
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        order: 5;
+        width: 100%;
+    }
+
+    .location-select {
+        margin-left: auto;
+        max-width: 60%;
+    }
+
+    .hero {
+        min-height: 250px;
+        padding: 28px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .categories-list,
+    .service-providers {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .service-header {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .job-form,
+    .account-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .home-main,
+    .account-main,
+    .post-job-main {
+        padding: 18px 14px;
+    }
+
+    .hero {
+        padding: 22px;
+    }
+
+    .hero h1 {
+        font-size: 27px;
+    }
+
+    .categories-list,
+    .service-providers {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .service-card-bottom .dark-button {
+        width: 100%;
+    }
+}
