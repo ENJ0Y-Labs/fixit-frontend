@@ -1,3 +1,4 @@
+import './styles/pages/payment.css';
 import PaymentMethod from './payment/PaymentMethod';
 import OrderSummary from './payment/OrderSummary';
 
