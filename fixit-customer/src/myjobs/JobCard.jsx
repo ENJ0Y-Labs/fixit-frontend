@@ -16,6 +16,8 @@ function JobCard({
     minBudget = 0,
     maxBudget = 0,
     progressPercentage = 0,
+    onDetails,
+    onChat,
 }) {
     const statusClass = status.toLowerCase().replace(/\s+/g, '-');
     const isAwaitingBids = status.toUpperCase() === 'AWAITING BIDS';
@@ -55,8 +57,8 @@ function JobCard({
                             <div className="progress-track"><span style={{ width: `${Math.min(Math.max(progressPercentage, 0), 100)}%` }}></span></div>
                         </div>
                         <div className="action-buttons">
-                            <button type="button" className="dark-button">Details</button>
-                            <button type="button" className="outline-button">Chat</button>
+                            <button type="button" className="dark-button" onClick={onDetails}>Details</button>
+                            <button type="button" className="outline-button" onClick={onChat}>Chat</button>
                         </div>
                     </>
                 )}
@@ -69,7 +71,7 @@ function JobCard({
                             <span>Providers are waiting</span>
                         </div>
                         <div className="action-buttons">
-                            <button type="button" className="dark-button">View Bids</button>
+                            <button type="button" className="dark-button" onClick={onDetails}>View Bids</button>
                             <button type="button" className="outline-button">Edit Post</button>
                         </div>
                     </>
@@ -114,6 +116,8 @@ JobCard.propTypes = {
     minBudget: PropTypes.number,
     maxBudget: PropTypes.number,
     progressPercentage: PropTypes.number,
+    onDetails: PropTypes.func,
+    onChat: PropTypes.func,
 };
 
 export default JobCard;
