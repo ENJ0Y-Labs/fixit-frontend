@@ -26,6 +26,7 @@ function JobDetailsPageProps({
     agreedprice = 12500,
     onPayment,
     onMessages,
+    onPayment,
     progresstimeline = [
         { icon: 'fa-solid fa-check', title: 'Job posted', description: 'Your job was posted successfully.', timestamp: '9:00 AM' },
         { icon: 'fa-solid fa-user-check', title: 'Provider assigned', description: 'Emeka Nwachukwu accepted the job.', timestamp: '9:30 AM' },
@@ -89,7 +90,7 @@ function JobDetailsPageProps({
                         <i className="fa-solid fa-shield-halved" aria-hidden="true"></i>
                         <p>Payment is held in secure escrow. Funds will be released only after you confirm completion.</p>
                     </div>
-                    <button type="button" className="dark-button full-width" onClick={onPayment}>Release Payment</button>
+                    <button type="button" className="dark-button full-width" onClick={onPayment} disabled={status === 'CANCELLED'}>Release Payment</button>
                     <p className="warning-text">Only click this after the job is finished and inspected.</p>
                 </section>
 
