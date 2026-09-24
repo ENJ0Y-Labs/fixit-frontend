@@ -18,26 +18,15 @@ function ServiceProvider({
                 <div className="service-details">
                     <h3>{name}</h3>
                     <p>{job}</p>
-                    <div className="service-rating">
-                        <i className="fa-solid fa-star" aria-hidden="true"></i>
-                        <span>{rating.toFixed(1)} ({review} reviews)</span>
-                    </div>
-                    <div className="service-distance">
-                        <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
-                        <span>{distance.toFixed(1)} km away</span>
-                    </div>
+                    <div className="service-rating"><i className="fa-solid fa-star" aria-hidden="true"></i><span>{rating.toFixed(1)} ({review} reviews)</span></div>
+                    <div className="service-distance"><i className="fa-solid fa-location-dot" aria-hidden="true"></i><span>{distance.toFixed(1)} km away</span></div>
                 </div>
-                <button type="button" className="favorite-button" aria-label={`Save ${name}`}>
+                <button type="button" className="favorite-button" aria-label={`Save ${name}`} onClick={(event) => event.stopPropagation()}>
                     <i className="fa-regular fa-heart"></i>
                 </button>
             </div>
-
             <div className="service-card-bottom">
-                <div className="service-price">
-                    <span>Rate</span>
-                    <strong>₦{price.toLocaleString('en-NG')}</strong>
-                    <small>/hr</small>
-                </div>
+                <div className="service-price"><span>Rate</span><strong>₦{price.toLocaleString('en-NG')}</strong><small>/hr</small></div>
                 <button type="button" className="dark-button" onClick={onSelect}>View Full Profile</button>
             </div>
         </article>
