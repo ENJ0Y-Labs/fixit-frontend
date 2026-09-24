@@ -30,13 +30,33 @@ function Home() {
     const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
 
     const handleMinPriceChange = (event) => {
-        const value = event.target.value === '' ? '' : Number(event.target.value);
-        setMinPrice(value);
+        const value = Number(event.target.value);
+
+        if (!Number.isFinite(value)) {
+            return;
+        }
+
+        const nextMin = Math.min(
+            Math.max(value, PRICE_MIN),
+            maxPrice - 1
+        );
+
+        setMinPrice(nextMin);
     };
 
     const handleMaxPriceChange = (event) => {
-        const value = event.target.value === '' ? '' : Number(event.target.value);
-        setMaxPrice(value);
+        const value = Number(event.target.value);
+
+        if (!Number.isFinite(value)) {
+            return;
+        }
+
+        const nextMax = Math.max(
+            Math.min(value, PRICE_MAX),
+            minPrice + 1
+        );
+
+        setMaxPrice(nextMax);
     };
 
     const handleSliderChange = (nextMin, nextMax) => {
