@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Footer from './Footer';
 import Category from './home/Category';
 import Toggle from './Toggle';
@@ -22,6 +23,27 @@ const providers = [
 ];
 
 function Home() {
+    const PRICE_MIN = 1500;
+    const PRICE_MAX = 15000;
+
+    const [minPrice, setMinPrice] = useState(PRICE_MIN);
+    const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
+
+    const handleMinPriceChange = (event) => {
+        const value = event.target.value === '' ? '' : Number(event.target.value);
+        setMinPrice(value);
+    };
+
+    const handleMaxPriceChange = (event) => {
+        const value = event.target.value === '' ? '' : Number(event.target.value);
+        setMaxPrice(value);
+    };
+
+    const handleSliderChange = (nextMin, nextMax) => {
+        setMinPrice(nextMin);
+        setMaxPrice(nextMax);
+    };
+
     return (
         <div className="home page-surface">
             <header className="home-header">
@@ -81,26 +103,31 @@ function Home() {
                             <div className="price-inputs">
                                 <input
                                     type="number"
-                                    min="0"
+                                    min={PRICE_MIN}
+                                    max={maxPrice === '' ? PRICE_MAX : maxPrice - 1}
+                                    value={minPrice}
                                     placeholder="Min"
                                     aria-label="Minimum price"
+                                    onChange={handleMinPriceChange}
                                 />
 
                                 <input
                                     type="number"
-                                    min="0"
+                                    min={minPrice === '' ? PRICE_MIN + 1 : minPrice + 1}
+                                    max={PRICE_MAX}
+                                    value={maxPrice}
                                     placeholder="Max"
                                     aria-label="Maximum price"
+                                    onChange={handleMaxPriceChange}
                                 />
                             </div>
 
                             <DoubleRangeSlider
-                                min={1500}
-                                max={15000}
-                                onChange={(minValue, maxValue) => {
-                                    console.log("Minimum:", minValue);
-                                    console.log("Maximum:", maxValue);
-                                }}
+                                min={PRICE_MIN}
+                                max={PRICE_MAX}
+                                minValue={minPrice}
+                                maxValue={maxPrice}
+                                onChange={handleSliderChange}
                             />
                         </div>
 
