@@ -1,0 +1,398 @@
+/* Shared responsive layout */
+@media (max-width: 1100px) {
+    .services-section {
+        grid-template-columns: 230px minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .job-card {
+        grid-template-columns: 54px minmax(0, 1fr) minmax(150px, .7fr);
+    }
+
+    .job-card-action-area {
+        grid-column: 2 / -1;
+        padding-left: 0;
+        padding-top: 16px;
+        border-left: 0;
+        border-top: 1px solid var(--border);
+    }
+
+    .job-details-main,
+    .payment-main {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-right {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .payment-right > section,
+    .payment-right > button {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 1050px) {
+    :root { --nav-width: 190px; }
+
+    .sidebar {
+        padding: 16px 12px;
+    }
+
+    .categories-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .home-main,
+    .account-main,
+    .post-job-main,
+    .my-jobs-main,
+    .job-details-main,
+    .payment-main {
+        padding: 28px;
+    }
+}
+
+@media (max-width: 760px) {
+    :root { --nav-width: 72px; }
+
+    .sidebar {
+        width: var(--nav-width);
+        padding: 14px 8px;
+    }
+
+    .sidebar .logo {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .sidebar .logo-text,
+    .nav-item span,
+    .user-info {
+        display: none;
+    }
+
+    .nav-item {
+        justify-content: center;
+        min-height: 42px;
+        padding: 0;
+    }
+
+    .user-profile {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .home-header,
+    .page-header {
+        padding: 12px 18px;
+        min-height: 64px;
+    }
+
+    .home-main,
+    .account-main,
+    .post-job-main,
+    .my-jobs-main,
+    .job-details-main,
+    .payment-main {
+        padding: 22px 18px;
+    }
+
+    .page-surface .page-header {
+        min-height: 68px;
+    }
+
+    .page-surface .page-header h1 {
+        font-size: 20px;
+    }
+
+    .search-box {
+        width: min(360px, 42vw);
+    }
+
+    .services-section {
+        grid-template-columns: 1fr;
+    }
+
+    .service-providers {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .account-grid,
+    .job-form {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        width: 100%;
+        padding: 22px;
+        align-items: flex-start;
+    }
+
+    .profile-copy .outline-button {
+        position: static;
+        transform: none;
+        margin-top: 16px;
+    }
+
+    .my-jobs-header {
+        flex-wrap: wrap;
+        height: auto;
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    .my-jobs-actions {
+        width: 100%;
+    }
+
+    .compact-search {
+        flex: 1;
+        width: auto;
+    }
+
+    .job-card {
+        grid-template-columns: 48px minmax(0, 1fr);
+        padding: 16px;
+    }
+
+    .job-price,
+    .job-card-action-area {
+        grid-column: 1 / -1;
+        border-left: 0;
+        padding-left: 0;
+    }
+
+    .job-price {
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+    }
+
+    .job-card-action-area {
+        padding-top: 14px;
+    }
+
+    .job-facts {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .payment-right {
+        grid-template-columns: 1fr;
+    }
+
+    .review-overlay {
+        padding: 14px;
+    }
+
+    .review {
+        min-height: 0;
+        grid-template-columns: 1fr;
+    }
+
+    .review-provider {
+        padding: 22px;
+    }
+
+    .review-meta {
+        margin-top: 20px;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .review-content {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 560px) {
+    .home-header {
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        order: 5;
+        width: 100%;
+    }
+
+    .location-select {
+        margin-left: auto;
+        max-width: 60%;
+    }
+
+    .hero {
+        min-height: 250px;
+        padding: 28px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .categories-list,
+    .service-providers {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .service-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .my-jobs-header,
+    .jobs-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .job-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .page-surface .page-header {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .account-main,
+    .post-job-main,
+    .my-jobs-main,
+    .job-details-main,
+    .payment-main {
+        padding: 18px 14px;
+    }
+
+    .home-header {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .profile-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-contact {
+        justify-content: center;
+    }
+
+    .profile-copy .outline-button {
+        width: 100%;
+    }
+
+    .setting-row {
+        min-height: 70px;
+    }
+
+    .date-time-grid,
+    .job-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .form-section {
+        padding: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+
+    .job-status-tabs {
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .job-status-tabs button {
+        flex: 0 0 auto;
+    }
+
+    .job-card-action-area {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .action-buttons {
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+
+    .contact-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-right {
+        display: block;
+    }
+
+    .payment-right > section,
+    .payment-right > button {
+        margin-bottom: 14px;
+    }
+
+    .review-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .review-actions {
+        flex-wrap: wrap;
+    }
+
+    .anonymous-option {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .review-actions .outline-button,
+    .review-actions .dark-button {
+        flex: 1;
+    }
+
+    .photo-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 440px) {
+    .categories-list,
+    .service-providers {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+    }
+
+    .profile-card {
+        padding: 18px;
+    }
+
+    .profile-contact {
+        display: grid;
+        gap: 5px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button,
+    .review-actions button {
+        width: 100%;
+    }
+}
