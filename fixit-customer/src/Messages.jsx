@@ -277,7 +277,7 @@ function Messages({ selectedJob, onViewJob }) {
                         </div>
                     </dl>
 
-                    <button type="button">VIEW JOB DETAILS</button>
+                    <button type="button" onClick={onViewJob}>VIEW JOB DETAILS</button>
                 </article>
 
                 <section className="context-media">
