@@ -81,11 +81,23 @@ function Messages({ selectedJob, onViewJob }) {
         return match?.id ?? 'emeka';
     });
     const [draft, setDraft] = useState('');
+    const [search, setSearch] = useState('');
     const [sentMessages, setSentMessages] = useState({});
 
+    const filteredConversations = useMemo(() => {
+        const query = search.trim().toLowerCase();
+        if (!query) return conversations;
+        return conversations.filter((conversation) =>
+            [conversation.name, conversation.job, conversation.preview].some((value) => value.toLowerCase().includes(query))
+        );
+    }, [search]);
+
     const activeConversation = useMemo(
-        () => conversations.find((conversation) => conversation.id === activeId) ?? conversations[0],
-        [activeId]
+        () => filteredConversations.find((conversation) => conversation.id === activeId)
+            ?? conversations.find((conversation) => conversation.id === activeId)
+            ?? filteredConversations[0]
+            ?? conversations[0],
+        [activeId, filteredConversations]
     );
 
     const visibleMessages = [
@@ -129,12 +141,12 @@ function Messages({ selectedJob, onViewJob }) {
                     <h1>Messages</h1>
                     <div className="messages-search">
                         <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                        <input type="search" placeholder="Search conversations..." aria-label="Search conversations" />
+                        <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search conversations..." aria-label="Search conversations" />
                     </div>
                 </header>
 
                 <div className="conversation-list">
-                    {conversations.map((conversation) => {
+                    {filteredConversations.map((conversation) => {
                         const isActive = conversation.id === activeId;
 
                         return (
