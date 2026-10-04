@@ -14,7 +14,7 @@ function ServiceProvider({
     return (
         <article className="service-card">
             <div className="service-card-top">
-                <i aria-hidden="true"mg src={img || avatarPlaceholder} alt={`${name} profile`} />
+                <img src={img || avatarPlaceholder} alt={`${name} profile`} />
                 <div className="service-details">
                     <h3>{name}</h3>
                     <p>{job}</p>
