@@ -22,14 +22,15 @@ describe('provider application layout', () => {
     it('opens the mobile navigation and closes it after a section is selected', () => {
         render(<App />);
 
-        const menuButton = screen.getByRole('button', { name: /open navigation menu/i });
+        // jsdom does not evaluate responsive CSS media queries, so include the desktop-hidden mobile trigger.
+        const menuButton = screen.getByRole('button', { name: /open navigation menu/i, hidden: true });
         fireEvent.click(menuButton);
 
         expect(menuButton).toHaveAttribute('aria-expanded', 'true');
 
-        fireEvent.click(screen.getByRole('button', { name: /my profile/i }));
+        fireEvent.click(screen.getByRole('button', { name: /my profile/i, hidden: true }));
 
         expect(screen.getByRole('heading', { name: /my profile/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /open navigation menu/i })).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.getByRole('button', { name: /open navigation menu/i, hidden: true })).toHaveAttribute('aria-expanded', 'false');
     });
 });
