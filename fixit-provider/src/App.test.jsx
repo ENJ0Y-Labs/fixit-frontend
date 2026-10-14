@@ -23,14 +23,14 @@ describe('provider application layout', () => {
         render(<App />);
 
         // jsdom does not evaluate responsive CSS media queries, so include the desktop-hidden mobile trigger.
-        const menuButton = screen.getByRole('button', { name: /open navigation menu/i, hidden: true });
+        const menuButton = screen.getByLabelText(/open navigation menu/i);
         fireEvent.click(menuButton);
 
         expect(menuButton).toHaveAttribute('aria-expanded', 'true');
 
-        fireEvent.click(screen.getByRole('button', { name: /my profile/i, hidden: true }));
+        fireEvent.click(screen.getByText('My Profile'));
 
         expect(screen.getByRole('heading', { name: /my profile/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /open navigation menu/i, hidden: true })).toHaveAttribute('aria-expanded', 'false');
+        expect(menuButton).toHaveAttribute('aria-expanded', 'false');
     });
 });
