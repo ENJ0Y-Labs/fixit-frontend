@@ -7,11 +7,20 @@ const navigation = [
     { label: 'My Services', icon: '◇' },
     { label: 'Availability', icon: '◷' },
     { label: 'Available Jobs', icon: '⌕' },
+    { label: 'Job Details', icon: '↗' },
     { label: 'My Jobs', icon: '▤' },
     { label: 'Messages', icon: '✉' },
     { label: 'Earnings', icon: '₦' },
     { label: 'Reviews', icon: '☆' },
 ];
+
+function resolvePage(hash) {
+    const slug = hash.replace(/^#/, '').trim().toLowerCase();
+    if (!slug || slug === 'dashboard') return 'Dashboard';
+
+    const pages = [...navigation, { label: 'Settings', icon: '⚙' }];
+    return pages.find((page) => page.label.toLowerCase().replace(/\\s+/g, '-') === slug)?.label ?? 'Not found';
+}
 
 function Brand() {
     return (
@@ -168,6 +177,20 @@ function Dashboard() {
 }
 
 function PlaceholderPage({ page }) {
+    if (page === 'Not found') {
+        return (
+            <div className="page-placeholder">
+                <p className="eyebrow">Provider workspace</p>
+                <h1>Page not found</h1>
+                <p className="text-muted">That page does not exist or is not available yet.</p>
+                <section className="card">
+                    <h2>Return to your dashboard</h2>
+                    <p className="text-muted">Use the workspace navigation or return to the dashboard to continue.</p>
+                </section>
+            </div>
+        );
+    }
+
     return (
         <div className="page-placeholder">
             <p className="eyebrow">Provider workspace</p>
@@ -185,7 +208,7 @@ function PlaceholderPage({ page }) {
 }
 
 function App() {
-    const [activePage, setActivePage] = useState('Dashboard');
+    const [activePage, setActivePage] = useState(() => resolvePage(window.location.hash));
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
@@ -199,8 +222,19 @@ function App() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [menuOpen]);
 
+    useEffect(() => {
+        function handleHashChange() {
+            setActivePage(resolvePage(window.location.hash));
+            setMenuOpen(false);
+        }
+
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
+
     function navigateTo(page) {
         setActivePage(page);
+        window.location.hash = page.toLowerCase().replace(/\\s+/g, '-');
         setMenuOpen(false);
     }
 
