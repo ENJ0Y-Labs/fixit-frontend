@@ -61,8 +61,8 @@ describe('provider workspace navigation', () => {
     it('shows a not-found screen for an unknown hash route', () => {
         render(<App />);
 
-        window.location.hash = '#not-a-real-page';
-        window.dispatchEvent(new Event('hashchange'));
+        window.history.replaceState({}, '', '#not-a-real-page');
+        fireEvent(window, new Event('hashchange'));
 
         expect(screen.getByRole('heading', { name: 'Page not found' })).toBeInTheDocument();
     });
