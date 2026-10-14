@@ -40,7 +40,7 @@ describe('provider workspace navigation', () => {
             expect(screen.getByRole('heading', { name: page, level: 1 })).toBeInTheDocument();
         }
 
-        expect(screen.getByRole('button', { name: new RegExp('^' + page + '$', 'i'), hidden: true }))
+        expect(screen.getByText(page, { selector: 'span' }).closest('button'))
             .toHaveAttribute('aria-current', 'page');
     });
 
