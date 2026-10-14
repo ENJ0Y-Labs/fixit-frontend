@@ -13,10 +13,10 @@ describe('provider application layout', () => {
     it('updates the active navigation item when a section is selected', () => {
         render(<App />);
 
-        fireEvent.click(screen.getByRole('button', { name: /available jobs/i }));
+        fireEvent.click(screen.getByRole('button', { name: /available jobs/i, hidden: true }));
 
         expect(screen.getByRole('heading', { name: /available jobs/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /available jobs/i })).toHaveAttribute('aria-current', 'page');
+        expect(screen.getByRole('button', { name: /available jobs/i, hidden: true })).toHaveAttribute('aria-current', 'page');
     });
 
     it('opens the mobile navigation and closes it after a section is selected', () => {
