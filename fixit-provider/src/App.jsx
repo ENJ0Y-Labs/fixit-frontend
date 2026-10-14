@@ -19,7 +19,7 @@ function resolvePage(hash) {
     if (!slug || slug === 'dashboard') return 'Dashboard';
 
     const pages = [...navigation, { label: 'Settings', icon: '⚙' }];
-    return pages.find((page) => page.label.toLowerCase().replace(/\\s+/g, '-') === slug)?.label ?? 'Not found';
+    return pages.find((page) => page.label.toLowerCase().replace(/\s+/g, '-') === slug)?.label ?? 'Not found';
 }
 
 function Brand() {
@@ -234,7 +234,7 @@ function App() {
 
     function navigateTo(page) {
         setActivePage(page);
-        window.location.hash = page.toLowerCase().replace(/\\s+/g, '-');
+        window.location.hash = page.toLowerCase().replace(/\s+/g, '-');
         setMenuOpen(false);
     }
 
