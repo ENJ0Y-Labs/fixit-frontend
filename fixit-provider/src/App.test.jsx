@@ -15,7 +15,7 @@ describe('provider application layout', () => {
 
         fireEvent.click(screen.getByRole('button', { name: /available jobs/i, hidden: true }));
 
-        expect(screen.getByRole('heading', { name: /available jobs/i })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /^available jobs$/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /available jobs/i, hidden: true })).toHaveAttribute('aria-current', 'page');
     });
 
