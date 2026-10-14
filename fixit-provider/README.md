@@ -29,8 +29,10 @@ npm run lint
 npm run build
 ```
 
-The smoke test verifies that the provider app renders its welcome heading. The production build is written to `dist/`; confirm `dist/index.html` exists after a successful build.
+## Current foundation
 
-## Scope
+The application includes a responsive provider shell and a lightweight design system: CSS tokens, typography, buttons, form controls, cards, status badges, dialog styling, visible keyboard focus, and a desktop sidebar that becomes a dismissible mobile navigation drawer. The dashboard content is illustrative mock data and is not connected to an API.
 
-This commit establishes the automated component-testing foundation. Provider workflows, API integrations, and authentication UI will be implemented in subsequent focused changes. Backend authorization remains the backend's responsibility.
+The component tests cover the dashboard render, active navigation, and mobile menu open/close behavior. Check responsive layouts manually at 320, 375, 768, 1024, and 1440 pixels. Use Tab and Shift+Tab to check focus visibility, Enter/Space to activate controls, and Escape to close the mobile menu.
+
+Provider workflows, API integrations, and authentication UI will be implemented in subsequent focused changes. Backend authorization remains the backend's responsibility.
