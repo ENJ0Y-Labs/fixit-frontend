@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 function DoubleRangeSlider({
@@ -18,18 +18,6 @@ function DoubleRangeSlider({
 
     const currentMin = minValue ?? localMin;
     const currentMax = maxValue ?? localMax;
-
-    useEffect(() => {
-        if (minValue !== undefined) {
-            setLocalMin(minValue);
-        }
-    }, [minValue]);
-
-    useEffect(() => {
-        if (maxValue !== undefined) {
-            setLocalMax(maxValue);
-        }
-    }, [maxValue]);
 
     const range = max - min || 1;
     const minPercent = ((currentMin - min) / range) * 100;
