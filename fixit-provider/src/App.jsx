@@ -27,7 +27,7 @@ function Brand() {
 
 function Sidebar({ activePage, onNavigate, isOpen }) {
     return (
-        <aside className={`provider-sidebar${isOpen ? ' is-open' : ''}`} aria-label="Provider navigation">
+        <aside className={`provider-sidebar${isOpen ? ' is-open' : ''}`} id="provider-navigation" aria-label="Provider navigation">
             <Brand />
             <p className="nav-label">Workspace</p>
             <nav className="provider-nav" aria-label="Main navigation">
