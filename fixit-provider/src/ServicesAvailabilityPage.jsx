@@ -27,7 +27,7 @@ function validateServices(services) {
         names.add(service.name);
         if (!service.description.trim()) rowErrors.description = 'Add a short description.';
         if (service.pricing !== 'quote' && !service.price.trim()) rowErrors.price = 'Enter a price for this pricing option.';
-        if (service.price.trim() && (!Number.isFinite(Number(service.price)) || Number(service.price) < 0))
+        if (service.price.trim() && (!Number.isFinite(Number(service.price)) || Number(service.price) < 0)) {
             rowErrors.price = 'Enter a valid non-negative price.';
         }
         if (service.price.trim() && Number(service.price) === 0) rowErrors.price = 'Price must be greater than ₦0.';
