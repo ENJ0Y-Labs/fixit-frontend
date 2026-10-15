@@ -24,7 +24,7 @@ describe('provider service management', () => {
     it('rejects a zero or negative price and retains the entered values', () => {
         render(<ServicesAvailabilityPage />);
         fireEvent.change(screen.getByLabelText('Price (₦, optional)'), { target: { value: '-25' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Validate changes' }));
         expect(screen.getByText('Enter a valid non-negative price.')).toBeInTheDocument();
         expect(screen.getByLabelText('Price (₦, optional)')).toHaveValue(-25);
         expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
@@ -34,14 +34,14 @@ describe('provider service management', () => {
         render(<ServicesAvailabilityPage />);
         fireEvent.change(screen.getByLabelText('Add a permitted service'), { target: { value: 'Carpentry' } });
         fireEvent.click(screen.getByRole('button', { name: 'Add service' }));
-        fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Validate changes' }));
         expect(screen.getByText('Add a short description.')).toBeInTheDocument();
     });
 
     it('keeps service edits marked unsaved because no backend persistence exists', () => {
         render(<ServicesAvailabilityPage />);
         fireEvent.change(screen.getByLabelText('Description'), { target: { value: 'Tap repairs, leak detection, and pipe maintenance.' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Validate changes' }));
         expect(screen.getByRole('status')).toHaveTextContent('still unsaved');
         expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
     });
@@ -50,7 +50,7 @@ describe('provider service management', () => {
         render(<ServicesAvailabilityPage />);
         fireEvent.change(screen.getByLabelText('Pricing'), { target: { value: 'fixed' } });
         fireEvent.change(screen.getByLabelText('Price (₦, optional)'), { target: { value: '' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Validate changes' }));
         expect(screen.getByText('Enter a price for this pricing option.')).toBeInTheDocument();
         expect(screen.getByLabelText('Price (₦, optional)')).toHaveValue(null);
     });
@@ -69,7 +69,7 @@ describe('provider availability management', () => {
     it('validates that end time is later than start time', () => {
         render(<ServicesAvailabilityPage section="Availability" />);
         fireEvent.change(document.getElementById('availability-end-Monday'), { target: { value: '08:00' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Validate changes' }));
         expect(screen.getByText('End time must be later than start time.')).toBeInTheDocument();
         expect(document.getElementById('availability-end-Monday')).toHaveValue('08:00');
     });
@@ -79,7 +79,7 @@ describe('provider availability management', () => {
         screen.getAllByRole('checkbox').filter((checkbox) => checkbox.closest('.schedule-day')).forEach((checkbox) => {
             if (checkbox.checked) fireEvent.click(checkbox);
         });
-        fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Validate changes' }));
         expect(screen.getByText('Select at least one working day, or mark yourself unavailable.')).toBeInTheDocument();
     });
 
@@ -95,7 +95,7 @@ describe('provider availability management', () => {
     it('keeps availability edits marked unsaved because no backend persistence exists', () => {
         render(<ServicesAvailabilityPage section="Availability" />);
         fireEvent.change(document.getElementById('availability-Monday'), { target: { value: '10:00' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Validate changes' }));
         expect(screen.getByRole('status')).toHaveTextContent('still unsaved');
         expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
     });
