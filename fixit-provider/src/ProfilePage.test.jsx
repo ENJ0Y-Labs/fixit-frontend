@@ -42,7 +42,7 @@ describe('provider onboarding and profile', () => {
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
-    it('previews valid details before local confirmation and clearly states that no server save occurs', () => {
+    it('previews valid details before local confirmation and clearly states that no server save occurs', async () => {
         render(<ProfilePage />);
         fillRequiredFields();
         fireEvent.click(screen.getByRole('button', { name: /preview profile/i }));
@@ -52,7 +52,7 @@ describe('provider onboarding and profile', () => {
         expect(screen.getByText('Rumuola, Port Harcourt')).toBeInTheDocument();
 
         fireEvent.click(screen.getByRole('button', { name: /confirm preview/i }));
-        expect(screen.getByRole('status')).toHaveTextContent(/have not been sent to a server/i);
+        expect(await screen.findByRole('status')).toHaveTextContent(/have not been sent to a server/i);
         expect(screen.getByLabelText(/full name/i)).toHaveValue('Ada Okafor');
     });
 
