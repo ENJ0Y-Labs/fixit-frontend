@@ -93,6 +93,10 @@ export default function BidWorkflow({ job, onSubmitBid, submittedBids = [] }) {
                 setError('Your session has expired. Sign in again before submitting a bid.');
             } else if (submissionError?.status === 403) {
                 setError('You are not permitted to bid on this job.');
+            } else if (submissionError?.status === 422) {
+                setError(submissionError?.message || 'The server rejected the quote details. Review the price and message, then try again.');
+            } else if (submissionError?.status === 429) {
+                setError('Too many submission attempts. Wait a moment before trying again.');
             } else {
                 setError(submissionError?.message || 'We could not submit your bid. Your quote has been kept so you can retry.');
             }
