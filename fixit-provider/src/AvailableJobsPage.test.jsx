@@ -81,7 +81,7 @@ describe('available jobs discovery', () => {
         expect(screen.getByRole('heading', { name: 'Repair leaking kitchen sink' })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: 'Customer details are protected' })).toBeInTheDocument();
         expect(screen.getByText(/customer name, phone number, and exact street address are not available/i)).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /respond to job/i })).toBeDisabled();
+        expect(screen.getByRole('button', { name: 'Submit quote' })).toBeEnabled();
         fireEvent.click(screen.getByRole('button', { name: /back to available jobs/i }));
         expect(screen.getByRole('heading', { name: 'Available Jobs' })).toBeInTheDocument();
     });
