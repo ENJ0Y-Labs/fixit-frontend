@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import './MyJobsPage.css';
 
 const EMPTY_JOBS = [];
@@ -18,6 +18,7 @@ function formatNaira(amount) {
     return new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
+        minimumFractionDigits: 0,
         maximumFractionDigits: 2,
     }).format(amount);
 }
@@ -93,16 +94,14 @@ export default function MyJobsPage({
     onTransitionJob,
 }) {
     const [activeGroup, setActiveGroup] = useState('upcoming');
-    const [localJobs, setLocalJobs] = useState(jobs);
+    const [jobState, setJobState] = useState(() => ({ source: jobs, values: jobs }));
     const [selectedAction, setSelectedAction] = useState(null);
     const [pendingJobId, setPendingJobId] = useState(null);
     const [error, setError] = useState('');
     const [notice, setNotice] = useState('');
     const transitionLock = useRef(new Set());
 
-    useEffect(() => {
-        setLocalJobs(jobs);
-    }, [jobs]);
+    const localJobs = jobState.source === jobs ? jobState.values : jobs;
 
     async function confirmTransition() {
         if (!selectedAction || transitionLock.current.has(selectedAction.job.id)) return;
@@ -129,7 +128,10 @@ export default function MyJobsPage({
                 setError('The server response did not confirm the updated job status. Refresh your jobs before trying again.');
                 return;
             }
-            setLocalJobs((current) => current.map((item) => item.id === job.id ? updatedJob : item));
+            setJobState({
+                source: jobs,
+                values: localJobs.map((item) => item.id === job.id ? updatedJob : item),
+            });
             setNotice(`Job updated. Server status: ${updatedJob.status}`);
         } catch (transitionError) {
             if (transitionError?.status === 409) {

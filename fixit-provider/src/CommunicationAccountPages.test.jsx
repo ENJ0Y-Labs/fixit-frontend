@@ -1,7 +1,8 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import MessagesPage from './MessagesPage.jsx';
-import EarningsPage, { calculateEarnings, formatNaira } from './EarningsPage.jsx';
+import EarningsPage from './EarningsPage.jsx';
+import { calculateEarnings, formatNaira } from './earningsUtils.js';
 import ReviewsPage from './ReviewsPage.jsx';
 import SettingsPage from './SettingsPage.jsx';
 
