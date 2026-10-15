@@ -74,7 +74,7 @@ async function readResponseBody(response) {
         return null;
     }
 
-    const contentType = response.headers?.get?.('content-type') || '';
+    const contentType = (response.headers?.get?.('content-type') || '').toLowerCase();
     if (contentType.includes('application/json') || /^[\s]*[\[{]/.test(text)) {
         try {
             return JSON.parse(text);
@@ -165,9 +165,9 @@ export function createApiClient({
             body !== undefined
             && body !== null
             && typeof body !== 'string'
-            && !(body instanceof FormData)
-            && !(body instanceof Blob)
-            && !(body instanceof ArrayBuffer)
+            && !(typeof FormData !== 'undefined' && body instanceof FormData)
+            && !(typeof Blob !== 'undefined' && body instanceof Blob)
+            && !(typeof ArrayBuffer !== 'undefined' && body instanceof ArrayBuffer)
         ) {
             requestBody = JSON.stringify(body);
             if (!headers.has('Content-Type')) {
