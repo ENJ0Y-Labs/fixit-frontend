@@ -218,7 +218,7 @@ export default function ServicesAvailabilityPage({ section = 'My Services' }) {
                         </div>
                         <div className="services-form-actions">
                             <button className="btn btn-quiet" type="button" onClick={discardChanges} disabled={!servicesDirty}>Discard changes</button>
-                            <button className="btn btn-primary" type="submit">Review and save</button>
+                            <button className="btn btn-primary" type="submit">Validate changes</button>
                         </div>
                         <p className="services-demo-note">Demo only: changes stay in this page session and are not sent to a backend.</p>
                     </form>
@@ -267,7 +267,7 @@ export default function ServicesAvailabilityPage({ section = 'My Services' }) {
                     </div>
                     <div className="services-form-actions">
                         <button className="btn btn-quiet" type="button" onClick={discardChanges} disabled={!scheduleDirty}>Discard changes</button>
-                        <button className="btn btn-primary" type="submit">Review and save</button>
+                        <button className="btn btn-primary" type="submit">Validate changes</button>
                     </div>
                     <p className="services-demo-note">Demo only: changes stay in this page session and are not sent to a backend.</p>
                 </form>
