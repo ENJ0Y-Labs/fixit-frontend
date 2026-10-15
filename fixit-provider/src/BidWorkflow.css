@@ -1,0 +1,26 @@
+.bid-workflow { margin-top: 18px; }
+.bid-section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.bid-section-heading h2 { margin-bottom: 0; }
+.bid-currency-label { flex: 0 0 auto; padding: 6px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .75rem; font-weight: 700; }
+.bid-intro { margin: 12px 0 20px; color: var(--muted); font-size: .88rem; }
+.bid-form { display: grid; gap: 16px; }
+.bid-form textarea { width: 100%; min-height: 108px; resize: vertical; }
+.bid-form .field-hint { margin: 6px 0 0; line-height: 1.5; }
+.bid-submit-button { justify-self: start; min-width: 170px; }
+.bid-error, .bid-success { display: grid; gap: 5px; margin: 0 0 16px; padding: 12px 14px; border-radius: var(--radius-sm); font-size: .86rem; }
+.bid-error { border: 1px solid #e6b7b7; background: #fff5f5; color: #8c2525; }
+.bid-success { border: 1px solid #b7d9c0; background: #f3fbf5; color: #215c32; }
+.submitted-bids-section { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); }
+.submitted-bids-section h3 { margin-bottom: 14px; font-size: 1rem; }
+.bid-status-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.bid-status-card { padding: 13px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.bid-status-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.bid-status-heading > strong { font-size: 1.05rem; }
+.bid-status-card p { margin: 8px 0 0; color: var(--muted); font-size: .85rem; white-space: pre-line; }
+.bid-status-card .bid-schedule, .bid-status-card .bid-created-at { font-size: .77rem; }
+.bid-empty-state { margin: 0; color: var(--muted); font-size: .85rem; }
+@media (max-width: 430px) {
+    .bid-section-heading { flex-direction: column; }
+    .bid-submit-button { width: 100%; }
+    .bid-status-heading { align-items: flex-start; flex-direction: column; }
+}
