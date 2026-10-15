@@ -23,7 +23,29 @@ npm ci
 
 Vite exposes `VITE_*` variables to browser code. Never put API secrets, passwords, signing keys, or payment credentials in these variables. Local `.env` files are ignored by Git; commit only safe examples.
 
-See [API_CONTRACTS.md](./API_CONTRACTS.md) for the proposed provider API routes, payload requirements, errors, authentication decisions, and backend approval checklist. **The contract is a proposal, not proof that these endpoints exist.** Confirm it with the backend team before implementing requests.
+See [API_CONTRACTS.md](./API_CONTRACTS.md) for the proposed provider API routes, payload requirements, errors, authentication decisions, and backend approval checklist. **The contract is a proposal, not proof that these endpoints exist.** Confirm it with the backend team before adding resource-specific requests.
+
+## API transport foundation
+
+The shared transport client lives in `src/api/client.js`. It provides `get`, `post`, `put`, `patch`, `delete`, and a lower-level `request` method. It builds URLs under `VITE_API_BASE_URL`, serializes object request bodies as JSON, parses response bodies when possible, and throws `ApiError` for configuration, network, and HTTP failures.
+
+```js
+import { apiClient, ApiError } from './api/client.js';
+
+try {
+    const result = await apiClient.get('your/confirmed/relative/path', {
+        query: { limit: 20 },
+    });
+    // Handle the response using the backend-confirmed response contract.
+} catch (error) {
+    if (error instanceof ApiError) {
+        // Inspect error.code, error.status, and error.retryAfter as needed.
+        // Do not display error.payload directly to users.
+    }
+}
+```
+
+The relative path above is a placeholder, not a live endpoint. The client intentionally does not assume a success/error JSON envelope or an authentication scheme. Configure `credentials` only after the backend confirms whether cookie credentials are required. Resource-specific API functions and screen integration remain blocked on backend contract approval.
 
 ## Development
 
