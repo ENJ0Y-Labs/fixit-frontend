@@ -60,7 +60,7 @@ Request:
 }
 ```
 
-If the backend uses `updatedAt` instead of `version`, define the exact request field and semantics. The UI must show a confirmation step before submitting consequential transitions, especially cancellations.
+If the backend uses `updatedAt` instead of `version`, define the exact request field and semantics. The UI must show a confirmation step before submitting consequential transitions, especially cancellations, and must never optimistically change a job's status.
 
 Successful response must include the updated persisted job, including its exact current `status`, `statusCategory`, `allowedTransitions`, and concurrency token. The frontend must not report success based only on a successful HTTP status if the updated job cannot be confirmed.
 
