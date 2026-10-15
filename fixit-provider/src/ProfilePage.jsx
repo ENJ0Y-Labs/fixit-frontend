@@ -136,8 +136,8 @@ export default function ProfilePage() {
         <div className="profile-page">
             <div className="page-heading">
                 <div>
-                    <p className="eyebrow">Provider workspace</p>
-                    <h1>Onboarding &amp; profile</h1>
+                    <p className="eyebrow">Onboarding &amp; profile</p>
+                    <h1>My Profile</h1>
                     <p>Help customers understand who you are, what you do, and where you work.</p>
                 </div>
                 <span className="status-badge status-neutral">Profile setup</span>
