@@ -236,7 +236,7 @@ export default function MyJobsPage({
                             <div><p className="eyebrow">Confirm job update</p><h2 id="my-jobs-confirm-heading">{actionLabel(selectedAction.transition)}?</h2></div>
                         </div>
                         <p id="my-jobs-confirm-description">
-                            {/[\s_-]cancel/i.test(selectedAction.transition)
+                            {/cancel/i.test(selectedAction.transition)
                                 ? 'Cancelling may affect the customer and your job record. Continue only if this is intended.'
                                 : `This will request the “${selectedAction.transition}” transition for “${selectedAction.job.title || selectedAction.job.id}”. The server must approve the change.`}
                         </p>
