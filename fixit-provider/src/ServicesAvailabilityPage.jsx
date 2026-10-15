@@ -16,9 +16,6 @@ const initialSchedule = days.map((day, index) => ({
     end: '17:00',
 }));
 
-const money = (value) => new Intl.NumberFormat('en-NG', {
-    style: 'currency', currency: 'NGN', maximumFractionDigits: 0,
-}).format(Number(value));
 
 function validateServices(services) {
     const errors = {};
@@ -29,7 +26,8 @@ function validateServices(services) {
         if (names.has(service.name)) rowErrors.name = 'Each service can only be listed once.';
         names.add(service.name);
         if (!service.description.trim()) rowErrors.description = 'Add a short description.';
-        if (service.price.trim() && (!Number.isFinite(Number(service.price)) || Number(service.price) < 0)) {
+        if (service.pricing !== 'quote' && !service.price.trim()) rowErrors.price = 'Enter a price for this pricing option.';
+        if (service.price.trim() && (!Number.isFinite(Number(service.price)) || Number(service.price) < 0))
             rowErrors.price = 'Enter a valid non-negative price.';
         }
         if (service.price.trim() && Number(service.price) === 0) rowErrors.price = 'Price must be greater than ₦0.';
@@ -108,8 +106,7 @@ export default function ServicesAvailabilityPage({ section = 'My Services' }) {
             document.getElementById('service-name-' + Object.keys(errors)[0])?.focus();
             return;
         }
-        setSavedServices(services.map((item) => ({ ...item })));
-        setNotice('Service changes confirmed in this demo only. Nothing has been saved to a server.');
+        setNotice('Validation passed, but these service changes are still unsaved. This frontend demo has no backend connection.');
     }
 
     function updateDay(day, field, value) {
@@ -127,9 +124,7 @@ export default function ServicesAvailabilityPage({ section = 'My Services' }) {
             document.getElementById('availability-' + Object.keys(errors)[0])?.focus();
             return;
         }
-        setSavedSchedule(schedule.map((item) => ({ ...item })));
-        setSavedAvailability(isAvailable);
-        setNotice('Availability changes confirmed in this demo only. Nothing has been saved to a server.');
+        setNotice('Validation passed, but these availability changes are still unsaved. This frontend demo has no backend connection.');
     }
 
     function discardChanges() {
