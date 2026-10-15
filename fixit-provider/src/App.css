@@ -282,3 +282,49 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+
+/* Dashboard feature */
+.demo-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 22px;
+    padding: 12px 14px;
+    border: 1px solid #e5d5b4;
+    border-radius: var(--radius-sm);
+    background: #fffaf0;
+    color: #624a1f;
+    font-size: 0.82rem;
+}
+.demo-notice strong { flex: 0 0 auto; }
+.dashboard-metrics { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.earnings-panel { margin-bottom: 22px; }
+.earnings-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.earning-item { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.earning-label { color: var(--muted); font-size: 0.82rem; font-weight: 700; }
+.earning-item strong { color: var(--black); font-size: clamp(1.15rem, 1.8vw, 1.55rem); overflow-wrap: anywhere; }
+.earning-item p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.job-row-status { margin: 8px 0 0; }
+.job-amount { display: grid; flex: 0 0 auto; gap: 4px; text-align: right; }
+.job-amount strong { font-size: 0.9rem; }
+.job-amount span { color: var(--muted); font-size: 0.72rem; }
+.empty-state { padding: 20px 0 4px; }
+.empty-state p { color: var(--muted); font-size: 0.88rem; }
+.dashboard-state { max-width: 720px; margin: 24px auto; }
+.loading-bars { display: grid; gap: 10px; margin-top: 20px; }
+.loading-bars span { display: block; height: 12px; border-radius: 999px; background: var(--surface-soft); }
+.loading-bars span:nth-child(2) { width: 78%; }
+.loading-bars span:nth-child(3) { width: 55%; }
+
+@media (max-width: 1200px) {
+    .dashboard-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+    .earnings-grid { grid-template-columns: minmax(0, 1fr); }
+    .demo-notice { flex-direction: column; gap: 4px; }
+}
+@media (max-width: 430px) {
+    .dashboard-metrics { grid-template-columns: minmax(0, 1fr); }
+    .job-amount { text-align: left; }
+}
