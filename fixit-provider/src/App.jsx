@@ -3,6 +3,7 @@ import './App.css';
 import AvailableJobsPage from './AvailableJobsPage.jsx';
 import ProfilePage from './ProfilePage.jsx';
 import ServicesAvailabilityPage from './ServicesAvailabilityPage.jsx';
+import MyJobsPage from './MyJobsPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦' },
@@ -341,7 +342,7 @@ function App() {
                     </div>
                 </header>
                 <div className="provider-content">
-                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : <PlaceholderPage page={activePage} />}
+                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'My Jobs' ? <MyJobsPage /> : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>
