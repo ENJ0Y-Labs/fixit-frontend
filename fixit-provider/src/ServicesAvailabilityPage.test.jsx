@@ -38,12 +38,21 @@ describe('provider service management', () => {
         expect(screen.getByText('Add a short description.')).toBeInTheDocument();
     });
 
-    it('does not claim server persistence after confirming service changes', () => {
+    it('keeps service edits marked unsaved because no backend persistence exists', () => {
         render(<ServicesAvailabilityPage />);
         fireEvent.change(screen.getByLabelText('Description'), { target: { value: 'Tap repairs, leak detection, and pipe maintenance.' } });
         fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
-        expect(screen.getByRole('status')).toHaveTextContent('not been saved to a server');
-        expect(screen.getByText('No unsaved changes')).toBeInTheDocument();
+        expect(screen.getByRole('status')).toHaveTextContent('still unsaved');
+        expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
+    });
+
+    it('requires a price when the provider selects fixed pricing', () => {
+        render(<ServicesAvailabilityPage />);
+        fireEvent.change(screen.getByLabelText('Pricing'), { target: { value: 'fixed' } });
+        fireEvent.change(screen.getByLabelText('Price (₦, optional)'), { target: { value: '' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
+        expect(screen.getByText('Enter a price for this pricing option.')).toBeInTheDocument();
+        expect(screen.getByLabelText('Price (₦, optional)')).toHaveValue(null);
     });
 
     it('can discard unsaved service changes', () => {
@@ -83,11 +92,11 @@ describe('provider availability management', () => {
         expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
     });
 
-    it('confirms local schedule state without falsely claiming a server save', () => {
+    it('keeps availability edits marked unsaved because no backend persistence exists', () => {
         render(<ServicesAvailabilityPage section="Availability" />);
         fireEvent.change(document.getElementById('availability-Monday'), { target: { value: '10:00' } });
         fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
-        expect(screen.getByRole('status')).toHaveTextContent('not been saved to a server');
-        expect(screen.getByText('No unsaved changes')).toBeInTheDocument();
+        expect(screen.getByRole('status')).toHaveTextContent('still unsaved');
+        expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
     });
 });
