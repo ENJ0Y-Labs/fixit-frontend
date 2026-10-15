@@ -25,7 +25,7 @@ describe('provider workspace navigation', () => {
     it('renders the provider dashboard by default', () => {
         render(<App />);
 
-        expect(screen.getByRole('heading', { name: /good morning, provider/i })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /provider dashboard/i })).toBeInTheDocument();
         expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument();
     });
 
@@ -35,7 +35,7 @@ describe('provider workspace navigation', () => {
         fireEvent.click(screen.getByText(page, { selector: 'span' }));
 
         if (page === 'Dashboard') {
-            expect(screen.getByRole('heading', { name: /good morning, provider/i })).toBeInTheDocument();
+            expect(screen.getByRole('heading', { name: /provider dashboard/i })).toBeInTheDocument();
         } else {
             expect(screen.getByRole('heading', { name: page, level: 1 })).toBeInTheDocument();
         }
