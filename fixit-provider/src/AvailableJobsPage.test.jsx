@@ -42,11 +42,11 @@ describe('available jobs discovery', () => {
     });
 
     it('resets pagination when a filter changes', () => {
-        render(<AvailableJobsPage pageSize={2} />);
+        render(<AvailableJobsPage pageSize={1} />);
         fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-        fireEvent.change(screen.getByLabelText('Category'), { target: { value: 'Cleaning' } });
-        expect(screen.getByText('Page 1 of 1')).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: 'Deep clean a two-bedroom flat' })).toBeInTheDocument();
+        fireEvent.change(screen.getByLabelText('Category'), { target: { value: 'Plumbing' } });
+        expect(screen.getByText('Page 1 of 2')).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Repair leaking kitchen sink' })).toBeInTheDocument();
     });
 
     it('sorts matching jobs by budget', () => {
