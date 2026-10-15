@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import ProfilePage from './ProfilePage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦' },
@@ -338,7 +339,7 @@ function App() {
                     </div>
                 </header>
                 <div className="provider-content">
-                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : <PlaceholderPage page={activePage} />}
+                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>
