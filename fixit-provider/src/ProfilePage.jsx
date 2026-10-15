@@ -44,8 +44,7 @@ export default function ProfilePage() {
     const [notice, setNotice] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const fileInputRef = useRef(null);
-    const biographyRef = useRef(null);
-
+    
     const isDirty = JSON.stringify(profile) !== JSON.stringify(savedProfile) || image !== '';
     const verificationStatus = 'Not submitted';
 
@@ -209,7 +208,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="form-field profile-field-full">
                         <label htmlFor="profile-biography">Professional biography <span aria-hidden="true">*</span></label>
-                        <textarea ref={biographyRef} id="profile-biography" name="biography" rows="5" maxLength="600" value={profile.biography} onChange={updateField} aria-invalid={Boolean(errors.biography)} aria-describedby={errors.biography ? 'error-biography biography-count' : 'biography-count'} placeholder="Describe your experience, how you work, and what customers can expect." />
+                        <textarea id="profile-biography" name="biography" rows="5" maxLength="600" value={profile.biography} onChange={updateField} aria-invalid={Boolean(errors.biography)} aria-describedby={errors.biography ? 'error-biography biography-count' : 'biography-count'} placeholder="Describe your experience, how you work, and what customers can expect." />
                         <div className="profile-field-footer">
                             <FieldError id="error-biography">{errors.biography}</FieldError>
                             <span id="biography-count" className="text-muted">{profile.biography.length}/600</span>
