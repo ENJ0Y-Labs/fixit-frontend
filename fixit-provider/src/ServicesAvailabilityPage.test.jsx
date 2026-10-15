@@ -12,10 +12,10 @@ describe('provider service management', () => {
         render(<ServicesAvailabilityPage />);
         fireEvent.change(screen.getByLabelText('Add a permitted service'), { target: { value: 'Cleaning' } });
         fireEvent.click(screen.getByRole('button', { name: 'Add service' }));
-        expect(screen.getByLabelText('Service', { selector: 'label' })).toBeTruthy();
+        expect(screen.getAllByLabelText('Service')).toHaveLength(2);
         expect(screen.getByRole('heading', { name: 'Cleaning' })).toBeInTheDocument();
 
-        fireEvent.change(screen.getByLabelText('Description', { selector: 'label' }), { target: { value: 'Home cleaning and tidy-up services.' } });
+        fireEvent.change(screen.getAllByLabelText('Description')[1], { target: { value: 'Home cleaning and tidy-up services.' } });
         expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
         fireEvent.click(screen.getByRole('button', { name: 'Remove Cleaning' }));
         expect(screen.queryByRole('heading', { name: 'Cleaning' })).not.toBeInTheDocument();
@@ -59,10 +59,10 @@ describe('provider service management', () => {
 describe('provider availability management', () => {
     it('validates that end time is later than start time', () => {
         render(<ServicesAvailabilityPage section="Availability" />);
-        fireEvent.change(screen.getByLabelText('To', { selector: 'label' }), { target: { value: '08:00' } });
+        fireEvent.change(document.getElementById('availability-end-Monday'), { target: { value: '08:00' } });
         fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
         expect(screen.getByText('End time must be later than start time.')).toBeInTheDocument();
-        expect(screen.getByLabelText('To', { selector: 'label' })).toHaveValue('08:00');
+        expect(document.getElementById('availability-end-Monday')).toHaveValue('08:00');
     });
 
     it('requires at least one working day when available', () => {
@@ -79,13 +79,13 @@ describe('provider availability management', () => {
         fireEvent.click(screen.getByRole('checkbox', { name: 'Available' }));
         expect(screen.getByRole('heading', { name: 'Unavailable for new work' })).toBeInTheDocument();
         expect(screen.getByText('Working-hour controls are disabled while you are unavailable.')).toBeInTheDocument();
-        expect(screen.getByLabelText('From', { selector: 'label' })).toBeDisabled();
+        expect(document.getElementById('availability-Monday')).toBeDisabled();
         expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
     });
 
     it('confirms local schedule state without falsely claiming a server save', () => {
         render(<ServicesAvailabilityPage section="Availability" />);
-        fireEvent.change(screen.getByLabelText('From', { selector: 'label' }), { target: { value: '10:00' } });
+        fireEvent.change(document.getElementById('availability-Monday'), { target: { value: '10:00' } });
         fireEvent.click(screen.getByRole('button', { name: 'Review and save' }));
         expect(screen.getByRole('status')).toHaveTextContent('not been saved to a server');
         expect(screen.getByText('No unsaved changes')).toBeInTheDocument();
