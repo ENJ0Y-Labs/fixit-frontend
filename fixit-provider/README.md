@@ -15,6 +15,16 @@ From this directory:
 npm ci
 ```
 
+## Environment configuration
+
+1. Copy `.env.example` to `.env.local` in `fixit-provider/`.
+2. Set `VITE_API_BASE_URL` to the API base URL approved by the backend team. The example points to a local placeholder and is not a confirmed backend address.
+3. Restart the Vite development server after changing environment variables.
+
+Vite exposes `VITE_*` variables to browser code. Never put API secrets, passwords, signing keys, or payment credentials in these variables. Local `.env` files are ignored by Git; commit only safe examples.
+
+See [API_CONTRACTS.md](./API_CONTRACTS.md) for the proposed provider API routes, payload requirements, errors, authentication decisions, and backend approval checklist. **The contract is a proposal, not proof that these endpoints exist.** Confirm it with the backend team before implementing requests.
+
 ## Development
 
 ```bash
@@ -33,6 +43,8 @@ npm run build
 
 The application includes a responsive provider shell and a lightweight design system: CSS tokens, typography, buttons, form controls, cards, status badges, dialog styling, visible keyboard focus, and a desktop sidebar that becomes a dismissible mobile navigation drawer. The dashboard content is illustrative mock data and is not connected to an API.
 
-The component tests cover the dashboard render, active navigation, and mobile menu open/close behavior. Check responsive layouts manually at 320, 375, 768, 1024, and 1440 pixels. Use Tab and Shift+Tab to check focus visibility, Enter/Space to activate controls, and Escape to close the mobile menu.
+The Messages, Earnings, Reviews, and Settings screens remain unconfigured until approved backend contracts and persistence are connected. Payouts are not simulated, and account settings are not described as saved unless a server confirms persistence.
 
-Provider workflows, API integrations, and authentication UI will be implemented in subsequent focused changes. Backend authorization remains the backend's responsibility.
+The component tests cover the dashboard render, active navigation, mobile menu open/close behavior, and the documented screen states. Check responsive layouts manually at 320, 375, 768, 1024, and 1440 pixels. Use Tab and Shift+Tab to check focus visibility, Enter/Space to activate controls, and Escape to close the mobile menu.
+
+Backend authorization, persistence, validation, and payment integrity remain the backend's responsibility.
