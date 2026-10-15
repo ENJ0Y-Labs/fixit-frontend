@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import ProfilePage from './ProfilePage.jsx';
+import ServicesAvailabilityPage from './ServicesAvailabilityPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦' },
@@ -339,7 +340,7 @@ function App() {
                     </div>
                 </header>
                 <div className="provider-content">
-                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : <PlaceholderPage page={activePage} />}
+                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>
