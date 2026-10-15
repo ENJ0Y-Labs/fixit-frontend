@@ -28,7 +28,7 @@ describe('provider messages', () => {
         fireEvent.change(screen.getByLabelText('Write a message'), { target: { value: 'Hello' } });
         fireEvent.click(screen.getByRole('button', { name: 'Send message' }));
         expect(await screen.findByRole('alert')).toHaveTextContent(/did not confirm/i);
-        expect(screen.queryByRole('status')).not.toHaveTextContent(/message sent/i);
+        expect(screen.queryByText(/message sent and confirmed/i)).not.toBeInTheDocument();
     });
 });
 
