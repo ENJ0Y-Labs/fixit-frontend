@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import './AvailableJobsPage.css';
+import BidWorkflow from './BidWorkflow.jsx';
 
 const demoJobs = [
     { id: 'job-201', title: 'Repair leaking kitchen sink', category: 'Plumbing', description: 'The kitchen sink pipe is leaking beneath the cabinet. Please inspect the joint, replace worn parts if needed, and test for leaks before leaving.', location: 'Rumuola, Port Harcourt', budget: 18000, urgency: 'Within 2 days', postedAt: 'Today', duration: '1–2 hours', bids: 2, status: 'OPEN', stale: false },
@@ -25,7 +26,7 @@ function ErrorState({ onRetry }) {
     return <section className="card jobs-state" role="alert"><h2>We couldn’t load available jobs</h2><p className="text-muted">Your search has not been changed. Check your connection and retry.</p><button className="btn btn-primary" type="button" onClick={onRetry}>Try again</button></section>;
 }
 
-function JobDetail({ job, onBack }) {
+function JobDetail({ job, onBack, onSubmitBid, submittedBids = [] }) {
     return (
         <section className="job-detail-page">
             <button className="btn btn-quiet job-back" type="button" onClick={onBack}><span aria-hidden="true">←</span> Back to available jobs</button>
@@ -52,15 +53,15 @@ function JobDetail({ job, onBack }) {
                     <p className="text-muted">Customer’s indicative budget. Your final quote should reflect the actual scope and agreed materials.</p>
                     <div className="detail-aside-row"><span>Current responses</span><strong>{job.bids}</strong></div>
                     <div className="detail-aside-row"><span>Job reference</span><strong>{job.id.toUpperCase()}</strong></div>
-                    <button className="btn btn-primary job-response-button" type="button" disabled aria-describedby="response-unavailable">Respond to job</button>
-                    <p id="response-unavailable" className="field-hint">Submitting bids will be enabled when the backend response API is connected.</p>
+                    <p className="field-hint">Your quote remains a proposal until the customer accepts it.</p>
                 </aside>
             </div>
+            <BidWorkflow job={job} onSubmitBid={onSubmitBid} submittedBids={submittedBids.filter((bid) => bid.jobId === job.id)} />
         </section>
     );
 }
 
-export function AvailableJobsPage({ dataState = 'populated', onRetry = () => {}, jobs = demoJobs, pageSize = 4 }) {
+export function AvailableJobsPage({ dataState = 'populated', onRetry = () => {}, jobs = demoJobs, pageSize = 4, onSubmitBid, submittedBids = [] }) {
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState('All categories');
     const [location, setLocation] = useState('');
@@ -104,7 +105,7 @@ export function AvailableJobsPage({ dataState = 'populated', onRetry = () => {},
 
     if (dataState === 'loading') return <LoadingState />;
     if (dataState === 'error') return <ErrorState onRetry={onRetry} />;
-    if (selectedJob) return <JobDetail job={selectedJob} onBack={() => setSelectedJobId(null)} />;
+    if (selectedJob) return <JobDetail job={selectedJob} onBack={() => setSelectedJobId(null)} onSubmitBid={onSubmitBid} submittedBids={submittedBids} />;
 
     return (
         <div className="available-jobs-page">
