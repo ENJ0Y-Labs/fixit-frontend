@@ -28,3 +28,7 @@ Return persisted notification preferences and supported locale values. Save chan
 ## Required error handling
 
 All endpoints should define authentication/session-expiry (401), forbidden access (403), validation (400/422), rate limiting (429 where relevant), conflict (409 where relevant), and server/network failure behavior. The backend owns persistence and authorization; frontend state is not authoritative.
+
+## Frontend phase status
+
+The Messages, Earnings, Reviews, and Settings screens are wired into provider navigation. Their default states remain explicitly unconfigured until the backend provides approved contracts and persisted records. The automated tests cover the critical empty, failure, calculation, payout-availability, and settings-persistence states.
