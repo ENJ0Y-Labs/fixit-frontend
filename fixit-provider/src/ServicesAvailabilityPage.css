@@ -1,0 +1,59 @@
+.services-page { display: grid; gap: 20px; }
+.services-page .page-heading { margin-bottom: 0; }
+.services-intro { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.services-intro h2 { margin-bottom: 5px; }
+.services-intro p { max-width: 760px; margin: 0; color: var(--muted); font-size: .9rem; }
+.services-notice { margin: 0; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); font-size: .9rem; }
+.services-form, .availability-form { display: grid; gap: 22px; }
+.service-list { display: grid; gap: 18px; }
+.service-editor { min-width: 0; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
+.service-editor:last-child { padding-bottom: 0; border-bottom: 0; }
+.service-editor-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.service-editor-heading h2 { margin: 0; }
+.service-remove { min-height: 36px; color: var(--danger); }
+.service-editor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.service-description-field { grid-column: 1 / -1; }
+.service-description-field textarea { min-height: 88px; }
+.add-service-row { display: flex; align-items: flex-end; gap: 12px; padding-top: 4px; }
+.add-service-row .form-field { width: min(100%, 440px); }
+.services-form-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; padding-top: 20px; border-top: 1px solid var(--border); }
+.services-demo-note { margin: -12px 0 0; color: var(--muted); font-size: .78rem; text-align: right; }
+.services-page .unsaved-indicator, .services-page .saved-indicator { display: inline-flex; align-items: center; padding: 6px 9px; border-radius: 999px; background: var(--warning-soft); color: var(--warning); font-size: .75rem; font-weight: 700; white-space: nowrap; }
+.services-page .saved-indicator { background: var(--success-soft); color: var(--success); }
+.availability-status { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius); }
+.availability-status h2 { margin-bottom: 5px; }
+.availability-status p { margin: 0; color: var(--muted); font-size: .88rem; }
+.availability-status.is-available { background: var(--success-soft); border-color: #c8e9d5; }
+.availability-status.is-unavailable { background: var(--surface-soft); }
+.availability-toggle { display: flex; flex: 0 0 auto; align-items: center; gap: 9px; font-weight: 700; cursor: pointer; }
+.availability-toggle input, .schedule-day input { width: 18px; height: 18px; accent-color: var(--black); }
+.availability-heading { margin: 0; }
+.availability-heading p { max-width: 600px; }
+.availability-paused { margin: 0; padding: 12px; border-radius: var(--radius-sm); background: var(--surface-soft); color: var(--muted); font-size: .88rem; }
+.schedule-list { display: grid; }
+.schedule-row { display: grid; grid-template-columns: minmax(140px, 1.1fr) minmax(120px, 1fr) minmax(120px, 1fr) minmax(90px, .7fr); align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid var(--border); }
+.schedule-row.is-day-off { color: var(--muted); }
+.schedule-day { display: flex; align-items: center; gap: 9px; font-weight: 650; cursor: pointer; }
+.schedule-time-field { display: grid; gap: 5px; color: var(--muted); font-size: .78rem; }
+.schedule-time-field input { width: 100%; min-height: 40px; padding: 8px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
+.schedule-time-field input:disabled, .schedule-day input:disabled { cursor: not-allowed; opacity: .55; }
+.schedule-summary { color: var(--muted); font-size: .82rem; text-align: right; }
+.schedule-error { grid-column: 2 / -1; }
+.availability-summary { display: grid; gap: 4px; padding: 14px; border-radius: var(--radius-sm); background: var(--surface-soft); }
+.availability-summary span { color: var(--muted); font-size: .85rem; }
+.services-page [aria-invalid="true"] { border-color: var(--danger); }
+@media (max-width: 760px) {
+    .service-editor-grid { grid-template-columns: minmax(0, 1fr); }
+    .service-description-field { grid-column: auto; }
+    .schedule-row { grid-template-columns: minmax(0, 1fr) minmax(90px, 1fr) minmax(90px, 1fr); gap: 10px; }
+    .schedule-day { grid-column: 1 / -1; }
+    .schedule-summary { grid-column: 2 / -1; text-align: left; }
+    .schedule-error { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+    .services-intro, .availability-status { align-items: flex-start; flex-direction: column; }
+    .add-service-row { align-items: stretch; flex-direction: column; }
+    .add-service-row .form-field { width: 100%; }
+    .services-form-actions { justify-content: stretch; }
+    .services-form-actions .btn { flex: 1; }
+}
