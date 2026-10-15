@@ -42,11 +42,11 @@ describe('available jobs discovery', () => {
     });
 
     it('resets pagination when a filter changes', () => {
-        render(<AvailableJobsPage pageSize={2} />);
+        render(<AvailableJobsPage pageSize={1} />);
         fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-        fireEvent.change(screen.getByLabelText('Category'), { target: { value: 'Cleaning' } });
-        expect(screen.getByText('Page 1 of 1')).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: 'Deep clean a two-bedroom flat' })).toBeInTheDocument();
+        fireEvent.change(screen.getByLabelText('Category'), { target: { value: 'Plumbing' } });
+        expect(screen.getByText('Page 1 of 2')).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Repair leaking kitchen sink' })).toBeInTheDocument();
     });
 
     it('sorts matching jobs by budget', () => {
@@ -81,7 +81,7 @@ describe('available jobs discovery', () => {
         expect(screen.getByRole('heading', { name: 'Repair leaking kitchen sink' })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: 'Customer details are protected' })).toBeInTheDocument();
         expect(screen.getByText(/customer name, phone number, and exact street address are not available/i)).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /respond to job/i })).toBeDisabled();
+        expect(screen.getByRole('button', { name: 'Submit quote' })).toBeEnabled();
         fireEvent.click(screen.getByRole('button', { name: /back to available jobs/i }));
         expect(screen.getByRole('heading', { name: 'Available Jobs' })).toBeInTheDocument();
     });

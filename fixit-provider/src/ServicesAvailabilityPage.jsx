@@ -49,18 +49,15 @@ function validateSchedule(schedule) {
 
 export default function ServicesAvailabilityPage({ section = 'My Services' }) {
     const [services, setServices] = useState(initialServices);
-    const [savedServices, setSavedServices] = useState(initialServices);
     const [schedule, setSchedule] = useState(initialSchedule);
-    const [savedSchedule, setSavedSchedule] = useState(initialSchedule);
     const [isAvailable, setIsAvailable] = useState(true);
-    const [savedAvailability, setSavedAvailability] = useState(true);
     const [serviceErrors, setServiceErrors] = useState({});
     const [scheduleErrors, setScheduleErrors] = useState({});
     const [notice, setNotice] = useState('');
     const [newService, setNewService] = useState('');
 
-    const servicesDirty = JSON.stringify(services) !== JSON.stringify(savedServices);
-    const scheduleDirty = JSON.stringify(schedule) !== JSON.stringify(savedSchedule) || isAvailable !== savedAvailability;
+    const servicesDirty = JSON.stringify(services) !== JSON.stringify(initialServices);
+    const scheduleDirty = JSON.stringify(schedule) !== JSON.stringify(initialSchedule) || !isAvailable;
     const isAvailabilityPage = section === 'Availability';
     const isDirty = isAvailabilityPage ? scheduleDirty : servicesDirty;
 
@@ -129,9 +126,9 @@ export default function ServicesAvailabilityPage({ section = 'My Services' }) {
 
     function discardChanges() {
         if (!window.confirm('Discard your unsaved changes?')) return;
-        setServices(savedServices.map((item) => ({ ...item })));
-        setSchedule(savedSchedule.map((item) => ({ ...item })));
-        setIsAvailable(savedAvailability);
+        setServices(initialServices.map((item) => ({ ...item })));
+        setSchedule(initialSchedule.map((item) => ({ ...item })));
+        setIsAvailable(true);
         setServiceErrors({});
         setScheduleErrors({});
         setNotice('Unsaved changes discarded.');
