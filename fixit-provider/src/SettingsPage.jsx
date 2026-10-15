@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './CommunicationAccountPages.css';
 
 const defaults = { emailNotifications: true, messageNotifications: true, jobNotifications: true, marketingEmails: false, language: 'en-NG' };
@@ -12,12 +12,6 @@ export default function SettingsPage({ persistedSettings, onSaveSettings }) {
     const [notice, setNotice] = useState('');
     const configured = persistedSettings != null;
     const dirty = Object.keys(saved).some((key) => draft[key] !== saved[key]);
-
-    useEffect(() => {
-        if (persistedSettings == null) return;
-        const next = normalise(persistedSettings);
-        setDraft(next); setSaved(next); setError(''); setNotice('');
-    }, [persistedSettings]);
 
     function update(key, value) { setDraft((current) => ({ ...current, [key]: value })); setNotice(''); }
     function reset() { setDraft({ ...saved }); setError(''); setNotice(''); }
