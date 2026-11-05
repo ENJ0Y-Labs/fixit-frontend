@@ -197,4 +197,4 @@ No automated test, lint, build, or browser result should be claimed unless it ha
 - [Provider application](./fixit-provider/README.md)
 - [Admin application](./fixit-admin/README.md)
 
-The product requirements document contains historical audit notes and should be reconciled with the current repository before being treated as a live feature inventory.
+The product requirements document describes the current three-application repository snapshot and distinguishes implemented UI from prototype limitations and backend dependencies.
