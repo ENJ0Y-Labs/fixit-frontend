@@ -5,6 +5,7 @@ import CustomersPage from './CustomersPage.jsx';
 import VerificationPage from './VerificationPage.jsx';
 import JobsPage from './JobsPage.jsx';
 import DisputesSupportPage from './DisputesSupportPage.jsx';
+import CategoriesPage from './CategoriesPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦', group: 'Overview' },
@@ -102,7 +103,6 @@ function Dashboard({ onNavigate }) {
                 <span className="demo-notice-icon" aria-hidden="true">i</span>
                 <p><strong>Demo environment</strong> These are illustrative sample figures and records, not live FixIt platform data.</p>
             </div>
-
             <section className="page-heading">
                 <div>
                     <p className="eyebrow">Operations overview</p>
@@ -111,7 +111,6 @@ function Dashboard({ onNavigate }) {
                 </div>
                 <span className="date-label">Sample reporting period · November 2026</span>
             </section>
-
             <section className="metrics-grid" aria-label="Platform metrics">
                 {demoMetrics.map((metric) => (
                     <article className="metric-card" key={metric.label}>
@@ -125,21 +124,15 @@ function Dashboard({ onNavigate }) {
                     </article>
                 ))}
             </section>
-
             <section className="overview-grid">
                 <article className="panel activity-panel">
                     <div className="panel-header">
-                        <div>
-                            <h2>Recent job activity</h2>
-                            <p>Sample marketplace records for interface preview.</p>
-                        </div>
+                        <div><h2>Recent job activity</h2><p>Sample marketplace records for interface preview.</p></div>
                         <button className="text-button" type="button" onClick={() => onNavigate('Jobs')}>View jobs <span aria-hidden="true">↗</span></button>
                     </div>
                     <div className="table-wrap">
                         <table className="activity-table">
-                            <thead>
-                                <tr><th scope="col">Job</th><th scope="col">Customer / Provider</th><th scope="col">Status</th><th scope="col">Amount</th><th scope="col">Created</th></tr>
-                            </thead>
+                            <thead><tr><th scope="col">Job</th><th scope="col">Customer / Provider</th><th scope="col">Status</th><th scope="col">Amount</th><th scope="col">Created</th></tr></thead>
                             <tbody>
                                 {demoActivity.map((job) => (
                                     <tr key={job.id}>
@@ -154,14 +147,8 @@ function Dashboard({ onNavigate }) {
                         </table>
                     </div>
                 </article>
-
                 <aside className="panel attention-panel" aria-labelledby="attention-heading">
-                    <div className="panel-header">
-                        <div>
-                            <h2 id="attention-heading">Needs attention</h2>
-                            <p>Items an admin may need to review.</p>
-                        </div>
-                    </div>
+                    <div className="panel-header"><div><h2 id="attention-heading">Needs attention</h2><p>Items an admin may need to review.</p></div></div>
                     <button className="attention-item" type="button" onClick={() => onNavigate('Verification')}>
                         <span className="attention-icon warning" aria-hidden="true">✓</span>
                         <span className="attention-copy"><strong>Provider verification</strong><small>Applications awaiting review</small></span>
@@ -186,11 +173,6 @@ function Dashboard({ onNavigate }) {
 
 function PlaceholderPage({ page }) {
     const descriptions = {
-        Customers: 'Review customer accounts and account activity.',
-        Verification: 'Review submitted provider verification information.',
-        Jobs: 'Monitor marketplace jobs and their current statuses.',
-        'Disputes & support': 'Review reported issues, disputes, and support requests.',
-        Categories: 'Manage the service categories available on FixIt.',
         Analytics: 'Explore platform activity and operational reporting.',
         Settings: 'Configure administrative preferences and platform settings.',
     };
@@ -286,7 +268,9 @@ function App() {
                                         ? <JobsPage />
                                         : activePage === 'Disputes & support'
                                             ? <DisputesSupportPage />
-                                            : <PlaceholderPage page={activePage} />}
+                                            : activePage === 'Categories'
+                                                ? <CategoriesPage />
+                                                : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>
