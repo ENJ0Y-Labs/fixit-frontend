@@ -4,6 +4,7 @@ import ProvidersPage from './ProvidersPage.jsx';
 import CustomersPage from './CustomersPage.jsx';
 import VerificationPage from './VerificationPage.jsx';
 import JobsPage from './JobsPage.jsx';
+import DisputesSupportPage from './DisputesSupportPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦', group: 'Overview' },
@@ -283,7 +284,9 @@ function App() {
                                     ? <VerificationPage />
                                     : activePage === 'Jobs'
                                         ? <JobsPage />
-                                        : <PlaceholderPage page={activePage} />}
+                                        : activePage === 'Disputes & support'
+                                            ? <DisputesSupportPage />
+                                            : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>

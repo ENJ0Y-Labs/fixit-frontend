@@ -385,3 +385,82 @@ p { line-height: 1.55; }
     .jobs-panel-header, .jobs-detail .panel-header { align-items: flex-start; flex-direction: column; }
     .jobs-detail-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+
+/* Admin disputes and support workspace */
+.support-summary { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+.support-summary .metric-card { padding: 15px 16px; }
+.support-summary .metric-value { font-size: 1.6rem; }
+.support-queue { padding: 20px 0 0; overflow: hidden; }
+.support-panel-header { align-items: center; padding: 0 20px; }
+.support-filters { display: grid; grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(130px, .75fr)) auto; align-items: end; gap: 10px; padding: 0 20px 18px; }
+.support-table-wrap { overflow-x: auto; border-top: 1px solid var(--border); }
+.support-table { min-width: 1050px; }
+.support-table th:first-child, .support-table td:first-child { padding-left: 20px; }
+.support-table th:last-child, .support-table td:last-child { padding-right: 20px; text-align: right; }
+.support-table td strong, .support-table td small { display: block; }
+.support-table td strong { font-size: .76rem; }
+.support-table td small { margin-top: 3px; color: var(--muted); font-size: .67rem; }
+.support-table tbody tr.is-selected { background: #f7f8fa; }
+.support-type { display: inline-flex; padding: 4px 8px; border-radius: 20px; background: var(--surface-soft); color: #515963; font-size: .68rem; font-weight: 650; }
+.support-type.dispute { background: var(--danger-soft); color: var(--danger); }
+.support-priority { display: inline-flex; align-items: center; width: fit-content; padding: 4px 8px; border-radius: 20px; font-size: .67rem; font-weight: 700; }
+.priority-high { background: var(--danger-soft); color: var(--danger); }
+.priority-normal { background: var(--info-soft); color: var(--info); }
+.priority-low { background: var(--surface-soft); color: var(--muted); }
+.support-detail { margin-top: 18px; }
+.support-detail-header { align-items: flex-start; }
+.support-detail-header p:not(.eyebrow) { margin: 4px 0 0; color: var(--muted); font-size: .76rem; }
+.support-detail-badges { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+.support-case-summary { margin: 0 0 17px; max-width: 900px; color: #555e68; font-size: .82rem; line-height: 1.65; }
+.support-participants { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 18px; }
+.support-participants > div { display: grid; min-width: 0; gap: 5px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: #fcfcfd; }
+.support-participants span { color: var(--muted); font-size: .68rem; }
+.support-participants strong { font-size: .78rem; overflow-wrap: anywhere; }
+.support-participants small { color: var(--muted); font-size: .66rem; line-height: 1.4; }
+.support-detail-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(250px, .85fr); gap: 16px; }
+.support-conversation, .support-side-panel { min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: 9px; }
+.support-section-heading { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 13px; }
+.support-section-heading h3 { margin: 0 0 4px; color: var(--black); font-size: .88rem; }
+.support-section-heading p { margin: 0; color: var(--muted); font-size: .69rem; }
+.support-timeline { display: grid; gap: 10px; margin-bottom: 17px; }
+.support-message { padding: 11px 12px; border: 1px solid var(--border); border-radius: 8px; background: #fcfcfd; }
+.support-message > div { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; }
+.support-message strong { font-size: .72rem; }
+.support-message time { color: var(--muted); font-size: .65rem; }
+.support-message p { margin: 7px 0 0; color: #535c66; font-size: .75rem; line-height: 1.55; overflow-wrap: anywhere; }
+.support-note-field { display: grid; gap: 7px; margin-bottom: 10px; }
+.support-note-field span { color: var(--text); font-size: .72rem; font-weight: 650; }
+.support-note-field textarea { width: 100%; min-height: 78px; padding: 10px 11px; border: 1px solid var(--border-strong); border-radius: 7px; background: white; color: var(--text); font: inherit; font-size: .75rem; resize: vertical; }
+.support-note-field textarea:focus, .support-filters select:focus { outline: 3px solid rgba(49, 94, 251, .2); border-color: var(--focus); }
+.support-evidence-list { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
+.support-evidence-list li { display: flex; align-items: flex-start; gap: 8px; color: #535c66; font-size: .72rem; line-height: 1.4; }
+.support-evidence-list li span { color: var(--muted); }
+.support-actions-heading { margin-top: 23px; padding-top: 17px; border-top: 1px solid var(--border); }
+.support-side-panel .filter-control { display: grid; gap: 7px; }
+.support-readonly-note { margin: 12px 0 0; padding: 10px; border-radius: 7px; background: #f8f9fb; color: #59616c; font-size: .68rem; line-height: 1.5; }
+@media (max-width: 1150px) {
+    .support-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .support-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .support-filters .provider-search { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+    .support-detail-grid { grid-template-columns: minmax(0, 1fr); }
+    .support-participants { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+    .support-panel-header { padding: 0 16px; }
+    .support-filters { padding: 0 16px 15px; }
+    .support-table { min-width: 980px; }
+}
+@media (max-width: 430px) {
+    .support-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .support-summary .metric-card { padding: 13px; }
+    .support-summary .metric-value { font-size: 1.4rem; }
+    .support-filters { grid-template-columns: minmax(0, 1fr); }
+    .support-filters .provider-search { grid-column: auto; }
+    .support-panel-header, .support-detail-header { align-items: flex-start; flex-direction: column; }
+    .support-detail-badges { justify-content: flex-start; }
+    .support-participants { grid-template-columns: minmax(0, 1fr); }
+    .support-conversation, .support-side-panel { padding: 12px; }
+}

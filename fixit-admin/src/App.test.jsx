@@ -207,3 +207,70 @@ describe('admin jobs workspace', () => {
         expect(screen.getByText('No jobs match these filters')).toBeInTheDocument();
     });
 });
+
+
+describe('admin disputes and support workspace', () => {
+    beforeEach(() => { window.location.hash = '#disputes-support'; });
+
+    it('opens the combined dispute and support inbox', () => {
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'Disputes & support' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Case inbox' })).toBeInTheDocument();
+        expect(screen.getByText(/No real support inbox/i)).toBeInTheDocument();
+    });
+
+    it('searches by case, job, subject, and participant', () => {
+        render(<App />);
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search support cases' }), { target: { value: 'Tunde' } });
+        expect(screen.getByText('Work marked complete before repair was finished')).toBeInTheDocument();
+        expect(screen.queryByText('Unable to update phone number')).not.toBeInTheDocument();
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search support cases' }), { target: { value: 'FX-2054' } });
+        expect(screen.getByText('Final amount differs from initial estimate')).toBeInTheDocument();
+    });
+
+    it('filters case type, status, and priority', () => {
+        render(<App />);
+        fireEvent.change(screen.getByRole('combobox', { name: 'Case type' }), { target: { value: 'Support' } });
+        expect(screen.getByText('Unable to update phone number')).toBeInTheDocument();
+        expect(screen.queryByText('Work marked complete before repair was finished')).not.toBeInTheDocument();
+        fireEvent.change(screen.getByRole('combobox', { name: 'Case status' }), { target: { value: 'OPEN' } });
+        expect(screen.getByText('Cannot see provider replies')).toBeInTheDocument();
+        fireEvent.change(screen.getByRole('combobox', { name: 'Case priority' }), { target: { value: 'Low' } });
+        expect(screen.getByText('Showing 1–0 of 0')).toBeInTheDocument();
+    });
+
+    it('shows an empty state and clears filters', () => {
+        render(<App />);
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search support cases' }), { target: { value: 'not a real case' } });
+        expect(screen.getByText('No cases match these filters')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+        expect(screen.getByText('Showing 1–6 of 10')).toBeInTheDocument();
+    });
+
+    it('shows the case timeline, evidence metadata, and participant context', () => {
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'Case activity' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Evidence checklist' })).toBeInTheDocument();
+        expect(screen.getByText('Tunde Ekanem')).toBeInTheDocument();
+        expect(screen.getByText(/No files are attached/i)).toBeInTheDocument();
+    });
+
+    it('adds a temporary demo note and updates only local case status', () => {
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Add note (demo)' }));
+        expect(screen.getByText(/Enter a note before adding it/i)).toBeInTheDocument();
+        fireEvent.change(screen.getByLabelText('Add internal note (demo)'), { target: { value: 'Check provider response before closing.' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Add note (demo)' }));
+        expect(screen.getByText('Check provider response before closing.')).toBeInTheDocument();
+        fireEvent.change(screen.getByRole('combobox', { name: 'Demo case status' }), { target: { value: 'RESOLVED' } });
+        expect(screen.getByText(/Demo case status changed to “Resolved”/i)).toBeInTheDocument();
+        expect(screen.getByText(/not sent to FixIt servers/i)).toBeInTheDocument();
+    });
+
+    it('paginates the sample case queue', () => {
+        render(<App />);
+        expect(screen.getByText('Showing 1–6 of 10')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+        expect(screen.getByText('Showing 7–10 of 10')).toBeInTheDocument();
+    });
+});
