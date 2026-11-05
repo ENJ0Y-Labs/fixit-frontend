@@ -102,11 +102,11 @@ function AccountPage({ onNavigate }) {
                 <div className="account-fields">
                     <label className="account-field" htmlFor="account-display-name">
                         <span>Display name <b aria-hidden="true">*</b></span>
-                        <input id="account-display-name" name="displayName" autoComplete="name" value={profile.displayName} onChange={updateField} placeholder="Enter display name" required />
+                        <input id="account-display-name" name="displayName" autoComplete="name" aria-required="true" value={profile.displayName} onChange={updateField} placeholder="Enter display name" />
                     </label>
                     <label className="account-field" htmlFor="account-email">
                         <span>Email address</span>
-                        <input id="account-email" name="email" type="email" autoComplete="email" value={profile.email} onChange={updateField} placeholder="admin@example.com" />
+                        <input id="account-email" name="email" type="text" inputMode="email" autoComplete="email" value={profile.email} onChange={updateField} placeholder="admin@example.com" />
                     </label>
                     <label className="account-field" htmlFor="account-phone">
                         <span>Phone number</span>
