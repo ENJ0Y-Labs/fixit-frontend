@@ -8,7 +8,6 @@ import DisputesSupportPage from './DisputesSupportPage.jsx';
 import CategoriesPage from './CategoriesPage.jsx';
 import AnalyticsPage from './AnalyticsPage.jsx';
 import SettingsPage from './SettingsPage.jsx';
-import AccountPage from './AccountPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦', group: 'Overview' },
@@ -20,7 +19,6 @@ const navigation = [
     { label: 'Categories', icon: '◇', group: 'Operations' },
     { label: 'Analytics', icon: '▥', group: 'Insights' },
     { label: 'Settings', icon: '⚙', group: 'System' },
-    { label: 'Account', icon: '♙', group: 'System' },
 ];
 
 const demoMetrics = [
@@ -278,9 +276,7 @@ function App() {
                                                     ? <AnalyticsPage />
                                                     : activePage === 'Settings'
                                                         ? <SettingsPage />
-                                                        : activePage === 'Account'
-                                                            ? <AccountPage onNavigate={navigateTo} />
-                                                            : <PlaceholderPage page={activePage} />}
+                                                        : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>
