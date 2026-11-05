@@ -21,7 +21,6 @@
   --danger-soft: #fcebea;
   --info: #285ca8;
   --info-soft: #eaf2ff;
-  --nav-width: 248px;
   --topbar-height: 72px;
   --radius-sm: 8px;
   --radius: 12px;
@@ -64,9 +63,12 @@ h1, h2, h3 { color: var(--black); letter-spacing: -.025em; }
 small, .text-muted { color: var(--muted); }
 
 /* Shared desktop workspace geometry. Mobile navigation remains app-specific. */
-.sidebar, .provider-sidebar, .admin-sidebar { width: var(--nav-width); }
-.app-content { margin-left: var(--nav-width); }
-.provider-main, .admin-main { margin-left: var(--nav-width); }
+@media (min-width: 768px) {
+  :root { --nav-width: 248px; }
+  .sidebar, .provider-sidebar, .admin-sidebar { width: var(--nav-width); }
+  .app-content { margin-left: var(--nav-width); }
+  .provider-main, .admin-main { margin-left: var(--nav-width); }
+}
 .provider-topbar, .admin-topbar { min-height: var(--topbar-height); }
 .page-header { min-height: var(--topbar-height); }
 .card, .panel, .metric-card, .stat-card {
