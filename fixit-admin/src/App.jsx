@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import ProvidersPage from './ProvidersPage.jsx';
 import CustomersPage from './CustomersPage.jsx';
+import VerificationPage from './VerificationPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦', group: 'Overview' },
@@ -19,7 +20,7 @@ const demoMetrics = [
     { label: 'Total customers', value: '1,284', change: '+8.2%', note: 'vs. previous month', tone: 'positive', icon: '♙' },
     { label: 'Registered providers', value: '342', change: '+5.4%', note: 'vs. previous month', tone: 'positive', icon: '♧' },
     { label: 'Jobs on platform', value: '856', change: '+12.6%', note: 'vs. previous month', tone: 'positive', icon: '▤' },
-    { label: 'Pending verification', value: '18', change: 'Needs review', note: 'Provider applications', tone: 'attention', icon: '✓' },
+    { label: 'Pending verification', value: '4', change: 'Needs review', note: 'Sample queue records', tone: 'attention', icon: '✓' },
 ];
 
 const demoActivity = [
@@ -67,7 +68,7 @@ function Sidebar({ activePage, onNavigate, isOpen }) {
                             >
                                 <span className="nav-icon" aria-hidden="true">{item.icon}</span>
                                 <span>{item.label}</span>
-                                {item.label === 'Verification' && <span className="nav-count">18</span>}
+                                {item.label === 'Verification' && <span className="nav-count">4</span>}
                             </button>
                         ))}
                     </div>
@@ -162,7 +163,7 @@ function Dashboard({ onNavigate }) {
                     <button className="attention-item" type="button" onClick={() => onNavigate('Verification')}>
                         <span className="attention-icon warning" aria-hidden="true">✓</span>
                         <span className="attention-copy"><strong>Provider verification</strong><small>Applications awaiting review</small></span>
-                        <strong className="attention-number">18</strong>
+                        <strong className="attention-number">4</strong>
                     </button>
                     <button className="attention-item" type="button" onClick={() => onNavigate('Disputes & support')}>
                         <span className="attention-icon danger" aria-hidden="true">!</span>
@@ -277,7 +278,9 @@ function App() {
                             ? <ProvidersPage />
                             : activePage === 'Customers'
                                 ? <CustomersPage />
-                                : <PlaceholderPage page={activePage} />}
+                                : activePage === 'Verification'
+                                    ? <VerificationPage />
+                                    : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>
