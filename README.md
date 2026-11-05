@@ -32,7 +32,7 @@ Each application is run from its own directory. There is currently no root-level
 - JavaScript (ES modules)
 - CSS
 - ESLint
-- Vitest and Testing Library in the provider and admin applications
+- Vitest, jsdom, and Testing Library in all three applications
 - Font Awesome in the customer interface
 
 Do not introduce a framework, UI library, CSS framework, router, or global state library without a concrete requirement. Read [AGENTS.md](./AGENTS.md) before making repository-wide changes and the application-specific README before working inside an app.
@@ -52,7 +52,7 @@ The customer-facing marketplace currently includes:
 - Conversations and message composer
 - Customer account and profile preferences
 
-**Current limitations:** provider and job records are sample data; most actions use local component state. Job creation, cancellation, profile edits, messaging, favorites, uploads, reviews, and payment UI are not evidence of backend persistence or completed transactions. The customer package currently provides lint and build scripts but does not define an automated test script.
+**Current limitations:** provider and job records are sample data; most actions use local component state. Job creation, cancellation, profile edits, messaging, favorites, uploads, reviews, and payment UI are not evidence of backend persistence or completed transactions. The customer app now includes a starter Vitest and Testing Library suite covering the home screen, provider search, and Post a Job navigation.
 
 Run it:
 
@@ -175,15 +175,13 @@ For Vite configuration, only expose public values through `VITE_*` variables. Ne
 
 ## Testing expectations
 
-For the provider and admin apps, run tests, lint, and a production build from the relevant application directory:
+Run tests, lint, and a production build from each application directory:
 
 ```bash
 npm run test -- --run
 npm run lint
 npm run build
 ```
-
-For the customer app, run lint and build; automated test infrastructure is not currently configured there.
 
 Also manually check relevant screens at 320, 375, 430, 768, 1024, and 1440px. Test keyboard navigation, form validation, empty results, failure states, and the main user flow for every changed feature.
 
