@@ -31,16 +31,19 @@ npm run build
 
 ## Current scope
 
-The admin application provides a responsive administration shell and a sample platform overview. The Customers workspace includes a searchable directory, account-status filtering, pagination, and a read-only customer details panel. The Providers workspace includes a searchable directory, verification/account/service filters, pagination, and a read-only provider details panel. The Verification workspace includes a searchable review queue, status filters, document checklists, provider context, review notes, and demo-only decision controls. Dashboard figures and customer/provider records are illustrative mock data, not live platform records.
+The admin application provides a responsive administration shell and illustrative platform overview. The Customers workspace includes a searchable directory, account-status filtering, pagination, and read-only customer details. The Providers workspace includes a searchable directory, verification/account/service filters, pagination, and read-only provider details. The Verification workspace includes a searchable review queue, status filters, document checklists, provider context, review notes, and demo-only decision controls. The Jobs workspace includes a searchable marketplace job list, status/category filters, summary counts, pagination, and a read-only job details panel.
+
+All dashboard figures, job records, customer/provider records, document metadata, amounts, and activity details are illustrative mock data, not live platform records. The Jobs workspace uses the established customer-facing statuses: `AWAITING_BIDS`, `IN_PROGRESS`, `COMPLETED`, and `CANCELLED`. The displayed budget is a sample customer-requested amount, not a confirmed quote, agreed amount, or payment.
 
 The following sections remain navigation placeholders:
 
-- Jobs
 - Disputes & support
 - Categories
 - Analytics
 - Settings
 
-No authentication, role enforcement, destructive admin action, persistence, or backend endpoint is implemented. Customer and provider profiles are read-only; account suspension/restoration and profile edits require approved admin API contracts and backend authorization. Verification cases and document references are illustrative. Decision controls update only in-memory demo state and reset on refresh; they do not approve providers, notify users, or persist decisions. Real document retrieval, secure upload/storage, reviewer audit history, and verification decisions require an approved backend contract and server-side authorization. The backend must enforce all admin authorization and provide approved API contracts before data integration or account mutations are added.
+No authentication, role enforcement, destructive admin action, persistence, or backend endpoint is implemented. Customer, provider, and job details are read-only. Verification decision controls update only in-memory demo state and reset on refresh; they do not approve providers, notify users, or persist decisions. Real job assignment, cancellation, status changes, payment information, document retrieval, secure upload/storage, reviewer audit history, and verification decisions require approved backend contracts and server-side authorization. The backend must enforce all admin authorization before data integration or account/job mutations are added.
 
-Check responsive layouts at 320, 375, 430, 768, 1024, and 1440 pixels. Use keyboard navigation to verify visible focus, activate navigation with Enter/Space, and close the mobile menu with Escape.
+## Responsive and interaction checks
+
+Check 320, 375, 430, 768, 1024, and 1440 pixel widths. Use keyboard navigation to verify visible focus, activate navigation with Enter/Space, and close the mobile menu with Escape. For Jobs, test search by job/customer/provider/location, status and category filters, clear filters, empty results, pagination, and the read-only detail panel.
