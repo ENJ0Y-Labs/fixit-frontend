@@ -294,7 +294,7 @@ describe('admin categories workspace', () => {
         fireEvent.change(screen.getByRole('combobox', { name: 'Category status' }), { target: { value: 'ACTIVE' } });
         expect(screen.getByText('No categories match these filters')).toBeInTheDocument();
         fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
-        expect(screen.getByText('Plumbing')).toBeInTheDocument();
+        expect(screen.getAllByText('Plumbing').length).toBeGreaterThan(0);
     });
 
     it('shows category details and example services', () => {
