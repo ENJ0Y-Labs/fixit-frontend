@@ -196,3 +196,9 @@ No automated test, lint, build, or browser result should be claimed unless it ha
 - [Admin application](./fixit-admin/README.md)
 
 The product requirements document describes the current three-application repository snapshot and distinguishes implemented UI from prototype limitations and backend dependencies.
+
+## Shared design system
+
+All three applications import `shared/fixit-design-system.css`. It defines the common FixIt visual foundation: typography, colour and status tokens, spacing, radii, shadows, focus treatment, primary/secondary action styling, and desktop workspace dimensions.
+
+Customer, provider, and admin screens retain separate navigation, workflows, and feature components. The shared stylesheet is intentionally limited to presentation consistency; it does not merge application state or introduce backend behavior. Keep mobile navigation patterns app-specific where their interaction models differ, and update the shared tokens before introducing new global visual values.
