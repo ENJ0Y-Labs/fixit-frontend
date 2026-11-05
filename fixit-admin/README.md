@@ -31,11 +31,10 @@ npm run build
 
 ## Current scope
 
-The admin application provides a responsive administration shell and a sample platform overview. The Providers workspace includes a searchable directory, verification/account/service filters, pagination, and a read-only provider details panel. Provider records and dashboard figures are illustrative mock data, not live platform records.
+The admin application provides a responsive administration shell and a sample platform overview. The Customers workspace includes a searchable directory, account-status filtering, pagination, and a read-only customer details panel. The Providers workspace includes a searchable directory, verification/account/service filters, pagination, and a read-only provider details panel. Dashboard figures and customer/provider records are illustrative mock data, not live platform records.
 
 The following sections remain navigation placeholders:
 
-- Customers
 - Verification
 - Jobs
 - Disputes & support
@@ -43,6 +42,6 @@ The following sections remain navigation placeholders:
 - Analytics
 - Settings
 
-No authentication, role enforcement, destructive admin action, persistence, or backend endpoint is implemented. The backend must enforce all admin authorization and provide approved API contracts before data integration or account mutations are added.
+No authentication, role enforcement, destructive admin action, persistence, or backend endpoint is implemented. Customer and provider profiles are read-only; account suspension/restoration and profile edits require approved admin API contracts and backend authorization. The backend must enforce all admin authorization and provide approved API contracts before data integration or account mutations are added.
 
 Check responsive layouts at 320, 375, 430, 768, 1024, and 1440 pixels. Use keyboard navigation to verify visible focus, activate navigation with Enter/Space, and close the mobile menu with Escape.

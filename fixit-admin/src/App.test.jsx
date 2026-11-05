@@ -64,4 +64,48 @@ describe('FixIt admin workspace', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Close navigation menu' }));
         expect(openButton).toHaveAttribute('aria-expanded', 'false');
     });
+
+    it('opens the customer directory from admin navigation', () => {
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: /customers/i }));
+        expect(screen.getByRole('heading', { name: 'Customers' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'All customers' })).toBeInTheDocument();
+        expect(screen.getByText(/illustrative only/i)).toBeInTheDocument();
+    });
+
+    it('searches customer records and clears the search', () => {
+        window.location.hash = '#customers';
+        render(<App />);
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search customers' }), { target: { value: 'Mariam' } });
+        expect(screen.getByText('Mariam Abdullahi')).toBeInTheDocument();
+        expect(screen.queryByText('Ada Nwankwo')).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+        expect(screen.getByText('Ada Nwankwo')).toBeInTheDocument();
+    });
+
+    it('filters customer accounts and displays an empty state', () => {
+        window.location.hash = '#customers';
+        render(<App />);
+        fireEvent.change(screen.getByRole('combobox', { name: 'Customer account status' }), { target: { value: 'Suspended' } });
+        expect(screen.getByText('Daniel Tamuno')).toBeInTheDocument();
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search customers' }), { target: { value: 'no matching customer' } });
+        expect(screen.getByText(/No customers match these filters/i)).toBeInTheDocument();
+    });
+
+    it('opens a read-only customer profile', () => {
+        window.location.hash = '#customers';
+        render(<App />);
+        const row = screen.getByText('Ada Nwankwo').closest('tr');
+        fireEvent.click(within(row).getByRole('button', { name: 'View' }));
+        expect(screen.getByRole('heading', { name: 'Ada Nwankwo' })).toBeInTheDocument();
+        expect(screen.getByText(/Read-only demo profile/i)).toBeInTheDocument();
+    });
+
+    it('paginates customer records', () => {
+        window.location.hash = '#customers';
+        render(<App />);
+        expect(screen.getByText('Showing 1–5 of 12')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+        expect(screen.getByText('Showing 6–10 of 12')).toBeInTheDocument();
+    });
 });
