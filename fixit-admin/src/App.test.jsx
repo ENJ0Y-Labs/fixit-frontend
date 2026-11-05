@@ -274,3 +274,72 @@ describe('admin disputes and support workspace', () => {
         expect(screen.getByText('Showing 7–10 of 10')).toBeInTheDocument();
     });
 });
+
+
+describe('admin categories workspace', () => {
+    beforeEach(() => { window.location.hash = '#categories'; });
+
+    it('opens the service category workspace with sample records', () => {
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'Categories' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Service categories' })).toBeInTheDocument();
+        expect(screen.getByText(/illustrative sample data/i)).toBeInTheDocument();
+        expect(screen.getByText('Plumbing')).toBeInTheDocument();
+    });
+
+    it('searches categories and filters by active status', () => {
+        render(<App />);
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search categories' }), { target: { value: 'painting' } });
+        expect(screen.getByText('Painting')).toBeInTheDocument();
+        fireEvent.change(screen.getByRole('combobox', { name: 'Category status' }), { target: { value: 'ACTIVE' } });
+        expect(screen.getByText('No categories match these filters')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+        expect(screen.getByText('Plumbing')).toBeInTheDocument();
+    });
+
+    it('shows category details and example services', () => {
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'Plumbing' })).toBeInTheDocument();
+        expect(screen.getByText('Pipe repair')).toBeInTheDocument();
+        expect(screen.getByText(/No customer discovery, provider listings/i)).toBeInTheDocument();
+    });
+
+    it('validates and creates a temporary demo category', () => {
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: /Add category/i }));
+        fireEvent.click(screen.getByRole('button', { name: 'Create demo category' }));
+        expect(screen.getByText(/Enter both a category name and description/i)).toBeInTheDocument();
+        fireEvent.change(screen.getByLabelText('Category name'), { target: { value: 'Home maintenance' } });
+        fireEvent.change(screen.getByLabelText('Description'), { target: { value: 'General home maintenance services.' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Create demo category' }));
+        expect(screen.getByRole('heading', { name: 'Home maintenance' })).toBeInTheDocument();
+        expect(screen.getByText(/temporary browser state/i)).toBeInTheDocument();
+    });
+
+    it('prevents duplicate category names', () => {
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: /Add category/i }));
+        fireEvent.change(screen.getByLabelText('Category name'), { target: { value: 'plumbing' } });
+        fireEvent.change(screen.getByLabelText('Description'), { target: { value: 'Duplicate category attempt.' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Create demo category' }));
+        expect(screen.getByText(/A category with this name already exists/i)).toBeInTheDocument();
+    });
+
+    it('edits and deactivates only the local demo category', () => {
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Edit category' }));
+        fireEvent.change(screen.getByLabelText('Category name'), { target: { value: 'Home plumbing' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Save demo changes' }));
+        expect(screen.getByRole('heading', { name: 'Home plumbing' })).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Deactivate (demo)' }));
+        expect(screen.getByText(/marked inactive/i)).toBeInTheDocument();
+        expect(screen.getAllByText('Inactive', { selector: '.status-badge' }).length).toBeGreaterThan(0);
+    });
+
+    it('paginates category records', () => {
+        render(<App />);
+        expect(screen.getByText('Showing 1–6 of 10')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+        expect(screen.getByText('Showing 7–10 of 10')).toBeInTheDocument();
+    });
+});
