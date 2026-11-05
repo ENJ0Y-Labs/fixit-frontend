@@ -1,0 +1,53 @@
+.categories-page { display: grid; gap: 20px; }
+.categories-page .page-heading { align-items: center; }
+.category-create-button { white-space: nowrap; }
+.categories-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.categories-summary .metric-card { min-width: 0; }
+.categories-panel, .category-detail { min-width: 0; padding: 21px; }
+.categories-filters { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(170px, 220px) auto; align-items: end; gap: 12px; margin: 18px 0; }
+.categories-table-wrap { overflow-x: auto; }
+.categories-table { min-width: 850px; }
+.categories-table tbody tr.is-selected { background: #f7f8fa; }
+.categories-table td { vertical-align: middle; }
+.category-row-actions { display: flex; gap: 6px; }
+.category-row-actions .provider-view-button { padding: 6px 9px; }
+.status-neutral { background: #eef0f2; color: #59616b; }
+.category-detail-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
+.category-detail-grid > div { display: grid; gap: 5px; min-width: 0; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.category-detail-grid span, .category-detail-grid small { color: var(--muted); font-size: .75rem; }
+.category-detail-grid strong { overflow-wrap: anywhere; color: var(--black); font-size: 1rem; }
+.category-examples { padding-top: 17px; border-top: 1px solid var(--border); }
+.category-examples h3 { margin: 0 0 10px; color: var(--black); font-size: .9rem; }
+.category-examples ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.category-examples li { padding: 7px 10px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface-soft); color: #555e68; font-size: .78rem; }
+.category-examples p { margin: 0; color: var(--muted); font-size: .82rem; }
+.category-detail-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+.category-readonly-note { margin: 14px 0 0; color: var(--muted); font-size: .76rem; }
+.category-feedback { margin: 0; padding: 11px 14px; border: 1px solid #cbded1; border-radius: var(--radius-sm); background: #f0f8f2; color: #286342; font-size: .82rem; }
+.category-modal-backdrop { position: fixed; z-index: 60; inset: 0; display: grid; place-items: center; overflow-y: auto; padding: 20px; background: rgba(20, 25, 32, .48); }
+.category-modal { width: min(100%, 520px); padding: 22px; box-shadow: 0 20px 70px rgba(0,0,0,.18); }
+.category-modal .panel-header { align-items: flex-start; }
+.category-modal .panel-header > div > p:last-child { margin: 5px 0 0; color: var(--muted); font-size: .8rem; }
+.category-modal form { display: grid; gap: 15px; margin-top: 18px; }
+.category-form-field { display: grid; gap: 7px; color: var(--text); font-size: .82rem; font-weight: 700; }
+.category-form-field input, .category-form-field textarea { width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: white; color: var(--text); font: inherit; font-size: .86rem; }
+.category-form-field textarea { resize: vertical; }
+.category-form-error { margin: 0; color: var(--danger); font-size: .8rem; }
+.category-form-actions { display: flex; justify-content: flex-end; gap: 9px; padding-top: 4px; }
+@media (max-width: 1050px) {
+    .categories-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .category-detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+    .categories-filters { grid-template-columns: minmax(0, 1fr); }
+    .categories-panel, .category-detail { padding: 15px; }
+    .categories-page .page-heading { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 430px) {
+    .categories-summary { gap: 9px; }
+    .categories-summary .metric-card { padding: 13px; }
+    .category-detail-grid { grid-template-columns: minmax(0, 1fr); }
+    .category-modal { padding: 16px; }
+    .category-form-actions { flex-direction: column-reverse; }
+    .category-form-actions .btn { width: 100%; }
+}
