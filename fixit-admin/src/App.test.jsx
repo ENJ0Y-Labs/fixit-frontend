@@ -144,9 +144,9 @@ describe('FixIt admin workspace', () => {
         render(<App />);
         fireEvent.click(screen.getByRole('button', { name: 'Approve (demo)' }));
         expect(screen.getByText(/Demo state changed to “Approved”/i)).toBeInTheDocument();
-        expect(screen.getByText('Approved', { selector: '.status-badge' })).toBeInTheDocument();
+        expect(screen.getAllByText('Approved', { selector: '.status-badge' })).toHaveLength(2);
         fireEvent.click(screen.getByRole('button', { name: 'Reset demo data' }));
-        expect(screen.getByText('Pending review', { selector: '.status-badge' })).toBeInTheDocument();
+        expect(screen.getAllByText('Pending review', { selector: '.status-badge' }).length).toBeGreaterThan(0);
     });
 
     it('paginates all verification cases', () => {
