@@ -158,3 +158,52 @@ describe('FixIt admin workspace', () => {
         expect(screen.getByText('Showing 6–8 of 8')).toBeInTheDocument();
     });
 });
+
+
+describe('admin jobs workspace', () => {
+    it('opens the read-only jobs oversight page', () => {
+        window.location.hash = '#jobs';
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'Jobs' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Marketplace jobs' })).toBeInTheDocument();
+        expect(screen.getByText(/not live marketplace data/i)).toBeInTheDocument();
+    });
+
+    it('searches jobs by customer, provider, and job details', () => {
+        window.location.hash = '#jobs';
+        render(<App />);
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search jobs' }), { target: { value: 'Chinedu' } });
+        expect(screen.getByText('Kitchen sink pipe repair')).toBeInTheDocument();
+        expect(screen.queryByText('Two-bedroom deep cleaning')).not.toBeInTheDocument();
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search jobs' }), { target: { value: 'FX-2057' } });
+        expect(screen.getByText('Electrical safety inspection')).toBeInTheDocument();
+    });
+
+    it('filters jobs by status and category and supports clearing filters', () => {
+        window.location.hash = '#jobs';
+        render(<App />);
+        fireEvent.change(screen.getByRole('combobox', { name: 'Job status' }), { target: { value: 'COMPLETED' } });
+        expect(screen.getByText('Two-bedroom deep cleaning')).toBeInTheDocument();
+        fireEvent.change(screen.getByRole('combobox', { name: 'Job category' }), { target: { value: 'Cleaning' } });
+        expect(screen.getByText('Showing 1–2 of 2')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+        expect(screen.getByText('Showing 1–6 of 12')).toBeInTheDocument();
+    });
+
+    it('shows read-only job details and paginates records', () => {
+        window.location.hash = '#jobs';
+        render(<App />);
+        expect(screen.getByText(/Read-only demo details/i)).toBeInTheDocument();
+        expect(screen.getByText('Showing 1–6 of 12')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+        expect(screen.getByText('Showing 7–12 of 12')).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Jobs' })).toBeInTheDocument();
+    });
+
+    it('shows a useful empty state when no jobs match', () => {
+        window.location.hash = '#jobs';
+        render(<App />);
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search jobs' }), { target: { value: 'no such job exists' } });
+        expect(screen.getByText('No jobs match these filters')).toBeInTheDocument();
+    });
+});
