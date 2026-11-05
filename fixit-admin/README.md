@@ -35,7 +35,6 @@ The admin application provides a responsive administration shell and a sample pl
 
 The following sections remain navigation placeholders:
 
-- Verification
 - Jobs
 - Disputes & support
 - Categories
