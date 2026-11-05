@@ -29,11 +29,11 @@ describe('customer application', () => {
         expect(screen.queryByText('Tunde Bello')).not.toBeInTheDocument();
     });
 
-    it('opens the post-job screen from the primary action', () => {
+    it('opens the post-job screen from the primary action', async () => {
         render(<App />);
 
         fireEvent.click(screen.getByRole('button', { name: /post a job/i }));
 
-        expect(screen.getByRole('heading', { name: /post a job/i })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: /post a new job/i })).toBeInTheDocument();
     });
 });
