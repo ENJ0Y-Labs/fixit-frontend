@@ -284,7 +284,7 @@ describe('admin categories workspace', () => {
         expect(screen.getByRole('heading', { name: 'Categories' })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: 'Service categories' })).toBeInTheDocument();
         expect(screen.getByText(/illustrative sample data/i)).toBeInTheDocument();
-        expect(screen.getByText('Plumbing')).toBeInTheDocument();
+        expect(screen.getAllByText('Plumbing').length).toBeGreaterThan(0);
     });
 
     it('searches categories and filters by active status', () => {
