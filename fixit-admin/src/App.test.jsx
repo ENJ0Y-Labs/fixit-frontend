@@ -422,3 +422,50 @@ describe('admin settings workspace', () => {
         expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
     });
 });
+
+
+describe('admin account workspace', () => {
+    beforeEach(() => { window.location.hash = '#account'; });
+
+    it('opens the account page with clear demo and authentication boundaries', () => {
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'My account' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Edit profile' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Sign-in and security' })).toBeInTheDocument();
+        expect(screen.getByText(/does not load an authenticated administrator profile/i)).toBeInTheDocument();
+        expect(screen.getByText(/Password changes are managed by the authentication service/i)).toBeInTheDocument();
+    });
+
+    it('validates profile details and applies only temporary demo values', () => {
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Apply demo profile' }));
+        expect(screen.getByRole('alert')).toHaveTextContent(/Enter a display name/i);
+        fireEvent.change(screen.getByLabelText('Display name'), { target: { value: 'Workspace Admin' } });
+        fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'not-an-email' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Apply demo profile' }));
+        expect(screen.getByRole('alert')).toHaveTextContent(/valid email address/i);
+        fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'admin@example.com' } });
+        fireEvent.change(screen.getByLabelText('Phone number'), { target: { value: '+2348000000000' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Apply demo profile' }));
+        expect(screen.getByRole('heading', { name: 'Workspace Admin' })).toBeInTheDocument();
+        expect(screen.getByRole('status')).toHaveTextContent(/not been sent to FixIt servers/i);
+    });
+
+    it('clears the temporary profile and opens workspace settings', () => {
+        render(<App />);
+        fireEvent.change(screen.getByLabelText('Display name'), { target: { value: 'Workspace Admin' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Apply demo profile' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Clear demo profile' }));
+        expect(screen.getByRole('heading', { name: 'Admin workspace' })).toBeInTheDocument();
+        expect(screen.getByRole('status')).toHaveTextContent(/fields have been cleared/i);
+        fireEvent.click(screen.getByRole('button', { name: /Open settings/i }));
+        expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
+    });
+
+    it('opens account from admin navigation', () => {
+        window.location.hash = '';
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Account' }));
+        expect(screen.getByRole('heading', { name: 'My account' })).toBeInTheDocument();
+    });
+});
