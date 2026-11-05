@@ -185,7 +185,7 @@ describe('admin jobs workspace', () => {
         fireEvent.change(screen.getByRole('combobox', { name: 'Job status' }), { target: { value: 'COMPLETED' } });
         expect(screen.getByText('Two-bedroom deep cleaning')).toBeInTheDocument();
         fireEvent.change(screen.getByRole('combobox', { name: 'Job category' }), { target: { value: 'Cleaning' } });
-        expect(screen.getByText('Showing 1–2 of 2')).toBeInTheDocument();
+        expect(screen.getByText('Showing 1–1 of 1')).toBeInTheDocument();
         fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
         expect(screen.getByText('Showing 1–6 of 12')).toBeInTheDocument();
     });
