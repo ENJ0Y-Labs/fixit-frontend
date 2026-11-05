@@ -343,3 +343,41 @@ describe('admin categories workspace', () => {
         expect(screen.getByText('Showing 7–10 of 10')).toBeInTheDocument();
     });
 });
+
+
+describe('admin analytics workspace', () => {
+    beforeEach(() => { window.location.hash = '#analytics'; });
+
+    it('opens analytics with clearly identified sample figures', () => {
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'Analytics' })).toBeInTheDocument();
+        expect(screen.getByText(/not live FixIt reporting/i)).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Job activity' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Job status breakdown' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Top service categories' })).toBeInTheDocument();
+    });
+
+    it('changes the reporting period and recalculates summary metrics', () => {
+        render(<App />);
+        expect(screen.getByText('491')).toBeInTheDocument();
+        fireEvent.change(screen.getByRole('combobox', { name: 'Reporting period' }), { target: { value: '7d' } });
+        expect(screen.getByText('173')).toBeInTheDocument();
+        expect(screen.getByText('105')).toBeInTheDocument();
+        fireEvent.change(screen.getByRole('combobox', { name: 'Reporting period' }), { target: { value: '90d' } });
+        expect(screen.getByText('1289')).toBeInTheDocument();
+    });
+
+    it('labels estimated job value separately from revenue and payments', () => {
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'Estimated job value' })).toBeInTheDocument();
+        expect(screen.getByText(/Not revenue or payments/i)).toBeInTheDocument();
+        expect(screen.getByText(/not provider earnings, agreed job prices, platform revenue/i)).toBeInTheDocument();
+    });
+
+    it('opens analytics from the admin navigation', () => {
+        window.location.hash = '';
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Analytics' }));
+        expect(screen.getByRole('heading', { name: 'Analytics' })).toBeInTheDocument();
+    });
+});
