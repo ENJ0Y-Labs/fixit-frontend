@@ -1,5 +1,5 @@
 // Illustrative provider records for the admin UI. Replace with approved API data when available.
-export [
+export const demoProviders = [
     { id: 'PRV-1042', name: 'Chinedu Okafor', business: 'CO Plumbing Services', category: 'Plumbing', location: 'Rumuola, Port Harcourt', phone: '+234 803 555 0142', email: 'chinedu@example.test', rating: 4.8, jobs: 42, joined: '12 Jun 2026', verification: 'Verified', account: 'Active' },
     { id: 'PRV-1041', name: 'Amaka Eze', business: 'BrightSpark Electricals', category: 'Electrical', location: 'GRA Phase 2, Port Harcourt', phone: '+234 806 555 0141', email: 'amaka@example.test', rating: 4.9, jobs: 36, joined: '10 Jun 2026', verification: 'Verified', account: 'Active' },
     { id: 'PRV-1040', name: 'Ibrahim Musa', business: 'Musa Cooling Works', category: 'AC repair', location: 'Rumuokoro, Port Harcourt', phone: '+234 809 555 0140', email: 'ibrahim@example.test', rating: 4.5, jobs: 19, joined: '08 Jun 2026', verification: 'Pending review', account: 'Active' },
