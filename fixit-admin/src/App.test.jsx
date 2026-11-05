@@ -381,3 +381,44 @@ describe('admin analytics workspace', () => {
         expect(screen.getByRole('heading', { name: 'Analytics' })).toBeInTheDocument();
     });
 });
+
+
+describe('admin settings workspace', () => {
+    beforeEach(() => { window.location.hash = '#settings'; });
+
+    it('opens settings with demo-only and read-only boundaries', () => {
+        render(<App />);
+        expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Admin profile' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Notification preferences' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Platform information' })).toBeInTheDocument();
+        expect(screen.getByText(/temporary browser state/i)).toBeInTheDocument();
+    });
+
+    it('updates notification preferences and applies them only in the demo page', () => {
+        render(<App />);
+        const weeklySummary = screen.getByRole('checkbox', { name: /Weekly activity summary/i });
+        expect(weeklySummary).not.toBeChecked();
+        fireEvent.click(weeklySummary);
+        expect(weeklySummary).toBeChecked();
+        fireEvent.click(screen.getByRole('button', { name: 'Apply demo preferences' }));
+        expect(screen.getByRole('status')).toHaveTextContent(/not been saved to FixIt servers/i);
+    });
+
+    it('changes regional preferences and resets demo values', () => {
+        render(<App />);
+        const timezone = screen.getByRole('combobox', { name: 'Time zone' });
+        fireEvent.change(timezone, { target: { value: 'UTC' } });
+        expect(timezone).toHaveValue('UTC');
+        fireEvent.click(screen.getByRole('button', { name: 'Reset demo preferences' }));
+        expect(timezone).toHaveValue('Africa/Lagos');
+        expect(screen.getByRole('status')).toHaveTextContent(/reset to their defaults/i);
+    });
+
+    it('opens settings from admin navigation', () => {
+        window.location.hash = '';
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Settings' }));
+        expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
+    });
+});

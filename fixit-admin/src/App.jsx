@@ -7,6 +7,7 @@ import JobsPage from './JobsPage.jsx';
 import DisputesSupportPage from './DisputesSupportPage.jsx';
 import CategoriesPage from './CategoriesPage.jsx';
 import AnalyticsPage from './AnalyticsPage.jsx';
+import SettingsPage from './SettingsPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦', group: 'Overview' },
@@ -273,7 +274,9 @@ function App() {
                                                 ? <CategoriesPage />
                                                 : activePage === 'Analytics'
                                                     ? <AnalyticsPage />
-                                                    : <PlaceholderPage page={activePage} />}
+                                                    : activePage === 'Settings'
+                                                        ? <SettingsPage />
+                                                        : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>
