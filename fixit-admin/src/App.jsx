@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import ProvidersPage from './ProvidersPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦', group: 'Overview' },
@@ -182,7 +183,6 @@ function Dashboard({ onNavigate }) {
 function PlaceholderPage({ page }) {
     const descriptions = {
         Customers: 'Review customer accounts and account activity.',
-        Providers: 'Review provider accounts, profiles, and service information.',
         Verification: 'Review submitted provider verification information.',
         Jobs: 'Monitor marketplace jobs and their current statuses.',
         'Disputes & support': 'Review reported issues, disputes, and support requests.',
@@ -272,7 +272,9 @@ function App() {
                 <div className="admin-content">
                     {activePage === 'Dashboard'
                         ? <Dashboard onNavigate={navigateTo} />
-                        : <PlaceholderPage page={activePage} />}
+                        : activePage === 'Providers'
+                            ? <ProvidersPage />
+                            : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>

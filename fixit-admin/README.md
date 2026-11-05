@@ -31,12 +31,11 @@ npm run build
 
 ## Current scope
 
-The initial scaffold provides a responsive administration shell, workspace navigation, and a sample platform overview. Dashboard figures and activity rows are illustrative mock data and are labelled as such. They are not live customer, provider, job, or revenue records.
+The admin application provides a responsive administration shell and a sample platform overview. The Providers workspace includes a searchable directory, verification/account/service filters, pagination, and a read-only provider details panel. Provider records and dashboard figures are illustrative mock data, not live platform records.
 
-The following sections are navigation placeholders for subsequent feature work:
+The following sections remain navigation placeholders:
 
 - Customers
-- Providers
 - Verification
 - Jobs
 - Disputes & support
@@ -44,6 +43,6 @@ The following sections are navigation placeholders for subsequent feature work:
 - Analytics
 - Settings
 
-No authentication, role enforcement, destructive admin action, persistence, or backend endpoint is implemented in this scaffold. The backend must enforce all admin authorization and provide approved API contracts before data integration begins.
+No authentication, role enforcement, destructive admin action, persistence, or backend endpoint is implemented. The backend must enforce all admin authorization and provide approved API contracts before data integration or account mutations are added.
 
-Check responsive layouts at 320, 375, 768, 1024, and 1440 pixels. Use keyboard navigation to verify visible focus, activate navigation with Enter/Space, and close the mobile menu with Escape.
+Check responsive layouts at 320, 375, 430, 768, 1024, and 1440 pixels. Use keyboard navigation to verify visible focus, activate navigation with Enter/Space, and close the mobile menu with Escape.
