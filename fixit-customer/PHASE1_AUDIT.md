@@ -125,6 +125,16 @@ The customer application is currently a UI prototype with local/mock state. The 
 - [ ] Logout
 - [ ] Privacy/terms/help navigation
 
+## Automated test baseline
+
+- [x] Add Vitest to the customer application.
+- [x] Configure jsdom and Testing Library matchers.
+- [x] Add starter tests for the home screen, provider search filtering, and Post a Job navigation.
+- [ ] Expand coverage for job posting validation, job details, messaging, payment UI boundaries, reviews, and account interactions.
+- [ ] Run the test suite locally and confirm the first CI result.
+
+The starter suite establishes a baseline; it does not mean the customer workflows are fully tested or production-ready.
+
 ## Confirmed code issue fixed in Phase 1
 `src/home/ServiceProvider.jsx` contained malformed image markup (`<i ... mg src=...>`), which prevented the provider avatar from being rendered correctly. The markup was corrected without changing the component architecture.
 
