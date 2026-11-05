@@ -108,4 +108,53 @@ describe('FixIt admin workspace', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Next' }));
         expect(screen.getByText('Showing 6–10 of 12')).toBeInTheDocument();
     });
+
+    it('opens the provider verification workspace', () => {
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: /verification/i }));
+        expect(screen.getByRole('heading', { name: 'Provider verification' })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Verification queue' })).toBeInTheDocument();
+        expect(screen.getByText(/No real documents are attached/i)).toBeInTheDocument();
+    });
+
+    it('searches verification cases and filters by review status', () => {
+        window.location.hash = '#verification';
+        render(<App />);
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search verification cases' }), { target: { value: 'Chinedu' } });
+        expect(screen.getByText('Chinedu Okafor')).toBeInTheDocument();
+        expect(screen.queryByText('Adaeze Nwosu')).not.toBeInTheDocument();
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search verification cases' }), { target: { value: '' } });
+        fireEvent.change(screen.getByRole('combobox', { name: 'Verification status' }), { target: { value: 'Needs information' } });
+        expect(screen.getByText('Mariam Danjuma')).toBeInTheDocument();
+    });
+
+    it('requires a review note for demo requests and rejections', () => {
+        window.location.hash = '#verification';
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Request information (demo)' }));
+        expect(screen.getByText(/Add a review note before requesting information/i)).toBeInTheDocument();
+        fireEvent.change(screen.getByLabelText(/Review note/i), { target: { value: 'Please provide a clearer proof of address.' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Request information (demo)' }));
+        expect(screen.getByText(/Demo state changed to “Needs information”/i)).toBeInTheDocument();
+        expect(screen.getByText(/This change exists only in this browser session/i)).toBeInTheDocument();
+    });
+
+    it('updates only the local demo state when a case is approved', () => {
+        window.location.hash = '#verification';
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Approve (demo)' }));
+        expect(screen.getByText(/Demo state changed to “Approved”/i)).toBeInTheDocument();
+        expect(screen.getByText('Approved', { selector: '.status-badge' })).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Reset demo data' }));
+        expect(screen.getByText('Pending review', { selector: '.status-badge' })).toBeInTheDocument();
+    });
+
+    it('paginates all verification cases', () => {
+        window.location.hash = '#verification';
+        render(<App />);
+        fireEvent.change(screen.getByRole('combobox', { name: 'Verification status' }), { target: { value: 'All' } });
+        expect(screen.getByText('Showing 1–5 of 8')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+        expect(screen.getByText('Showing 6–8 of 8')).toBeInTheDocument();
+    });
 });
