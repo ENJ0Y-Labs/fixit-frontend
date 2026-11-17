@@ -9,10 +9,10 @@ function LazyJobCard({ job, onViewDetails, index }) {
     useEffect(() => {
         if (isVisible || !cardRef.current || typeof IntersectionObserver === 'undefined') return undefined;
 
-        const observer = new IntersectionObserver(([entry]) => {
+        const observer = new IntersectionObserver(([entry], activeObserver) => {
             if (entry.isIntersecting) {
                 setIsVisible(true);
-                observer.disconnect();
+                activeObserver.disconnect();
             }
         }, { rootMargin: '180px 0px', threshold: 0.01 });
 
