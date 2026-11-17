@@ -193,7 +193,7 @@ small, .text-muted { color: var(--muted); }
 :where(.provider-content, .admin-content) :is(.card, .panel, .metric-card, .stat-card) {
   min-width: 0;
 }
-:where(.provider-content, .admin-content) :is(h1, h2, h3, p, small, strong, span) {
+:where(.provider-content, .admin-content) :is(h1, h2, h3, p) {
   overflow-wrap: anywhere;
 }
 :where(.provider-content, .admin-content) img,
