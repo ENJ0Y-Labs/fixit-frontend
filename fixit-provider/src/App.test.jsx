@@ -95,8 +95,8 @@ describe('provider dashboard states and figures', () => {
     });
 
     it('shows a loading state without displaying earnings as if they were loaded', async () => {
-        const { Dashboard } = await import('./App.jsx');
-        render(<Dashboard dataState="loading" />);
+        const DashboardPage = (await import('./DashboardPage.jsx')).default;
+        render(<DashboardPage dataState="loading" />);
         expect(screen.getByRole('heading', { name: /loading your dashboard/i })).toBeInTheDocument();
         expect(screen.queryByRole('heading', { name: /earnings overview/i })).not.toBeInTheDocument();
     });
