@@ -31,7 +31,7 @@
 .availability-heading p { max-width: 600px; }
 .availability-paused { margin: 0; padding: 12px; border-radius: var(--radius-sm); background: var(--surface-soft); color: var(--muted); font-size: .88rem; }
 .schedule-list { display: grid; }
-.schedule-row { display: grid; grid-template-columns: minmax(140px, 1.1fr) minmax(120px, 1fr) minmax(120px, 1fr) minmax(90px, .7fr); align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid var(--border); }
+.schedule-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(96px, 1fr) minmax(96px, 1fr) minmax(0, .7fr); align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid var(--border); }
 .schedule-row.is-day-off { color: var(--muted); }
 .schedule-day { display: flex; align-items: center; gap: 9px; font-weight: 650; cursor: pointer; }
 .schedule-time-field { display: grid; gap: 5px; color: var(--muted); font-size: .78rem; }
