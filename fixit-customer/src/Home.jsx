@@ -6,7 +6,10 @@ import Category from './home/Category';
 import ServiceProvider from './home/ServiceProvider';
 import DoubleRangeSlider from './DoubleRangeSlider';
 
-const locations = ['Lekki Phase 1', 'Victoria Island', 'Ikoyi', 'Yaba', 'Surulere'];
+const PRICE_MIN = 1500;
+const PRICE_MAX = 15000;
+
+const locations = ['Lekki Phase 1', 'Victoria Island', 'Ikoyi', 'Yaba', 'Surulere', 'Ikeja'];
 
 const categories = [
     { name: 'Plumbing', icon: 'fa-solid fa-faucet' },
@@ -17,14 +20,14 @@ const categories = [
 ];
 
 const providers = [
-    { name: 'Emeka Nwachukwu', job: 'Professional Plumber', category: 'PLUMBING', serviceTitle: 'Fixing Kitchen Sink Leak', location: 'Victoria Island', rating: 4.9, review: 124, distance: 2.4, price: 4500, available: true },
-    { name: 'Chioma Adeyemi', job: 'Expert Cleaner', category: 'CLEANING', serviceTitle: 'Deep House Cleaning', location: 'Surulere', rating: 4.8, review: 89, distance: 0.8, price: 3000, available: true },
-    { name: 'Tunde Bello', job: 'Master Electrician', category: 'ELECTRICAL', serviceTitle: 'Circuit Breaker Repair', location: 'Ikeja', rating: 5.0, review: 55, distance: 4.1, price: 6000, available: true },
-    { name: 'Blessing Okafor', job: 'Interior Painter', category: 'PAINTING', serviceTitle: 'Interior Painting', location: 'Ikoyi', rating: 4.7, review: 42, distance: 1.2, price: 4000, available: false },
-    { name: 'Chinedu Obi', job: 'Carpenter', category: 'CARPENTRY', serviceTitle: 'Custom Cabinet Repair', location: 'Yaba', rating: 4.6, review: 31, distance: 3.5, price: 5000, available: true },
-    { name: 'Aisha Yusuf', job: 'Home Cleaner', category: 'CLEANING', serviceTitle: 'Move-out Cleaning', location: 'Surulere', rating: 4.5, review: 67, distance: 5.6, price: 3500, available: true },
-    { name: 'Samuel Eze', job: 'Electrician', category: 'ELECTRICAL', serviceTitle: 'Socket & Wiring Repair', location: 'Lekki Phase 1', rating: 4.4, review: 24, distance: 7.2, price: 4200, available: true },
-    { name: 'Ifeoma Nnaji', job: 'Plumber', category: 'PLUMBING', serviceTitle: 'Bathroom Pipe Repair', location: 'Victoria Island', rating: 4.3, review: 19, distance: 9.5, price: 3800, available: false },
+    { name: 'Emeka Nwachukwu', job: 'Professional Plumber', category: 'PLUMBING', serviceTitle: 'Kitchen and bathroom plumbing', location: 'Victoria Island', rating: 4.9, review: 124, distance: 2.4, price: 4500, available: true },
+    { name: 'Chioma Adeyemi', job: 'Professional Cleaner', category: 'CLEANING', serviceTitle: 'Home and deep cleaning', location: 'Surulere', rating: 4.8, review: 89, distance: 0.8, price: 3000, available: true },
+    { name: 'Tunde Bello', job: 'Master Electrician', category: 'ELECTRICAL', serviceTitle: 'Electrical repairs and installations', location: 'Ikeja', rating: 5.0, review: 55, distance: 4.1, price: 6000, available: true },
+    { name: 'Blessing Okafor', job: 'Interior Painter', category: 'PAINTING', serviceTitle: 'Interior painting and finishing', location: 'Ikoyi', rating: 4.7, review: 42, distance: 1.2, price: 4000, available: false },
+    { name: 'Chinedu Obi', job: 'Carpenter', category: 'CARPENTRY', serviceTitle: 'Furniture and cabinet repairs', location: 'Yaba', rating: 4.6, review: 31, distance: 3.5, price: 5000, available: true },
+    { name: 'Aisha Yusuf', job: 'Home Cleaner', category: 'CLEANING', serviceTitle: 'Move-in and move-out cleaning', location: 'Surulere', rating: 4.5, review: 67, distance: 5.6, price: 3500, available: true },
+    { name: 'Samuel Eze', job: 'Electrician', category: 'ELECTRICAL', serviceTitle: 'Socket and wiring repairs', location: 'Lekki Phase 1', rating: 4.4, review: 24, distance: 7.2, price: 4200, available: true },
+    { name: 'Ifeoma Nnaji', job: 'Plumber', category: 'PLUMBING', serviceTitle: 'Bathroom pipe repairs', location: 'Victoria Island', rating: 4.3, review: 19, distance: 9.5, price: 3800, available: false },
 ];
 
 const quickFilters = [
@@ -36,9 +39,6 @@ const quickFilters = [
 ];
 
 function Home({ onSelectProvider }) {
-    const PRICE_MIN = 1500;
-    const PRICE_MAX = 15000;
-
     const [minPrice, setMinPrice] = useState(PRICE_MIN);
     const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
     const [search, setSearch] = useState('');
@@ -49,15 +49,13 @@ function Home({ onSelectProvider }) {
     const [sortBy, setSortBy] = useState('popular');
     const [visibleCount, setVisibleCount] = useState(4);
     const [quickFilter, setQuickFilter] = useState('all');
+    const [filtersOpen, setFiltersOpen] = useState(false);
 
     const filteredProviders = useMemo(() => {
         const searchValue = search.trim().toLowerCase();
         const result = providers.filter((provider) => {
-            const matchesSearch = !searchValue
-                || provider.name.toLowerCase().includes(searchValue)
-                || provider.job.toLowerCase().includes(searchValue)
-                || provider.serviceTitle.toLowerCase().includes(searchValue)
-                || provider.category.toLowerCase().includes(searchValue);
+            const searchable = [provider.name, provider.job, provider.serviceTitle, provider.category].join(' ').toLowerCase();
+            const matchesSearch = !searchValue || searchable.includes(searchValue);
             const matchesLocation = !location || provider.location === location;
             const matchesRating = (!rating || provider.rating >= Number(rating))
                 && (quickFilter !== 'rating' || provider.rating >= 4.8);
@@ -96,6 +94,12 @@ function Home({ onSelectProvider }) {
         setVisibleCount(4);
     };
 
+    const selectCategory = (category) => {
+        setSearch(category);
+        setQuickFilter('all');
+        setVisibleCount(4);
+    };
+
     return (
         <div className="home page-surface home-marketplace">
             <header className="home-header marketplace-header">
@@ -112,7 +116,10 @@ function Home({ onSelectProvider }) {
                 </div>
                 <label className="search-box marketplace-search">
                     <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                    <input type="search" value={search} onChange={(event) => { setSearch(event.target.value); setVisibleCount(4); }} placeholder="Find a plumber, electrician, cleaner..." aria-label="Search services and providers" />
+                    <input type="search" value={search} onChange={(event) => { setSearch(event.target.value); setVisibleCount(4); }} placeholder="Find a plumber, electrician, cleaner..." aria-label="Search services" />
+                    <button type="button" className="marketplace-filter-trigger" aria-label="Open filters" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>
+                        <i className="fa-solid fa-sliders" aria-hidden="true"></i>
+                    </button>
                 </label>
             </header>
 
@@ -121,11 +128,16 @@ function Home({ onSelectProvider }) {
                     <div className="marketplace-hero-art" aria-hidden="true"><i className="fa-solid fa-screwdriver-wrench"></i></div>
                     <div className="marketplace-hero-copy">
                         <span className="marketplace-eyebrow"><i className="fa-solid fa-shield-halved" aria-hidden="true"></i> HOME SERVICES, MADE SIMPLE</span>
-                        <h1 id="marketplace-hero-title">Find trusted help for every corner of your home.</h1>
-                        <p>Discover local service providers, compare their rates, and choose the right person for the job.</p>
-                        <button type="button" className="marketplace-hero-button" onClick={() => onSelectProvider(providers[0])}>
-                            Explore providers <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        <h1 id="marketplace-hero-title">Get your home fixed by people you can trust.</h1>
+                        <p>Find local service providers, compare their rates, and choose the right person for the job.</p>
+                        <button type="button" className="marketplace-hero-button" onClick={() => document.getElementById('provider-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
+                            Find a professional <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
                         </button>
+                    </div>
+                    <div className="marketplace-hero-benefits" aria-label="Ways to compare providers">
+                        <div><i className="fa-solid fa-user-check" aria-hidden="true"></i><span>Review profiles</span></div>
+                        <div><i className="fa-solid fa-star" aria-hidden="true"></i><span>Compare ratings</span></div>
+                        <div><i className="fa-solid fa-naira-sign" aria-hidden="true"></i><span>Compare rates</span></div>
                     </div>
                 </section>
 
@@ -135,16 +147,26 @@ function Home({ onSelectProvider }) {
                             <h2 id="categories-title">Popular services</h2>
                             <p>What do you need help with?</p>
                         </div>
-                        <button type="button" className="marketplace-text-button" onClick={() => { setSearch(''); setQuickFilter('all'); }}>Clear category</button>
+                        <button type="button" className="marketplace-text-button" onClick={() => { setSearch(''); setQuickFilter('all'); setVisibleCount(4); }}>Clear category</button>
                     </div>
                     <div className="marketplace-category-list">
                         {categories.map((category) => (
-                            <Category key={category.name} {...category} onSelect={() => { setSearch(category.name); setVisibleCount(4); }} />
+                            <Category key={category.name} {...category} onSelect={() => selectCategory(category.name)} />
                         ))}
                     </div>
                 </section>
 
-                <section className="marketplace-discovery" aria-label="Find service providers">
+                <section className="marketplace-discovery" aria-label="Find service providers" id="provider-results">
+                    <div className="marketplace-discovery-heading">
+                        <div>
+                            <span className="marketplace-eyebrow-dark">DISCOVER LOCAL HELP</span>
+                            <h2>Find the right professional</h2>
+                        </div>
+                        <button type="button" className="marketplace-mobile-filter-button" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>
+                            <i className="fa-solid fa-sliders" aria-hidden="true"></i> Filters
+                        </button>
+                    </div>
+
                     <div className="marketplace-quick-filters" aria-label="Quick provider filters">
                         {quickFilters.map((filter) => (
                             <button
@@ -161,14 +183,15 @@ function Home({ onSelectProvider }) {
                     </div>
 
                     <div className="marketplace-results-layout">
-                        <aside className="service-filters marketplace-filter-panel" aria-label="Detailed filters">
+                        <aside className={`service-filters marketplace-filter-panel${filtersOpen ? ' is-open' : ''}`} aria-label="Detailed filters">
                             <div className="filter-heading">
                                 <h2>Refine results</h2>
-                                <button type="button" onClick={resetFilters}>Reset</button>
+                                <button type="button" onClick={resetFilters}>Reset all</button>
+                                <button type="button" className="marketplace-filter-close" aria-label="Close filters" onClick={() => setFiltersOpen(false)}><i className="fa-solid fa-xmark" aria-hidden="true"></i></button>
                             </div>
 
                             <div className="filter-group">
-                                <h3>Price range (₦/hour)</h3>
+                                <h3>Hourly rate (₦)</h3>
                                 <div className="price-inputs">
                                     <input type="number" min={PRICE_MIN} max={maxPrice - 1} value={minPrice} aria-label="Minimum hourly price" onChange={(event) => setMinPrice(Math.min(Math.max(Number(event.target.value) || PRICE_MIN, PRICE_MIN), maxPrice - 1))} />
                                     <input type="number" min={minPrice + 1} max={PRICE_MAX} value={maxPrice} aria-label="Maximum hourly price" onChange={(event) => setMaxPrice(Math.max(Math.min(Number(event.target.value) || PRICE_MAX, PRICE_MAX), minPrice + 1))} />
@@ -178,32 +201,32 @@ function Home({ onSelectProvider }) {
 
                             <fieldset className="filter-group option-group">
                                 <legend>Minimum rating</legend>
-                                <label><input type="radio" name="rating" value="4.5" checked={rating === '4.5'} onChange={(event) => setRating(event.target.value)} /> 4.5 &amp; above</label>
-                                <label><input type="radio" name="rating" value="4" checked={rating === '4'} onChange={(event) => setRating(event.target.value)} /> 4.0 &amp; above</label>
-                                <label><input type="radio" name="rating" value="3.5" checked={rating === '3.5'} onChange={(event) => setRating(event.target.value)} /> 3.5 &amp; above</label>
+                                <label><input type="radio" name="rating" value="4.8" checked={rating === '4.8'} onChange={(event) => setRating(event.target.value)} /> 4.8 and above</label>
+                                <label><input type="radio" name="rating" value="4.5" checked={rating === '4.5'} onChange={(event) => setRating(event.target.value)} /> 4.5 and above</label>
+                                <label><input type="radio" name="rating" value="4" checked={rating === '4'} onChange={(event) => setRating(event.target.value)} /> 4.0 and above</label>
+                                <button type="button" className="marketplace-clear-option" onClick={() => setRating('')}>Any rating</button>
                             </fieldset>
 
                             <fieldset className="filter-group option-group">
                                 <legend>Distance</legend>
+                                <label><input type="radio" name="distance" value="3" checked={distance === '3'} onChange={(event) => setDistance(event.target.value)} /> Within 3 km</label>
                                 <label><input type="radio" name="distance" value="5" checked={distance === '5'} onChange={(event) => setDistance(event.target.value)} /> Within 5 km</label>
                                 <label><input type="radio" name="distance" value="10" checked={distance === '10'} onChange={(event) => setDistance(event.target.value)} /> Within 10 km</label>
-                                <label><input type="radio" name="distance" value="20" checked={distance === '20'} onChange={(event) => setDistance(event.target.value)} /> Within 20 km</label>
+                                <button type="button" className="marketplace-clear-option" onClick={() => setDistance('')}>Any distance</button>
                             </fieldset>
 
                             <label className="marketplace-availability">
-                                <span>
-                                    <strong>Available now</strong>
-                                    <small>Only show providers currently marked available</small>
-                                </span>
+                                <span><strong>Available now</strong><small>Only show providers marked available</small></span>
                                 <input type="checkbox" checked={availableNow} onChange={(event) => setAvailableNow(event.target.checked)} />
                             </label>
+                            <button type="button" className="marketplace-apply-filters" onClick={() => setFiltersOpen(false)}>Show {filteredProviders.length} results</button>
                         </aside>
 
                         <div className="marketplace-provider-results">
                             <div className="marketplace-results-heading">
                                 <div>
                                     <h2>Service providers near you</h2>
-                                    <p>{filteredProviders.length} matching sample listing{filteredProviders.length === 1 ? '' : 's'}</p>
+                                    <p>{filteredProviders.length} matching sample listings</p>
                                 </div>
                                 <label className="marketplace-sort">
                                     <span>Sort by</span>
@@ -242,8 +265,8 @@ function Home({ onSelectProvider }) {
                 <section className="marketplace-protection" aria-labelledby="protection-title">
                     <div className="marketplace-protection-icon"><i className="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
                     <div>
-                        <h2 id="protection-title">Choose with confidence</h2>
-                        <p>Review provider profiles, ratings, service details, and pricing before deciding who to contact.</p>
+                        <h2 id="protection-title">Make an informed choice</h2>
+                        <p>Check provider profiles, service details, customer ratings, and pricing before deciding who to contact. Confirm the agreed scope and price before work begins.</p>
                     </div>
                 </section>
             </main>
