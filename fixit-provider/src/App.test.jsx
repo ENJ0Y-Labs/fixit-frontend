@@ -1,6 +1,7 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
+import { FixitAsyncBoundary } from '../../shared/FixitAsyncBoundary.jsx';
 
 async function renderApp() {
     render(<App />);
@@ -145,5 +146,20 @@ describe('provider job detail navigation', () => {
         fireEvent.keyDown(document, { key: 'Escape' });
         expect(screen.queryByRole('dialog', { name: 'Provider navigation' })).not.toBeInTheDocument();
         expect(menuButton).toHaveFocus();
+    });
+});
+
+
+describe('shared lazy-page failure state', () => {
+    it('shows a recoverable error when a lazy page fails to render', () => {
+        function BrokenPage() {
+            throw new Error('simulated page chunk failure');
+        }
+        const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+        render(<FixitAsyncBoundary><BrokenPage /></FixitAsyncBoundary>);
+        expect(screen.getByRole('alert')).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'This page could not be opened' })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Reload app' })).toBeInTheDocument();
+        consoleError.mockRestore();
     });
 });
