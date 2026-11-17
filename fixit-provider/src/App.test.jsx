@@ -102,24 +102,24 @@ describe('provider dashboard states and figures', () => {
     });
 
     it('shows a useful zero-data state and zero naira amounts', async () => {
-        const { Dashboard } = await import('./App.jsx');
-        render(<Dashboard dataState="empty" />);
+        const DashboardPage = (await import('./DashboardPage.jsx')).default;
+        render(<DashboardPage dataState="empty" />);
         expect(screen.getByText('Nothing here yet')).toBeInTheDocument();
         expect(screen.getAllByText('₦0')).toHaveLength(3);
     });
 
     it('shows an error and exposes a retry action', async () => {
-        const { Dashboard } = await import('./App.jsx');
+        const DashboardPage = (await import('./DashboardPage.jsx')).default;
         const onRetry = vi.fn();
-        render(<Dashboard dataState="error" onRetry={onRetry} />);
+        render(<DashboardPage dataState="error" onRetry={onRetry} />);
         expect(screen.getByRole('alert')).toHaveTextContent(/couldn’t load your dashboard/i);
         fireEvent.click(screen.getByRole('button', { name: /try again/i }));
         expect(onRetry).toHaveBeenCalledOnce();
     });
 
     it('uses Nigerian naira currency formatting', async () => {
-        const { Dashboard } = await import('./App.jsx');
-        render(<Dashboard dataState="empty" />);
+        const DashboardPage = (await import('./DashboardPage.jsx')).default;
+        render(<DashboardPage dataState="empty" />);
         expect(screen.getAllByText('₦0')).toHaveLength(3);
     });
 });
