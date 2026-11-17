@@ -503,23 +503,11 @@ Frontend permission checks improve the interface. Backend authorization remains 
 
 ---
 
-## 18. Messaging
+## 18. Direct Communication
 
-Messaging UI should support:
+The customer and provider applications do not include an in-app chat or messaging feature. Do not add message inboxes, conversation views, chat composers, or direct-message navigation without an explicit product decision.
 
-- Conversation list
-- Search
-- Active conversation
-- Message history
-- Composer
-- Sending state
-- Error state
-- Online/offline indication when supplied by the API
-- Job context where relevant
-
-Do not fabricate message delivery guarantees.
-
-If real-time messaging is not implemented, do not label a polling or local-state prototype as real-time.
+If customers or providers need assistance, route them through an approved support channel rather than presenting a mock chat interface.
 
 ---
 
