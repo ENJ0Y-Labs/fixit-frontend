@@ -36,7 +36,7 @@ function ServiceProvider({
                     {serviceTitle && <p className="marketplace-provider-service">{serviceTitle}</p>}
                     <div className="marketplace-provider-meta">
                         <span className="service-rating"><i className="fa-solid fa-star" aria-hidden="true"></i> {rating.toFixed(1)} <span>({review} reviews)</span></span>
-                        <span className="service-distance"><i className="fa-solid fa-location-dot" aria-hidden="true"></i> {distance.toFixed(1)} km away</span>
+                        <span className="service-distance"><i className="fa-solid fa-location-dot" aria-hidden="true"></i> {location} · {distance.toFixed(1)} km away</span>
                     </div>
                 </div>
                 <button
