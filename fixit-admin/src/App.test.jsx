@@ -7,7 +7,7 @@ async function renderApp() {
     await waitFor(() => expect(document.querySelector('.fixit-page-transition')).toBeInTheDocument());
 }
 
-describe('FixIt admin workspace', async () => {
+describe('FixIt admin workspace', () => {
     beforeEach(() => {
         window.location.hash = '';
     });
