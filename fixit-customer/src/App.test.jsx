@@ -100,6 +100,32 @@ describe('customer application', () => {
         expect(screen.getByRole('status')).toHaveTextContent('Your profile changes have been saved in this session.');
     });
 
+
+    it('preserves My Jobs search, status, category, and sort when returning from Post a Job', async () => {
+        await renderApp();
+
+        fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+
+        fireEvent.change(screen.getByRole('searchbox', { name: 'Search jobs' }), {
+            target: { value: 'Circuit Breaker' },
+        });
+        fireEvent.click(screen.getByRole('button', { name: /Awaiting Bids/ }));
+        fireEvent.change(screen.getByLabelText('Filter by category'), { target: { value: 'ELECTRICAL' } });
+        fireEvent.change(screen.getByLabelText('Sort jobs'), { target: { value: 'price' } });
+
+        fireEvent.click(screen.getByRole('button', { name: 'Post a New Job' }));
+        expect(await screen.findByRole('heading', { name: /Post a New Job/i })).toBeInTheDocument();
+
+        fireEvent.click(screen.getByRole('button', { name: 'Go back' }));
+
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+        expect(screen.getByRole('searchbox', { name: 'Search jobs' })).toHaveValue('Circuit Breaker');
+        expect(screen.getByRole('button', { name: /Awaiting Bids/ })).toHaveClass('active');
+        expect(screen.getByLabelText('Filter by category')).toHaveValue('ELECTRICAL');
+        expect(screen.getByLabelText('Sort jobs')).toHaveValue('price');
+    });
+
 });
 
 
