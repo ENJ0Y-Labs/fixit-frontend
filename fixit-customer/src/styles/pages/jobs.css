@@ -1847,3 +1847,32 @@
     clip-path: inset(50%);
     border: 0;
 }
+
+
+/* Keep job forms inside the available page width on small phones. */
+.post-job-main, .job-details-main, .job-form, .job-form > *, .form-section, .form-field {
+    min-width: 0;
+    max-width: 100%;
+}
+.post-job-main, .job-details-main { width: 100%; }
+.form-field > .upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+}
+.form-field > .upload-box > span { display: block; max-width: 100%; }
+.form-field :is(input, select, textarea) { min-width: 0; max-width: 100%; }
+@media (max-width: 760px) {
+    .post-job-main, .job-details-main { padding: 22px 16px; }
+    .job-form { width: 100%; grid-template-columns: minmax(0, 1fr); }
+    .form-section { padding: 18px; }
+}
+@media (max-width: 520px) {
+    .post-job-main, .job-details-main { padding: 16px 12px; }
+    .form-section { padding: 16px; }
+    .form-field > .upload-box { padding: 18px 12px; }
+    .form-field > .upload-box > span { overflow-wrap: anywhere; text-align: center; }
+}
