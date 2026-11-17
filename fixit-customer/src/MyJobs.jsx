@@ -1,7 +1,33 @@
 import './styles/pages/my-jobs.css';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import JobCard from './myjobs/JobCard';
 
+function LazyJobCard({ job, onViewDetails, index }) {
+    const cardRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(typeof IntersectionObserver === 'undefined');
+
+    useEffect(() => {
+        if (isVisible || !cardRef.current || typeof IntersectionObserver === 'undefined') return undefined;
+
+        const observer = new IntersectionObserver(([entry], activeObserver) => {
+            if (entry.isIntersecting) {
+                setIsVisible(true);
+                activeObserver.disconnect();
+            }
+        }, { rootMargin: '180px 0px', threshold: 0.01 });
+
+        observer.observe(cardRef.current);
+        return () => observer.disconnect();
+    }, [isVisible]);
+
+    if (!isVisible) return <div ref={cardRef} className="my-job-card-skeleton" aria-hidden="true" />;
+
+    return (
+        <div ref={cardRef} className="my-job-card-lazy-wrap" style={{ '--job-card-delay': `${Math.min(index * 65, 325)}ms` }}>
+            <JobCard {...job} onDetails={() => onViewDetails(job)} />
+        </div>
+    );
+}
 const statusTabs = [
     { value: 'ALL', label: 'All Jobs' },
     { value: 'ACTIVE', label: 'Active' },
@@ -61,7 +87,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
     };
 
     return (
-        <main className="my-jobs page-surface my-jobs-workspace">
+        <main className="my-jobs page-surface my-jobs-workspace my-jobs-enter">
             <div className="my-jobs-content">
                 <div className="my-jobs-breadcrumb">
                     <span>FixIt Workspace</span>
@@ -166,11 +192,12 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                 </div>
 
                 <div className="jobs-list my-jobs-list" aria-live="polite">
-                    {visibleJobs.map((job) => (
-                        <JobCard
+                    {visibleJobs.map((job, index) => (
+                        <LazyJobCard
                             key={job.id}
-                            {...job}
-                            onDetails={() => onViewDetails(job)}
+                            job={job}
+                            index={index}
+                            onViewDetails={onViewDetails}
                         />
                     ))}
                     {visibleJobs.length === 0 && (
