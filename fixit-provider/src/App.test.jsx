@@ -25,7 +25,7 @@ afterEach(() => {
     window.history.replaceState({}, '', window.location.pathname);
 });
 
-describe('provider workspace navigation', async () => {
+describe('provider workspace navigation', () => {
     it('renders the provider dashboard by default', async () => {
         await renderApp();
 
@@ -81,7 +81,7 @@ describe('provider workspace navigation', async () => {
 });
 
 
-describe('provider dashboard states and figures', async () => {
+describe('provider dashboard states and figures', () => {
     it('labels sample figures as demo data and separates estimated, agreed, and paid amounts', async () => {
         await renderApp();
         expect(screen.getByText('Demo data')).toBeInTheDocument();
