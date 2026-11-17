@@ -1,4 +1,4 @@
-function JobPhoto({ photos = [] }) {
+function JobPhoto({ photos = [], onAddPhoto = () => {} }) {
     const visiblePhotos = photos.slice(0, 4);
     const emptySlots = Math.max(0, 4 - visiblePhotos.length);
 
@@ -10,7 +10,7 @@ function JobPhoto({ photos = [] }) {
                 </div>
             ))}
             {Array.from({ length: emptySlots }).map((_, index) => (
-                <button type="button" className="job-photo empty" key={`empty-${index}`} aria-label="Add job photo">
+                <button type="button" className="job-photo empty" key={`empty-${index}`} onClick={onAddPhoto} aria-label="Add job photo">
                     <i className="fa-solid fa-plus"></i>
                 </button>
             ))}
