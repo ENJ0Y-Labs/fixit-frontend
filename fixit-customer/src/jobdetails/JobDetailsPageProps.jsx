@@ -34,12 +34,15 @@ function JobDetailsPageProps({
 }) {
     const photoInputRef = useRef(null);
     const [addedPhotos, setAddedPhotos] = useState([]);
-    useEffect(() => () => addedPhotos.forEach((photo) => URL.revokeObjectURL(photo)), [addedPhotos]);
+    const addedPhotosRef = useRef([]);
+    useEffect(() => () => addedPhotosRef.current.forEach((photo) => URL.revokeObjectURL(photo)), []);
     const visiblePhotoCount = Math.min(4, photos.length + addedPhotos.length);
     const handleAddPhotos = (event) => {
         const remaining = Math.max(0, 4 - visiblePhotoCount);
         const files = Array.from(event.target.files ?? []).filter((file) => file.type.startsWith('image/')).slice(0, remaining);
-        setAddedPhotos((current) => [...current, ...files.map((file) => URL.createObjectURL(file))]);
+        const nextPhotos = files.map((file) => URL.createObjectURL(file));
+        addedPhotosRef.current.push(...nextPhotos);
+        setAddedPhotos((current) => [...current, ...nextPhotos]);
         event.target.value = '';
     };
     return (
