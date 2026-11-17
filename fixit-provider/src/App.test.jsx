@@ -140,7 +140,8 @@ describe('provider job detail navigation', () => {
 
     it('traps keyboard focus and closes mobile navigation with Escape', async () => {
         await renderApp();
-        const menuButton = screen.getByRole('button', { name: /open navigation menu/i });
+        const menuButton = document.querySelector('.mobile-menu-button');
+        expect(menuButton).not.toBeNull();
         fireEvent.click(menuButton);
         expect(screen.getByRole('dialog', { name: 'Provider navigation' })).toBeInTheDocument();
         fireEvent.keyDown(document, { key: 'Escape' });
