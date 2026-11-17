@@ -120,17 +120,6 @@ function App() {
 
     useEffect(() => {
         if (!menuOpen) return undefined;
-
-        function handleKeyDown(event) {
-            if (event.key === 'Escape') setMenuOpen(false);
-        }
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [menuOpen]);
-
-    useEffect(() => {
-        if (!menuOpen) return undefined;
         const focusable = sidebarRef.current?.querySelectorAll('a[href], button:not([disabled])');
         focusable?.[0]?.focus();
         function trapFocus(event) {
