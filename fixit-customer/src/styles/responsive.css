@@ -128,7 +128,7 @@
 @media (max-width: 760px) {
     .app-content {
         margin-left: 0;
-        padding-bottom: 82px;
+        padding-bottom: calc(144px + env(safe-area-inset-bottom));
     }
 
     .sidebar {
@@ -152,8 +152,8 @@
 
     .sidebar .nav-links {
         display: grid;
-        grid-template-columns: repeat(4,minmax(0,1fr));
-        gap: 3px;
+        grid-template-columns: repeat(3,minmax(0,1fr));
+        gap: 5px;
     }
 
     .sidebar .nav-item {
@@ -219,4 +219,45 @@
     .sidebar .nav-item {
         font-size: 9px;
     }
+}
+
+
+/* Responsive shell corrections: preserve the app's own sidebar token and
+   reserve enough room for the floating Post a Job action above mobile tabs. */
+@media (min-width: 761px) and (max-width: 1050px) {
+  .sidebar { width: var(--nav-width); }
+  .app-content { margin-left: var(--nav-width); }
+  .home-main, .account-main, .post-job-main, .my-jobs-main,
+  .job-details-main, .payment-main {
+    min-width: 0;
+  }
+}
+@media (max-width: 760px) {
+  .app-content {
+    padding-bottom: calc(144px + env(safe-area-inset-bottom));
+  }
+  .sidebar .nav-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .sidebar .nav-item {
+    min-width: 0;
+    white-space: normal;
+    line-height: 1.2;
+  }
+  .sidebar .nav-item span {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+  .sidebar .post-job-button {
+    max-width: calc(100vw - 32px);
+  }
+}
+@media (max-width: 360px) {
+  .sidebar .nav-item {
+    font-size: 8px;
+  }
+  .sidebar .nav-item i {
+    font-size: 16px;
+  }
 }

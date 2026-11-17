@@ -464,3 +464,31 @@ p { line-height: 1.55; }
     .support-participants { grid-template-columns: minmax(0, 1fr); }
     .support-conversation, .support-side-panel { padding: 12px; }
 }
+
+
+/* Tablet and narrow-desktop shell alignment. Keep the fixed sidebar width
+   and main offset tied to the same app-level token. */
+@media (min-width: 768px) and (max-width: 1100px) {
+  :root { --nav-width: 220px; }
+  .admin-sidebar { width: var(--nav-width); }
+  .admin-main { margin-left: var(--nav-width); min-width: 0; }
+  .admin-content { padding: 22px 20px 32px; }
+  .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .admin-topbar { gap: 10px; padding-inline: 16px; }
+  .topbar-left, .topbar-right { min-width: 0; gap: 8px; }
+  .breadcrumb { min-width: 0; overflow-wrap: anywhere; }
+  .page-heading { align-items: flex-start; flex-wrap: wrap; }
+  .page-heading > * { min-width: 0; }
+  .admin-content :is(.panel, .metric-card) { min-width: 0; }
+  .admin-content :is(input, select, textarea, button) { max-width: 100%; }
+}
+@media (max-width: 560px) {
+  .admin-topbar { padding-inline: 12px; }
+  .admin-content { padding-inline: 12px; }
+  .topbar-right { gap: 6px; }
+  .environment-tag { padding-inline: 6px; }
+  .page-heading { gap: 10px; }
+  .page-heading > div { width: 100%; }
+}
