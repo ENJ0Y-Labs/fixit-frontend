@@ -25,7 +25,6 @@ function JobDetailsPageProps({
     providerName = 'Emeka Nwachukwu',
     agreedprice = 12500,
     onPayment,
-    onMessages,
     progresstimeline = [
         { icon: 'fa-solid fa-check', title: 'Job posted', description: 'Your job was posted successfully.', timestamp: '9:00 AM' },
         { icon: 'fa-solid fa-user-check', title: 'Provider assigned', description: 'Emeka Nwachukwu accepted the job.', timestamp: '9:30 AM' },
@@ -76,7 +75,7 @@ function JobDetailsPageProps({
 
             <aside className="job-details-right">
                 <section className="assigned-provider-card">
-                    <ProviderData {...provider} name={providerName} onMessages={onMessages} />
+                    <ProviderData {...provider} name={providerName} />
                 </section>
 
                 <section className="payment-overview-card">
