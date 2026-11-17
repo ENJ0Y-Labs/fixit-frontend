@@ -165,7 +165,7 @@ describe('FixIt admin workspace', () => {
 });
 
 
-describe('admin jobs workspace', async () => {
+describe('admin jobs workspace', () => {
     it('opens the read-only jobs oversight page', async () => {
         window.location.hash = '#jobs';
         await renderApp();
@@ -214,7 +214,7 @@ describe('admin jobs workspace', async () => {
 });
 
 
-describe('admin disputes and support workspace', async () => {
+describe('admin disputes and support workspace', () => {
     beforeEach(() => { window.location.hash = '#disputes-support'; });
 
     it('opens the combined dispute and support inbox', async () => {
@@ -281,7 +281,7 @@ describe('admin disputes and support workspace', async () => {
 });
 
 
-describe('admin categories workspace', async () => {
+describe('admin categories workspace', () => {
     beforeEach(() => { window.location.hash = '#categories'; });
 
     it('opens the service category workspace with sample records', async () => {
@@ -350,7 +350,7 @@ describe('admin categories workspace', async () => {
 });
 
 
-describe('admin analytics workspace', async () => {
+describe('admin analytics workspace', () => {
     beforeEach(() => { window.location.hash = '#analytics'; });
 
     it('opens analytics with clearly identified sample figures', async () => {
@@ -388,7 +388,7 @@ describe('admin analytics workspace', async () => {
 });
 
 
-describe('admin settings workspace', async () => {
+describe('admin settings workspace', () => {
     beforeEach(() => { window.location.hash = '#settings'; });
 
     it('opens settings with demo-only and read-only boundaries', async () => {
