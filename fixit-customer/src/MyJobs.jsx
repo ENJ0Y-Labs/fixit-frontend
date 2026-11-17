@@ -1,11 +1,10 @@
 import './styles/pages/jobs.css';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import JobCard from './myjobs/JobCard';
 
-function MyJobs({ jobs = [], onPostJob, onViewDetails, onOpenMessages }) {
-    const [search, setSearch] = useState('');
-    const [statusFilter, setStatusFilter] = useState('ALL');
-    const [sortBy, setSortBy] = useState('recent');
+function MyJobs({ jobs = [], viewState = {}, onViewStateChange = () => {}, onPostJob, onViewDetails, onOpenMessages }) {
+    const { search = '', statusFilter = 'ALL', sortBy = 'recent' } = viewState;
+    const updateViewState = (field, value) => onViewStateChange((current) => ({ ...current, [field]: value }));
 
     const visibleJobs = useMemo(() => {
         const query = search.trim().toLowerCase();
@@ -40,7 +39,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails, onOpenMessages }) {
                 <div className="my-jobs-actions">
                     <div className="compact-search">
                         <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                        <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search jobs" aria-label="Search jobs" />
+                        <input type="search" value={search} onChange={(event) => updateViewState('search', event.target.value)} placeholder="Search jobs" aria-label="Search jobs" />
                     </div>
                     <button type="button" className="dark-button" onClick={onPostJob}>Post New Job</button>
                 </div>
@@ -55,7 +54,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails, onOpenMessages }) {
                             ['COMPLETED', 'Completed'],
                             ['CANCELLED', 'Cancelled'],
                         ].map(([value, label]) => (
-                            <button key={value} type="button" className={statusFilter === value ? 'active' : ''} onClick={() => setStatusFilter(value)}>
+                            <button key={value} type="button" className={statusFilter === value ? 'active' : ''} onClick={() => updateViewState('statusFilter', value)}>
                                 {label} ({countFor(value)})
                             </button>
                         ))}
@@ -63,7 +62,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails, onOpenMessages }) {
                     <label className="job-sort">
                         <i className="fa-solid fa-arrow-down-wide-short" aria-hidden="true"></i>
                         Sort:
-                        <select value={sortBy} onChange={(event) => setSortBy(event.target.value)} aria-label="Sort jobs">
+                        <select value={sortBy} onChange={(event) => updateViewState('sortBy', event.target.value)} aria-label="Sort jobs">
                             <option value="recent">Recent First</option>
                             <option value="oldest">Oldest First</option>
                             <option value="price">Highest Price</option>
