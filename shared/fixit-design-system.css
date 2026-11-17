@@ -1,32 +1,43 @@
-/* FixIt shared visual foundation.
-   Role-specific screens remain independent; this file keeps their visual language aligned. */
+/* FixIt shared visual foundation, aligned with the supplied Stitch design system.
+   Role-specific screens remain independent while sharing the same tokens and interaction language. */
 :root {
   color-scheme: light;
-  --background: #f7f7f7;
+  --background: #f8f9ff;
   --surface: #ffffff;
-  --surface-soft: #f3f3f3;
-  --soft: #f3f3f3;
-  --black: #171717;
-  --text: #222222;
-  --muted: #6f6f6f;
-  --light-text: #707070;
-  --border: #e8e8e8;
-  --border-strong: #d6d6d6;
-  --focus: #315efb;
-  --success: #16794b;
-  --success-soft: #e8f6ee;
-  --warning: #9a5b00;
-  --warning-soft: #fff3d9;
-  --danger: #b42318;
-  --danger-soft: #fcebea;
+  --surface-soft: #eff4ff;
+  --surface-container: #e5eeff;
+  --surface-container-high: #dce9ff;
+  --surface-container-highest: #d3e4fe;
+  --soft: #eff4ff;
+  --black: #0b1c30;
+  --text: #0b1c30;
+  --muted: #526174;
+  --light-text: #64748b;
+  --border: #e2e8f0;
+  --border-strong: #bccac0;
+  --outline: #6d7a72;
+  --focus: #006948;
+  --primary: #006948;
+  --primary-hover: #00855d;
+  --primary-soft: #e8f7ef;
+  --primary-contrast: #ffffff;
+  --secondary: #575e70;
+  --tertiary: #825100;
+  --success: #006948;
+  --success-soft: #e8f7ef;
+  --warning: #825100;
+  --warning-soft: #fff3df;
+  --danger: #ba1a1a;
+  --danger-soft: #ffdad6;
   --info: #285ca8;
   --info-soft: #eaf2ff;
   --topbar-height: 72px;
   --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 18px;
-  --shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-  --shadow-dialog: 0 24px 80px rgba(0, 0, 0, 0.22);
+  --radius: 8px;
+  --radius-lg: 16px;
+  --shadow: 0 1px 3px rgba(17, 24, 39, 0.05), 0 1px 2px rgba(17, 24, 39, 0.03);
+  --shadow-hover: 0 4px 6px -1px rgba(17, 24, 39, 0.07), 0 2px 4px -2px rgba(17, 24, 39, 0.05);
+  --shadow-dialog: 0 10px 15px -3px rgba(17, 24, 39, 0.08), 0 4px 6px -4px rgba(17, 24, 39, 0.04);
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -56,10 +67,14 @@ button { color: inherit; }
 button:disabled { cursor: not-allowed; opacity: .55; }
 a { color: inherit; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 3px;
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
-h1, h2, h3 { color: var(--black); letter-spacing: -.025em; }
+h1, h2, h3, h4, .page-title, .page-heading h1 {
+  color: var(--black);
+  font-family: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -.025em;
+}
 small, .text-muted { color: var(--muted); }
 
 /* Shared desktop workspace geometry. Mobile navigation remains app-specific. */
@@ -76,17 +91,30 @@ small, .text-muted { color: var(--muted); }
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
+.card:hover, .panel:hover, .metric-card:hover, .stat-card:hover {
+  box-shadow: var(--shadow-hover);
+}
 
-/* Consistent active navigation and primary action language. */
+/* Trust and action colours follow the Stitch emerald palette. */
 .provider-nav .nav-link[aria-current="page"],
 .admin-nav-link[aria-current="page"] {
-  background: var(--black);
+  background: var(--primary);
   color: #fff;
 }
 .provider-nav .nav-link[aria-current="page"]:hover,
-.admin-nav-link[aria-current="page"]:hover { background: #303030; color: #fff; }
-.btn-primary, .dark-button { background: var(--black); color: #fff; }
-.btn-primary:hover, .dark-button:hover { background: #303030; }
+.admin-nav-link[aria-current="page"]:hover {
+  background: var(--primary-hover);
+  color: #fff;
+}
+.btn-primary, .dark-button, .primary-button {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+.btn-primary:hover, .dark-button:hover, .primary-button:hover {
+  border-color: var(--primary-hover);
+  background: var(--primary-hover);
+}
 .btn-secondary, .outline-button {
   border-color: var(--border-strong);
   border-radius: var(--radius-sm);
@@ -95,7 +123,6 @@ small, .text-muted { color: var(--muted); }
 }
 .btn-secondary:hover, .outline-button:hover { background: var(--surface-soft); }
 
- 
 /* Shared route-level loading and motion system for all FixIt applications. */
 .fixit-page-loading {
   display: flex;
@@ -111,7 +138,7 @@ small, .text-muted { color: var(--muted); }
   height: 19px;
   flex: 0 0 19px;
   border: 2px solid var(--border-strong);
-  border-top-color: var(--black);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: fixit-spin .72s linear infinite;
 }
@@ -128,22 +155,15 @@ small, .text-muted { color: var(--muted); }
 .fixit-page-transition :is(button, a) {
   transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease, border-color .16s ease;
 }
-.fixit-page-transition :is(button, a):active:not(:disabled) {
-  transform: scale(.985);
-}
+.fixit-page-transition :is(button, a):active:not(:disabled) { transform: scale(.985); }
 .fixit-page-transition :is(.card, .panel, .metric-card, .stat-card) {
   transition: border-color .18s ease, box-shadow .18s ease;
 }
 .fixit-page-transition :is(.card, .panel, .metric-card, .stat-card):hover {
   border-color: var(--border-strong);
 }
-@keyframes fixit-spin {
-  to { transform: rotate(360deg); }
-}
-@keyframes fixit-page-enter {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+@keyframes fixit-spin { to { transform: rotate(360deg); } }
+@keyframes fixit-page-enter { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fixit-content-enter {
   from { opacity: 0; transform: translateY(9px); }
   to { opacity: 1; transform: translateY(0); }
