@@ -2,7 +2,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import JobDetailsPageProps from './JobDetailsPageProps.jsx';
 
-afterEach(() => cleanup());
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 describe('customer job photo controls', () => {
     it('adds local photo previews and explains that uploads are not connected', () => {
