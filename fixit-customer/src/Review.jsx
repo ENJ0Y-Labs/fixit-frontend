@@ -1,17 +1,50 @@
 import './styles/pages/jobs.css';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import avatarPlaceholder from './assets/avatar-placeholder.svg';
 
 function Review({ job, onClose, onSubmit }) {
     const [selectedFiles, setSelectedFiles] = useState([]);
+    const dialogRef = useRef(null);
+    const closeButtonRef = useRef(null);
+
+    useEffect(() => {
+        const previouslyFocused = document.activeElement;
+        closeButtonRef.current?.focus();
+
+        function handleDialogKeyDown(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                onClose?.();
+                return;
+            }
+            if (event.key !== 'Tab') return;
+            const focusable = dialogRef.current?.querySelectorAll('button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])');
+            if (!focusable?.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+
+        document.addEventListener('keydown', handleDialogKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleDialogKeyDown);
+            if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
+        };
+    }, [onClose]);
 
     function handleFileChange(event) {
         setSelectedFiles(Array.from(event.target.files ?? []).slice(0, 4));
     }
 
     return (
-        <div className="review-overlay" role="dialog" aria-modal="true" aria-labelledby="review-title">
-            <div className="review">
+        <div className="review-overlay" role="presentation">
+            <div ref={dialogRef} className="review" role="dialog" aria-modal="true" aria-labelledby="review-title" tabIndex="-1">
                 <aside className="review-provider">
                     <div className="review-avatar">
                         <img src={avatarPlaceholder} alt="Provider" />
@@ -31,7 +64,7 @@ function Review({ job, onClose, onSubmit }) {
                 <section className="review-content">
                     <header className="review-header">
                         <h1 id="review-title">Write a Review</h1>
-                        <button type="button" className="plain-icon-button" aria-label="Close review" onClick={onClose}>
+                        <button ref={closeButtonRef} type="button" className="plain-icon-button" aria-label="Close review" onClick={onClose}>
                             <i className="fa-solid fa-xmark"></i>
                         </button>
                     </header>
