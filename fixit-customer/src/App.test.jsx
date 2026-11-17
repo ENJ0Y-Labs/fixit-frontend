@@ -56,4 +56,15 @@ describe('customer application', () => {
         expect(screen.queryByRole('heading', { name: 'Fixing Kitchen Sink Leak' })).not.toBeInTheDocument();
     });
 
+    it('does not expose in-app messaging in customer navigation or job actions', async () => {
+        render(<App />);
+        expect(screen.queryByRole('button', { name: 'Messages' })).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: /chat with provider/i })).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /job details/i }));
+        expect(await screen.findByRole('heading', { name: 'Job Details' })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: /chat with provider/i })).not.toBeInTheDocument();
+    });
+
 });
