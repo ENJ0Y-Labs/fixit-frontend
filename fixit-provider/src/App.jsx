@@ -174,7 +174,7 @@ function App() {
                 <div className="provider-content">
                     <Suspense fallback={<div className="fixit-page-loading" role="status" aria-live="polite"><span className="fixit-loading-spinner" aria-hidden="true" />Loading page…</div>}>
                         <div key={activePage} className="fixit-page-transition">
-                            {activePage === 'Dashboard' ? <DashboardPage onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
+                            {activePage === 'Dashboard' ? <DashboardPage onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'Job Details' ? <AvailableJobsPage initialSelectedJobId="job-201" /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
                         </div>
                     </Suspense>
                 </div>
