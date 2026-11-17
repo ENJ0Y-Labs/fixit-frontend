@@ -68,6 +68,7 @@ describe('FixIt admin workspace', () => {
         expect(openButton).toHaveAttribute('aria-expanded', 'true');
         fireEvent.click(screen.getByLabelText('Close navigation menu'));
         expect(openButton).toHaveAttribute('aria-expanded', 'false');
+        expect(openButton).toHaveFocus();
     });
 
     it('opens the customer directory from admin navigation', async () => {
