@@ -75,7 +75,8 @@ async function readResponseBody(response) {
     }
 
     const contentType = (response.headers?.get?.('content-type') || '').toLowerCase();
-    if (contentType.includes('application/json') || /^[\s]*[\[{]/.test(text)) {
+    const firstNonWhitespace = text.trimStart()[0];
+    if (contentType.includes('application/json') || firstNonWhitespace === '{' || firstNonWhitespace === '[') {
         try {
             return JSON.parse(text);
         } catch {
