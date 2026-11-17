@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import JobPhoto from './JobPhoto';
 import ProgressStep from './ProgressStep';
 import ProviderData from './ProviderData';
@@ -31,6 +32,19 @@ function JobDetailsPageProps({
         { icon: 'fa-solid fa-spinner', title: 'Work in progress', description: 'The provider is currently working on the issue.', timestamp: 'Now' },
     ],
 }) {
+    const photoInputRef = useRef(null);
+    const [addedPhotos, setAddedPhotos] = useState([]);
+    const addedPhotosRef = useRef([]);
+    useEffect(() => () => addedPhotosRef.current.forEach((photo) => URL.revokeObjectURL(photo)), []);
+    const visiblePhotoCount = Math.min(4, photos.length + addedPhotos.length);
+    const handleAddPhotos = (event) => {
+        const remaining = Math.max(0, 4 - visiblePhotoCount);
+        const files = Array.from(event.target.files ?? []).filter((file) => file.type.startsWith('image/')).slice(0, remaining);
+        const nextPhotos = files.map((file) => URL.createObjectURL(file));
+        addedPhotosRef.current.push(...nextPhotos);
+        setAddedPhotos((current) => [...current, ...nextPhotos]);
+        event.target.value = '';
+    };
     return (
         <>
             <div className="job-details-left">
@@ -52,9 +66,11 @@ function JobDetailsPageProps({
                 <section className="job-photos-card">
                     <div className="section-heading">
                         <h2>Job Photos</h2>
-                        <button type="button">+ Add More</button>
+                        <button type="button" onClick={() => photoInputRef.current?.click()} disabled={visiblePhotoCount >= 4} aria-label="Add more job photos">+ Add More</button>
+                        <input ref={photoInputRef} className="job-photo-upload-input" type="file" accept="image/*" multiple onChange={handleAddPhotos} aria-label="Choose job photos" />
                     </div>
-                    <JobPhoto photos={photos} />
+                    <p className="photo-upload-note" role="status">{addedPhotos.length ? addedPhotos.length + ' photo(s) added for this session only.' : 'Up to four photos can be previewed. Uploading to your account is not connected yet.'}</p>
+                    <JobPhoto photos={[...photos, ...addedPhotos]} onAddPhoto={() => photoInputRef.current?.click()} />
                 </section>
 
                 <section className="job-progress-card">

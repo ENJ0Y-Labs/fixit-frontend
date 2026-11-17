@@ -180,3 +180,24 @@
     .marketplace-hero-button,.marketplace-filter-chip,.home-marketplace .marketplace-provider-card { transition: none; }
     .home-marketplace .marketplace-provider-card:hover,.marketplace-hero-button:hover { transform: none; }
 }
+
+
+/* The mobile filter sheet sits above a dimmed page and respects device safe areas. */
+.marketplace-filter-backdrop { display: none; }
+@media (max-width: 760px) {
+    .marketplace-filter-backdrop {
+        position: fixed;
+        z-index: 59;
+        inset: 0;
+        display: block;
+        border: 0;
+        background: rgba(14, 24, 18, .46);
+    }
+    .home-marketplace .marketplace-filter-panel {
+        z-index: 60;
+        max-height: min(82dvh, calc(100dvh - env(safe-area-inset-top) - 12px));
+        overscroll-behavior: contain;
+    }
+    .marketplace-filter-close { min-width: 44px; min-height: 44px; }
+    .marketplace-mobile-filter-button { min-height: 44px; }
+}

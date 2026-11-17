@@ -1,5 +1,6 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import './App.css';
+import { FixitAsyncBoundary, FixitLoadingState } from './FixitAsyncBoundary.jsx';
 
 const DashboardPage = lazy(() => import('./DashboardPage.jsx'));
 const AvailableJobsPage = lazy(() => import('./AvailableJobsPage.jsx'));
@@ -42,10 +43,11 @@ function Brand() {
     );
 }
 
-function Sidebar({ activePage, onNavigate, isOpen }) {
+function Sidebar({ activePage, onNavigate, isOpen, sidebarRef, onClose }) {
     return (
-        <aside className={`provider-sidebar${isOpen ? ' is-open' : ''}`} id="provider-navigation" aria-label="Provider navigation">
+        <aside ref={sidebarRef} className={`provider-sidebar${isOpen ? ' is-open' : ''}`} id="provider-navigation" aria-label="Provider navigation" role={isOpen ? "dialog" : undefined} aria-modal={isOpen ? true : undefined}>
             <Brand />
+            <button className="sidebar-close-button" type="button" onClick={onClose}>Close navigation</button>
             <p className="nav-label">Workspace</p>
             <nav className="provider-nav" aria-label="Main navigation">
                 {navigation.map((item) => (
@@ -113,16 +115,31 @@ function PlaceholderPage({ page }) {
 function App() {
     const [activePage, setActivePage] = useState(() => resolvePage(window.location.hash));
     const [menuOpen, setMenuOpen] = useState(false);
+    const sidebarRef = useRef(null);
+    const menuButtonRef = useRef(null);
 
     useEffect(() => {
         if (!menuOpen) return undefined;
-
-        function handleKeyDown(event) {
-            if (event.key === 'Escape') setMenuOpen(false);
+        const focusable = sidebarRef.current?.querySelectorAll('a[href], button:not([disabled])');
+        focusable?.[0]?.focus();
+        function trapFocus(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                setMenuOpen(false);
+                menuButtonRef.current?.focus();
+                return;
+            }
+            if (event.key !== 'Tab' || !focusable?.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
         }
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        document.addEventListener('keydown', trapFocus);
+        return () => {
+            document.removeEventListener('keydown', trapFocus);
+            if (sidebarRef.current?.contains(document.activeElement)) menuButtonRef.current?.focus();
+        };
     }, [menuOpen]);
 
     useEffect(() => {
@@ -143,19 +160,19 @@ function App() {
 
     return (
         <div className="provider-app">
-            <Sidebar activePage={activePage} onNavigate={navigateTo} isOpen={menuOpen} />
+            <Sidebar activePage={activePage} onNavigate={navigateTo} isOpen={menuOpen} sidebarRef={sidebarRef} onClose={() => setMenuOpen(false)} />
             <button
                 className={`mobile-nav-backdrop${menuOpen ? ' is-visible' : ''}`}
                 type="button"
                 aria-label="Close navigation menu"
                 tabIndex={menuOpen ? 0 : -1}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => { setMenuOpen(false); menuButtonRef.current?.focus(); }}
             />
             <main className="provider-main">
                 <header className="provider-topbar">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <button
-                            className="icon-button mobile-menu-button"
+                            ref={menuButtonRef} className="icon-button mobile-menu-button"
                             type="button"
                             aria-label="Open navigation menu"
                             aria-expanded={menuOpen}
@@ -172,11 +189,13 @@ function App() {
                     </div>
                 </header>
                 <div className="provider-content">
-                    <Suspense fallback={<div className="fixit-page-loading" role="status" aria-live="polite"><span className="fixit-loading-spinner" aria-hidden="true" />Loading page…</div>}>
+                    <FixitAsyncBoundary key={activePage}>
+                    <Suspense fallback={<FixitLoadingState label="Loading provider workspace" />}>
                         <div key={activePage} className="fixit-page-transition">
-                            {activePage === 'Dashboard' ? <DashboardPage onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
+                            {activePage === 'Dashboard' ? <DashboardPage onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'Job Details' ? <AvailableJobsPage initialSelectedJobId="job-201" /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
                         </div>
                     </Suspense>
+                    </FixitAsyncBoundary>
                 </div>
             </main>
         </div>

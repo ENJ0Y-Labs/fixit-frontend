@@ -1,6 +1,6 @@
 import './styles/pages/home.css';
 import './styles/pages/home-marketplace.css';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Footer from './Footer';
 import Category from './home/Category';
 import ServiceProvider from './home/ServiceProvider';
@@ -50,6 +50,35 @@ function Home({ onSelectProvider }) {
     const [visibleCount, setVisibleCount] = useState(4);
     const [quickFilter, setQuickFilter] = useState('all');
     const [filtersOpen, setFiltersOpen] = useState(false);
+
+    useEffect(() => {
+        if (!filtersOpen || window.innerWidth > 760) return undefined;
+        const panel = document.querySelector('.marketplace-filter-panel.is-open');
+        const previouslyFocused = document.activeElement;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        const focusable = panel?.querySelectorAll('button:not([disabled]), input:not([disabled]), select:not([disabled])');
+        focusable?.[0]?.focus();
+        function handleFilterKeys(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                setFiltersOpen(false);
+                document.querySelector('.marketplace-mobile-filter-button')?.focus();
+                return;
+            }
+            if (event.key !== 'Tab' || !focusable?.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+        document.addEventListener('keydown', handleFilterKeys);
+        return () => {
+            document.removeEventListener('keydown', handleFilterKeys);
+            document.body.style.overflow = previousOverflow;
+            if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
+        };
+    }, [filtersOpen]);
 
     const filteredProviders = useMemo(() => {
         const searchValue = search.trim().toLowerCase();
@@ -183,7 +212,8 @@ function Home({ onSelectProvider }) {
                     </div>
 
                     <div className="marketplace-results-layout">
-                        <aside className={`service-filters marketplace-filter-panel${filtersOpen ? ' is-open' : ''}`} aria-label="Detailed filters">
+                        {filtersOpen && <button type="button" className="marketplace-filter-backdrop" aria-label="Close filters" onClick={() => setFiltersOpen(false)} />}
+                        <aside className={`service-filters marketplace-filter-panel${filtersOpen ? ' is-open' : ''}`} aria-label="Detailed filters" role={filtersOpen ? "dialog" : undefined} aria-modal={filtersOpen ? true : undefined}>
                             <div className="filter-heading">
                                 <h2>Refine results</h2>
                                 <button type="button" onClick={resetFilters}>Reset all</button>

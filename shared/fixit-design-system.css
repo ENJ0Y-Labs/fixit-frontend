@@ -1,9 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap");
+/* Use a system font stack so typography remains stable when external font CDNs are unavailable. */
 
 /* FixIt shared visual foundation, aligned with the supplied Stitch design system.
    Role-specific screens remain independent while sharing the same tokens and interaction language. */
 :root {
   color-scheme: light;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --background: #f8f9ff;
   --surface: #ffffff;
   --surface-soft: #eff4ff;
@@ -56,7 +58,7 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.5;
   font-synthesis: none;
@@ -69,12 +71,12 @@ button { color: inherit; }
 button:disabled { cursor: not-allowed; opacity: .55; }
 a { color: inherit; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
 }
 h1, h2, h3, h4, .page-title, .page-heading h1 {
   color: var(--black);
-  font-family: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-display);
   letter-spacing: -.025em;
 }
 small, .text-muted { color: var(--muted); }
@@ -213,3 +215,36 @@ small, .text-muted { color: var(--muted); }
 @media (prefers-reduced-motion: reduce) {
   html:focus-within { scroll-behavior: auto; }
 }
+
+
+/* Shared async route states: real loading feedback and a recoverable chunk-load error. */
+.fixit-loading-state {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 12px;
+  width: min(100%, 560px);
+  min-height: 180px;
+  margin: clamp(24px, 6vh, 64px) auto;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+}
+.fixit-loading-state > div:nth-child(2) { display: grid; gap: 3px; }
+.fixit-loading-copy { color: var(--muted); font-size: .82rem; }
+.fixit-loading-skeleton { grid-column: 1 / -1; display: grid; gap: 9px; margin-top: 12px; }
+.fixit-loading-skeleton span { display: block; height: 11px; border-radius: 99px; background: var(--surface-soft); }
+.fixit-loading-skeleton span:nth-child(2) { width: 82%; }
+.fixit-loading-skeleton span:nth-child(3) { width: 61%; }
+.fixit-error-state {
+  display: grid; justify-items: start; gap: 10px; width: min(100%, 560px);
+  margin: clamp(24px, 6vh, 64px) auto; padding: 24px;
+  border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);
+}
+.fixit-error-icon { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: var(--danger-soft); color: var(--danger); font-weight: 800; }
+.fixit-error-state h2 { margin: 0; font-size: 1.05rem; }
+.fixit-error-state p { margin: 0; color: var(--muted); font-size: .88rem; }
+.fixit-error-state button { min-height: 44px; margin-top: 5px; padding: 0 16px; border: 0; border-radius: var(--radius-sm); background: var(--primary); color: var(--primary-contrast); font-weight: 700; cursor: pointer; }
+.fixit-error-state button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }

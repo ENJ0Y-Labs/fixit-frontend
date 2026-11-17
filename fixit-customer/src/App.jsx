@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
 import Nav from './Nav';
+import { FixitAsyncBoundary, FixitLoadingState } from './FixitAsyncBoundary.jsx';
 const Home = lazy(() => import('./Home.jsx'));
 const PostJob = lazy(() => import('./PostJob.jsx'));
 const MyJobs = lazy(() => import('./MyJobs.jsx'));
@@ -173,11 +174,13 @@ function App() {
         <div className="app-shell">
             <Nav activePage={activePage} onNavigate={navigate} />
             <div className="app-content">
-                <Suspense fallback={<div className="fixit-page-loading" role="status" aria-live="polite"><span className="fixit-loading-spinner" aria-hidden="true" />Loading page…</div>}>
+                <FixitAsyncBoundary key={activePage}>
+                <Suspense fallback={<FixitLoadingState label="Loading customer workspace" />}>
                     <div key={activePage} className="fixit-page-transition">
                         {renderPage()}
                     </div>
                 </Suspense>
+                </FixitAsyncBoundary>
             </div>
         </div>
     );

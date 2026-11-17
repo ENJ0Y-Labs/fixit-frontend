@@ -29,13 +29,15 @@ function ErrorState({ onRetry }) {
 function JobDetail({ job, onBack, onSubmitBid, submittedBids = [] }) {
     return (
         <section className="job-detail-page">
+            <div className="demo-notice" role="note"><strong>Sample job details</strong><span>This is illustrative data for interface testing, not a live customer request.</span></div>
             <button className="btn btn-quiet job-back" type="button" onClick={onBack}><span aria-hidden="true">←</span> Back to available jobs</button>
             <div className="job-detail-layout">
                 <div className="job-detail-main">
                     <div className="card">
                         <div className="job-detail-top"><span className="status-badge status-success">Open opportunity</span><span className="job-posted">Posted {job.postedAt.toLowerCase()}</span>{job.stale && <span className="status-badge status-warning">May be outdated</span>}</div>
                         <p className="eyebrow">{job.category}</p>
-                        <h1>{job.title}</h1>
+                        <h1>Job Details</h1>
+                        <h2 className="job-detail-title">{job.title}</h2>
                         <p className="job-detail-location"><span aria-hidden="true">⌖</span> {job.location}</p>
                         <div className="job-detail-facts"><span><strong>Expected budget</strong>{formatNaira(job.budget)}</span><span><strong>Estimated duration</strong>{job.duration}</span><span><strong>Urgency</strong>{job.urgency}</span></div>
                         <hr className="job-divider" />
@@ -61,14 +63,14 @@ function JobDetail({ job, onBack, onSubmitBid, submittedBids = [] }) {
     );
 }
 
-export function AvailableJobsPage({ dataState = 'populated', onRetry = () => {}, jobs = demoJobs, pageSize = 4, onSubmitBid, submittedBids = [] }) {
+export function AvailableJobsPage({ dataState = 'populated', onRetry = () => {}, jobs = demoJobs, pageSize = 4, onSubmitBid, submittedBids = [], initialSelectedJobId = null }) {
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState('All categories');
     const [location, setLocation] = useState('');
     const [budget, setBudget] = useState('any');
     const [sort, setSort] = useState('newest');
     const [page, setPage] = useState(1);
-    const [selectedJobId, setSelectedJobId] = useState(null);
+    const [selectedJobId, setSelectedJobId] = useState(initialSelectedJobId);
 
     const filteredJobs = useMemo(() => {
         const term = search.trim().toLowerCase();
