@@ -29,7 +29,6 @@ Customers can:
 - Post jobs
 - Receive and review bids
 - Manage active and completed jobs
-- Communicate with providers
 - View and manage payments
 - Review providers
 - Manage their account
@@ -43,7 +42,6 @@ Providers can:
 - Submit bids or responses
 - Manage accepted jobs
 - Update job progress
-- Communicate with customers
 - View earnings and payment information
 - View customer reviews
 
@@ -151,7 +149,6 @@ Primary concerns:
 - Search
 - Job posting
 - Job management
-- Provider communication
 - Payments
 - Reviews
 - Account management
@@ -166,7 +163,6 @@ Primary concerns:
 - Job discovery
 - Bidding/responding
 - Accepted-job management
-- Customer communication
 - Job progress
 - Earnings
 - Reviews
@@ -442,7 +438,6 @@ The customer application currently includes areas such as:
 - Job Details
 - Payment
 - Review
-- Messages
 - Account
 - Navigation
 - Footer
