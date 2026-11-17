@@ -60,14 +60,14 @@ Job Details now opens the existing sample job-detail and quote workflow rather t
 
 | Area | Finding | Repair | Status |
 |---|---|---|---|
-| Customer footer | Footer social links had undersized hit areas. | Set a minimum 44px touch target and visible focus ring. | Fixed in source; CI pending. |
+| Customer footer | Footer social links had undersized hit areas. | Set a minimum 44px touch target and visible focus ring. | Fixed in source; automated CI passed. |
 | Customer Job Details | `+ Add More` was inert and its hit area was small. | Connect it and empty photo slots to an image picker, preview up to four local images, clean up object URLs, and state clearly that server upload is not connected. | Fixed in source; CI pending. |
 | Typography | Shared stylesheet depended on Google Fonts, which may be blocked. | Remove the external font import and use resilient system font stacks. | Fixed in source; visual font rendering not browser-verified. |
-| Customer review dialog | Dialog was not viewport-fixed and had no keyboard focus management. | Fix viewport positioning, internal scrolling, safe-area padding, background scroll lock, initial focus, Tab/Shift+Tab trapping, Escape close, and focus restoration. | Fixed in source; automated test added. |
+| Customer review dialog | Dialog was not viewport-fixed and had no keyboard focus management. | Fix viewport positioning, internal scrolling, safe-area padding, background scroll lock, initial focus, Tab/Shift+Tab trapping, Escape close, and focus restoration. | Fixed in source; automated tests passed. |
 | Customer mobile filter sheet | Bottom sheet lacked a backdrop and keyboard focus management. | Add backdrop, safe-area-aware max height, dialog semantics, background scroll lock, focus trapping, and Escape close. | Fixed in source; automated test added. |
-| Provider/admin mobile navigation | Focus could remain inside the off-canvas navigation after closing. | Add a close control, dialog semantics, keyboard focus trapping, Escape close, and focus restoration. | Fixed in source; provider/admin tests added. |
-| Provider Job Details | Navigation opened a generic “later phase” placeholder. | Route to the existing sample detail and quote interface; label sample content clearly. | Fixed in source; test added. |
-| Async page loading/errors | Lazy screens had a basic spinner but no shared route-load error recovery. | Add shared loading feedback and an error boundary with an explicit reload action to all three apps. | Fixed in source; error-boundary test added. |
+| Provider/admin mobile navigation | Focus could remain inside the off-canvas navigation after closing. | Add a close control, dialog semantics, keyboard focus trapping, Escape close, and focus restoration. | Fixed in source; provider/admin tests passed. |
+| Provider Job Details | Navigation opened a generic “later phase” placeholder. | Route to the existing sample detail and quote interface; label sample content clearly. | Fixed in source; test passed. |
+| Async page loading/errors | Lazy screens had a basic spinner but no shared route-load error recovery. | Add shared loading feedback and an error boundary with an explicit reload action to all three apps. | Fixed in source; error-boundary test passed. |
 
 ## Dropdown and popover scope
 
@@ -85,9 +85,7 @@ Job Details now opens the existing sample job-detail and quote workflow rather t
 
 ## Automated verification
 
-The previous merged PR #14 passed tests, ESLint and production builds for all three applications. That result does not validate this new branch.
-
-A new CI run is required for this follow-up. Tests added here cover:
+Follow-up PR #16 CI run #? passed tests, ESLint, and production builds for customer, provider, and admin. See the linked workflow run in the pull request. Tests added here cover:
 - Review dialog focus entry, Tab trapping, Escape close, and focus restoration.
 - Customer mobile filter dialog semantics and Escape close.
 - Customer job-photo local preview and object URL cleanup.
@@ -113,7 +111,7 @@ Authenticated routes must be tested with authorized accounts; no authentication 
 
 ## Completion classification
 
-- **Fixed in source with automated coverage:** Review modal keyboard behavior; mobile filter sheet keyboard behavior; customer photo add action; provider Job Details navigation; async error boundary; admin/provider mobile navigation focus behavior.
+- **Fixed in source with automated coverage (all relevant CI checks passed):** Review modal keyboard behavior; mobile filter sheet keyboard behavior; customer photo add action; provider Job Details navigation; async error boundary; admin/provider mobile navigation focus behavior.
 - **Fixed in source, not visually verified:** Footer and photo touch target sizing; system font fallback; modal/sheet positioning; mobile navigation layout.
 - **Not implemented as a custom component:** Native browser select popups and custom popover components. No custom popover was found in the inspected source.
 - **Not visually verified:** All route screenshots, viewport matrix, browser console, actual native dropdown placement, and final modal/sheet stacking.
