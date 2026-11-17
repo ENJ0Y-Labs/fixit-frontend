@@ -32,10 +32,10 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
         const query = search.trim().toLowerCase();
         const filtered = jobs.filter((job) => {
             const matchesSearch = !query
-                || job.title.toLowerCase().includes(query)
-                || job.location.toLowerCase().includes(query)
+                || (job.title || '').toLowerCase().includes(query)
+                || (job.location || '').toLowerCase().includes(query)
                 || (job.providerName || '').toLowerCase().includes(query)
-                || job.id.toLowerCase().includes(query);
+                || (job.id || '').toLowerCase().includes(query);
             const matchesStatus = statusFilter === 'ALL'
                 || (statusFilter === 'ACTIVE' && ['IN PROGRESS', 'AWAITING BIDS'].includes(job.status))
                 || job.status === statusFilter;
@@ -53,23 +53,30 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
     const activeCount = countFor('ACTIVE');
     const awaitingCount = countFor('AWAITING BIDS');
     const completedCount = countFor('COMPLETED');
+    const clearFilters = () => {
+        setSearch('');
+        setStatusFilter('ALL');
+        setCategoryFilter('ALL');
+        setSortBy('recent');
+    };
 
     return (
-        <div className="my-jobs page-surface my-jobs-workspace">
+        <main className="my-jobs page-surface my-jobs-workspace">
             <div className="my-jobs-content">
                 <div className="my-jobs-breadcrumb">
                     <span>FixIt Workspace</span>
                     <i className="fa-solid fa-chevron-right" aria-hidden="true"></i>
                     <strong>My Jobs</strong>
-                    <i className="fa-solid fa-chevron-right" aria-hidden="true"></i>
-                    <span>Overview</span>
                 </div>
 
                 <header className="my-jobs-titlebar">
-                    <div>
+                    <div className="my-jobs-heading-copy">
                         <p className="my-jobs-eyebrow">YOUR SERVICE REQUESTS</p>
-                        <h1>My Jobs</h1>
-                        <p className="my-jobs-subtitle">Manage your service requests, bids, ongoing work and booking history.</p>
+                        <div className="my-jobs-heading-line">
+                            <h1>My Jobs</h1>
+                            <span className="my-jobs-total-count">{jobs.length} {jobs.length === 1 ? 'job' : 'total jobs'}</span>
+                        </div>
+                        <p className="my-jobs-subtitle">Track your requests, compare bids and manage completed work.</p>
                     </div>
                     <button type="button" className="dark-button my-jobs-post-button" onClick={onPostJob}>
                         <i className="fa-solid fa-plus" aria-hidden="true"></i>
@@ -79,7 +86,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
 
                 <section className="my-jobs-metrics" aria-label="Job summary">
                     <article className="my-jobs-metric">
-                        <div><span>Total Jobs</span><strong>{jobs.length}</strong><small>All your service requests</small></div>
+                        <div><span>Total Jobs</span><strong>{jobs.length}</strong><small>All service requests</small></div>
                         <span className="my-jobs-metric-icon"><i className="fa-solid fa-briefcase" aria-hidden="true"></i></span>
                     </article>
                     <article className="my-jobs-metric">
@@ -87,31 +94,16 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                         <span className="my-jobs-metric-icon is-green"><i className="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i></span>
                     </article>
                     <article className="my-jobs-metric">
-                        <div><span>Awaiting Bids</span><strong>{awaitingCount}</strong><small>Requests open to providers</small></div>
+                        <div><span>Awaiting Bids</span><strong>{awaitingCount}</strong><small>Open requests</small></div>
                         <span className="my-jobs-metric-icon is-amber"><i className="fa-solid fa-hourglass-half" aria-hidden="true"></i></span>
                     </article>
                     <article className="my-jobs-metric">
-                        <div><span>Completed Jobs</span><strong>{completedCount}</strong><small>Finished service requests</small></div>
+                        <div><span>Completed Jobs</span><strong>{completedCount}</strong><small>Finished requests</small></div>
                         <span className="my-jobs-metric-icon is-blue"><i className="fa-solid fa-circle-check" aria-hidden="true"></i></span>
                     </article>
                 </section>
 
-                <section className="my-jobs-controls" aria-label="Filter jobs">
-                    <div className="my-jobs-tabs" role="group" aria-label="Filter by job status">
-                        {statusTabs.map(({ value, label }) => (
-                            <button
-                                key={value}
-                                type="button"
-                                className={statusFilter === value ? 'active' : ''}
-                                onClick={() => setStatusFilter(value)}
-                                aria-pressed={statusFilter === value}
-                            >
-                                <span>{label}</span>
-                                <span className="my-jobs-tab-count">{countFor(value)}</span>
-                            </button>
-                        ))}
-                    </div>
-
+                <section className="my-jobs-controls" aria-label="Search and filter jobs">
                     <div className="my-jobs-filter-row">
                         <label className="my-jobs-search">
                             <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -119,7 +111,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                                 type="search"
                                 value={search}
                                 onChange={(event) => setSearch(event.target.value)}
-                                placeholder="Search job ID, title, location or provider..."
+                                placeholder="Search by job title or provider..."
                                 aria-label="Search jobs"
                             />
                         </label>
@@ -128,11 +120,12 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                             className="my-jobs-filter-toggle"
                             onClick={() => setShowMobileFilters((visible) => !visible)}
                             aria-expanded={showMobileFilters}
+                            aria-controls="my-jobs-selects"
                         >
                             <i className="fa-solid fa-sliders" aria-hidden="true"></i>
                             <span>Filters</span>
                         </button>
-                        <div className={`my-jobs-selects${showMobileFilters ? ' is-open' : ''}`}>
+                        <div id="my-jobs-selects" className={`my-jobs-selects${showMobileFilters ? ' is-open' : ''}`}>
                             <label>
                                 <span className="sr-only">Filter by category</span>
                                 <select value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
@@ -150,6 +143,21 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                             </label>
                         </div>
                     </div>
+
+                    <div className="my-jobs-tabs" role="group" aria-label="Filter by job status">
+                        {statusTabs.map(({ value, label }) => (
+                            <button
+                                key={value}
+                                type="button"
+                                className={statusFilter === value ? 'active' : ''}
+                                onClick={() => setStatusFilter(value)}
+                                aria-pressed={statusFilter === value}
+                            >
+                                <span>{label}</span>
+                                <span className="my-jobs-tab-count">{countFor(value)}</span>
+                            </button>
+                        ))}
+                    </div>
                 </section>
 
                 <div className="my-jobs-list-heading">
@@ -157,7 +165,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                     <span>Sorted by {sortBy === 'recent' ? 'most recent' : sortBy === 'oldest' ? 'oldest' : 'highest price'}</span>
                 </div>
 
-                <div className="jobs-list my-jobs-list">
+                <div className="jobs-list my-jobs-list" aria-live="polite">
                     {visibleJobs.map((job) => (
                         <JobCard
                             key={job.id}
@@ -172,12 +180,12 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                             <p>{jobs.length === 0 ? 'Post your first job to start receiving responses from service providers.' : 'Try changing your search or filters to find the job you need.'}</p>
                             {jobs.length === 0
                                 ? <button type="button" className="dark-button" onClick={onPostJob}>Post your first job</button>
-                                : <button type="button" className="outline-button" onClick={() => { setSearch(''); setStatusFilter('ALL'); setCategoryFilter('ALL'); }}>Clear filters</button>}
+                                : <button type="button" className="outline-button" onClick={clearFilters}>Clear filters</button>}
                         </div>
                     )}
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
 
