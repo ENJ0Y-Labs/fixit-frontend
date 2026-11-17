@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import './App.css';
-import AvailableJobsPage from './AvailableJobsPage.jsx';
-import ProfilePage from './ProfilePage.jsx';
-import ServicesAvailabilityPage from './ServicesAvailabilityPage.jsx';
-import MyJobsPage from './MyJobsPage.jsx';
-import EarningsPage from './EarningsPage.jsx';
-import ReviewsPage from './ReviewsPage.jsx';
-import SettingsPage from './SettingsPage.jsx';
+
+const AvailableJobsPage = lazy(() => import('./AvailableJobsPage.jsx'));
+const ProfilePage = lazy(() => import('./ProfilePage.jsx'));
+const ServicesAvailabilityPage = lazy(() => import('./ServicesAvailabilityPage.jsx'));
+const MyJobsPage = lazy(() => import('./MyJobsPage.jsx'));
+const EarningsPage = lazy(() => import('./EarningsPage.jsx'));
+const ReviewsPage = lazy(() => import('./ReviewsPage.jsx'));
+const SettingsPage = lazy(() => import('./SettingsPage.jsx'));
 
 const navigation = [
     { label: 'Dashboard', icon: '▦' },
@@ -340,7 +341,11 @@ function App() {
                     </div>
                 </header>
                 <div className="provider-content">
-                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
+                    <Suspense fallback={<div className="fixit-page-loading" role="status" aria-live="polite"><span className="fixit-loading-spinner" aria-hidden="true" />Loading page…</div>}>
+                        <div key={activePage} className="fixit-page-transition">
+                            {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
+                        </div>
+                    </Suspense>
                 </div>
             </main>
         </div>
