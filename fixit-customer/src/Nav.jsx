@@ -1,7 +1,6 @@
 const navItems = [
     { id: 'home', label: 'Home', icon: 'fa-solid fa-house' },
     { id: 'myJobs', label: 'My Jobs', icon: 'fa-solid fa-briefcase' },
-    { id: 'messages', label: 'Messages', icon: 'fa-solid fa-message' },
     { id: 'account', label: 'Profile', icon: 'fa-solid fa-user' }
 ];
 
