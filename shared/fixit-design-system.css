@@ -215,3 +215,36 @@ small, .text-muted { color: var(--muted); }
 @media (prefers-reduced-motion: reduce) {
   html:focus-within { scroll-behavior: auto; }
 }
+
+
+/* Shared async route states: real loading feedback and a recoverable chunk-load error. */
+.fixit-loading-state {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 12px;
+  width: min(100%, 560px);
+  min-height: 180px;
+  margin: clamp(24px, 6vh, 64px) auto;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+}
+.fixit-loading-state > div:nth-child(2) { display: grid; gap: 3px; }
+.fixit-loading-copy { color: var(--muted); font-size: .82rem; }
+.fixit-loading-skeleton { grid-column: 1 / -1; display: grid; gap: 9px; margin-top: 12px; }
+.fixit-loading-skeleton span { display: block; height: 11px; border-radius: 99px; background: var(--surface-soft); }
+.fixit-loading-skeleton span:nth-child(2) { width: 82%; }
+.fixit-loading-skeleton span:nth-child(3) { width: 61%; }
+.fixit-error-state {
+  display: grid; justify-items: start; gap: 10px; width: min(100%, 560px);
+  margin: clamp(24px, 6vh, 64px) auto; padding: 24px;
+  border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);
+}
+.fixit-error-icon { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: var(--danger-soft); color: var(--danger); font-weight: 800; }
+.fixit-error-state h2 { margin: 0; font-size: 1.05rem; }
+.fixit-error-state p { margin: 0; color: var(--muted); font-size: .88rem; }
+.fixit-error-state button { min-height: 44px; margin-top: 5px; padding: 0 16px; border: 0; border-radius: var(--radius-sm); background: var(--primary); color: var(--primary-contrast); font-weight: 700; cursor: pointer; }
+.fixit-error-state button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
