@@ -1,9 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap");
+/* Use a system font stack so typography remains stable when external font CDNs are unavailable. */
 
 /* FixIt shared visual foundation, aligned with the supplied Stitch design system.
    Role-specific screens remain independent while sharing the same tokens and interaction language. */
 :root {
   color-scheme: light;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --background: #f8f9ff;
   --surface: #ffffff;
   --surface-soft: #eff4ff;
@@ -56,7 +58,7 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.5;
   font-synthesis: none;
@@ -69,12 +71,12 @@ button { color: inherit; }
 button:disabled { cursor: not-allowed; opacity: .55; }
 a { color: inherit; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
 }
 h1, h2, h3, h4, .page-title, .page-heading h1 {
   color: var(--black);
-  font-family: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-display);
   letter-spacing: -.025em;
 }
 small, .text-muted { color: var(--muted); }
