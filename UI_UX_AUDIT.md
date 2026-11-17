@@ -98,6 +98,6 @@ The required viewport matrix remains: 320, 375, 430, 768, 1024, 1280, 1440, and 
 ## Completion classification
 
 - **Fixed and visually verified:** None yet.
-- **Fixed but not visually verified:** Provider sidebar scroll reachability.
+- **Fixed but not visually verified:** Provider sidebar scroll reachability. The follow-up CI run passed all three applications.
 - **Not fixed / incomplete product screen:** Provider Job Details remains a placeholder.
 - **Not accessible for testing:** Browser-only visual and interaction verification for all applications.
