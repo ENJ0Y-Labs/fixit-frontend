@@ -502,3 +502,26 @@
     .payment-right > section,
     .payment-right > button { margin-bottom: 14px; }
 }
+
+
+/* Checkout can be narrower than the desktop form's intrinsic content width. */
+.payment, .payment-main, .payment-left, .payment-right,
+.payment-main > *, .payment-left > *, .payment-right > * {
+    min-width: 0;
+    max-width: 100%;
+}
+.payment-main { width: 100%; }
+.payment-main :is(input, select, button) { min-width: 0; max-width: 100%; }
+@media (max-width: 760px) {
+    .payment-main { grid-template-columns: minmax(0, 1fr); padding: 20px 16px; }
+    .payment-right { grid-template-columns: minmax(0, 1fr); }
+    .escrow-payment, .payment-section-heading, .promo-code { min-width: 0; flex-wrap: wrap; }
+    .promo-code > div { min-width: 0; flex: 1 1 180px; }
+}
+@media (max-width: 520px) {
+    .payment-main { padding: 16px 12px; }
+    .payment-header { gap: 10px; }
+    .payment-header h1 { min-width: 0; overflow-wrap: anywhere; }
+    .payment-right { display: block; }
+    .payment-right > section, .payment-right > button { width: 100%; margin-bottom: 14px; }
+}
