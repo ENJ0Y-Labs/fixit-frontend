@@ -85,7 +85,7 @@ Job Details now opens the existing sample job-detail and quote workflow rather t
 
 ## Automated verification
 
-Follow-up PR #16 CI run #? passed tests, ESLint, and production builds for customer, provider, and admin. See the linked workflow run in the pull request. Tests added here cover:
+Follow-up PR #16 CI run #52 passed tests, ESLint, and production builds for customer, provider, and admin: https://github.com/ENJ0Y-Labs/fixit-frontend/actions/runs/44166093161. Tests added here cover:
 - Review dialog focus entry, Tab trapping, Escape close, and focus restoration.
 - Customer mobile filter dialog semantics and Escape close.
 - Customer job-photo local preview and object URL cleanup.
