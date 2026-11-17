@@ -36,4 +36,25 @@ describe('customer application', () => {
 
         expect(await screen.findByRole('heading', { name: /post a new job/i })).toBeInTheDocument();
     });
+
+    it('preserves My Jobs search, status filter, and sorting when returning from Post a Job', async () => {
+        render(<App />);
+
+        fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
+        const search = await screen.findByRole('searchbox', { name: 'Search jobs' });
+        fireEvent.change(search, { target: { value: 'kitchen' } });
+        fireEvent.click(screen.getByRole('button', { name: /Active/ }));
+        fireEvent.change(screen.getByRole('combobox', { name: 'Sort jobs' }), { target: { value: 'price' } });
+
+        fireEvent.click(screen.getByRole('button', { name: 'Post New Job' }));
+        expect(await screen.findByRole('heading', { name: 'Post a New Job' })).toBeInTheDocument();
+
+        fireEvent.click(screen.getByRole('button', { name: 'Go back' }));
+
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+        expect(screen.getByRole('searchbox', { name: 'Search jobs' })).toHaveValue('kitchen');
+        expect(screen.getByRole('button', { name: /Active/ })).toHaveClass('active');
+        expect(screen.getByRole('combobox', { name: 'Sort jobs' })).toHaveValue('price');
+    });
+
 });
