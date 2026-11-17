@@ -55,6 +55,8 @@ function Home({ onSelectProvider }) {
         if (!filtersOpen || window.innerWidth > 760) return undefined;
         const panel = document.querySelector('.marketplace-filter-panel.is-open');
         const previouslyFocused = document.activeElement;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
         const focusable = panel?.querySelectorAll('button:not([disabled]), input:not([disabled]), select:not([disabled])');
         focusable?.[0]?.focus();
         function handleFilterKeys(event) {
@@ -73,6 +75,7 @@ function Home({ onSelectProvider }) {
         document.addEventListener('keydown', handleFilterKeys);
         return () => {
             document.removeEventListener('keydown', handleFilterKeys);
+            document.body.style.overflow = previousOverflow;
             if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
         };
     }, [filtersOpen]);
