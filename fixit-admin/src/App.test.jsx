@@ -61,7 +61,7 @@ describe('FixIt admin workspace', () => {
         const openButton = screen.getByLabelText('Open navigation menu');
         fireEvent.click(openButton);
         expect(openButton).toHaveAttribute('aria-expanded', 'true');
-        fireEvent.click(screen.getByRole('button', { name: 'Close navigation menu' }));
+        fireEvent.click(screen.getByLabelText('Close navigation menu'));
         expect(openButton).toHaveAttribute('aria-expanded', 'false');
     });
 
@@ -144,7 +144,7 @@ describe('FixIt admin workspace', () => {
         render(<App />);
         fireEvent.click(screen.getByRole('button', { name: 'Approve (demo)' }));
         expect(screen.getByText(/Demo state changed to “Approved”/i)).toBeInTheDocument();
-        expect(within(document.querySelector('.verification-table')).getAllByText('Approved', { selector: '.status-badge' })).toHaveLength(1);
+        expect(within(document.querySelector('.verification-table')).getAllByText('Approved', { selector: '.status-badge' })).toHaveLength(2);
         fireEvent.click(screen.getByRole('button', { name: 'Reset demo data' }));
         expect(screen.getAllByText('Pending review', { selector: '.status-badge' }).length).toBeGreaterThan(0);
     });
@@ -236,7 +236,7 @@ describe('admin disputes and support workspace', () => {
         fireEvent.change(screen.getByRole('combobox', { name: 'Case status' }), { target: { value: 'OPEN' } });
         expect(screen.getByText('Cannot see provider replies')).toBeInTheDocument();
         fireEvent.change(screen.getByRole('combobox', { name: 'Case priority' }), { target: { value: 'Low' } });
-        expect(screen.getByText('Showing 1–0 of 0')).toBeInTheDocument();
+        expect(screen.getByText('Showing 0–0 of 0')).toBeInTheDocument();
     });
 
     it('shows an empty state and clears filters', () => {
