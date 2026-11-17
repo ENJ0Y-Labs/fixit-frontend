@@ -171,3 +171,28 @@
     .my-job-card { padding:11px; }
     .my-job-actions button { font-size:8px; }
 }
+
+/* Motion and viewport-based lazy-card placeholders. */
+.my-jobs-enter { animation: my-jobs-page-enter .38s ease-out both; }
+.my-jobs-metric { animation: my-jobs-rise .42s ease-out both; }
+.my-jobs-metric:nth-child(2) { animation-delay: 45ms; }
+.my-jobs-metric:nth-child(3) { animation-delay: 90ms; }
+.my-jobs-metric:nth-child(4) { animation-delay: 135ms; }
+.my-job-card-lazy-wrap { width: 100%; animation: my-jobs-rise .42s ease-out both; animation-delay: var(--job-card-delay, 0ms); }
+.my-job-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.my-job-card:hover { transform: translateY(-2px); }
+.my-job-card-skeleton { width: 100%; min-height: 190px; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(100deg, #f0f2f0 25%, #f8faf8 38%, #f0f2f0 60%); background-size: 220% 100%; animation: my-jobs-shimmer 1.35s ease-in-out infinite; }
+.my-job-progress-panel .progress-track span { transform-origin: left center; animation: my-jobs-progress-fill .7s .15s ease-out both; }
+.my-jobs-tabs button, .my-jobs-post-button, .my-job-actions button { transition: transform .18s ease, background-color .18s ease, color .18s ease, box-shadow .18s ease; }
+.my-jobs-tabs button:active, .my-jobs-post-button:active, .my-job-actions button:active { transform: scale(.98); }
+
+@keyframes my-jobs-page-enter { from { opacity: 0; } to { opacity: 1; } }
+@keyframes my-jobs-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes my-jobs-shimmer { to { background-position-x: -220%; } }
+@keyframes my-jobs-progress-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .my-jobs-enter, .my-jobs-metric, .my-job-card-lazy-wrap, .my-job-card-skeleton, .my-job-progress-panel .progress-track span { animation: none !important; }
+    .my-job-card, .my-jobs-tabs button, .my-jobs-post-button, .my-job-actions button { transition: none !important; }
+    .my-job-card:hover, .my-jobs-tabs button:active, .my-jobs-post-button:active, .my-job-actions button:active { transform: none; }
+}
