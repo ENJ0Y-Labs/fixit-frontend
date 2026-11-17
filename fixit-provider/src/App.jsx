@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import './App.css';
-import { FixitAsyncBoundary, FixitLoadingState } from '../../shared/FixitAsyncBoundary.jsx';
+import { FixitAsyncBoundary, FixitLoadingState } from './FixitAsyncBoundary.jsx';
 
 const DashboardPage = lazy(() => import('./DashboardPage.jsx'));
 const AvailableJobsPage = lazy(() => import('./AvailableJobsPage.jsx'));
