@@ -81,7 +81,7 @@ small, .text-muted { color: var(--muted); }
 
 /* Shared desktop workspace geometry. Mobile navigation remains app-specific. */
 @media (min-width: 768px) {
-  :root { --nav-width: 248px; }
+  /* Each app owns its navigation width. Do not replace its responsive token globally. */
   .sidebar, .provider-sidebar, .admin-sidebar { width: var(--nav-width); }
   .app-content { margin-left: var(--nav-width); }
   .provider-main, .admin-main { margin-left: var(--nav-width); }
@@ -179,4 +179,37 @@ small, .text-muted { color: var(--muted); }
     transition: none !important;
   }
   .fixit-page-transition :is(button, a):active:not(:disabled) { transform: none; }
+}
+
+
+/* Shared overflow and intrinsic-sizing safeguards. These prevent long labels,
+   wide tables, and nested grids from pushing an application beyond its viewport. */
+:where(.app-shell, .provider-app, .admin-app, .app-content, .provider-main,
+  .admin-main, .provider-content, .admin-content, .page-surface,
+  .fixit-page-transition) {
+  min-width: 0;
+}
+:where(.provider-content, .admin-content) > *,
+:where(.provider-content, .admin-content) :is(.card, .panel, .metric-card, .stat-card) {
+  min-width: 0;
+}
+:where(.provider-content, .admin-content) :is(h1, h2, h3, p, small, strong, span) {
+  overflow-wrap: anywhere;
+}
+:where(.provider-content, .admin-content) img,
+:where(.provider-content, .admin-content) svg,
+:where(.provider-content, .admin-content) video {
+  max-width: 100%;
+}
+@media (max-width: 1100px) and (min-width: 768px) {
+  .provider-topbar, .admin-topbar {
+    gap: 12px;
+    padding-inline: 20px;
+  }
+  .provider-content, .admin-content {
+    padding-inline: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within { scroll-behavior: auto; }
 }
