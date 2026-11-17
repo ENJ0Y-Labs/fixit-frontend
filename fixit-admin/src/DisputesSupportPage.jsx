@@ -47,7 +47,7 @@ export default function DisputesSupportPage() {
 
     const pageCount = Math.max(1, Math.ceil(filteredCases.length / pageSize));
     const visibleCases = filteredCases.slice((page - 1) * pageSize, page * pageSize);
-    const selectedCase = records.find((record) => record.id === selectedId) ?? null;
+    const selectedCase = filteredCases.find((record) => record.id === selectedId) ?? null;
     const counts = {
         open: records.filter((record) => record.status === 'OPEN').length,
         review: records.filter((record) => record.status === 'UNDER_REVIEW').length,
