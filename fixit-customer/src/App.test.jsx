@@ -43,4 +43,17 @@ describe('customer application', () => {
         expect(screen.queryByText('Blessing Okafor')).not.toBeInTheDocument();
         expect(screen.getByText('Emeka Nwachukwu')).toBeInTheDocument();
     });
+    it('opens My Jobs and filters requests using the redesigned controls', async () => {
+        render(<App />);
+
+        fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
+
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+        const search = screen.getByRole('searchbox', { name: 'Search jobs' });
+        fireEvent.change(search, { target: { value: 'Circuit Breaker' } });
+
+        expect(screen.getByRole('heading', { name: 'Circuit Breaker Tripping Frequently' })).toBeInTheDocument();
+        expect(screen.queryByRole('heading', { name: 'Fixing Kitchen Sink Leak' })).not.toBeInTheDocument();
+    });
+
 });
