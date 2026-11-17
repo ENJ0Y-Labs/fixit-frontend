@@ -58,7 +58,7 @@ function JobCard({
                     {providerName && (
                         <div className="my-job-provider">
                             <span className="my-job-provider-avatar" aria-hidden="true">{initials}</span>
-                            <span><strong>{providerName}</strong><small>{isCompleted ? 'Service provider' : 'Assigned provider'}</small></span>
+                            <span className="my-job-provider-copy"><strong>{providerName}</strong><small>{isCompleted ? 'Service provider' : 'Assigned provider'}</small></span>
                             {providerRating > 0 && <span className="my-job-rating"><i className="fa-solid fa-star" aria-hidden="true"></i>{providerRating.toFixed(1)}</span>}
                         </div>
                     )}
@@ -69,15 +69,17 @@ function JobCard({
                     <p>{priceLabel || (isAwaitingBids ? 'ESTIMATED BUDGET' : 'JOB AMOUNT')}</p>
                     <strong>{priceText}</strong>
                     {priceSubtext && <span>{priceSubtext}</span>}
-                    {isInProgress && <span className="my-job-escrow-note"><i className="fa-solid fa-shield-halved" aria-hidden="true"></i> {priceSubtext || 'Payment status not provided'}</span>}
-                    {isCompleted && <span className="my-job-completed-note"><i className="fa-solid fa-circle-check" aria-hidden="true"></i> Completed</span>}
+                    {isInProgress && <span className="my-job-escrow-note"><i className="fa-solid fa-shield-halved" aria-hidden="true"></i>{priceSubtext || 'Payment status not provided'}</span>}
+                    {isCompleted && <span className="my-job-completed-note"><i className="fa-solid fa-circle-check" aria-hidden="true"></i>Completed</span>}
                 </div>
 
                 <div className="my-job-progress-panel">
                     {isInProgress ? (
                         <>
-                            <div className="my-job-progress-heading"><span>Job progress</span><strong>{progressPercentage}%</strong></div>
-                            <div className="progress-track"><span style={{ width: `${Math.min(Math.max(progressPercentage, 0), 100)}%` }}></span></div>
+                            <div className="my-job-progress-heading"><span>Job progress</span><strong>{Math.min(Math.max(progressPercentage, 0), 100)}%</strong></div>
+                            <div className="progress-track" role="progressbar" aria-label="Job progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.min(Math.max(progressPercentage, 0), 100)}>
+                                <span style={{ width: `${Math.min(Math.max(progressPercentage, 0), 100)}%` }}></span>
+                            </div>
                             <div className="my-job-progress-stages"><span>Booked</span><span>In progress</span><span>Completed</span></div>
                         </>
                     ) : isAwaitingBids ? (
