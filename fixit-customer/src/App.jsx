@@ -57,6 +57,7 @@ const initialJobs = [
 function App() {
     const [activePage, setActivePage] = useState('home');
     const [jobs, setJobs] = useState(initialJobs);
+    const [myJobsViewState, setMyJobsViewState] = useState({ search: '', statusFilter: 'ALL', sortBy: 'recent' });
     const [selectedJob, setSelectedJob] = useState(initialJobs[0]);
     const [navOpen, setNavOpen] = useState(false);
 
@@ -103,6 +104,7 @@ function App() {
         };
 
         setJobs((current) => [newJob, ...current]);
+        setMyJobsViewState({ search: '', statusFilter: 'ALL', sortBy: 'recent' });
         setSelectedJob(newJob);
         setActivePage('myJobs');
     };
@@ -115,6 +117,8 @@ function App() {
                 return (
                     <MyJobs
                         jobs={jobs}
+                        viewState={myJobsViewState}
+                        onViewStateChange={setMyJobsViewState}
                         onPostJob={() => navigate('postJob')}
                         onViewDetails={(job) => navigate('jobDetails', job)}
                         onOpenMessages={(job) => navigate('messages', job)}
