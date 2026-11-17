@@ -17,17 +17,6 @@
         border-top: 1px solid var(--border);
     }
 
-    .job-details-main,
-    .payment-main {
-        grid-template-columns: 1fr;
-    }
-
-    .payment-right {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
-
     .payment-right > section,
     .payment-right > button {
         margin-bottom: 0;
@@ -55,7 +44,7 @@
     .search-box { width: min(360px, 42vw); }
     .services-section { grid-template-columns: 1fr; }
     .service-providers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .account-grid,.job-form { grid-template-columns: 1fr; }
+    .account-grid { grid-template-columns: 1fr; }
     .profile-card { width: 100%; padding: 22px; align-items: flex-start; }
     .profile-copy .outline-button { position: static; transform: none; margin-top: 16px; }
     .my-jobs-header { flex-wrap: wrap; height: auto; padding-top: 14px; padding-bottom: 14px; }
@@ -65,13 +54,6 @@
     .job-price,.job-card-action-area { grid-column: 1 / -1; border-left: 0; padding-left: 0; }
     .job-price { padding-top: 14px; border-top: 1px solid var(--border); }
     .job-card-action-area { padding-top: 14px; }
-    .job-facts { grid-template-columns: 1fr 1fr; }
-    .payment-right { grid-template-columns: 1fr; }
-    .review-overlay { padding: 14px; }
-    .review { min-height: 0; grid-template-columns: 1fr; }
-    .review-provider { padding: 22px; }
-    .review-meta { margin-top: 20px; grid-template-columns: repeat(3, 1fr); }
-    .review-content { padding: 22px; }
 }
 
 @media (max-width: 560px) {
@@ -83,7 +65,6 @@
     .categories-list,.service-providers { grid-template-columns: 1fr 1fr; }
     .service-header { align-items: flex-start; flex-direction: column; }
     .my-jobs-header,.jobs-toolbar { align-items: stretch; flex-direction: column; gap: 10px; }
-    .job-form { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 520px) {
@@ -94,33 +75,17 @@
     .profile-contact { justify-content: center; }
     .profile-copy .outline-button { width: 100%; }
     .setting-row { min-height: 70px; }
-    .date-time-grid,.job-facts { grid-template-columns: 1fr; }
-    .form-section { padding: 20px; }
-    .form-actions { flex-direction: column; }
-    .form-actions button { width: 100%; }
     .job-status-tabs { overflow-x: auto; padding-bottom: 4px; }
     .job-status-tabs button { flex: 0 0 auto; }
     .job-card-action-area { align-items: stretch; flex-direction: column; }
     .action-buttons { width: 100%; grid-template-columns: 1fr 1fr; }
     .action-buttons button { width: 100%; }
-    .contact-buttons { grid-template-columns: 1fr; }
-    .payment-right { display: block; }
-    .payment-right > section,.payment-right > button { margin-bottom: 14px; }
-    .review-meta { grid-template-columns: 1fr; }
-    .review-actions { flex-wrap: wrap; }
-    .anonymous-option { width: 100%; margin-right: 0; }
-    .review-actions .outline-button,.review-actions .dark-button { flex: 1; }
-    .photo-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 440px) {
     .categories-list,.service-providers { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr; }
-    .footer-bottom { flex-direction: column; }
     .profile-card { padding: 18px; }
     .profile-contact { display: grid; gap: 5px; }
-    .form-actions { flex-direction: column; }
-    .form-actions button,.review-actions button { width: 100%; }
 }
 
 

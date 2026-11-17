@@ -808,3 +808,10 @@
     flex-basis: 42px;
     color: #666;
 }
+
+
+/* Footer responsive rules (home.css loads after responsive.css, so they must live here). */
+@media (max-width: 440px) {
+    .footer-top { grid-template-columns: minmax(0, 1fr); }
+    .footer-bottom { flex-direction: column; }
+}

@@ -1759,3 +1759,49 @@
 }
 
 /* Medium screens: keep pages readable and stack dense layouts before they become cramped. */
+
+/* The dropzone is a <label> inside .form-field; `.form-field > label { display: block }` outranks `.upload-box`,
+   which collapsed the icon and both text lines onto one row. Match the specificity. */
+.form-field > .upload-box {
+    display: flex;
+    margin-bottom: 0;
+}
+
+/* Responsive rules for Post Job, Job Details and Review.
+   These live here, not in responsive.css: this file is imported lazily by the pages and therefore
+   loads after responsive.css, so rules placed there lost to the desktop declarations above. */
+@media (max-width: 1100px) {
+    .post-job-main,
+    .job-details-main { padding: 28px; }
+    .job-details-main { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+    .post-job-main,
+    .job-details-main { padding: 22px 18px; }
+    .job-form { grid-template-columns: minmax(0, 1fr); }
+    .job-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .review-overlay { padding: 14px; }
+    .review { min-height: 0; grid-template-columns: minmax(0, 1fr); }
+    .review-provider { padding: 22px; }
+    .review-meta { margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .review-content { padding: 22px; }
+}
+
+@media (max-width: 520px) {
+    .post-job-main,
+    .job-details-main { padding: 18px 14px; }
+    .date-time-grid,
+    .job-facts { grid-template-columns: minmax(0, 1fr); }
+    .form-section { padding: 20px; }
+    .form-actions { flex-direction: column; }
+    .form-actions button,
+    .review-actions button { width: 100%; }
+    .contact-buttons { grid-template-columns: minmax(0, 1fr); }
+    .review-meta { grid-template-columns: minmax(0, 1fr); }
+    .review-actions { flex-wrap: wrap; }
+    .anonymous-option { width: 100%; margin-right: 0; }
+    .review-actions .outline-button,
+    .review-actions .dark-button { flex: 1; }
+    .photo-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
