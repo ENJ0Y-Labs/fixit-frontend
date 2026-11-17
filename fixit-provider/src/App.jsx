@@ -147,7 +147,10 @@ function App() {
             else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
         }
         document.addEventListener('keydown', trapFocus);
-        return () => document.removeEventListener('keydown', trapFocus);
+        return () => {
+            document.removeEventListener('keydown', trapFocus);
+            if (sidebarRef.current?.contains(document.activeElement)) menuButtonRef.current?.focus();
+        };
     }, [menuOpen]);
 
     useEffect(() => {
