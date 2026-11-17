@@ -4,33 +4,6 @@ import App from './App.jsx';
 
 afterEach(() => {
     cleanup();
-    it('renders the customer profile settings without presenting demo wallet or verification claims as live data', async () => {
-        render(<App />);
-
-        fireEvent.click(screen.getByRole('button', { name: 'Profile' }));
-
-        expect(await screen.findByRole('heading', { name: 'Account & Profile Settings' })).toBeInTheDocument();
-        expect(screen.getByText('Address management is not connected yet')).toBeInTheDocument();
-        expect(screen.getByText('No payment methods available')).toBeInTheDocument();
-        expect(screen.queryByText('₦45,000')).not.toBeInTheDocument();
-        expect(screen.queryByText('Tier 2 Verified')).not.toBeInTheDocument();
-    });
-
-    it('allows a customer to edit and save their profile details in the current session', async () => {
-        render(<App />);
-
-        fireEvent.click(screen.getByRole('button', { name: 'Profile' }));
-        expect(await screen.findByRole('heading', { name: 'Account & Profile Settings' })).toBeInTheDocument();
-
-        fireEvent.click(screen.getByRole('button', { name: 'Edit Profile' }));
-        const nameInput = screen.getByRole('textbox', { name: 'Full name' });
-        fireEvent.change(nameInput, { target: { value: 'Ada Customer' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Save Changes' }));
-
-        expect(screen.getByRole('heading', { name: 'Ada Customer' })).toBeInTheDocument();
-        expect(screen.getByRole('status')).toHaveTextContent('Your profile changes have been saved in this session.');
-    });
-
 });
 
 describe('customer application', () => {
@@ -92,6 +65,34 @@ describe('customer application', () => {
         fireEvent.click(screen.getAllByRole('button', { name: /job details/i })[0]);
         expect(await screen.findByRole('heading', { name: 'Job Details' })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /chat with provider/i })).not.toBeInTheDocument();
+    });
+
+
+    it('renders the customer profile settings without presenting demo wallet or verification claims as live data', async () => {
+        render(<App />);
+
+        fireEvent.click(screen.getByRole('button', { name: 'Profile' }));
+
+        expect(await screen.findByRole('heading', { name: 'Account & Profile Settings' })).toBeInTheDocument();
+        expect(screen.getByText('Address management is not connected yet')).toBeInTheDocument();
+        expect(screen.getByText('No payment methods available')).toBeInTheDocument();
+        expect(screen.queryByText('₦45,000')).not.toBeInTheDocument();
+        expect(screen.queryByText('Tier 2 Verified')).not.toBeInTheDocument();
+    });
+
+    it('allows a customer to edit and save their profile details in the current session', async () => {
+        render(<App />);
+
+        fireEvent.click(screen.getByRole('button', { name: 'Profile' }));
+        expect(await screen.findByRole('heading', { name: 'Account & Profile Settings' })).toBeInTheDocument();
+
+        fireEvent.click(screen.getByRole('button', { name: 'Edit Profile' }));
+        const nameInput = screen.getByRole('textbox', { name: 'Full name' });
+        fireEvent.change(nameInput, { target: { value: 'Ada Customer' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Save Changes' }));
+
+        expect(screen.getByRole('heading', { name: 'Ada Customer' })).toBeInTheDocument();
+        expect(screen.getByRole('status')).toHaveTextContent('Your profile changes have been saved in this session.');
     });
 
 });
