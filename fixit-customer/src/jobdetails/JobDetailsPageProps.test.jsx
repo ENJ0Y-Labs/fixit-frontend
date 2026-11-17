@@ -6,13 +6,14 @@ afterEach(() => cleanup());
 
 describe('customer job photo controls', () => {
     it('adds local photo previews and explains that uploads are not connected', () => {
-        const createObjectURL = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:job-photo-preview');
-        const revokeObjectURL = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+        const createObjectURL = vi.fn().mockReturnValue('blob:job-photo-preview');
+        const revokeObjectURL = vi.fn();
+        vi.stubGlobal('URL', { createObjectURL, revokeObjectURL });
         const { unmount } = render(<JobDetailsPageProps />);
         const addButton = screen.getByRole('button', { name: 'Add more job photos' });
         expect(addButton).toHaveAttribute('aria-label', 'Add more job photos');
 
-        fireEvent.change(screen.getByRole('textbox', { name: 'Choose job photos' }), {
+        fireEvent.change(screen.getByLabelText('Choose job photos'), {
             target: { files: [new File(['photo'], 'repair.jpg', { type: 'image/jpeg' })] },
         });
 
@@ -22,7 +23,6 @@ describe('customer job photo controls', () => {
 
         unmount();
         expect(revokeObjectURL).toHaveBeenCalledWith('blob:job-photo-preview');
-        createObjectURL.mockRestore();
-        revokeObjectURL.mockRestore();
+        vi.unstubAllGlobals();
     });
 });
