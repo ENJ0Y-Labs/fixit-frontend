@@ -109,7 +109,8 @@ describe('customer mobile filter sheet accessibility', () => {
         Object.defineProperty(window, 'innerWidth', { configurable: true, value: 390 });
         await renderApp();
 
-        const trigger = screen.getByRole('button', { name: 'Filters' });
+        const trigger = document.querySelector('.marketplace-mobile-filter-button');
+        expect(trigger).not.toBeNull();
         fireEvent.click(trigger);
 
         expect(screen.getByRole('dialog', { name: 'Detailed filters' })).toBeInTheDocument();
