@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
-import { FixitAsyncBoundary } from '../../shared/FixitAsyncBoundary.jsx';
+import { FixitAsyncBoundary } from './FixitAsyncBoundary.jsx';
 
 async function renderApp() {
     render(<App />);
