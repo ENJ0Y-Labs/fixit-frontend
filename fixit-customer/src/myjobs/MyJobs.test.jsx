@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import MyJobs from './MyJobs.jsx';
+import MyJobs from '../MyJobs.jsx';
 
 const jobs = [
     {
@@ -44,7 +44,7 @@ const jobs = [
 ];
 
 describe('MyJobs', () => {
-    it('renders job summaries and the available job cards', () => {
+    it('renders the summary and supplied job cards', () => {
         render(<MyJobs jobs={jobs} onPostJob={vi.fn()} onViewDetails={vi.fn()} />);
 
         expect(screen.getByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe('MyJobs', () => {
         expect(screen.getByRole('heading', { name: 'Deep House Cleaning (3BR)' })).toBeInTheDocument();
     });
 
-    it('filters active jobs, including jobs awaiting bids', () => {
+    it('filters active jobs, including requests awaiting bids', () => {
         render(<MyJobs jobs={jobs} onPostJob={vi.fn()} onViewDetails={vi.fn()} />);
 
         fireEvent.click(screen.getByRole('button', { name: /Active/ }));
@@ -64,7 +64,7 @@ describe('MyJobs', () => {
         expect(screen.queryByRole('heading', { name: 'Deep House Cleaning (3BR)' })).not.toBeInTheDocument();
     });
 
-    it('searches job titles and shows an empty result state', () => {
+    it('searches jobs and can clear filters when no results match', () => {
         render(<MyJobs jobs={jobs} onPostJob={vi.fn()} onViewDetails={vi.fn()} />);
 
         fireEvent.change(screen.getByRole('searchbox', { name: 'Search jobs' }), {
@@ -76,16 +76,18 @@ describe('MyJobs', () => {
         expect(screen.getByRole('heading', { name: 'Fixing Kitchen Sink Leak' })).toBeInTheDocument();
     });
 
-    it('opens the selected job details from its card', () => {
+    it('passes the selected job to the details callback', () => {
         const onViewDetails = vi.fn();
         render(<MyJobs jobs={jobs} onPostJob={vi.fn()} onViewDetails={onViewDetails} />);
 
-        fireEvent.click(screen.getAllByRole('button', { name: /Job Details/ })[0]);
+        const jobHeading = screen.getByRole('heading', { name: 'Fixing Kitchen Sink Leak' });
+        const jobCard = jobHeading.closest('article');
+        fireEvent.click(within(jobCard).getByRole('button', { name: /Job Details/ }));
 
         expect(onViewDetails).toHaveBeenCalledWith(jobs[0]);
     });
 
-    it('shows a useful empty state when there are no jobs', () => {
+    it('shows an empty state and invokes the post-job callback', () => {
         const onPostJob = vi.fn();
         render(<MyJobs jobs={[]} onPostJob={onPostJob} onViewDetails={vi.fn()} />);
 
