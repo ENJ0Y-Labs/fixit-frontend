@@ -208,8 +208,9 @@ function Home({ onSelectProvider }) {
                         ))}
                     </div>
 
-                    <div className="marketplace-results-layout">\n                        {filtersOpen && <button type="button" className="marketplace-filter-backdrop" aria-label="Close filters" onClick={() => setFiltersOpen(false)} />}
-                        <aside className={`service-filters marketplace-filter-panel${filtersOpen ? ' is-open' : ''}`} aria-label="Detailed filters" role={filtersOpen ? "dialog" : undefined} aria-modal={filtersOpen ? true : undefined} aria-label="Detailed filters">
+                    <div className="marketplace-results-layout">
+                        {filtersOpen && <button type="button" className="marketplace-filter-backdrop" aria-label="Close filters" onClick={() => setFiltersOpen(false)} />}
+                        <aside className={`service-filters marketplace-filter-panel${filtersOpen ? ' is-open' : ''}`} aria-label="Detailed filters" role={filtersOpen ? "dialog" : undefined} aria-modal={filtersOpen ? true : undefined}>
                             <div className="filter-heading">
                                 <h2>Refine results</h2>
                                 <button type="button" onClick={resetFilters}>Reset all</button>
