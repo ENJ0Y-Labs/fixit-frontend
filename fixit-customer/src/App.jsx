@@ -7,7 +7,6 @@ const JobDetails = lazy(() => import('./JobDetails.jsx'));
 const Payment = lazy(() => import('./Payment.jsx'));
 const Review = lazy(() => import('./Review.jsx'));
 const Account = lazy(() => import('./Account.jsx'));
-const Messages = lazy(() => import('./Messages.jsx'));
 
 const initialJobs = [
     {
@@ -115,14 +114,6 @@ function App() {
                         jobs={jobs}
                         onPostJob={() => navigate('postJob')}
                         onViewDetails={(job) => navigate('jobDetails', job)}
-                        onOpenMessages={(job) => navigate('messages', job)}
-                    />
-                );
-            case 'messages':
-                return (
-                    <Messages
-                        selectedJob={selectedJobFromState}
-                        onViewJob={() => navigate('jobDetails', selectedJobFromState)}
                     />
                 );
             case 'postJob':
@@ -138,7 +129,6 @@ function App() {
                         job={selectedJobFromState}
                         onBack={() => navigate('myJobs', selectedJobFromState)}
                         onPayment={() => navigate('payment', selectedJobFromState)}
-                        onMessages={() => navigate('messages', selectedJobFromState)}
                         onCancel={() => handleCancelJob(selectedJobFromState)}
                     />
                 );

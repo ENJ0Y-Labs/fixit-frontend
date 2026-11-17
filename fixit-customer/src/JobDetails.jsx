@@ -1,7 +1,7 @@
 import './styles/pages/jobs.css';
 import JobDetailsPageProps from './jobdetails/JobDetailsPageProps';
 
-function JobDetails({ job, onBack, onPayment, onMessages, onCancel }) {
+function JobDetails({ job, onBack, onPayment, onCancel }) {
     const handleCancel = () => {
         if (window.confirm('Cancel this job? This will mark the job as cancelled.')) {
             onCancel();
@@ -17,7 +17,6 @@ function JobDetails({ job, onBack, onPayment, onMessages, onCancel }) {
                 </div>
                 <div className="header-actions">
                     <button type="button" className="outline-button" onClick={handleCancel} disabled={job?.status === 'CANCELLED'}>Cancel Job</button>
-                    <button type="button" className="dark-button" onClick={onMessages}>Support</button>
                 </div>
             </header>
             <main className="job-details-main">
@@ -26,7 +25,6 @@ function JobDetails({ job, onBack, onPayment, onMessages, onCancel }) {
                     providerName={job?.provider || job?.providerName}
                     agreedprice={job?.price || job?.priceValue || 0}
                     onPayment={onPayment}
-                    onMessages={onMessages}
                 />
             </main>
         </div>

@@ -7,7 +7,6 @@ function ProviderData({
     rating = 0,
     reviewcount = 0,
     isonline = false,
-    onMessages,
 }) {
     return (
         <>
@@ -32,10 +31,6 @@ function ProviderData({
             </div>
 
             <div className="contact-buttons">
-                <button type="button" className="outline-button" onClick={onMessages}>
-                    <i className="fa-regular fa-message"></i>
-                    <span>Chat with Provider</span>
-                </button>
                 <button type="button" className="outline-button">
                     <i className="fa-solid fa-phone"></i>
                     <span>Call Provider</span>

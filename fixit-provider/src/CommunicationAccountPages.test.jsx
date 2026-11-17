@@ -1,38 +1,11 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import MessagesPage from './MessagesPage.jsx';
 import EarningsPage from './EarningsPage.jsx';
 import { calculateEarnings, formatNaira } from './earningsUtils.js';
 import ReviewsPage from './ReviewsPage.jsx';
 import SettingsPage from './SettingsPage.jsx';
 
 afterEach(() => cleanup());
-const conversation = { id: 'conversation-1', customerName: 'Ada Okafor', jobTitle: 'Kitchen tap repair', lastMessage: 'Are you available tomorrow?' };
-
-describe('provider messages', () => {
-    it('shows an explicit empty conversation state', () => {
-        render(<MessagesPage dataState="populated" conversations={[]} />);
-        expect(screen.getByRole('heading', { name: 'No conversations yet' })).toBeInTheDocument();
-    });
-    it('preserves the draft and reports a send failure', async () => {
-        const onSendMessage = vi.fn().mockRejectedValue(new Error('Network unavailable'));
-        render(<MessagesPage dataState="populated" conversations={[conversation]} messagesByConversation={{ 'conversation-1': [] }} onSendMessage={onSendMessage} />);
-        const composer = screen.getByLabelText('Write a message');
-        fireEvent.change(composer, { target: { value: 'I can come tomorrow.' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Send message' }));
-        expect(await screen.findByRole('alert')).toHaveTextContent('Network unavailable');
-        expect(composer).toHaveValue('I can come tomorrow.');
-    });
-    it('does not claim a message was sent without a server-confirmed message', async () => {
-        const onSendMessage = vi.fn().mockResolvedValue(null);
-        render(<MessagesPage dataState="populated" conversations={[conversation]} onSendMessage={onSendMessage} />);
-        fireEvent.change(screen.getByLabelText('Write a message'), { target: { value: 'Hello' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Send message' }));
-        expect(await screen.findByRole('alert')).toHaveTextContent(/did not confirm/i);
-        expect(screen.queryByText(/message sent and confirmed/i)).not.toBeInTheDocument();
-    });
-});
-
 describe('provider earnings', () => {
     it('calculates each earnings category separately and ignores invalid records', () => {
         const totals = calculateEarnings([{ amount: 12000, amountType: 'estimated' }, { amount: 25000, amountType: 'agreed' }, { amount: 10000, amountType: 'paid' }, { amount: -500, amountType: 'paid' }, { amount: 'not money', amountType: 'paid' }, { amount: 9000, amountType: 'pending' }]);

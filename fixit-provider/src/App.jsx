@@ -4,7 +4,6 @@ import AvailableJobsPage from './AvailableJobsPage.jsx';
 import ProfilePage from './ProfilePage.jsx';
 import ServicesAvailabilityPage from './ServicesAvailabilityPage.jsx';
 import MyJobsPage from './MyJobsPage.jsx';
-import MessagesPage from './MessagesPage.jsx';
 import EarningsPage from './EarningsPage.jsx';
 import ReviewsPage from './ReviewsPage.jsx';
 import SettingsPage from './SettingsPage.jsx';
@@ -17,7 +16,6 @@ const navigation = [
     { label: 'Available Jobs', icon: '⌕' },
     { label: 'Job Details', icon: '↗' },
     { label: 'My Jobs', icon: '▤' },
-    { label: 'Messages', icon: '✉' },
     { label: 'Earnings', icon: '₦' },
     { label: 'Reviews', icon: '☆' },
 ];
@@ -242,10 +240,6 @@ export function Dashboard({ dataState = 'populated', onNavigate = () => {}, onRe
                             <span className="quick-action-icon" aria-hidden="true">◷</span>
                             <span className="quick-action-copy"><strong>Set availability</strong><span>Keep your working hours current</span></span>
                         </button>
-                        <button className="quick-action" type="button" onClick={() => onNavigate('Messages')}>
-                            <span className="quick-action-icon" aria-hidden="true">✉</span>
-                            <span className="quick-action-copy"><strong>Open messages</strong><span>Continue customer conversations</span></span>
-                        </button>
                     </div>
                 </section>
             </div>
@@ -346,7 +340,7 @@ function App() {
                     </div>
                 </header>
                 <div className="provider-content">
-                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Messages' ? <MessagesPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
+                    {activePage === 'Dashboard' ? <Dashboard onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
                 </div>
             </main>
         </div>

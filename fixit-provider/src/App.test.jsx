@@ -10,7 +10,6 @@ const pageLabels = [
     'Available Jobs',
     'Job Details',
     'My Jobs',
-    'Messages',
     'Earnings',
     'Reviews',
     'Settings',
@@ -56,6 +55,14 @@ describe('provider workspace navigation', () => {
 
         expect(screen.getByRole('heading', { name: 'My Profile', level: 1 })).toBeInTheDocument();
         expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    it('does not expose the removed Messages route', () => {
+        render(<App />);
+        expect(screen.queryByRole('button', { name: 'Messages' })).not.toBeInTheDocument();
+        window.history.replaceState({}, '', '#messages');
+        fireEvent(window, new Event('hashchange'));
+        expect(screen.getByRole('heading', { name: 'Page not found' })).toBeInTheDocument();
     });
 
     it('shows a not-found screen for an unknown hash route', () => {

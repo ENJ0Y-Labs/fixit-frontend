@@ -29,7 +29,6 @@ Customers can:
 - Post jobs
 - Receive and review bids
 - Manage active and completed jobs
-- Communicate with providers
 - View and manage payments
 - Review providers
 - Manage their account
@@ -43,7 +42,6 @@ Providers can:
 - Submit bids or responses
 - Manage accepted jobs
 - Update job progress
-- Communicate with customers
 - View earnings and payment information
 - View customer reviews
 
@@ -151,7 +149,6 @@ Primary concerns:
 - Search
 - Job posting
 - Job management
-- Provider communication
 - Payments
 - Reviews
 - Account management
@@ -166,7 +163,6 @@ Primary concerns:
 - Job discovery
 - Bidding/responding
 - Accepted-job management
-- Customer communication
 - Job progress
 - Earnings
 - Reviews
@@ -442,7 +438,6 @@ The customer application currently includes areas such as:
 - Job Details
 - Payment
 - Review
-- Messages
 - Account
 - Navigation
 - Footer
@@ -508,23 +503,11 @@ Frontend permission checks improve the interface. Backend authorization remains 
 
 ---
 
-## 18. Messaging
+## 18. Direct Communication
 
-Messaging UI should support:
+The customer and provider applications do not include an in-app chat or messaging feature. Do not add message inboxes, conversation views, chat composers, or direct-message navigation without an explicit product decision.
 
-- Conversation list
-- Search
-- Active conversation
-- Message history
-- Composer
-- Sending state
-- Error state
-- Online/offline indication when supplied by the API
-- Job context where relevant
-
-Do not fabricate message delivery guarantees.
-
-If real-time messaging is not implemented, do not label a polling or local-state prototype as real-time.
+If customers or providers need assistance, route them through an approved support channel rather than presenting a mock chat interface.
 
 ---
 

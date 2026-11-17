@@ -10,7 +10,7 @@ const statusTabs = [
     { value: 'CANCELLED', label: 'Cancelled' },
 ];
 
-function MyJobs({ jobs = [], onPostJob, onViewDetails, onOpenMessages }) {
+function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState('ALL');
     const [categoryFilter, setCategoryFilter] = useState('ALL');
@@ -163,7 +163,6 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails, onOpenMessages }) {
                             key={job.id}
                             {...job}
                             onDetails={() => onViewDetails(job)}
-                            onChat={() => onOpenMessages(job)}
                         />
                     ))}
                     {visibleJobs.length === 0 && (
