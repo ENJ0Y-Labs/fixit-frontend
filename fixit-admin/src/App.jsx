@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import './App.css';
 import { FixitAsyncBoundary, FixitLoadingState } from '../../shared/FixitAsyncBoundary.jsx';
 
@@ -36,12 +36,13 @@ function Brand() {
     );
 }
 
-function Sidebar({ activePage, onNavigate, isOpen }) {
+function Sidebar({ activePage, onNavigate, isOpen, sidebarRef, onClose }) {
     const groups = [...new Set(navigation.map((item) => item.group))];
 
     return (
-        <aside className={`admin-sidebar${isOpen ? ' is-open' : ''}`} id="admin-navigation" aria-label="Admin navigation">
+        <aside ref={sidebarRef} className={`admin-sidebar${isOpen ? ' is-open' : ''}`} id="admin-navigation" aria-label="Admin navigation" role={isOpen ? "dialog" : undefined} aria-modal={isOpen ? true : undefined}>
             <Brand />
+            <button className="sidebar-close-button" type="button" onClick={onClose}>Close navigation</button>
             <nav className="admin-nav" aria-label="Main navigation">
                 {groups.map((group) => (
                     <div className="nav-group" key={group}>
@@ -101,6 +102,8 @@ function resolvePage(hash) {
 function App() {
     const [activePage, setActivePage] = useState(() => resolvePage(window.location.hash));
     const [menuOpen, setMenuOpen] = useState(false);
+    const sidebarRef = useRef(null);
+    const menuButtonRef = useRef(null);
 
     useEffect(() => {
         if (!menuOpen) return undefined;
@@ -109,6 +112,27 @@ function App() {
         }
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [menuOpen]);
+
+    useEffect(() => {
+        if (!menuOpen) return undefined;
+        const focusable = sidebarRef.current?.querySelectorAll('a[href], button:not([disabled])');
+        focusable?.[0]?.focus();
+        function trapFocus(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                setMenuOpen(false);
+                menuButtonRef.current?.focus();
+                return;
+            }
+            if (event.key !== 'Tab' || !focusable?.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+        document.addEventListener('keydown', trapFocus);
+        return () => document.removeEventListener('keydown', trapFocus);
     }, [menuOpen]);
 
     useEffect(() => {
@@ -128,7 +152,7 @@ function App() {
 
     return (
         <div className="admin-app">
-            <Sidebar activePage={activePage} onNavigate={navigateTo} isOpen={menuOpen} />
+            <Sidebar activePage={activePage} onNavigate={navigateTo} isOpen={menuOpen} sidebarRef={sidebarRef} onClose={() => setMenuOpen(false)} />
             <button
                 className={`mobile-backdrop${menuOpen ? ' is-visible' : ''}`}
                 type="button"
@@ -140,7 +164,7 @@ function App() {
                 <header className="admin-topbar">
                     <div className="topbar-left">
                         <button
-                            className="icon-button mobile-menu-button"
+                            ref={menuButtonRef} className="icon-button mobile-menu-button"
                             type="button"
                             aria-label="Open navigation menu"
                             aria-expanded={menuOpen}
