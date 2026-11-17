@@ -815,3 +815,21 @@
     .footer-top { grid-template-columns: minmax(0, 1fr); }
     .footer-bottom { flex-direction: column; }
 }
+
+
+/* Footer and home content must respect the viewport on narrow phones. */
+.home, .home-main, .site-footer, .footer-top, .footer-top > div, .footer-bottom {
+    min-width: 0;
+    max-width: 100%;
+}
+.footer-top > div, .footer-top p, .footer-bottom p { overflow-wrap: anywhere; }
+.footer-bottom div { min-width: 0; flex-wrap: wrap; gap: 8px 12px; }
+@media (max-width: 560px) {
+    .site-footer { padding: 24px 16px calc(20px + env(safe-area-inset-bottom)); }
+    .footer-top { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .footer-bottom { align-items: flex-start; flex-direction: column; gap: 10px; }
+}
+@media (max-width: 380px) {
+    .site-footer { padding-inline: 12px; }
+    .footer-bottom div { gap: 8px; }
+}
