@@ -29,6 +29,7 @@ function ErrorState({ onRetry }) {
 function JobDetail({ job, onBack, onSubmitBid, submittedBids = [] }) {
     return (
         <section className="job-detail-page">
+            <div className="demo-notice" role="note"><strong>Sample job details</strong><span>This is illustrative data for interface testing, not a live customer request.</span></div>
             <button className="btn btn-quiet job-back" type="button" onClick={onBack}><span aria-hidden="true">←</span> Back to available jobs</button>
             <div className="job-detail-layout">
                 <div className="job-detail-main">
