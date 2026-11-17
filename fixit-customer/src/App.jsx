@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
 import Nav from './Nav';
-import Home from './Home.jsx';
+const Home = lazy(() => import('./Home.jsx'));
 const PostJob = lazy(() => import('./PostJob.jsx'));
 const MyJobs = lazy(() => import('./MyJobs.jsx'));
 const JobDetails = lazy(() => import('./JobDetails.jsx'));
