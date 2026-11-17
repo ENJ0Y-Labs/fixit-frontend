@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import './App.css';
-import ProvidersPage from './ProvidersPage.jsx';
-import CustomersPage from './CustomersPage.jsx';
-import VerificationPage from './VerificationPage.jsx';
-import JobsPage from './JobsPage.jsx';
-import DisputesSupportPage from './DisputesSupportPage.jsx';
-import CategoriesPage from './CategoriesPage.jsx';
-import AnalyticsPage from './AnalyticsPage.jsx';
-import SettingsPage from './SettingsPage.jsx';
+
+const ProvidersPage = lazy(() => import('./ProvidersPage.jsx'));
+const CustomersPage = lazy(() => import('./CustomersPage.jsx'));
+const VerificationPage = lazy(() => import('./VerificationPage.jsx'));
+const JobsPage = lazy(() => import('./JobsPage.jsx'));
+const DisputesSupportPage = lazy(() => import('./DisputesSupportPage.jsx'));
+const CategoriesPage = lazy(() => import('./CategoriesPage.jsx'));
+const AnalyticsPage = lazy(() => import('./AnalyticsPage.jsx'));
+const SettingsPage = lazy(() => import('./SettingsPage.jsx'));
 
 const navigation = [
     { label: 'Dashboard', icon: '▦', group: 'Overview' },
@@ -258,7 +259,9 @@ function App() {
                     </div>
                 </header>
                 <div className="admin-content">
-                    {activePage === 'Dashboard'
+                    <Suspense fallback={<div className="fixit-page-loading" role="status" aria-live="polite"><span className="fixit-loading-spinner" aria-hidden="true" />Loading page…</div>}>
+                        <div key={activePage} className="fixit-page-transition">
+                            {activePage === 'Dashboard'
                         ? <Dashboard onNavigate={navigateTo} />
                         : activePage === 'Providers'
                             ? <ProvidersPage />
@@ -277,6 +280,8 @@ function App() {
                                                     : activePage === 'Settings'
                                                         ? <SettingsPage />
                                                         : <PlaceholderPage page={activePage} />}
+                        </div>
+                    </Suspense>
                 </div>
             </main>
         </div>
