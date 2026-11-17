@@ -18,7 +18,6 @@ function JobCard({
     maxBudget = 0,
     progressPercentage = 0,
     onDetails,
-    onChat,
 }) {
     const normalized = status.toUpperCase();
     const statusClass = normalized.toLowerCase().replace(/\s+/g, '-');
@@ -94,7 +93,6 @@ function JobCard({
             <div className="my-job-card-footer">
                 <span className="my-job-location"><i className="fa-solid fa-location-dot" aria-hidden="true"></i>{location}</span>
                 <div className="my-job-actions">
-                    {isInProgress && <button type="button" className="outline-button" onClick={onChat}><i className="fa-solid fa-message" aria-hidden="true"></i> Chat with provider</button>}
                     {isAwaitingBids && <button type="button" className="outline-button" onClick={onDetails}>Review bids ({bidNo})</button>}
                     <button type="button" className="dark-button" onClick={onDetails}>Job Details <i className="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
@@ -121,7 +119,6 @@ JobCard.propTypes = {
     maxBudget: PropTypes.number,
     progressPercentage: PropTypes.number,
     onDetails: PropTypes.func,
-    onChat: PropTypes.func,
 };
 
 export default JobCard;
