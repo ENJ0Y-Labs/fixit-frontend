@@ -361,3 +361,21 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
     overflow-y: auto;
     overscroll-behavior-y: contain;
 }
+
+.sidebar-close-button { display: none; }
+@media (max-width: 767px) {
+    .sidebar-close-button {
+        display: flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface-soft);
+        color: var(--text);
+        font: inherit;
+        font-size: .82rem;
+        font-weight: 700;
+    }
+}
