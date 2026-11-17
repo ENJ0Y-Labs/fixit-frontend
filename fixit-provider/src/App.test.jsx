@@ -60,6 +60,7 @@ describe('provider workspace navigation', () => {
 
         expect(await screen.findByRole('heading', { name: 'My Profile', level: 1 })).toBeInTheDocument();
         expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+        expect(menuButton).toHaveFocus();
     });
 
     it('does not expose the removed Messages route', async () => {
@@ -121,5 +122,28 @@ describe('provider dashboard states and figures', () => {
         const DashboardPage = (await import('./DashboardPage.jsx')).default;
         render(<DashboardPage dataState="empty" />);
         expect(screen.getAllByText('₦0')).toHaveLength(3);
+    });
+});
+
+
+describe('provider job detail navigation', () => {
+    it('opens the available sample job detail screen instead of a placeholder', async () => {
+        await renderApp();
+        fireEvent.click(screen.getByText('Job Details', { selector: 'span' }));
+
+        expect(await screen.findByRole('heading', { name: 'Job Details', level: 1 })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Repair leaking kitchen sink', level: 2 })).toBeInTheDocument();
+        expect(screen.getByText(/sample job details/i)).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Submit a quote' })).toBeInTheDocument();
+    });
+
+    it('traps keyboard focus and closes mobile navigation with Escape', async () => {
+        await renderApp();
+        const menuButton = screen.getByRole('button', { name: /open navigation menu/i });
+        fireEvent.click(menuButton);
+        expect(screen.getByRole('dialog', { name: 'Provider navigation' })).toBeInTheDocument();
+        fireEvent.keyDown(document, { key: 'Escape' });
+        expect(screen.queryByRole('dialog', { name: 'Provider navigation' })).not.toBeInTheDocument();
+        expect(menuButton).toHaveFocus();
     });
 });
