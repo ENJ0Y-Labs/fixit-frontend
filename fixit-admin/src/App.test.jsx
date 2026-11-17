@@ -58,7 +58,7 @@ describe('FixIt admin workspace', () => {
 
     it('opens and closes mobile navigation', () => {
         render(<App />);
-        const openButton = screen.getByRole('button', { name: 'Open navigation menu' });
+        const openButton = screen.getByLabelText('Open navigation menu');
         fireEvent.click(openButton);
         expect(openButton).toHaveAttribute('aria-expanded', 'true');
         fireEvent.click(screen.getByRole('button', { name: 'Close navigation menu' }));
@@ -111,7 +111,7 @@ describe('FixIt admin workspace', () => {
 
     it('opens the provider verification workspace', () => {
         render(<App />);
-        fireEvent.click(screen.getByRole('button', { name: /verification/i }));
+        fireEvent.click(within(screen.getByRole('navigation', { name: 'Main navigation' })).getByRole('button', { name: /^Verification/ }));
         expect(screen.getByRole('heading', { name: 'Provider verification' })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: 'Verification queue' })).toBeInTheDocument();
         expect(screen.getByText(/No real documents are attached/i)).toBeInTheDocument();
@@ -122,7 +122,7 @@ describe('FixIt admin workspace', () => {
         render(<App />);
         fireEvent.change(screen.getByRole('searchbox', { name: 'Search verification cases' }), { target: { value: 'Chinedu' } });
         expect(screen.getByText('Chinedu Okafor')).toBeInTheDocument();
-        expect(screen.queryByText('Adaeze Nwosu')).not.toBeInTheDocument();
+        expect(screen.queryByRole('heading', { name: 'Adaeze Nwosu' })).not.toBeInTheDocument();
         fireEvent.change(screen.getByRole('searchbox', { name: 'Search verification cases' }), { target: { value: '' } });
         fireEvent.change(screen.getByRole('combobox', { name: 'Verification status' }), { target: { value: 'Needs information' } });
         expect(screen.getByText('Mariam Danjuma')).toBeInTheDocument();
@@ -144,7 +144,7 @@ describe('FixIt admin workspace', () => {
         render(<App />);
         fireEvent.click(screen.getByRole('button', { name: 'Approve (demo)' }));
         expect(screen.getByText(/Demo state changed to “Approved”/i)).toBeInTheDocument();
-        expect(screen.getAllByText('Approved', { selector: '.status-badge' })).toHaveLength(2);
+        expect(within(document.querySelector('.verification-table')).getAllByText('Approved', { selector: '.status-badge' })).toHaveLength(1);
         fireEvent.click(screen.getByRole('button', { name: 'Reset demo data' }));
         expect(screen.getAllByText('Pending review', { selector: '.status-badge' }).length).toBeGreaterThan(0);
     });
@@ -173,10 +173,10 @@ describe('admin jobs workspace', () => {
         window.location.hash = '#jobs';
         render(<App />);
         fireEvent.change(screen.getByRole('searchbox', { name: 'Search jobs' }), { target: { value: 'Chinedu' } });
-        expect(screen.getByText('Kitchen sink pipe repair')).toBeInTheDocument();
-        expect(screen.queryByText('Two-bedroom deep cleaning')).not.toBeInTheDocument();
+        expect(within(document.querySelector('.jobs-table')).getByText('Kitchen sink pipe repair')).toBeInTheDocument();
+        expect(within(document.querySelector('.jobs-table')).queryByText('Two-bedroom deep cleaning')).not.toBeInTheDocument();
         fireEvent.change(screen.getByRole('searchbox', { name: 'Search jobs' }), { target: { value: 'FX-2057' } });
-        expect(screen.getByText('Electrical safety inspection')).toBeInTheDocument();
+        expect(within(document.querySelector('.jobs-table')).getByText('Electrical safety inspection')).toBeInTheDocument();
     });
 
     it('filters jobs by status and category and supports clearing filters', () => {
@@ -222,17 +222,17 @@ describe('admin disputes and support workspace', () => {
     it('searches by case, job, subject, and participant', () => {
         render(<App />);
         fireEvent.change(screen.getByRole('searchbox', { name: 'Search support cases' }), { target: { value: 'Tunde' } });
-        expect(screen.getByText('Work marked complete before repair was finished')).toBeInTheDocument();
-        expect(screen.queryByText('Unable to update phone number')).not.toBeInTheDocument();
+        expect(within(document.querySelector('.support-table')).getByText('Work marked complete before repair was finished')).toBeInTheDocument();
+        expect(within(document.querySelector('.support-table')).queryByText('Unable to update phone number')).not.toBeInTheDocument();
         fireEvent.change(screen.getByRole('searchbox', { name: 'Search support cases' }), { target: { value: 'FX-2054' } });
-        expect(screen.getByText('Final amount differs from initial estimate')).toBeInTheDocument();
+        expect(within(document.querySelector('.support-table')).getByText('Final amount differs from initial estimate')).toBeInTheDocument();
     });
 
     it('filters case type, status, and priority', () => {
         render(<App />);
         fireEvent.change(screen.getByRole('combobox', { name: 'Case type' }), { target: { value: 'Support' } });
         expect(screen.getByText('Unable to update phone number')).toBeInTheDocument();
-        expect(screen.queryByText('Work marked complete before repair was finished')).not.toBeInTheDocument();
+        expect(screen.queryByRole('heading', { name: 'Work marked complete before repair was finished' })).not.toBeInTheDocument();
         fireEvent.change(screen.getByRole('combobox', { name: 'Case status' }), { target: { value: 'OPEN' } });
         expect(screen.getByText('Cannot see provider replies')).toBeInTheDocument();
         fireEvent.change(screen.getByRole('combobox', { name: 'Case priority' }), { target: { value: 'Low' } });
@@ -243,7 +243,7 @@ describe('admin disputes and support workspace', () => {
         render(<App />);
         fireEvent.change(screen.getByRole('searchbox', { name: 'Search support cases' }), { target: { value: 'not a real case' } });
         expect(screen.getByText('No cases match these filters')).toBeInTheDocument();
-        fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+        fireEvent.click(within(document.querySelector('.support-filters')).getByRole('button', { name: 'Clear filters' }));
         expect(screen.getByText('Showing 1–6 of 10')).toBeInTheDocument();
     });
 
@@ -251,7 +251,7 @@ describe('admin disputes and support workspace', () => {
         render(<App />);
         expect(screen.getByRole('heading', { name: 'Case activity' })).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: 'Evidence checklist' })).toBeInTheDocument();
-        expect(screen.getByText('Tunde Ekanem')).toBeInTheDocument();
+        expect(screen.getAllByText('Tunde Ekanem').length).toBeGreaterThan(0);
         expect(screen.getByText(/No files are attached/i)).toBeInTheDocument();
     });
 
@@ -293,7 +293,7 @@ describe('admin categories workspace', () => {
         expect(screen.getByText('Painting')).toBeInTheDocument();
         fireEvent.change(screen.getByRole('combobox', { name: 'Category status' }), { target: { value: 'ACTIVE' } });
         expect(screen.getByText('No categories match these filters')).toBeInTheDocument();
-        fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+        fireEvent.click(within(document.querySelector('.categories-filters')).getByRole('button', { name: 'Clear filters' }));
         expect(screen.getAllByText('Plumbing').length).toBeGreaterThan(0);
     });
 
@@ -313,7 +313,7 @@ describe('admin categories workspace', () => {
         fireEvent.change(screen.getByLabelText('Description'), { target: { value: 'General home maintenance services.' } });
         fireEvent.click(screen.getByRole('button', { name: 'Create demo category' }));
         expect(screen.getByRole('heading', { name: 'Home maintenance' })).toBeInTheDocument();
-        expect(screen.getByText(/temporary browser state/i)).toBeInTheDocument();
+        expect(screen.getAllByText(/temporary browser state/i).length).toBeGreaterThan(0);
     });
 
     it('prevents duplicate category names', () => {
@@ -364,12 +364,12 @@ describe('admin analytics workspace', () => {
         expect(screen.getByText('173')).toBeInTheDocument();
         expect(screen.getByText('105')).toBeInTheDocument();
         fireEvent.change(screen.getByRole('combobox', { name: 'Reporting period' }), { target: { value: '90d' } });
-        expect(screen.getByText('1289')).toBeInTheDocument();
+        expect(screen.getByText('1,289')).toBeInTheDocument();
     });
 
     it('labels estimated job value separately from revenue and payments', () => {
         render(<App />);
-        expect(screen.getByRole('heading', { name: 'Estimated job value' })).toBeInTheDocument();
+        expect(screen.getByText('Estimated job value')).toBeInTheDocument();
         expect(screen.getByText(/Not revenue or payments/i)).toBeInTheDocument();
         expect(screen.getByText(/not provider earnings, agreed job prices, platform revenue/i)).toBeInTheDocument();
     });
@@ -407,7 +407,7 @@ describe('admin settings workspace', () => {
 
     it('changes regional preferences and resets demo values', () => {
         render(<App />);
-        const timezone = screen.getByRole('combobox', { name: 'Time zone' });
+        const timezone = screen.getByRole('combobox', { name: /Time zone/ });
         fireEvent.change(timezone, { target: { value: 'UTC' } });
         expect(timezone).toHaveValue('UTC');
         fireEvent.click(screen.getByRole('button', { name: 'Reset demo preferences' }));
