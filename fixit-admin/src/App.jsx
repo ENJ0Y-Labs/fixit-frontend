@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import './App.css';
+import { FixitAsyncBoundary, FixitLoadingState } from '../../shared/FixitAsyncBoundary.jsx';
 
 const DashboardPage = lazy(() => import('./DashboardPage.jsx'));
 const ProvidersPage = lazy(() => import('./ProvidersPage.jsx'));
@@ -157,7 +158,8 @@ function App() {
                     </div>
                 </header>
                 <div className="admin-content">
-                    <Suspense fallback={<div className="fixit-page-loading" role="status" aria-live="polite"><span className="fixit-loading-spinner" aria-hidden="true" />Loading page…</div>}>
+                    <FixitAsyncBoundary key={activePage}>
+                    <Suspense fallback={<FixitLoadingState label="Loading admin workspace" />}>
                         <div key={activePage} className="fixit-page-transition">
                             {activePage === 'Dashboard'
                         ? <DashboardPage onNavigate={navigateTo} />
@@ -180,6 +182,7 @@ function App() {
                                                         : <PlaceholderPage page={activePage} />}
                         </div>
                     </Suspense>
+                    </FixitAsyncBoundary>
                 </div>
             </main>
         </div>
