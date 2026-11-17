@@ -354,3 +354,10 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
   .heading-actions .btn { width: 100%; }
   .card-header { flex-wrap: wrap; }
 }
+
+/* Keep the fixed provider rail usable on short laptop viewports. The sidebar
+   owns its own scroll area so navigation and the footer remain reachable. */
+.provider-sidebar {
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+}
