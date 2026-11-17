@@ -1,14 +1,19 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import App from './App.jsx';
+
+async function renderApp() {
+    render(<App />);
+    await waitFor(() => expect(document.querySelector('.fixit-page-transition')).toBeInTheDocument());
+}
 
 afterEach(() => {
     cleanup();
 });
 
 describe('customer application', () => {
-    it('renders the home page and primary navigation', () => {
-        render(<App />);
+    it('renders the home page and primary navigation', async () => {
+        await renderApp();
 
         expect(screen.getByRole('heading', {
             name: 'Get your home fixed by people you can trust.',
@@ -19,8 +24,8 @@ describe('customer application', () => {
         expect(screen.getByRole('button', { name: /post a job/i })).toBeInTheDocument();
     });
 
-    it('filters the sample provider list using the service search', () => {
-        render(<App />);
+    it('filters the sample provider list using the service search', async () => {
+        await renderApp();
 
         const search = screen.getByRole('searchbox', { name: 'Search services' });
         fireEvent.change(search, { target: { value: 'Emeka Nwachukwu' } });
@@ -30,21 +35,21 @@ describe('customer application', () => {
     });
 
     it('opens the post-job screen from the primary action', async () => {
-        render(<App />);
+        await renderApp();
 
         fireEvent.click(screen.getByRole('button', { name: /post a job/i }));
 
         expect(await screen.findByRole('heading', { name: /post a new job/i })).toBeInTheDocument();
     });
 
-    it('filters providers with a quick availability filter', () => {
-        render(<App />);
+    it('filters providers with a quick availability filter', async () => {
+        await renderApp();
         fireEvent.click(screen.getByRole('button', { name: 'Available now' }));
         expect(screen.queryByText('Blessing Okafor')).not.toBeInTheDocument();
         expect(screen.getByText('Emeka Nwachukwu')).toBeInTheDocument();
     });
     it('opens My Jobs and filters requests using the redesigned controls', async () => {
-        render(<App />);
+        await renderApp();
 
         fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
 
@@ -57,7 +62,7 @@ describe('customer application', () => {
     });
 
     it('does not expose in-app messaging in customer navigation or job actions', async () => {
-        render(<App />);
+        await renderApp();
         expect(screen.queryByRole('button', { name: 'Messages' })).not.toBeInTheDocument();
         fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
         expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
@@ -69,7 +74,7 @@ describe('customer application', () => {
 
 
     it('renders the customer profile settings without presenting demo wallet or verification claims as live data', async () => {
-        render(<App />);
+        await renderApp();
 
         fireEvent.click(screen.getByRole('button', { name: 'Profile' }));
 
@@ -81,7 +86,7 @@ describe('customer application', () => {
     });
 
     it('allows a customer to edit and save their profile details in the current session', async () => {
-        render(<App />);
+        await renderApp();
 
         fireEvent.click(screen.getByRole('button', { name: 'Profile' }));
         expect(await screen.findByRole('heading', { name: 'Account & Profile Settings' })).toBeInTheDocument();
