@@ -9,6 +9,8 @@ function Review({ job, onClose, onSubmit }) {
 
     useEffect(() => {
         const previouslyFocused = document.activeElement;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
         closeButtonRef.current?.focus();
 
         function handleDialogKeyDown(event) {
@@ -34,6 +36,7 @@ function Review({ job, onClose, onSubmit }) {
         document.addEventListener('keydown', handleDialogKeyDown);
         return () => {
             document.removeEventListener('keydown', handleDialogKeyDown);
+            document.body.style.overflow = previousOverflow;
             if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
         };
     }, [onClose]);
