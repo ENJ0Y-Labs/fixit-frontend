@@ -36,9 +36,15 @@ const statusTabs = [
     { value: 'CANCELLED', label: 'Cancelled' },
 ];
 
-function MyJobs({ jobs = [], viewState = {}, onViewStateChange = () => {}, onPostJob, onViewDetails }) {
-    const { search = '', statusFilter = 'ALL', categoryFilter = 'ALL', sortBy = 'recent' } = viewState;
-    const updateViewState = (field, value) => onViewStateChange((current) => ({ ...current, [field]: value }));
+function MyJobs({ jobs = [], viewState, onViewStateChange, onPostJob, onViewDetails }) {
+    const [localViewState, setLocalViewState] = useState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
+    const activeViewState = viewState ?? localViewState;
+    const { search = '', statusFilter = 'ALL', categoryFilter = 'ALL', sortBy = 'recent' } = activeViewState;
+    const updateViewState = (field, value) => {
+        const update = (current) => ({ ...current, [field]: value });
+        if (onViewStateChange) onViewStateChange(update);
+        else setLocalViewState(update);
+    };
     const [showMobileFilters, setShowMobileFilters] = useState(false);
 
     const countFor = (filter) => jobs.filter((job) => {
@@ -78,7 +84,9 @@ function MyJobs({ jobs = [], viewState = {}, onViewStateChange = () => {}, onPos
     const awaitingCount = countFor('AWAITING BIDS');
     const completedCount = countFor('COMPLETED');
     const clearFilters = () => {
-        onViewStateChange({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
+        const reset = { search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' };
+        if (onViewStateChange) onViewStateChange(reset);
+        else setLocalViewState(reset);
     };
 
     return (
