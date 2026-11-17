@@ -101,3 +101,22 @@ describe('customer application', () => {
     });
 
 });
+
+
+describe('customer mobile filter sheet accessibility', () => {
+    it('exposes the filter sheet as a dialog and closes it with Escape', async () => {
+        const originalWidth = window.innerWidth;
+        Object.defineProperty(window, 'innerWidth', { configurable: true, value: 390 });
+        await renderApp();
+
+        const trigger = screen.getByRole('button', { name: /filters/i });
+        fireEvent.click(trigger);
+
+        expect(screen.getByRole('dialog', { name: 'Detailed filters' })).toBeInTheDocument();
+        fireEvent.keyDown(document, { key: 'Escape' });
+        expect(screen.queryByRole('dialog', { name: 'Detailed filters' })).not.toBeInTheDocument();
+        expect(trigger).toHaveFocus();
+
+        Object.defineProperty(window, 'innerWidth', { configurable: true, value: originalWidth });
+    });
+});
