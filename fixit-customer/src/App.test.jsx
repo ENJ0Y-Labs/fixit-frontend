@@ -62,7 +62,7 @@ describe('customer application', () => {
         fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
         expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /chat with provider/i })).not.toBeInTheDocument();
-        fireEvent.click(screen.getByRole('button', { name: /job details/i }));
+        fireEvent.click(screen.getAllByRole('button', { name: /job details/i })[0]);
         expect(await screen.findByRole('heading', { name: 'Job Details' })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /chat with provider/i })).not.toBeInTheDocument();
     });
