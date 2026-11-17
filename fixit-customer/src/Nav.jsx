@@ -16,17 +16,13 @@ function Nav({ activePage, onNavigate }) {
             <div className="nav-links">
                 {navItems.map((item) => {
                     const isActive = activePage === item.id;
-                    const disabled = item.id === 'settings';
-
                     return (
                         <button
                             key={item.id}
                             type="button"
                             className={`nav-item${isActive ? ' active' : ''}`}
-                            onClick={() => !disabled && onNavigate(item.id)}
-                            disabled={disabled}
+                            onClick={() => onNavigate(item.id)}
                             aria-current={isActive ? 'page' : undefined}
-                            title={disabled ? `${item.label} is not implemented yet` : undefined}
                         >
                             <i aria-hidden="true" className={item.icon}></i>
                             <span>{item.label}</span>
@@ -45,8 +41,8 @@ function Nav({ activePage, onNavigate }) {
                     <i aria-hidden="true" className="fa-solid fa-user"></i>
                 </div>
                 <div className="user-info">
-                    <div className="user-name">O. Ajayi</div>
-                    <div className="user-role">Lekki Phase 1</div>
+                    <div className="user-name">Customer account</div>
+                    <div className="user-role">Manage your profile</div>
                 </div>
             </div>
         </nav>

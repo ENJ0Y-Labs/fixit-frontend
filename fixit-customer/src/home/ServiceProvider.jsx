@@ -20,24 +20,23 @@ function ServiceProvider({
     return (
         <article className="service-card marketplace-provider-card">
             <div className="service-card-top marketplace-provider-card-top">
-                <img src={img || avatarPlaceholder} alt="" />
+                <div className="marketplace-provider-avatar">
+                    <img src={img || avatarPlaceholder} alt="" />
+                    <span className={available ? 'is-online' : ''} title={available ? 'Marked available' : 'Availability not confirmed'}></span>
+                </div>
                 <div className="service-details">
                     <div className="marketplace-provider-name-row">
                         <h3>{name}</h3>
                         <span className={'marketplace-availability-badge' + (available ? ' is-available' : '')}>
                             <span aria-hidden="true"></span>
-                            {available ? 'Available' : 'Unavailable'}
+                            {available ? 'Available' : 'Not available'}
                         </span>
                     </div>
                     <p>{job}</p>
                     {serviceTitle && <p className="marketplace-provider-service">{serviceTitle}</p>}
-                    <div className="service-rating">
-                        <i className="fa-solid fa-star" aria-hidden="true"></i>
-                        <span>{rating.toFixed(1)} ({review} reviews)</span>
-                    </div>
-                    <div className="service-distance">
-                        <i className="fa-solid fa-location-dot" aria-hidden="true"></i>
-                        <span>{location ? location + ' · ' : ''}{distance.toFixed(1)} km away</span>
+                    <div className="marketplace-provider-meta">
+                        <span className="service-rating"><i className="fa-solid fa-star" aria-hidden="true"></i> {rating.toFixed(1)} <span>({review} reviews)</span></span>
+                        <span className="service-distance"><i className="fa-solid fa-location-dot" aria-hidden="true"></i> {location} · {distance.toFixed(1)} km away</span>
                     </div>
                 </div>
                 <button
@@ -50,14 +49,15 @@ function ServiceProvider({
                     <i aria-hidden="true" className={isSaved ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}></i>
                 </button>
             </div>
-            <div className="service-card-bottom marketplace-provider-card-bottom">
+            <div className="marketplace-provider-card-bottom">
                 <div className="service-price">
-                    <span>Indicative rate</span>
+                    <span>Indicative hourly rate</span>
                     <strong>₦{price.toLocaleString('en-NG')}</strong>
                     <small>/hr</small>
                 </div>
-                <button type="button" className="dark-button" onClick={onSelect}>View details</button>
+                <button type="button" className="dark-button" onClick={onSelect}>View details <i className="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
             </div>
+            <span className="marketplace-sample-note">Sample listing · Confirm details with the provider</span>
         </article>
     );
 }

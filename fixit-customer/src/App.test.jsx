@@ -11,7 +11,7 @@ describe('customer application', () => {
         render(<App />);
 
         expect(screen.getByRole('heading', {
-            name: 'Get your home fixed by trusted local pros.',
+            name: 'Get your home fixed by people you can trust.',
         })).toBeInTheDocument();
         expect(screen.getByRole('navigation', {
             name: 'Primary navigation',
@@ -35,5 +35,12 @@ describe('customer application', () => {
         fireEvent.click(screen.getByRole('button', { name: /post a job/i }));
 
         expect(await screen.findByRole('heading', { name: /post a new job/i })).toBeInTheDocument();
+    });
+
+    it('filters providers with a quick availability filter', () => {
+        render(<App />);
+        fireEvent.click(screen.getByRole('button', { name: 'Available now' }));
+        expect(screen.queryByText('Blessing Okafor')).not.toBeInTheDocument();
+        expect(screen.getByText('Emeka Nwachukwu')).toBeInTheDocument();
     });
 });
