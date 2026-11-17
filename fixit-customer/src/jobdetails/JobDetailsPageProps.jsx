@@ -67,7 +67,7 @@ function JobDetailsPageProps({
                     <div className="section-heading">
                         <h2>Job Photos</h2>
                         <button type="button" onClick={() => photoInputRef.current?.click()} disabled={visiblePhotoCount >= 4} aria-label="Add more job photos">+ Add More</button>
-                        <input ref={photoInputRef} className="sr-only" type="file" accept="image/*" multiple onChange={handleAddPhotos} aria-label="Choose job photos" />
+                        <input ref={photoInputRef} className="job-photo-upload-input" type="file" accept="image/*" multiple onChange={handleAddPhotos} aria-label="Choose job photos" />
                     </div>
                     <p className="photo-upload-note" role="status">{addedPhotos.length ? addedPhotos.length + ' photo(s) added for this session only.' : 'Up to four photos can be previewed. Uploading to your account is not connected yet.'}</p>
                     <JobPhoto photos={[...photos, ...addedPhotos]} onAddPhoto={() => photoInputRef.current?.click()} />
