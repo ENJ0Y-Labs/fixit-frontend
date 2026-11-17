@@ -35,7 +35,7 @@ export default function JobsPage() {
 
     const pageCount = Math.max(1, Math.ceil(filteredJobs.length / pageSize));
     const visibleJobs = filteredJobs.slice((page - 1) * pageSize, page * pageSize);
-    const selectedJob = demoJobs.find((job) => job.id === selectedId) ?? null;
+    const selectedJob = filteredJobs.find((job) => job.id === selectedId) ?? null;
     const counts = jobStatuses.reduce((result, item) => {
         result[item.value] = demoJobs.filter((job) => job.status === item.value).length;
         return result;

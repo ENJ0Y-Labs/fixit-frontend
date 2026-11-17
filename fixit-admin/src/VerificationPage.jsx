@@ -40,7 +40,7 @@ export default function VerificationPage() {
 
     const pageCount = Math.max(1, Math.ceil(filteredRecords.length / pageSize));
     const visibleRecords = filteredRecords.slice((page - 1) * pageSize, page * pageSize);
-    const selectedRecord = records.find((record) => record.id === selectedId) ?? null;
+    const selectedRecord = filteredRecords.find((record) => record.id === selectedId) ?? null;
     const counts = {
         pending: records.filter((record) => record.status === 'Pending review').length,
         information: records.filter((record) => record.status === 'Needs information').length,
