@@ -177,7 +177,7 @@ function App() {
                 type="button"
                 aria-label="Close navigation menu"
                 tabIndex={menuOpen ? 0 : -1}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => { setMenuOpen(false); menuButtonRef.current?.focus(); }}
             />
             <main className="provider-main">
                 <header className="provider-topbar">
