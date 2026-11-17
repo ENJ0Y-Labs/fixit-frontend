@@ -35,7 +35,8 @@ function JobDetail({ job, onBack, onSubmitBid, submittedBids = [] }) {
                     <div className="card">
                         <div className="job-detail-top"><span className="status-badge status-success">Open opportunity</span><span className="job-posted">Posted {job.postedAt.toLowerCase()}</span>{job.stale && <span className="status-badge status-warning">May be outdated</span>}</div>
                         <p className="eyebrow">{job.category}</p>
-                        <h1>Job Details</h1>\n                        <h2 className="job-detail-title">{job.title}</h2>
+                        <h1>Job Details</h1>
+                        <h2 className="job-detail-title">{job.title}</h2>
                         <p className="job-detail-location"><span aria-hidden="true">⌖</span> {job.location}</p>
                         <div className="job-detail-facts"><span><strong>Expected budget</strong>{formatNaira(job.budget)}</span><span><strong>Estimated duration</strong>{job.duration}</span><span><strong>Urgency</strong>{job.urgency}</span></div>
                         <hr className="job-divider" />
