@@ -174,7 +174,7 @@ function MyJobs({ jobs = [], viewState, onViewStateChange, onPostJob, onViewDeta
                 </div>
 
                 <div className="jobs-list my-jobs-list" aria-live="polite">
-                    {visibleJobs.map((job, index) => (
+                    {visibleJobs.map((job) => (
                         <JobListCard key={job.id} job={job} onViewDetails={onViewDetails} />
                     ))}
                     {visibleJobs.length === 0 && (
