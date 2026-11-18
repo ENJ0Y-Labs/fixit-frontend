@@ -1,15 +1,15 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
-import { FixitAsyncBoundary, FixitLoadingState } from './FixitAsyncBoundary.jsx';
+import { FixitAsyncBoundary } from './FixitAsyncBoundary.jsx';
 
-const DashboardPage = lazy(() => import('./DashboardPage.jsx'));
-const AvailableJobsPage = lazy(() => import('./AvailableJobsPage.jsx'));
-const ProfilePage = lazy(() => import('./ProfilePage.jsx'));
-const ServicesAvailabilityPage = lazy(() => import('./ServicesAvailabilityPage.jsx'));
-const MyJobsPage = lazy(() => import('./MyJobsPage.jsx'));
-const EarningsPage = lazy(() => import('./EarningsPage.jsx'));
-const ReviewsPage = lazy(() => import('./ReviewsPage.jsx'));
-const SettingsPage = lazy(() => import('./SettingsPage.jsx'));
+import DashboardPage from './DashboardPage.jsx';
+import AvailableJobsPage from './AvailableJobsPage.jsx';
+import ProfilePage from './ProfilePage.jsx';
+import ServicesAvailabilityPage from './ServicesAvailabilityPage.jsx';
+import MyJobsPage from './MyJobsPage.jsx';
+import EarningsPage from './EarningsPage.jsx';
+import ReviewsPage from './ReviewsPage.jsx';
+import SettingsPage from './SettingsPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦' },
@@ -190,11 +190,11 @@ function App() {
                 </header>
                 <div className="provider-content">
                     <FixitAsyncBoundary key={activePage}>
-                    <Suspense fallback={<FixitLoadingState label="Loading provider workspace" />}>
+                    
                         <div key={activePage} className="fixit-page-transition">
                             {activePage === 'Dashboard' ? <DashboardPage onNavigate={navigateTo} /> : activePage === 'My Profile' ? <ProfilePage /> : ['My Services', 'Availability'].includes(activePage) ? <ServicesAvailabilityPage section={activePage} /> : activePage === 'Available Jobs' ? <AvailableJobsPage /> : activePage === 'Job Details' ? <AvailableJobsPage initialSelectedJobId="job-201" /> : activePage === 'My Jobs' ? <MyJobsPage /> : activePage === 'Earnings' ? <EarningsPage /> : activePage === 'Reviews' ? <ReviewsPage /> : activePage === 'Settings' ? <SettingsPage /> : <PlaceholderPage page={activePage} />}
                         </div>
-                    </Suspense>
+                    
                     </FixitAsyncBoundary>
                 </div>
             </main>
