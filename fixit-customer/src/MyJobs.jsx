@@ -36,11 +36,15 @@ const statusTabs = [
     { value: 'CANCELLED', label: 'Cancelled' },
 ];
 
-function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
-    const [search, setSearch] = useState('');
-    const [statusFilter, setStatusFilter] = useState('ALL');
-    const [categoryFilter, setCategoryFilter] = useState('ALL');
-    const [sortBy, setSortBy] = useState('recent');
+function MyJobs({ jobs = [], viewState, onViewStateChange, onPostJob, onViewDetails }) {
+    const [localViewState, setLocalViewState] = useState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
+    const activeViewState = viewState ?? localViewState;
+    const { search = '', statusFilter = 'ALL', categoryFilter = 'ALL', sortBy = 'recent' } = activeViewState;
+    const updateViewState = (field, value) => {
+        const update = (current) => ({ ...current, [field]: value });
+        if (onViewStateChange) onViewStateChange(update);
+        else setLocalViewState(update);
+    };
     const [showMobileFilters, setShowMobileFilters] = useState(false);
 
     const countFor = (filter) => jobs.filter((job) => {
@@ -80,10 +84,9 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
     const awaitingCount = countFor('AWAITING BIDS');
     const completedCount = countFor('COMPLETED');
     const clearFilters = () => {
-        setSearch('');
-        setStatusFilter('ALL');
-        setCategoryFilter('ALL');
-        setSortBy('recent');
+        const reset = { search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' };
+        if (onViewStateChange) onViewStateChange(reset);
+        else setLocalViewState(reset);
     };
 
     return (
@@ -136,7 +139,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                             <input
                                 type="search"
                                 value={search}
-                                onChange={(event) => setSearch(event.target.value)}
+                                onChange={(event) => updateViewState('search', event.target.value)}
                                 placeholder="Search by job title or provider..."
                                 aria-label="Search jobs"
                             />
@@ -154,14 +157,14 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                         <div id="my-jobs-selects" className={`my-jobs-selects${showMobileFilters ? ' is-open' : ''}`}>
                             <label>
                                 <span className="sr-only">Filter by category</span>
-                                <select value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
+                                <select value={categoryFilter} onChange={(event) => updateViewState('categoryFilter', event.target.value)}>
                                     <option value="ALL">All Categories</option>
                                     {categories.map((category) => <option key={category} value={category}>{category}</option>)}
                                 </select>
                             </label>
                             <label>
                                 <span className="sr-only">Sort jobs</span>
-                                <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+                                <select value={sortBy} onChange={(event) => updateViewState('sortBy', event.target.value)}>
                                     <option value="recent">Recent First</option>
                                     <option value="oldest">Oldest First</option>
                                     <option value="price">Highest Price</option>
@@ -176,7 +179,7 @@ function MyJobs({ jobs = [], onPostJob, onViewDetails }) {
                                 key={value}
                                 type="button"
                                 className={statusFilter === value ? 'active' : ''}
-                                onClick={() => setStatusFilter(value)}
+                                onClick={() => updateViewState('statusFilter', value)}
                                 aria-pressed={statusFilter === value}
                             >
                                 <span>{label}</span>
