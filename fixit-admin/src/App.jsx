@@ -1,16 +1,16 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react;
 import './App.css';
-import { FixitAsyncBoundary, FixitLoadingState } from './FixitAsyncBoundary.jsx';
+import { FixitAsyncBoundary } from './FixitAsyncBoundary.jsx';
 
-const DashboardPage = lazy(() => import('./DashboardPage.jsx'));
-const ProvidersPage = lazy(() => import('./ProvidersPage.jsx'));
-const CustomersPage = lazy(() => import('./CustomersPage.jsx'));
-const VerificationPage = lazy(() => import('./VerificationPage.jsx'));
-const JobsPage = lazy(() => import('./JobsPage.jsx'));
-const DisputesSupportPage = lazy(() => import('./DisputesSupportPage.jsx'));
-const CategoriesPage = lazy(() => import('./CategoriesPage.jsx'));
-const AnalyticsPage = lazy(() => import('./AnalyticsPage.jsx'));
-const SettingsPage = lazy(() => import('./SettingsPage.jsx'));
+import DashboardPage from './DashboardPage.jsx';
+import ProvidersPage from './ProvidersPage.jsx';
+import CustomersPage from './CustomersPage.jsx';
+import VerificationPage from './VerificationPage.jsx';
+import JobsPage from './JobsPage.jsx';
+import DisputesSupportPage from './DisputesSupportPage.jsx';
+import CategoriesPage from './CategoriesPage.jsx';
+import AnalyticsPage from './AnalyticsPage.jsx';
+import SettingsPage from './SettingsPage.jsx';
 
 const navigation = [
     { label: 'Dashboard', icon: '▦', group: 'Overview' },
@@ -177,7 +177,7 @@ function App() {
                 </header>
                 <div className="admin-content">
                     <FixitAsyncBoundary key={activePage}>
-                    <Suspense fallback={<FixitLoadingState label="Loading admin workspace" />}>
+                    
                         <div key={activePage} className="fixit-page-transition">
                             {activePage === 'Dashboard'
                         ? <DashboardPage onNavigate={navigateTo} />
@@ -199,7 +199,7 @@ function App() {
                                                         ? <SettingsPage />
                                                         : <PlaceholderPage page={activePage} />}
                         </div>
-                    </Suspense>
+                    
                     </FixitAsyncBoundary>
                 </div>
             </main>
