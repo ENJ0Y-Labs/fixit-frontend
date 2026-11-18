@@ -1,13 +1,13 @@
-import { lazy, Suspense, useState } from 'react';
+import { useState } from 'react';
 import Nav from './Nav';
-import { FixitAsyncBoundary, FixitLoadingState } from './FixitAsyncBoundary.jsx';
-const Home = lazy(() => import('./Home.jsx'));
-const PostJob = lazy(() => import('./PostJob.jsx'));
-const MyJobs = lazy(() => import('./MyJobs.jsx'));
-const JobDetails = lazy(() => import('./JobDetails.jsx'));
-const Payment = lazy(() => import('./Payment.jsx'));
-const Review = lazy(() => import('./Review.jsx'));
-const Account = lazy(() => import('./Account.jsx'));
+import { FixitAsyncBoundary } from './FixitAsyncBoundary.jsx';
+import Home from './Home.jsx';
+import PostJob from './PostJob.jsx';
+import MyJobs from './MyJobs.jsx';
+import JobDetails from './JobDetails.jsx';
+import Payment from './Payment.jsx';
+import Review from './Review.jsx';
+import Account from './Account.jsx';
 
 const initialJobs = [
     {
@@ -179,11 +179,11 @@ function App() {
             <Nav activePage={activePage} onNavigate={navigate} />
             <div className="app-content">
                 <FixitAsyncBoundary key={activePage}>
-                <Suspense fallback={<FixitLoadingState label="Loading customer workspace" />}>
+                
                     <div key={activePage} className="fixit-page-transition">
                         {renderPage()}
                     </div>
-                </Suspense>
+                
                 </FixitAsyncBoundary>
             </div>
         </div>
