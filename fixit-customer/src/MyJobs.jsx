@@ -1,32 +1,10 @@
 import './styles/pages/my-jobs.css';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import './styles/pages/account.css';
+import { useMemo, useState } from 'react';
 import JobCard from './myjobs/JobCard';
 
-function LazyJobCard({ job, onViewDetails, index }) {
-    const cardRef = useRef(null);
-    const [isVisible, setIsVisible] = useState(typeof IntersectionObserver === 'undefined');
-
-    useEffect(() => {
-        if (isVisible || !cardRef.current || typeof IntersectionObserver === 'undefined') return undefined;
-
-        const observer = new IntersectionObserver(([entry], activeObserver) => {
-            if (entry.isIntersecting) {
-                setIsVisible(true);
-                activeObserver.disconnect();
-            }
-        }, { rootMargin: '180px 0px', threshold: 0.01 });
-
-        observer.observe(cardRef.current);
-        return () => observer.disconnect();
-    }, [isVisible]);
-
-    if (!isVisible) return <div ref={cardRef} className="my-job-card-skeleton" aria-hidden="true" />;
-
-    return (
-        <div ref={cardRef} className="my-job-card-lazy-wrap" style={{ '--job-card-delay': `${Math.min(index * 65, 325)}ms` }}>
-            <JobCard {...job} onDetails={() => onViewDetails(job)} />
-        </div>
-    );
+function JobListCard({ job, onViewDetails }) {
+    return <JobCard {...job} onDetails={() => onViewDetails(job)} />;
 }
 const statusTabs = [
     { value: 'ALL', label: 'All Jobs' },
@@ -90,24 +68,25 @@ function MyJobs({ jobs = [], viewState, onViewStateChange, onPostJob, onViewDeta
     };
 
     return (
-        <main className="my-jobs page-surface my-jobs-workspace my-jobs-enter">
+        <main className="account my-jobs page-surface my-jobs-workspace my-jobs-enter">
             <div className="my-jobs-content">
-                <div className="my-jobs-breadcrumb">
+                <nav className="account-breadcrumb my-jobs-breadcrumb" aria-label="Breadcrumb">
                     <span>FixIt Workspace</span>
                     <i className="fa-solid fa-chevron-right" aria-hidden="true"></i>
                     <strong>My Jobs</strong>
-                </div>
+                </nav>
 
-                <header className="my-jobs-titlebar">
-                    <div className="my-jobs-heading-copy">
+
+                <header className="account-header my-jobs-titlebar">
+                    <div className="account-heading-copy my-jobs-heading-copy">
                         <p className="my-jobs-eyebrow">YOUR SERVICE REQUESTS</p>
-                        <div className="my-jobs-heading-line">
+                        <div className="account-title-row my-jobs-heading-line">
                             <h1>My Jobs</h1>
                             <span className="my-jobs-total-count">{jobs.length} {jobs.length === 1 ? 'job' : 'total jobs'}</span>
                         </div>
                         <p className="my-jobs-subtitle">Track your requests, compare bids and manage completed work.</p>
                     </div>
-                    <button type="button" className="dark-button my-jobs-post-button" onClick={onPostJob}>
+                    <button type="button" className="account-primary-button my-jobs-post-button" onClick={onPostJob}>
                         <i className="fa-solid fa-plus" aria-hidden="true"></i>
                         <span>Post a New Job</span>
                     </button>
@@ -196,12 +175,7 @@ function MyJobs({ jobs = [], viewState, onViewStateChange, onPostJob, onViewDeta
 
                 <div className="jobs-list my-jobs-list" aria-live="polite">
                     {visibleJobs.map((job, index) => (
-                        <LazyJobCard
-                            key={job.id}
-                            job={job}
-                            index={index}
-                            onViewDetails={onViewDetails}
-                        />
+                        <JobListCard key={job.id} job={job} onViewDetails={onViewDetails} />
                     ))}
                     {visibleJobs.length === 0 && (
                         <div className="my-jobs-empty">
