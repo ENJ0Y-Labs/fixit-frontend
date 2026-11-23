@@ -24,9 +24,11 @@ function JobCard({
     const isAwaitingBids = normalized === 'AWAITING BIDS';
     const isInProgress = normalized === 'IN PROGRESS';
     const isCompleted = normalized === 'COMPLETED';
-    const priceText = isAwaitingBids
-        ? `₦${(minBudget || 0).toLocaleString('en-NG')} - ₦${(maxBudget || minBudget || 0).toLocaleString('en-NG')}`
-        : `₦${(priceValue || 0).toLocaleString('en-NG')}`;
+    const isCancelled = normalized === 'CANCELLED';
+    const hasPrice = Number.isFinite(Number(priceValue)) && priceValue !== null && priceValue !== '';
+    const priceText = !hasPrice ? 'Not provided' : isAwaitingBids
+        ? (minBudget || maxBudget ? `₦${Number(minBudget || 0).toLocaleString('en-NG')} - ₦${Number(maxBudget || minBudget || 0).toLocaleString('en-NG')}` : `₦${Number(priceValue).toLocaleString('en-NG')}`)
+        : `₦${Number(priceValue).toLocaleString('en-NG')}`;
     const initials = providerName
         ? providerName.split(' ').map((part) => part[0]).slice(0, 2).join('').toUpperCase()
         : '';
@@ -86,8 +88,10 @@ function JobCard({
                         <><strong>Review provider bids</strong><p>Compare responses before choosing a provider.</p></>
                     ) : isCompleted ? (
                         <><strong>Service completed</strong><p>View the job summary and provider details.</p></>
-                    ) : (
+                     ) : isCancelled ? (
                         <><strong>Request cancelled</strong><p>This job is no longer active.</p></>
+                    ) : (
+                        <><strong>{status}</strong><p>Further job updates are not available yet.</p></>
                     )}
                 </div>
             </div>
