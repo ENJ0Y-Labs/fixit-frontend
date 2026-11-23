@@ -3,6 +3,7 @@ import './App.css';
 import { FixitAsyncBoundary } from './FixitAsyncBoundary.jsx';
 import { authApi } from './api/auth.js';
 import { ApiError } from './api/client.js';
+import { clearDemoSession, createDemoUser, isDemoAuthEnabled, isDemoCredentials, readDemoSession, writeDemoSession } from '../../shared/demo-auth.js';
 
 import DashboardPage from './DashboardPage.jsx';
 import AvailableJobsPage from './AvailableJobsPage.jsx';
@@ -57,6 +58,12 @@ function ProviderAuth({ onAuthenticated }) {
         }
         setSubmitting(true);
         try {
+            if (isDemoAuthEnabled() && isDemoCredentials(email, password)) {
+                const demoUser = createDemoUser('provider');
+                writeDemoSession(demoUser);
+                onAuthenticated(demoUser);
+                return;
+            }
             const user = getUser(await authApi.login({ email: email.trim(), password }));
             if (!user || typeof user !== 'object') throw new Error('The server did not return an authenticated provider account.');
             const role = String(user.role ?? user.accountType ?? '').toLowerCase();
@@ -143,7 +150,7 @@ function PlaceholderPage({ page }) {
     return <div className="page-placeholder"><p className="eyebrow">Provider workspace</p><h1>{page}</h1><p className="text-muted">This section will be built in its own feature phase.</p><section className="card"><span className="status-badge status-neutral">Coming in a later phase</span><h2 style={{ marginTop: '18px' }}>Your {page.toLowerCase()} workspace</h2><p className="text-muted" style={{ marginBottom: 0 }}>The navigation and responsive application shell are ready. This screen does not connect to a backend or save account data yet.</p></section></div>;
 }
 
-function ProviderWorkspace() {
+function ProviderWorkspace({ onLogout }) {
     const [activePage, setActivePage] = useState(() => resolvePage(window.location.hash));
     const [menuOpen, setMenuOpen] = useState(false);
     const sidebarRef = useRef(null);
@@ -190,6 +197,7 @@ function ProviderWorkspace() {
                     <div className="topbar-actions">
                         <button className="icon-button" type="button" aria-label="Notifications"><i className="fa-regular fa-bell" aria-hidden="true" /></button>
                         <span className="avatar" aria-label="Provider account">PR</span>
+                        <button className="icon-button" type="button" aria-label="Log out" onClick={onLogout}><i className="fa-solid fa-arrow-right-from-bracket" aria-hidden="true" /></button>
                     </div>
                 </header>
                 <div className="provider-content">
@@ -210,17 +218,27 @@ function App() {
 
     useEffect(() => {
         let active = true;
-        authApi.getCurrentUser()
-            .then((response) => {
-                if (!active) return;
-                const currentUser = getUser(response);
-                if (!currentUser || typeof currentUser !== 'object') throw new Error('Session response did not contain a provider account.');
-                const role = String(currentUser.role ?? currentUser.accountType ?? '').toLowerCase();
-                if (role && !['provider', 'service_provider'].includes(role)) throw new Error('This account does not have provider access.');
-                setUser(currentUser);
+        if (isDemoAuthEnabled()) {
+            const demoUser = readDemoSession('provider');
+            if (demoUser) {
+                setUser(demoUser);
                 setStatus('authenticated');
-            })
-            .catch(() => { if (active) setStatus('unauthenticated'); });
+            } else {
+                setStatus('unauthenticated');
+            }
+        } else {
+            authApi.getCurrentUser()
+                .then((response) => {
+                    if (!active) return;
+                    const currentUser = getUser(response);
+                    if (!currentUser || typeof currentUser !== 'object') throw new Error('Session response did not contain a provider account.');
+                    const role = String(currentUser.role ?? currentUser.accountType ?? '').toLowerCase();
+                    if (role && !['provider', 'service_provider'].includes(role)) throw new Error('This account does not have provider access.');
+                    setUser(currentUser);
+                    setStatus('authenticated');
+                })
+                .catch(() => { if (active) setStatus('unauthenticated'); });
+        }
         return () => { active = false; };
     }, []);
 
@@ -230,9 +248,16 @@ function App() {
         window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search + '#dashboard');
     }
 
+    function handleLogout() {
+        if (user?.isDemo) clearDemoSession('provider');
+        setUser(null);
+        setStatus('unauthenticated');
+        window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
+    }
+
     if (status === 'checking') return <main className="provider-auth-loading" role="status">Checking your session…</main>;
     if (status !== 'authenticated' || !user) return <ProviderAuth onAuthenticated={handleAuthenticated} />;
-    return <ProviderWorkspace />;
+    return <ProviderWorkspace onLogout={handleLogout} />;
 }
 
 export default App;
