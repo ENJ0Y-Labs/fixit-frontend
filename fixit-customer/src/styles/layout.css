@@ -45,7 +45,9 @@ a {
 }
 
 button {
+    border: 0;
     color: inherit;
+    cursor: pointer;
 }
 
 button:disabled {
