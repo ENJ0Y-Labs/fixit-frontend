@@ -379,3 +379,7 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
         font-weight: 700;
     }
 }
+
+
+/* Shared Font Awesome icon alignment */
+.fa-solid, .fa-regular, .fa-brands { line-height: 1; vertical-align: middle; }

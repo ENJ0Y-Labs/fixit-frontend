@@ -222,7 +222,7 @@
 }
 .category-symbol {
     display: block;
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-family: inherit;
     font-size: 25px;
     line-height: 1;
 }

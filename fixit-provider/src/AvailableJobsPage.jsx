@@ -38,7 +38,7 @@ function JobDetail({ job, onBack, onSubmitBid, submittedBids = [] }) {
                         <p className="eyebrow">{job.category}</p>
                         <h1>Job Details</h1>
                         <h2 className="job-detail-title">{job.title}</h2>
-                        <p className="job-detail-location"><span aria-hidden="true">⌖</span> {job.location}</p>
+                        <p className="job-detail-location"><i className="fa-solid fa-location-dot" aria-hidden="true" /> {job.location}</p>
                         <div className="job-detail-facts"><span><strong>Expected budget</strong>{formatNaira(job.budget)}</span><span><strong>Estimated duration</strong>{job.duration}</span><span><strong>Urgency</strong>{job.urgency}</span></div>
                         <hr className="job-divider" />
                         <h2>Job description</h2>
@@ -126,14 +126,14 @@ export function AvailableJobsPage({ dataState = 'populated', onRetry = () => {},
                 <button className="btn btn-secondary jobs-reset" type="button" onClick={resetFilters}>Clear filters</button>
             </section>
             {filteredJobs.length === 0 ? (
-                <section className="card jobs-empty" aria-live="polite"><span className="jobs-empty-icon" aria-hidden="true">⌕</span><h2>No matching jobs</h2><p>Try a different search, choose another category, or clear some filters.</p><button className="btn btn-secondary" type="button" onClick={resetFilters}>Clear all filters</button></section>
+                <section className="card jobs-empty" aria-live="polite"><span className="jobs-empty-icon" aria-hidden="true"><i className="fa-solid fa-magnifying-glass" /></span><h2>No matching jobs</h2><p>Try a different search, choose another category, or clear some filters.</p><button className="btn btn-secondary" type="button" onClick={resetFilters}>Clear all filters</button></section>
             ) : (
                 <>
                     <div className="available-job-list" aria-label="Job opportunities">
                         {pageJobs.map((job) => (
                             <article className="card available-job-card" key={job.id}>
-                                <div className="available-job-card-main"><div className="available-job-title-row"><span className="job-category-tag">{job.category}</span><span className="job-posted">Posted {job.postedAt.toLowerCase()}</span>{job.stale && <span className="status-badge status-warning">May be outdated</span>}</div><h2>{job.title}</h2><p className="available-job-location"><span aria-hidden="true">⌖</span> {job.location}</p><p className="available-job-summary">{job.description}</p><div className="available-job-meta"><span>{job.urgency}</span><span>{job.duration}</span><span>{job.bids} {job.bids === 1 ? 'response' : 'responses'}</span></div></div>
-                                <div className="available-job-card-side"><span className="budget-label">Indicative budget</span><strong>{formatNaira(job.budget)}</strong><button className="btn btn-primary" type="button" onClick={() => setSelectedJobId(job.id)}>View details <span aria-hidden="true">↗</span></button></div>
+                                <div className="available-job-card-main"><div className="available-job-title-row"><span className="job-category-tag">{job.category}</span><span className="job-posted">Posted {job.postedAt.toLowerCase()}</span>{job.stale && <span className="status-badge status-warning">May be outdated</span>}</div><h2>{job.title}</h2><p className="available-job-location"><i className="fa-solid fa-location-dot" aria-hidden="true" /> {job.location}</p><p className="available-job-summary">{job.description}</p><div className="available-job-meta"><span>{job.urgency}</span><span>{job.duration}</span><span>{job.bids} {job.bids === 1 ? 'response' : 'responses'}</span></div></div>
+                                <div className="available-job-card-side"><span className="budget-label">Indicative budget</span><strong>{formatNaira(job.budget)}</strong><button className="btn btn-primary" type="button" onClick={() => setSelectedJobId(job.id)}>View details <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></button></div>
                             </article>
                         ))}
                     </div>

@@ -144,7 +144,7 @@ export default function ProfilePage() {
             </div>
 
             <section className="card verification-banner" aria-labelledby="verification-heading">
-                <div className="verification-mark" aria-hidden="true">✓</div>
+                <div className="verification-mark" aria-hidden="true"><i className="fa-solid fa-check" /></div>
                 <div>
                     <h2 id="verification-heading">Verification status</h2>
                     <p>Your identity and credentials have not been submitted for review.</p>
@@ -232,7 +232,7 @@ export default function ProfilePage() {
 
                 <div className="profile-form-actions">
                     <button className="btn btn-secondary" type="button" onClick={discardChanges}>Discard changes</button>
-                    <button className="btn btn-primary" type="submit">Preview profile <span aria-hidden="true">↗</span></button>
+                    <button className="btn btn-primary" type="submit">Preview profile <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></button>
                 </div>
                 <p className="profile-demo-note">Frontend demo only. Profile edits are held in page state and are not sent to a server.</p>
             </form>
@@ -246,7 +246,7 @@ export default function ProfilePage() {
                                 <h2 id="profile-preview-title">Preview your profile</h2>
                                 <p>This is how the details will be presented to customers.</p>
                             </div>
-                            <button className="icon-button" type="button" aria-label="Close profile preview" onClick={() => setPreviewOpen(false)}>×</button>
+                            <button className="icon-button" type="button" aria-label="Close profile preview" onClick={() => setPreviewOpen(false)}><i className="fa-solid fa-xmark" aria-hidden="true" /></button>
                         </div>
                         <div className="profile-preview-card">
                             <div className="profile-preview-identity">

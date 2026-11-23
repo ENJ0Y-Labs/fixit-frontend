@@ -55,7 +55,7 @@ export default function JobsPage() {
     return (
         <div className="jobs-page">
             <div className="demo-notice" role="note">
-                <span className="demo-notice-icon" aria-hidden="true">i</span>
+                <span className="demo-notice-icon" aria-hidden="true"><i className="fa-solid fa-circle-info" /></span>
                 <p><strong>Jobs demo</strong> All job, customer, provider, amount, and activity details are illustrative sample records, not live marketplace data. This workspace is read-only.</p>
             </div>
 
@@ -83,7 +83,7 @@ export default function JobsPage() {
                 </div>
                 <div className="jobs-filters">
                     <label className="provider-search">
-                        <span aria-hidden="true">⌕</span>
+                        <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
                         <input type="search" aria-label="Search jobs" placeholder="Search job, customer, provider, or location" value={search} onChange={(event) => updateSearch(event.target.value)} />
                     </label>
                     <label className="filter-control">

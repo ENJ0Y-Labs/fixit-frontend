@@ -13,19 +13,19 @@ const PRICE_MIN = 1500;
 const PRICE_MAX = 15000;
 
 const categories = [
-    { name: 'Plumbing', icon: '🚰' },
-    { name: 'Electrical', icon: '⚡' },
-    { name: 'Cleaning', icon: '🧹' },
-    { name: 'Carpentry', icon: '🪚' },
-    { name: 'Painting', icon: '🎨' },
+    { name: 'Plumbing', icon: 'fa-solid fa-faucet' },
+    { name: 'Electrical', icon: 'fa-solid fa-bolt' },
+    { name: 'Cleaning', icon: 'fa-solid fa-broom' },
+    { name: 'Carpentry', icon: 'fa-solid fa-hammer' },
+    { name: 'Painting', icon: 'fa-solid fa-paint-roller' },
 ];
 
 const otherCategories = [
-    { name: 'AC repair', icon: '❄️' },
-    { name: 'Laundry', icon: '🧺' },
-    { name: 'Pest control', icon: '🪳' },
-    { name: 'Glasswork', icon: '🪟' },
-    { name: 'Moving services', icon: '🚚' },
+    { name: 'AC repair', icon: 'fa-solid fa-snowflake' },
+    { name: 'Laundry', icon: 'fa-solid fa-shirt' },
+    { name: 'Pest control', icon: 'fa-solid fa-bug' },
+    { name: 'Glasswork', icon: 'fa-regular fa-window-maximize' },
+    { name: 'Moving services', icon: 'fa-solid fa-truck' },
 ];
 
 
@@ -202,7 +202,7 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                             {categories.map((category) => (
                                 <Category key={category.name} {...category} onSelect={() => selectCategory(category.name)} />
                             ))}
-                            <Category name="More" icon="＋" onSelect={() => setShowAllCategories(true)} />
+                            <Category name="More" icon="fa-solid fa-ellipsis" onSelect={() => setShowAllCategories(true)} />
                         </div>
                     )}
                 </section>

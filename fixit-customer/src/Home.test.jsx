@@ -25,6 +25,7 @@ describe('marketplace category browsing', () => {
             'Plumbing', 'Electrical', 'Cleaning', 'Carpentry', 'Painting', 'More',
         ]);
         expect(document.querySelectorAll('.marketplace-category-list .category-symbol')).toHaveLength(6);
+        expect([...document.querySelectorAll('.marketplace-category-list .category-symbol')].every((icon) => [...icon.classList].some((name) => name.startsWith('fa-')))).toBe(true);
 
         fireEvent.click(screen.getByRole('button', { name: 'More' }));
         expect(screen.getByRole('heading', { name: 'All service categories' })).toBeInTheDocument();
@@ -34,6 +35,7 @@ describe('marketplace category browsing', () => {
         expect(screen.getByRole('button', { name: 'Glasswork' })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Moving services' })).toBeInTheDocument();
         expect(document.querySelectorAll('.marketplace-category-grid .category-symbol')).toHaveLength(5);
+        expect([...document.querySelectorAll('.marketplace-category-grid .category-symbol')].every((icon) => [...icon.classList].some((name) => name.startsWith('fa-')))).toBe(true);
     });
 
     it('applies a selected additional category and returns to the marketplace', async () => {

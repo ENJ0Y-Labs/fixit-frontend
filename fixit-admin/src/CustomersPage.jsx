@@ -51,7 +51,7 @@ export default function CustomersPage() {
     return (
         <div className="customers-page">
             <div className="demo-notice" role="note">
-                <span className="demo-notice-icon" aria-hidden="true">i</span>
+                <span className="demo-notice-icon" aria-hidden="true"><i className="fa-solid fa-circle-info" /></span>
                 <p><strong>Demo records</strong> Customer profiles and counts below are illustrative only. No live customer data or account actions are connected.</p>
             </div>
 
@@ -99,7 +99,7 @@ export default function CustomersPage() {
                 <div className="customer-filters">
                     <label className="provider-search">
                         <span className="sr-only">Search customers</span>
-                        <span aria-hidden="true">⌕</span>
+                        <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
                         <input
                             type="search"
                             role="searchbox"

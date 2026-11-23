@@ -16,6 +16,7 @@ describe('FixIt admin workspace', () => {
         await renderApp();
         expect(screen.getByRole('heading', { name: 'Platform overview' })).toBeInTheDocument();
         expect(screen.getByText(/illustrative sample figures/i)).toBeInTheDocument();
+        expect([...document.querySelectorAll('.admin-nav .nav-icon i')].every((icon) => [...icon.classList].some((name) => name.startsWith('fa-')))).toBe(true);
     });
 
     it('opens the selected workspace section', async () => {

@@ -116,7 +116,7 @@ export default function CategoriesPage() {
     return (
         <div className="categories-page">
             <div className="demo-notice" role="note">
-                <span className="demo-notice-icon" aria-hidden="true">i</span>
+                <span className="demo-notice-icon" aria-hidden="true"><i className="fa-solid fa-circle-info" /></span>
                 <p><strong>Categories demo</strong> All category, provider, service, and job counts are illustrative sample data. Create, edit, and status controls update temporary browser state only.</p>
             </div>
 
@@ -126,7 +126,7 @@ export default function CategoriesPage() {
                     <h1>Categories</h1>
                     <p className="page-description">Organise the service categories customers use to find the right help.</p>
                 </div>
-                <button className="btn btn-primary category-create-button" type="button" onClick={openCreate}>＋ Add category</button>
+                <button className="btn btn-primary category-create-button" type="button" onClick={openCreate}><i className="fa-solid fa-plus" aria-hidden="true" /> Add category</button>
             </section>
 
             <section className="categories-summary" aria-label="Category summary">
@@ -145,7 +145,7 @@ export default function CategoriesPage() {
                 </div>
                 <div className="categories-filters">
                     <label className="provider-search">
-                        <span aria-hidden="true">⌕</span>
+                        <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
                         <input type="search" aria-label="Search categories" placeholder="Search name, category ID, or description" value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} />
                     </label>
                     <label className="filter-control">
@@ -219,7 +219,7 @@ export default function CategoriesPage() {
             {editing && (
                 <div className="category-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeForm(); }}>
                     <section className="category-modal panel" role="dialog" aria-modal="true" aria-labelledby="category-form-heading">
-                        <div className="panel-header"><div><p className="eyebrow">Category management · Demo</p><h2 id="category-form-heading">{editing === 'new' ? 'Add category' : 'Edit category'}</h2><p>Changes are temporary and will not be sent to FixIt.</p></div><button className="icon-button" type="button" aria-label="Close category form" onClick={closeForm}>×</button></div>
+                        <div className="panel-header"><div><p className="eyebrow">Category management · Demo</p><h2 id="category-form-heading">{editing === 'new' ? 'Add category' : 'Edit category'}</h2><p>Changes are temporary and will not be sent to FixIt.</p></div><button className="icon-button" type="button" aria-label="Close category form" onClick={closeForm}><i className="fa-solid fa-xmark" aria-hidden="true" /></button></div>
                         <form onSubmit={saveCategory}>
                             <label className="category-form-field">Category name<input autoFocus value={form.name} onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))} maxLength={60} /></label>
                             <label className="category-form-field">Description<textarea value={form.description} onChange={(event) => setForm((current) => ({ ...current, description: event.target.value }))} rows={4} maxLength={240} /></label>
