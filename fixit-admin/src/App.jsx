@@ -138,18 +138,13 @@ function DemoAdminLogin({ onLogin }) {
 }
 
 function App() {
-    const [demoUser, setDemoUser] = useState(null);
-    const [demoStatus, setDemoStatus] = useState('checking');
+    const demoAuthEnabled = isDemoAuthEnabled();
+    const [demoUser, setDemoUser] = useState(() => demoAuthEnabled ? readDemoSession('admin') : null);
+    const [demoStatus, setDemoStatus] = useState(() => {
+        if (!demoAuthEnabled) return 'ready';
+        return readDemoSession('admin') ? 'ready' : 'login';
+    });
     const [activePage, setActivePage] = useState(() => resolvePage(window.location.hash));
-    useEffect(() => {
-        if (!isDemoAuthEnabled()) {
-            setDemoStatus('ready');
-            return;
-        }
-        const savedUser = readDemoSession('admin');
-        setDemoUser(savedUser);
-        setDemoStatus(savedUser ? 'ready' : 'login');
-    }, []);
     function handleDemoLogin() {
         const user = createDemoUser('admin');
         writeDemoSession(user);
