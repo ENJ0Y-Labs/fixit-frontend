@@ -14,7 +14,7 @@ export default function LoadingScreen() {
                 if (event.target === event.currentTarget) setVisible(false);
             }}
         >
-            <img className="fixit-brand-splash-logo" src="/brand/logo.svg" alt="" />
+            <img className="fixit-brand-splash-logo" src="/brand/logo.png" alt="" />
             <strong className="fixit-brand-splash-name">FixIt</strong>
             <p className="fixit-brand-splash-tagline">Trusted help for every home.</p>
             <span className="fixit-brand-splash-loader" aria-hidden="true" />
