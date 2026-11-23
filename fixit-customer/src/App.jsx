@@ -57,7 +57,7 @@ function CustomerWorkspace({ user, onLogout }) {
     const [jobsLoading, setJobsLoading] = useState(true);
     const [jobsError, setJobsError] = useState('');
     const [jobsReloadKey, setJobsReloadKey] = useState(0);
-    const [detailLoading, setDetailLoading] = useState(false);
+    const [detailLoading, setDetailLoading] = useState(() => Boolean(getJobIdFromHash()));
     const [detailError, setDetailError] = useState('');
     const [selectedJobId, setSelectedJobId] = useState(getJobIdFromHash);
     const [selectedJob, setSelectedJob] = useState(null);
@@ -85,9 +85,11 @@ function CustomerWorkspace({ user, onLogout }) {
 
     useEffect(() => {
         const syncPageWithHash = () => {
-            setActivePage(getPageFromHash());
+            const nextPage = getPageFromHash();
             const nextJobId = getJobIdFromHash();
+            setActivePage(nextPage);
             setSelectedJobId(nextJobId);
+            if (nextPage === 'jobDetails' && nextJobId) { setDetailLoading(true); setDetailError(''); }
         };
         window.addEventListener('popstate', syncPageWithHash);
         window.addEventListener('hashchange', syncPageWithHash);
@@ -180,7 +182,6 @@ function CustomerWorkspace({ user, onLogout }) {
         if (!selectedJobId) return;
         setDetailLoading(true);
         setDetailError('');
-        setDetailLoading(true);
         customerApi.getJob(selectedJobId)
             .then((response) => {
                 const job = extractJob(response);
