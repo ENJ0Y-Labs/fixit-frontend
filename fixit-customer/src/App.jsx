@@ -17,6 +17,7 @@ import Account from './Account.jsx';
 import AuthGate from './AuthGate.jsx';
 import { customerApi } from './api/customer.js';
 import { extractJob, extractJobList, jobErrorMessage } from './api/customerJobs.js';
+import { demoCustomerJobs } from './demo/customerJobs.js';
 
 const PAGE_HASHES = {
     home: 'home',
@@ -80,13 +81,15 @@ function CustomerWorkspace({ user, onLogout }) {
 
     useEffect(() => {
         if (!menuOpen) return undefined;
-        const focusable = sidebarRef.current?.querySelectorAll('a[href], button:not([disabled])');
+        const sidebar = sidebarRef.current;
+        const menuButton = menuButtonRef.current;
+        const focusable = sidebar?.querySelectorAll('a[href], button:not([disabled])');
         focusable?.[0]?.focus();
         function trapFocus(event) {
             if (event.key === 'Escape') {
                 event.preventDefault();
                 setMenuOpen(false);
-                menuButtonRef.current?.focus();
+                menuButton?.focus();
                 return;
             }
             if (event.key !== 'Tab' || !focusable?.length) return;
@@ -98,11 +101,21 @@ function CustomerWorkspace({ user, onLogout }) {
         document.addEventListener('keydown', trapFocus);
         return () => {
             document.removeEventListener('keydown', trapFocus);
-            if (sidebarRef.current?.contains(document.activeElement)) menuButtonRef.current?.focus();
+            if (sidebar?.contains(document.activeElement)) menuButton?.focus();
         };
     }, [menuOpen]);
 
     useEffect(() => {
+        if (user?.isDemo) {
+            let active = true;
+            Promise.resolve().then(() => {
+                if (!active) return;
+                setJobs(demoCustomerJobs);
+                setJobsError('');
+                setJobsLoading(false);
+            });
+            return () => { active = false; };
+        }
         const controller = new AbortController();
         customerApi.listJobs({ limit: 50 }, { signal: controller.signal })
             .then((response) => {
@@ -119,7 +132,7 @@ function CustomerWorkspace({ user, onLogout }) {
                 if (!controller.signal.aborted) setJobsLoading(false);
             });
         return () => controller.abort();
-    }, [user?.id, jobsReloadKey]);
+    }, [user?.id, user?.isDemo, jobsReloadKey]);
 
     useEffect(() => {
         const syncPageWithHash = () => {
@@ -151,17 +164,29 @@ function CustomerWorkspace({ user, onLogout }) {
             window.history.replaceState(window.history.state, '', nextUrl);
             hasSyncedInitialRoute.current = true;
         }
-    }, [activePage, selectedJobId]);
+    }, [activePage, selectedJobId, jobs, user?.isDemo]);
 
     useEffect(() => {
-        if (activePage !== 'jobDetails') return undefined;
-        if (!selectedJobId) return undefined;
+        if (!user?.isDemo || activePage !== 'jobDetails' || !selectedJobId) return undefined;
+        let active = true;
+        Promise.resolve().then(() => {
+            if (!active) return;
+            const demoJob = jobs.find((job) => job.id === String(selectedJobId));
+            setSelectedJob(demoJob || null);
+            setDetailError(demoJob ? '' : 'This demo job could not be found.');
+            setDetailLoading(false);
+        });
+        return () => { active = false; };
+    }, [activePage, selectedJobId, jobs, user?.isDemo]);
+
+    useEffect(() => {
+        if (user?.isDemo || activePage !== 'jobDetails' || !selectedJobId) return undefined;
         const controller = new AbortController();
         customerApi.getJob(selectedJobId, { signal: controller.signal })
             .then((response) => {
                 if (controller.signal.aborted) return;
                 const job = extractJob(response);
-                if (!job?.id) throw new Error('The server returned an invalid job record.');
+                if (!job?.id) throw new Error('The server did not return a valid job record.');
                 setSelectedJob(job);
                 setSelectedJobId(job.id);
             })
@@ -174,7 +199,7 @@ function CustomerWorkspace({ user, onLogout }) {
                 if (!controller.signal.aborted) setDetailLoading(false);
             });
         return () => controller.abort();
-    }, [activePage, selectedJobId]);
+    }, [activePage, selectedJobId, user?.isDemo]);
 
     const navigate = (page, job = null) => {
         const nextPage = PAGE_HASHES[page] ? page : 'home';
@@ -252,7 +277,7 @@ function CustomerWorkspace({ user, onLogout }) {
     const renderPage = () => {
         switch (activePage) {
             case 'myJobs':
-                return <MyJobs jobs={jobs} loading={jobsLoading} error={jobsError} onRetry={() => { setJobsLoading(true); setJobsError(''); setJobsReloadKey((current) => current + 1); }} viewState={myJobsViewState} onViewStateChange={setMyJobsViewState} onPostJob={() => navigate('postJob')} onViewDetails={(job) => navigate('jobDetails', job)} />;
+                return <MyJobs jobs={jobs} demoMode={Boolean(user?.isDemo)} loading={jobsLoading} error={jobsError} onRetry={() => { setJobsLoading(true); setJobsError(''); setJobsReloadKey((current) => current + 1); }} viewState={myJobsViewState} onViewStateChange={setMyJobsViewState} onPostJob={() => navigate('postJob')} onViewDetails={(job) => navigate('jobDetails', job)} />;
             case 'postJob':
                 return <PostJob onBack={() => navigate('myJobs')} onJobPosted={handleJobPosted} />;
             case 'jobDetails':

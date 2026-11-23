@@ -116,3 +116,21 @@
   .my-job-card-top { flex-wrap: wrap; gap: 8px; }
   .my-job-card-reference { text-align: left; }
 }
+
+
+/* Clearly distinguish local demo records from live customer jobs. */
+.my-jobs-demo-note {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 7px;
+    margin-top: 10px;
+    padding: 6px 10px;
+    border: 1px solid #ead9ad;
+    border-radius: 999px;
+    background: #fff8e8;
+    color: #76551b;
+    font-size: 11px;
+    font-weight: 650;
+}
+.my-jobs-demo-note i { font-size: 10px; }

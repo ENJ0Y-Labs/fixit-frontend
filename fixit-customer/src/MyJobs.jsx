@@ -17,7 +17,7 @@ const statusTabs = [
 ];
 const EMPTY_VIEW_STATE = { search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' };
 
-function MyJobs({ jobs = [], viewState, onViewStateChange, onPostJob, onViewDetails, loading = false, error = '', onRetry }) {
+function MyJobs({ jobs = [], demoMode = false, viewState, onViewStateChange, onPostJob, onViewDetails, loading = false, error = '', onRetry }) {
     const [localViewState, setLocalViewState] = useState(EMPTY_VIEW_STATE);
     const activeViewState = viewState ?? localViewState;
     const { search = '', statusFilter = 'ALL', categoryFilter = 'ALL', sortBy = 'recent' } = activeViewState;
@@ -61,7 +61,7 @@ function MyJobs({ jobs = [], viewState, onViewStateChange, onPostJob, onViewDeta
                     <div className="account-heading-copy my-jobs-heading-copy">
                         <p className="my-jobs-eyebrow">YOUR SERVICE REQUESTS</p>
                         <div className="account-title-row my-jobs-heading-line"><h1>My Jobs</h1><span className="my-jobs-total-count">{loading ? 'Loading…' : jobs.length + (jobs.length === 1 ? ' job' : ' total jobs')}</span></div>
-                        <p className="my-jobs-subtitle">Track your requests, compare bids and manage completed work.</p>
+                        <p className="my-jobs-subtitle">Track your requests, compare bids and manage completed work.</p>{demoMode && <span className="my-jobs-demo-note"><i className="fa-solid fa-flask" aria-hidden="true"></i> Sample data for local demo</span>}
                     </div>
                     <button type="button" className="account-primary-button my-jobs-post-button" onClick={onPostJob}><i className="fa-solid fa-plus" aria-hidden="true"></i><span>Post a New Job</span></button>
                 </header>

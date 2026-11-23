@@ -1,27 +1,13 @@
-/* FixIt's architectural grid and bento-style marketplace treatment. */
+/* FixIt's architectural grid and bento-style marketplace treatment.
+   The page backdrop comes from the shared body grid so Customer, Provider,
+   and Admin use exactly the same background rather than layering separate grids. */
 .home-marketplace {
     --marketplace-ink: #17211c;
     --marketplace-muted: #6d7771;
-    --marketplace-line: rgba(11, 28, 48, 0.035);
     position: relative;
     isolation: isolate;
     min-height: 100%;
-    background-color: var(--background);
-    background-image:
-        linear-gradient(var(--marketplace-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--marketplace-line) 1px, transparent 1px);
-    background-size: 32px 32px;
-    background-position: -1px -1px;
-}
-
-.home-marketplace::before {
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    content: "";
-    pointer-events: none;
-    background:
-        radial-gradient(ellipse at 80% 5%, rgba(196, 220, 202, 0.18), transparent 34%);
+    background: transparent;
 }
 
 .home-marketplace .marketplace-header {
