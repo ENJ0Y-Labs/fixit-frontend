@@ -13,15 +13,15 @@ import AnalyticsPage from './AnalyticsPage.jsx';
 import SettingsPage from './SettingsPage.jsx';
 
 const navigation = [
-    { label: 'Dashboard', icon: '▦', group: 'Overview' },
-    { label: 'Customers', icon: '♙', group: 'People' },
-    { label: 'Providers', icon: '♧', group: 'People' },
-    { label: 'Verification', icon: '✓', group: 'People' },
-    { label: 'Jobs', icon: '▤', group: 'Operations' },
-    { label: 'Disputes & support', icon: '◌', group: 'Operations' },
-    { label: 'Categories', icon: '◇', group: 'Operations' },
-    { label: 'Analytics', icon: '▥', group: 'Insights' },
-    { label: 'Settings', icon: '⚙', group: 'System' },
+    { label: 'Dashboard', icon: 'fa-solid fa-gauge-high', group: 'Overview' },
+    { label: 'Customers', icon: 'fa-solid fa-users', group: 'People' },
+    { label: 'Providers', icon: 'fa-solid fa-user-tie', group: 'People' },
+    { label: 'Verification', icon: 'fa-solid fa-user-shield', group: 'People' },
+    { label: 'Jobs', icon: 'fa-solid fa-briefcase', group: 'Operations' },
+    { label: 'Disputes & support', icon: 'fa-solid fa-life-ring', group: 'Operations' },
+    { label: 'Categories', icon: 'fa-solid fa-layer-group', group: 'Operations' },
+    { label: 'Analytics', icon: 'fa-solid fa-chart-line', group: 'Insights' },
+    { label: 'Settings', icon: 'fa-solid fa-gear', group: 'System' },
 ];
 
 function Brand() {
@@ -56,7 +56,7 @@ function Sidebar({ activePage, onNavigate, isOpen, sidebarRef, onClose }) {
                                 aria-current={activePage === item.label ? 'page' : undefined}
                                 onClick={() => onNavigate(item.label)}
                             >
-                                <span className="nav-icon" aria-hidden="true">{item.icon}</span>
+                                <span className="nav-icon" aria-hidden="true"><i className={item.icon} aria-hidden="true" /></span>
                                 <span>{item.label}</span>
                                 {item.label === 'Verification' && <span className="nav-count">4</span>}
                             </button>
@@ -166,13 +166,13 @@ function App() {
                             aria-controls="admin-navigation"
                             onClick={() => setMenuOpen((open) => !open)}
                         >
-                            <span aria-hidden="true">{menuOpen ? '×' : '☰'}</span>
+                            <span aria-hidden="true">{menuOpen ? <i className="fa-solid fa-xmark" aria-hidden="true" /> : <i className="fa-solid fa-bars" aria-hidden="true" />}</span>
                         </button>
                         <span className="breadcrumb">FixIt <span aria-hidden="true">/</span> {activePage}</span>
                     </div>
                     <div className="topbar-right">
                         <span className="environment-tag">DEMO</span>
-                        <button className="icon-button notification-button" type="button" aria-label="Notifications are not connected" disabled>♧</button>
+                        <button className="icon-button notification-button" type="button" aria-label="Notifications are not connected" disabled><i className="fa-regular fa-bell" aria-hidden="true" /></button>
                         <span className="topbar-avatar" aria-label="Demo administrator">AD</span>
                     </div>
                 </header>
