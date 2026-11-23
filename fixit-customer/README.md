@@ -40,3 +40,8 @@ The current implementation is a frontend prototype. Provider and job records, co
 Vitest runs in jsdom with Testing Library. The starter suite covers the home screen, provider search filtering, and navigation to the Post a Job screen. Extend the suite when adding or changing customer workflows.
 
 Check responsive layouts at 320, 375, 430, 768, 1024, and 1440 pixels. Also test keyboard navigation, form validation, empty states, and error states as those flows are implemented.
+
+
+## Public guest experience
+
+The root route opens the public landing page. Visitors can browse the marketplace and public provider profiles without signing in; account authentication is requested only for protected customer actions. Provider discovery uses `GET /public/providers` and individual profiles use `GET /public/providers/{providerId}` when the backend is configured. Until those endpoints are available, the app uses the isolated `src/home/providers.js` fixtures and labels them as sample listings. See [Public marketplace API contract](./PUBLIC_MARKETPLACE_API.md) for the proposed response fields and privacy rules.
