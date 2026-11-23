@@ -107,7 +107,7 @@ describe('customer API client', () => {
         expect(fetchImpl.mock.calls[0][1].method).toBe('DELETE');
     });
 
-    it('turns HTTP failures into ApiError without assuming a backend error envelope', async () => {
+    it('uses a safe backend error message when one is provided', async () => {
         const payload = { error: { code: 'NOT_CONFIRMED', message: 'Backend-owned message' } };
         const fetchImpl = vi.fn().mockResolvedValue(response({ status: 401, body: payload }));
         const client = createApiClient({ baseUrl: 'https://api.example.test/api/v1', fetchImpl });
@@ -116,7 +116,7 @@ describe('customer API client', () => {
             name: 'ApiError',
             code: 'HTTP_ERROR',
             status: 401,
-            message: 'Your session may have expired. Sign in again and retry.',
+            message: 'Backend-owned message',
             payload,
         });
     });
