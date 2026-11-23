@@ -107,6 +107,7 @@ export function extractJobList(response) {
 }
 
 export function extractJob(response) {
+    if (response && Object.prototype.hasOwnProperty.call(response, 'data') && response.data == null) return null;
     const payload = response?.data ?? response;
     const record = payload?.job ?? payload?.item ?? payload;
     const job = normalizeJob(record);
