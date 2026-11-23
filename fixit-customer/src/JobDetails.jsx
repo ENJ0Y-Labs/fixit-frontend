@@ -34,7 +34,7 @@ function JobDetails({ job, loading = false, error = '', cancelError = '', onBack
                 {loading ? (
                     <section className="job-details-state" role="status" aria-live="polite"><i className="fa-solid fa-spinner fa-spin" aria-hidden="true"></i><h2>Loading job details</h2><p>Retrieving the latest information for this request.</p></section>
                 ) : error ? (
-                    <section className="job-details-state" role="alert"><i className="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><h2>Job unavailable</h2><p>{error}</p><div className="job-details-state-actions"><button type="button" className="outline-button" onClick={onBack}>Back to My Jobs</button>{job?.id && <button type="button" className="dark-button" onClick={onRetry}>Try again</button>}</div></section>
+                    <section className="job-details-state" role="alert"><i className="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><h2>Job unavailable</h2><p>{error}</p><div className="job-details-state-actions"><button type="button" className="outline-button" onClick={onBack}>Back to My Jobs</button>{onRetry && <button type="button" className="dark-button" onClick={onRetry}>Try again</button>}</div></section>
                 ) : job ? (
                     <div className="job-details-content">
                         {(actionError || cancelError) && <p className="job-action-error" role="alert">{actionError || cancelError}</p>}
