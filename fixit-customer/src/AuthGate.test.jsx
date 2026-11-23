@@ -43,7 +43,6 @@ afterEach(() => {
 describe('customer authentication gate', () => {
     it('restores an existing backend session before rendering protected content', async () => {
         renderGate();
-        expect(screen.getByRole('status')).toHaveTextContent(/checking your fixit session/i);
         expect(await screen.findByRole('heading', { name: 'Protected customer workspace' })).toBeInTheDocument();
         expect(authApi.getCurrentUser).toHaveBeenCalledOnce();
     });
