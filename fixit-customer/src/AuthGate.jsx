@@ -3,6 +3,7 @@ import { authApi } from './api/auth.js';
 import { ApiError } from './api/client.js';
 import { clearDemoSession, createDemoUser, isDemoAuthEnabled, isDemoCredentials, readDemoSession, writeDemoSession } from '../../shared/demo-auth.js';
 import './styles/pages/auth.css';
+import './DemoAuth.css';
 
 const protectedRoutes = ['my-jobs', 'post-job', 'job-details', 'payment', 'review', 'account'];
 const providerAppUrl = import.meta.env.VITE_PROVIDER_APP_URL || 'http://localhost:5174/';
