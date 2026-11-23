@@ -13,11 +13,19 @@ const PRICE_MIN = 1500;
 const PRICE_MAX = 15000;
 
 const categories = [
-    { name: 'Plumbing', icon: 'fa-solid fa-faucet' },
-    { name: 'Electrical', icon: 'fa-solid fa-bolt' },
-    { name: 'Cleaning', icon: 'fa-solid fa-broom' },
-    { name: 'Carpentry', icon: 'fa-solid fa-hammer' },
-    { name: 'Painting', icon: 'fa-solid fa-paint-roller' },
+    { name: 'Plumbing', icon: '🚰' },
+    { name: 'Electrical', icon: '⚡' },
+    { name: 'Cleaning', icon: '🧹' },
+    { name: 'Carpentry', icon: '🪚' },
+    { name: 'Painting', icon: '🎨' },
+];
+
+const otherCategories = [
+    { name: 'AC repair', icon: '❄️' },
+    { name: 'Laundry', icon: '🧺' },
+    { name: 'Pest control', icon: '🪳' },
+    { name: 'Glasswork', icon: '🪟' },
+    { name: 'Moving services', icon: '🚚' },
 ];
 
 
@@ -41,6 +49,7 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
     const [visibleCount, setVisibleCount] = useState(4);
     const [quickFilter, setQuickFilter] = useState('all');
     const [filtersOpen, setFiltersOpen] = useState(false);
+    const [showAllCategories, setShowAllCategories] = useState(false);
     const locations = useMemo(() => [...new Set(providerState.providers.map((provider) => provider.location).filter(Boolean))].sort(), [providerState.providers]);
 
     useEffect(() => {
@@ -167,22 +176,38 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                     </div>
                 </section>
 
-                <section className="marketplace-categories" aria-labelledby="categories-title">
+                <section className={`marketplace-categories${showAllCategories ? ' marketplace-categories-expanded' : ''}`} aria-labelledby="categories-title">
                     <div className="marketplace-section-heading">
                         <div>
-                            <h2 id="categories-title">Popular services</h2>
-                            <p>What do you need help with?</p>
+                            <span className="marketplace-eyebrow-dark">{showAllCategories ? 'BROWSE BY SERVICE' : 'START WITH A CATEGORY'}</span>
+                            <h2 id="categories-title">{showAllCategories ? 'All service categories' : 'Popular services'}</h2>
+                            <p>{showAllCategories ? 'Explore more ways to get help around your home.' : 'What do you need help with?'}</p>
                         </div>
-                        <button type="button" className="marketplace-text-button" onClick={() => { setSearch(''); setQuickFilter('all'); setVisibleCount(4); }}>Clear category</button>
+                        {showAllCategories ? (
+                            <button type="button" className="marketplace-text-button" onClick={() => setShowAllCategories(false)}>
+                                <i className="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to popular
+                            </button>
+                        ) : (
+                            <button type="button" className="marketplace-text-button" onClick={() => { setSearch(''); setQuickFilter('all'); setVisibleCount(4); }}>Clear category</button>
+                        )}
                     </div>
-                    <div className="marketplace-category-list">
-                        {categories.map((category) => (
-                            <Category key={category.name} {...category} onSelect={() => selectCategory(category.name)} />
-                        ))}
-                    </div>
+                    {showAllCategories ? (
+                        <div className="marketplace-category-grid" aria-label="Other service categories">
+                            {otherCategories.map((category) => (
+                                <Category key={category.name} {...category} onSelect={() => { selectCategory(category.name); setShowAllCategories(false); document.getElementById('provider-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="marketplace-category-list">
+                            {categories.map((category) => (
+                                <Category key={category.name} {...category} onSelect={() => selectCategory(category.name)} />
+                            ))}
+                            <Category name="More" icon="＋" onSelect={() => setShowAllCategories(true)} />
+                        </div>
+                    )}
                 </section>
 
-                <section className="marketplace-discovery" aria-label="Find service providers" id="provider-results">
+                {!showAllCategories && <section className="marketplace-discovery" aria-label="Find service providers" id="provider-results">
                     <div className="marketplace-discovery-heading">
                         <div>
                             <span className="marketplace-eyebrow-dark">DISCOVER LOCAL HELP</span>
@@ -283,13 +308,20 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                     </div>
                 </section>
 
-                <section className="marketplace-protection" aria-labelledby="protection-title">
+                {!showAllCategories && <section className="marketplace-protection" aria-labelledby="protection-title">
                     <div className="marketplace-protection-icon"><i className="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
                     <div>
                         <h2 id="protection-title">Make an informed choice</h2>
                         <p>Check provider profiles, service details, customer ratings, and pricing before deciding who to contact. Confirm the agreed scope and price before work begins.</p>
                     </div>
-                </section>
+                </section>}}
+                {!showAllCategories && <section className="marketplace-protection" aria-labelledby="protection-title">
+                    <div className="marketplace-protection-icon"><i className="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+                    <div>
+                        <h2 id="protection-title">Make an informed choice</h2>
+                        <p>Check provider profiles, service details, customer ratings, and pricing before deciding who to contact. Confirm the agreed scope and price before work begins.</p>
+                    </div>
+                </section>}
             </main>
             <Footer />
         </div>
