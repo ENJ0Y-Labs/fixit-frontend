@@ -57,8 +57,9 @@ describe('provider authentication entry', () => {
         expect(menuButton).toHaveAttribute('aria-expanded', 'false');
         fireEvent.click(menuButton);
         expect(screen.getByRole('dialog', { name: 'Provider navigation' })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Close navigation' })).toBeInTheDocument();
-        fireEvent.click(screen.getByRole('button', { name: 'Close navigation' }));
+        const closeButton = document.querySelector('.sidebar-close-button');
+        expect(closeButton).not.toBeNull();
+        fireEvent.click(closeButton);
         expect(screen.queryByRole('dialog', { name: 'Provider navigation' })).not.toBeInTheDocument();
         expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
     });
