@@ -70,7 +70,7 @@ export default function AuthGate({ children }) {
     const pendingAction = useRef(null);
     useEffect(() => {
         let active = true;
-        const syncRoute = () => { const route = getRoute(); if (route === 'login' || route === 'signup') { setMode(route); setShowAuth(true); } };
+        const syncRoute = () => { const route = getRoute(); if (route === 'login' || route === 'signup') { setMode(route); setShowAuth(true); } else { setShowAuth(false); } };
         window.addEventListener('popstate', syncRoute); window.addEventListener('hashchange', syncRoute);
         authApi.getCurrentUser().then((response) => {
             if (!active) return;
