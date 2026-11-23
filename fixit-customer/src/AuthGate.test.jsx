@@ -68,6 +68,17 @@ describe('customer authentication gate', () => {
         expect(window.location.hash).toBe('#/my-jobs');
     });
 
+    it('rejects malformed email input before making a backend request', async () => {
+        authApi.getCurrentUser.mockRejectedValueOnce(new Error('No active session'));
+        renderGate();
+        await screen.findByRole('heading', { name: 'Welcome back' });
+        fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'not-an-email' } });
+        fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
+        expect(await screen.findByRole('alert')).toHaveTextContent('Enter a valid email address.');
+        expect(authApi.login).not.toHaveBeenCalled();
+    });
+
     it('shows an accessible error when login fails', async () => {
         authApi.getCurrentUser.mockRejectedValueOnce(new Error('No active session'));
         authApi.login.mockRejectedValueOnce(new Error('Email or password is incorrect.'));
