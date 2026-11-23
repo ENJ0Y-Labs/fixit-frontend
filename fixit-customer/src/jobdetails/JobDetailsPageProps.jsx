@@ -17,6 +17,7 @@ function JobDetailsPageProps({
     providerName,
     agreedprice,
     priceSubtext,
+    paymentId,
     onPayment,
     progresstimeline = [],
 }) {
@@ -75,8 +76,7 @@ function JobDetailsPageProps({
                     <h2>PAYMENT OVERVIEW</h2>
                     <div className="payment-amount-row"><span>{status === 'AWAITING BIDS' ? 'Estimated Budget' : 'Agreed Price'}</span><strong>{amountLabel}</strong></div>
                     {priceSubtext && <p className="job-payment-status">Payment status: {priceSubtext}</p>}
-                    <button type="button" className="dark-button full-width" onClick={onPayment} disabled={!onPayment || ['CANCELLED', 'AWAITING BIDS'].includes(status)}>View payment details</button>
-                    <p className="warning-text">Payment status and processing are confirmed by the server.</p>
+                    {paymentId || priceSubtext ? <><button type="button" className="dark-button full-width" onClick={onPayment} disabled={!onPayment || status === 'CANCELLED'}>View payment details</button><p className="warning-text">Payment status and processing are confirmed by the server.</p></> : <p className="job-detail-muted">No payment details have been provided for this job.</p>}
                 </section>
 
                 <section className="location-details-card">
