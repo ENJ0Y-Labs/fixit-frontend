@@ -1,5 +1,6 @@
 import './styles/pages/home.css';
 import './styles/pages/home-marketplace.css';
+import './styles/pages/landing.css';
 import { useEffect, useMemo, useState } from 'react';
 import Footer from './Footer';
 import PublicHeader from './PublicHeader';
