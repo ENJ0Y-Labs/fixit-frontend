@@ -1,5 +1,14 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
+vi.mock('./api/auth.js', () => ({
+    authApi: {
+        getCurrentUser: vi.fn().mockResolvedValue({ data: { user: { id: 'customer-test', name: 'Test Customer' } } }),
+        login: vi.fn(),
+        register: vi.fn(),
+        logout: vi.fn().mockResolvedValue({}),
+    },
+}));
 import App from './App.jsx';
 
 async function renderApp() {
