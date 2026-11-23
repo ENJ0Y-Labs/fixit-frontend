@@ -99,7 +99,10 @@ export function normalizeJob(record) {
 export function extractJobList(response) {
     const payload = response?.data ?? response;
     const items = Array.isArray(payload) ? payload : payload?.items;
-    return Array.isArray(items) ? items.map(normalizeJob).filter((job) => job?.id) : [];
+    if (!Array.isArray(items)) throw new Error('The server returned an invalid jobs response.');
+    const jobs = items.map(normalizeJob).filter((job) => job?.id);
+    if (items.length > 0 && jobs.length === 0) throw new Error('The server returned job records without usable IDs.');
+    return jobs;
 }
 
 export function extractJob(response) {
