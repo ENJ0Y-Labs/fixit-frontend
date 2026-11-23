@@ -161,9 +161,6 @@ function App() {
         setDemoUser(null);
         setDemoStatus('login');
     }
-    if (demoStatus === 'checking') return <main className="admin-demo-loading" role="status">Preparing admin workspace…</main>;
-    if (demoStatus === 'login') return <DemoAdminLogin onLogin={handleDemoLogin} />;
-
     const [menuOpen, setMenuOpen] = useState(false);
     const sidebarRef = useRef(null);
     const menuButtonRef = useRef(null);
@@ -200,6 +197,9 @@ function App() {
         window.addEventListener('hashchange', handleHashChange);
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, []);
+
+    if (demoStatus === 'checking') return <main className="admin-demo-loading" role="status">Preparing admin workspace…</main>;
+    if (demoStatus === 'login') return <DemoAdminLogin onLogin={handleDemoLogin} />;
 
     function navigateTo(page) {
         setActivePage(page);
