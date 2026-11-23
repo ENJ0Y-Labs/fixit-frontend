@@ -146,20 +146,171 @@ npm run build
 
 See the [Admin README](./fixit-admin/README.md) for screen-level scope and manual checks.
 
-## Configuration and backend integration
+## Backend API contract and endpoint catalogue
 
-The frontend team owns the presentation layer and client-side behavior. Backend services must own authentication enforcement, authorization, validation, persistence, payment processing, file storage, data integrity, and authoritative workflow transitions.
+There is currently no backend repository or deployed API. The routes below are the **proposed FixIt v1 backend contract** that the frontend expects. They are a concrete implementation brief for the future backend, not proof that the endpoints already exist. Keep this section updated whenever the backend contract changes.
 
-Before connecting a screen:
+### API conventions
 
-1. Confirm the API contract with the backend team.
-2. Document the method, path, query/body, response, errors, and authentication requirements.
-3. Use the approved contract rather than guessing endpoint names or response shapes.
-4. Implement loading, empty, error, unauthorized/forbidden, and session-expired states where relevant.
-5. Update the UI only after the server confirms a successful operation.
-6. Keep mock data clearly separated from API data.
+- Proposed API base: `http://localhost:3000/api/v1` for local development. Each app reads its public base URL from `VITE_API_BASE_URL`.
+- Every route below is relative to that base URL. Example: `GET /auth/me` resolves to `http://localhost:3000/api/v1/auth/me`.
+- Use JSON for request and response bodies except file uploads.
+- Recommended success envelope: `{ "data": <resource-or-list> }`. Recommended error envelope: `{ "error": { "code": "VALIDATION_ERROR", "message": "Readable message", "details": {} } }`.
+- Lists should return `{ "data": { "items": [], "nextCursor": null } }`; accept `limit` and opaque `cursor` query parameters. Define server-side maximum page sizes.
+- Use ISO 8601 timestamps with timezone offsets. The backend must choose one money representation (integer kobo or decimal-string NGN) and document it before payment integration.
+- Recommended authentication is an HttpOnly, Secure, SameSite session cookie. State-changing cookie-authenticated requests must have CSRF protection. The backend must document CORS, cookie domain, session expiry, and logout invalidation. If the backend chooses bearer tokens instead, revise the contract and client before implementation.
+- Public registration supports `customer` and `provider` roles only. Admin accounts are provisioned by an authorized operator; never expose public admin registration.
+- The backend must enforce authorization and resource ownership on every protected route. Frontend role checks are only for presentation.
+- Mutations must return the canonical saved resource. A successful HTTP status alone must not be treated as proof of a payment, verification decision, message delivery, or workflow transition unless the response confirms it.
 
-For Vite configuration, only expose public values through `VITE_*` variables. Never put database credentials, private API keys, payment secrets, signing keys, or other secrets in frontend code or Vite environment variables. Use each app's `.env.example` where provided.
+### Shared authentication endpoints
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/auth/register` | Create a customer or provider account; body includes role and registration fields |
+| `POST` | `/auth/login` | Authenticate with the agreed login identifier and password |
+| `POST` | `/auth/logout` | Invalidate the current session |
+| `GET` | `/auth/me` | Return the authenticated user, role, and permitted capability summary |
+| `POST` | `/auth/password/forgot` | Start password recovery without revealing whether an account exists |
+| `POST` | `/auth/password/reset` | Complete password reset using a short-lived reset token |
+| `POST` | `/auth/verification/request` | Request an email or phone verification code |
+| `POST` | `/auth/verification/confirm` | Confirm a verification code |
+
+### Public marketplace endpoints
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/public/categories` | List active service categories |
+| `GET` | `/public/services` | List searchable service types |
+| `GET` | `/public/providers` | Search and filter public provider profiles |
+| `GET` | `/public/providers/{providerId}` | Read a public provider profile |
+| `GET` | `/public/providers/{providerId}/reviews` | Read public reviews for a provider |
+
+### Customer application endpoints
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` / `PATCH` | `/customer/me` | Read or update the signed-in customer's profile |
+| `GET` / `POST` | `/customer/me/jobs` | List the customer's jobs or create a job request |
+| `GET` / `PATCH` | `/customer/me/jobs/{jobId}` | Read or update an owned job while edits are allowed |
+| `POST` | `/customer/me/jobs/{jobId}/cancel` | Request cancellation of an owned job |
+| `GET` | `/customer/me/jobs/{jobId}/bids` | List bids received for an owned job |
+| `POST` | `/customer/me/jobs/{jobId}/bids/{bidId}/accept` | Accept a valid bid; server validates availability and state |
+| `GET` | `/customer/me/conversations` | List the customer's conversations |
+| `GET` / `POST` | `/customer/me/conversations/{conversationId}/messages` | Read messages or send a message in an authorized conversation |
+| `GET` | `/customer/me/notifications` | List notifications |
+| `PATCH` | `/customer/me/notifications/{notificationId}` | Update notification read state |
+| `POST` | `/customer/me/jobs/{jobId}/review` | Submit a review when the job is eligible |
+| `GET` | `/customer/me/payments` | List the customer's payment records |
+| `POST` | `/customer/me/jobs/{jobId}/payment-intents` | Create a payment intent through the configured payment provider |
+| `GET` | `/customer/me/payments/{paymentId}` | Read payment status from the server |
+| `GET` | `/customer/me/favorites` | List favorite providers |
+| `PUT` / `DELETE` | `/customer/me/favorites/{providerId}` | Add or remove a favorite provider |
+
+### Provider application endpoints
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` / `PATCH` | `/provider/me` | Read or update the authenticated provider profile |
+| `GET` / `POST` | `/provider/me/services` | List or add provider services |
+| `PATCH` / `DELETE` | `/provider/me/services/{serviceId}` | Update or remove an owned service |
+| `GET` / `PUT` | `/provider/me/availability` | Read or replace provider availability |
+| `GET` | `/provider/jobs` | Discover jobs available to the authenticated provider |
+| `GET` | `/provider/jobs/{jobId}` | Read an available or assigned job the provider may access |
+| `GET` | `/provider/me/bids` | List the provider's submitted bids |
+| `POST` | `/provider/jobs/{jobId}/bids` | Submit a bid for an eligible job |
+| `GET` | `/provider/me/jobs` | List jobs assigned to the authenticated provider |
+| `PATCH` | `/provider/me/jobs/{jobId}/progress` | Request a permitted job progress transition |
+| `GET` | `/provider/me/conversations` | List provider conversations |
+| `GET` / `POST` | `/provider/me/conversations/{conversationId}/messages` | Read or send conversation messages |
+| `GET` | `/provider/me/earnings` | Read server-calculated earnings and payment history |
+| `GET` | `/provider/me/reviews` | Read provider reviews and rating summary |
+| `GET` / `PATCH` | `/provider/me/settings` | Read or update supported provider preferences |
+| `GET` | `/provider/me/dashboard` | Read server-derived dashboard summaries |
+| `GET` | `/provider/me/notifications` | List provider notifications |
+
+### Admin application endpoints
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/admin/dashboard` | Read platform overview metrics |
+| `GET` | `/admin/customers` | Search and paginate customer accounts |
+| `GET` / `PATCH` | `/admin/customers/{customerId}` | Read or update permitted customer account fields |
+| `GET` | `/admin/providers` | Search and paginate provider accounts |
+| `GET` / `PATCH` | `/admin/providers/{providerId}` | Read or update permitted provider account fields |
+| `GET` | `/admin/verifications` | List pending and historical provider verification cases |
+| `POST` | `/admin/verifications/{verificationId}/decision` | Record an authorized verification decision and reason |
+| `GET` | `/admin/jobs` | Search and paginate all jobs |
+| `GET` / `PATCH` | `/admin/jobs/{jobId}` | Read or perform permitted administrative job actions |
+| `GET` | `/admin/disputes` | List and filter disputes |
+| `GET` / `PATCH` | `/admin/disputes/{disputeId}` | Read or update a dispute and its resolution state |
+| `GET` | `/admin/support-cases` | List customer/provider support cases |
+| `POST` | `/admin/support-cases/{caseId}/messages` | Add an auditable support response |
+| `GET` / `POST` | `/admin/categories` | List or create service categories |
+| `PATCH` / `DELETE` | `/admin/categories/{categoryId}` | Update or deactivate/delete a category |
+| `GET` | `/admin/analytics` | Read date-filtered marketplace analytics |
+| `GET` / `PATCH` | `/admin/settings` | Read or update supported platform settings |
+| `GET` | `/admin/audit-events` | Search immutable administrative audit events |
+
+### Cross-cutting capabilities to add when required
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/notifications` | Optional shared notification feed if the backend does not use role-scoped notification routes |
+| `POST` | `/uploads` | Upload a permitted image/document using a documented multipart and storage policy |
+| `GET` | `/uploads/{uploadId}` | Read authorized upload metadata or a time-limited download URL |
+| `POST` | `/admin/payments/{paymentId}/refund` | Admin-authorized refund request, only after payment-provider rules are defined |
+
+### Required backend response and error rules
+
+Recommended single-resource response:
+
+```json
+{
+  "data": {
+    "id": "resource-id"
+  }
+}
+```
+
+Recommended paginated response:
+
+```json
+{
+  "data": {
+    "items": [],
+    "nextCursor": null
+  }
+}
+```
+
+Recommended error response:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "A human-readable explanation",
+    "details": {}
+  }
+}
+```
+
+Use consistent HTTP semantics: `400/422` validation, `401` unauthenticated/session expired, `403` forbidden, `404` unavailable resource, `409` stale state/conflict, `429` rate limited with optional `Retry-After`, and `5xx` server failure. The frontend transport normalizes errors but preserves the original response payload for controlled handling.
+
+### Frontend API foundation
+
+Each app now has an independent `src/api/` directory:
+
+- `client.js`: configurable fetch transport, safe relative URL handling, JSON serialization/parsing, credentials configuration, network/HTTP error normalization.
+- `auth.js`: proposed shared authentication request functions.
+- App resource module: `customer.js`, `provider.js`, or `admin.js`.
+- `index.js`: public exports for the app's API layer.
+- `client.test.js`: transport tests in the customer and admin apps; provider transport tests remain in place.
+
+Configure each app by copying its `.env.example` to `.env.local` and setting `VITE_API_BASE_URL`. The example is a local placeholder. Never put private credentials or secrets in Vite variables.
+
+**Important:** These API modules are integration-ready client scaffolding, not a live backend connection. Do not wire mock UI to them or describe actions as persisted until a backend implements this contract and the relevant endpoint tests pass. Backend implementation must confirm route names, fields, enums, authorization rules, response envelopes, cookie/CSRF/CORS behavior, pagination, and money format. Update this catalogue before changing the client to match a different server contract.
 
 ## Development standards
 
