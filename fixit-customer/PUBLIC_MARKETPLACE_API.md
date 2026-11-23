@@ -34,7 +34,8 @@ Recommended response:
         "hourlyRate": { "amount": 6500, "currency": "NGN", "unit": "hour" },
         "availability": { "status": "available" },
         "verification": { "status": "verified" },
-        "ratingSummary": { "average": 4.8, "count": 24 }
+        "ratingSummary": { "average": 4.8, "count": 24 },
+        "publicCredentials": [{ "label": "Trade certificate" }]
       }
     ],
     "nextCursor": null
