@@ -60,8 +60,15 @@ Return the same public identity and service fields as the list response, plus an
 - `hourlyRate.amount` is a numeric NGN amount. Omit the rate when the provider has not supplied one.
 - `availability.status` is a backend-defined state. The frontend currently treats only `available` as available.
 - `verification.status` must come from the verification system. Do not infer verification from profile completion.
+- `publicCredentials` may contain only credential labels approved for public display. Never return document images, identity numbers, or private verification evidence.
 - `ratingSummary.average` and `ratingSummary.count` must be calculated from eligible, published reviews. Omit the summary when no eligible reviews exist.
 - Distance is not shown or filtered unless the backend returns a meaningful `distanceKm` value calculated for a supplied customer location.
+
+## Public provider reviews
+
+`GET /public/providers/{providerId}/reviews?limit=10`
+
+Authentication: none. Return only published, eligible reviews with public-safe fields such as `id`, `author.displayName`, `rating`, `comment`, and `createdAt`. The frontend omits missing author, rating, and comment fields. An unavailable reviews endpoint must not prevent the public profile itself from rendering.
 
 ## Errors and empty results
 
