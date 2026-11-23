@@ -2,11 +2,11 @@
 .home-marketplace {
     --marketplace-ink: #17211c;
     --marketplace-muted: #6d7771;
-    --marketplace-line: rgba(25, 45, 34, 0.065);
+    --marketplace-line: rgba(11, 28, 48, 0.035);
     position: relative;
     isolation: isolate;
     min-height: 100%;
-    background-color: #f7f9f7;
+    background-color: var(--background);
     background-image:
         linear-gradient(var(--marketplace-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--marketplace-line) 1px, transparent 1px);
@@ -21,8 +21,7 @@
     content: "";
     pointer-events: none;
     background:
-        radial-gradient(ellipse at 80% 5%, rgba(196, 220, 202, 0.28), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,.82), rgba(247,249,247,.22) 34rem);
+        radial-gradient(ellipse at 80% 5%, rgba(196, 220, 202, 0.18), transparent 34%);
 }
 
 .home-marketplace .marketplace-header {
@@ -391,7 +390,7 @@
 
 @media (max-width: 760px) {
     .home-marketplace {
-        background-size: 24px 24px;
+        background-size: 32px 32px;
     }
     .home-marketplace .marketplace-header {
         position: relative;
