@@ -167,25 +167,26 @@ function CustomerWorkspace({ user, onLogout }) {
     }, [activePage, selectedJobId, jobs, user?.isDemo]);
 
     useEffect(() => {
-        if (activePage !== 'jobDetails') return undefined;
-        if (!selectedJobId) return undefined;
-        if (user?.isDemo) {
-            let active = true;
-            Promise.resolve().then(() => {
-                if (!active) return;
-                const demoJob = jobs.find((job) => job.id === String(selectedJobId));
-                setSelectedJob(demoJob || null);
-                setDetailError(demoJob ? '' : 'This demo job could not be found.');
-                setDetailLoading(false);
-            });
-            return () => { active = false; };
-        }
+        if (!user?.isDemo || activePage !== 'jobDetails' || !selectedJobId) return undefined;
+        let active = true;
+        Promise.resolve().then(() => {
+            if (!active) return;
+            const demoJob = jobs.find((job) => job.id === String(selectedJobId));
+            setSelectedJob(demoJob || null);
+            setDetailError(demoJob ? '' : 'This demo job could not be found.');
+            setDetailLoading(false);
+        });
+        return () => { active = false; };
+    }, [activePage, selectedJobId, jobs, user?.isDemo]);
+
+    useEffect(() => {
+        if (user?.isDemo || activePage !== 'jobDetails' || !selectedJobId) return undefined;
         const controller = new AbortController();
         customerApi.getJob(selectedJobId, { signal: controller.signal })
             .then((response) => {
                 if (controller.signal.aborted) return;
                 const job = extractJob(response);
-                if (!job?.id) throw new Error('The server returned an invalid job record.');
+                if (!job?.id) throw new Error('The server did not return a valid job record.');
                 setSelectedJob(job);
                 setSelectedJobId(job.id);
             })
@@ -198,7 +199,7 @@ function CustomerWorkspace({ user, onLogout }) {
                 if (!controller.signal.aborted) setDetailLoading(false);
             });
         return () => controller.abort();
-    }, [activePage, selectedJobId, jobs, user?.isDemo]);
+    }, [activePage, selectedJobId, user?.isDemo]);
 
     const navigate = (page, job = null) => {
         const nextPage = PAGE_HASHES[page] ? page : 'home';
