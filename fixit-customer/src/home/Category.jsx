@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-function Category({ icon = '🔧', name = 'General Services', onSelect }) {
+function Category({ icon = 'fa-solid fa-screwdriver-wrench', name = 'General Services', onSelect }) {
     return (
         <button type="button" className="category" onClick={onSelect} aria-label={name}>
             <span className="category-icon" aria-hidden="true">
-                <span className="category-symbol">{icon}</span>
+                <i className={`category-symbol ${icon}`} aria-hidden="true" />
             </span>
             <span className="category-name">{name}</span>
         </button>
