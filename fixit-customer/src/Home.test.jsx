@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { loadPublicProviders } from './home/publicProviders.js';
 import Home from './Home.jsx';
+import Footer from './Footer.jsx';
 
 vi.mock('./home/publicProviders.js', () => ({
     loadPublicProviders: vi.fn(),
@@ -44,5 +45,14 @@ describe('marketplace category browsing', () => {
         expect(screen.getByRole('searchbox', { name: 'Search services' })).toHaveValue('AC repair');
         expect(screen.getByRole('heading', { name: 'Popular services' })).toBeInTheDocument();
         expect(screen.queryByRole('heading', { name: 'All service categories' })).not.toBeInTheDocument();
+    });
+});
+
+describe('customer footer branding', () => {
+    it('uses the official FixIt PNG logo', () => {
+        render(<Footer />);
+        const logo = screen.getByRole('img', { name: 'FixIt logo' });
+        expect(logo).toHaveAttribute('src', '/brand/logo.png');
+        expect(logo.closest('a')).toHaveAttribute('href', '#landing');
     });
 });
