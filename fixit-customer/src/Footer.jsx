@@ -3,10 +3,10 @@ function Footer() {
         <footer className="site-footer">
             <div className="footer-top">
                 <div>
-                    <div className="logo">
-                        <div className="logo-icon">F</div>
-                        <div className="logo-text">FixIt</div>
-                    </div>
+                    <a className="footer-brand" href="#landing" aria-label="FixIt home">
+                        <img className="footer-brand-logo" src="/brand/logo.png" alt="FixIt logo" />
+                        <span>FixIt</span>
+                    </a>
                     <p>Connecting trusted local service providers with customers across Nigeria since 2024.</p>
                 </div>
                 <FooterColumn title="Company" items={["About Us", "Career", "Trust & Safety", "Terms of Service"]} />
