@@ -41,7 +41,7 @@ function AuthForm({ mode, onModeChange, onAuthenticated }) {
         setError('');
         setNotice('');
         const email = values.email.trim();
-        if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             setError('Enter a valid email address.');
             return;
         }
