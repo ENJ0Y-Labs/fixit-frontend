@@ -140,6 +140,7 @@ function DemoAdminLogin({ onLogin }) {
 function App() {
     const [demoUser, setDemoUser] = useState(null);
     const [demoStatus, setDemoStatus] = useState('checking');
+    const [activePage, setActivePage] = useState(() => resolvePage(window.location.hash));
     useEffect(() => {
         if (!isDemoAuthEnabled()) {
             setDemoStatus('ready');
@@ -163,7 +164,6 @@ function App() {
     if (demoStatus === 'checking') return <main className="admin-demo-loading" role="status">Preparing admin workspace…</main>;
     if (demoStatus === 'login') return <DemoAdminLogin onLogin={handleDemoLogin} />;
 
-    const [activePage, setActivePage] = useState(() => resolvePage(window.location.hash));
     const [menuOpen, setMenuOpen] = useState(false);
     const sidebarRef = useRef(null);
     const menuButtonRef = useRef(null);
