@@ -267,3 +267,26 @@
     .marketplace-category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
     .home-marketplace .marketplace-category-grid .category { min-height: 112px; }
 }
+
+
+.site-footer .footer-brand {
+    width: fit-content;
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #173b29;
+    text-decoration: none;
+    font-size: 21px;
+    font-weight: 850;
+    letter-spacing: -.04em;
+}
+.site-footer .footer-brand-logo {
+    width: 34px;
+    height: 34px;
+    display: block;
+    object-fit: contain;
+}
+.site-footer .footer-brand:focus-visible {
+    border-radius: 6px;
+}
