@@ -35,7 +35,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     outline: 3px solid var(--focus);
     outline-offset: 3px;
 }
-.customer-workspace-shell { min-height: 100vh; }
+.customer-workspace-shell { min-height: 100vh; min-width: 0; }
 .customer-sidebar {
     position: fixed;
     z-index: 30;
@@ -59,10 +59,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .customer-nav-links { display: grid; gap: 5px; }
 .customer-nav-link { display: flex; min-height: 44px; align-items: center; gap: 12px; padding: 10px 12px; border: 0; border-radius: var(--radius-sm); background: transparent; color: #626262; font-size: .9rem; font-weight: 600; text-align: left; cursor: pointer; }
 .customer-nav-link:hover { background: var(--surface-soft); color: var(--black); }
-.customer-nav-link[aria-current="page"] { background: #eeeeee; color: var(--black); font-weight: 750; }
+.customer-nav-link[aria-current="page"] { background: var(--primary); color: #fff; font-weight: 750; }
+.customer-nav-link[aria-current="page"]:hover { background: var(--primary-hover); color: #fff; }
 .customer-nav-icon { display: inline-grid; width: 22px; flex: 0 0 22px; place-items: center; font-size: 1.05rem; }
-.customer-post-job { display: flex; min-height: 44px; align-items: center; justify-content: center; gap: 9px; margin-top: 22px; padding: 10px 14px; border: 1px solid var(--black); border-radius: var(--radius-sm); background: var(--black); color: #fff; font-size: .86rem; font-weight: 700; cursor: pointer; }
-.customer-post-job:hover { background: #303030; }
+.customer-post-job { display: flex; min-height: 44px; align-items: center; justify-content: center; gap: 9px; margin-top: 22px; padding: 10px 14px; border: 1px solid var(--primary); border-radius: var(--radius-sm); background: var(--primary); color: #fff; font-size: .86rem; font-weight: 700; cursor: pointer; }
+.customer-post-job:hover { border-color: var(--primary-hover); background: var(--primary-hover); }
 .customer-sidebar-footer { display: grid; gap: 14px; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border); }
 .customer-user { display: flex; min-width: 0; align-items: center; gap: 10px; }
 .customer-user-avatar, .customer-topbar-avatar { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border: 1px solid #e1e1e1; border-radius: 50%; background: #f0e8de; color: #5a4030; font-size: .75rem; font-weight: 800; }
