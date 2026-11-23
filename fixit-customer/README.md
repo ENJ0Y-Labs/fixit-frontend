@@ -33,7 +33,7 @@ npm run build
 
 The customer application includes home/provider discovery, search and filters, My Jobs, job posting, job details, payment UI, reviews, messages, account UI, shared navigation, and responsive styling.
 
-The current implementation is a frontend prototype. Provider and job records, conversations, and profile data use sample data or local component state. Local job creation/cancellation, profile edits, and message composition do not confirm server persistence or delivery. Payment screens do not process payments. Real authentication, authorization, uploads, messaging, and persistent preferences require approved backend contracts.
+The current implementation is a frontend prototype. Provider and job records, conversations, and profile data use sample data or local component state. Local job creation/cancellation, profile edits, and message composition do not confirm server persistence or delivery. Payment screens do not process payments. Real authentication, authorization, uploads, messaging, and persistent preferences require backend implementation. The app now includes `src/api/client.js`, `auth.js`, and `customer.js` as frontend API scaffolding. These calls follow the proposed endpoint catalogue in the [root README](../README.md#backend-api-contract-and-endpoint-catalogue); no backend is currently deployed, so the screens remain mock-driven and these modules are not yet connected to UI flows.
 
 ## Tests
 
