@@ -306,15 +306,8 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                             )}
                         </div>
                     </div>
-                </section>
+                </section>}
 
-                {!showAllCategories && <section className="marketplace-protection" aria-labelledby="protection-title">
-                    <div className="marketplace-protection-icon"><i className="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
-                    <div>
-                        <h2 id="protection-title">Make an informed choice</h2>
-                        <p>Check provider profiles, service details, customer ratings, and pricing before deciding who to contact. Confirm the agreed scope and price before work begins.</p>
-                    </div>
-                </section>}}
                 {!showAllCategories && <section className="marketplace-protection" aria-labelledby="protection-title">
                     <div className="marketplace-protection-icon"><i className="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
                     <div>
