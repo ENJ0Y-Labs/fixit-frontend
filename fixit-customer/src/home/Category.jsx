@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 
-function Category({ icon = 'fa-solid fa-screwdriver-wrench', name = 'General Services', onSelect }) {
+function Category({ icon = '🔧', name = 'General Services', onSelect }) {
     return (
-        <button type="button" className="category" onClick={onSelect}>
-            <span className="category-icon" aria-hidden="true"><i aria-hidden="true" className={icon}></i></span>
+        <button type="button" className="category" onClick={onSelect} aria-label={name}>
+            <span className="category-icon" aria-hidden="true">
+                <span className="category-symbol">{icon}</span>
+            </span>
             <span className="category-name">{name}</span>
         </button>
     );
