@@ -1876,3 +1876,34 @@
     .form-field > .upload-box { padding: 18px 12px; }
     .form-field > .upload-box > span { overflow-wrap: anywhere; text-align: center; }
 }
+
+
+/* Issue #32: API-driven Job Details states and narrow-screen containment. */
+.job-details-content { display: contents; }
+.job-details-state { grid-column: 1 / -1; width: min(100%, 680px); margin: 24px auto; padding: clamp(22px, 5vw, 40px); border: 1px solid var(--border, #e8e8e8); border-radius: 16px; background: var(--surface, #fff); text-align: center; }
+.job-details-state > i { color: var(--muted, #6f6f6f); font-size: 28px; }
+.job-details-state h2 { margin-top: 14px; font-size: 20px; }
+.job-details-state p, .job-detail-muted, .job-payment-status { margin-top: 8px; color: var(--muted, #6f6f6f); line-height: 1.55; }
+.job-details-state-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.job-action-error { grid-column: 1 / -1; padding: 12px 14px; border: 1px solid #e6b9b9; border-radius: 10px; color: #8c2424; background: #fff6f6; }
+.job-details-main, .job-details-left, .job-details-right, .job-summary-card, .job-photos-card, .job-progress-card, .payment-overview-card, .location-details-card { min-width: 0; max-width: 100%; }
+.job-summary-card h2, .job-description, .job-fact strong, .location-copy h2, .location-copy p { overflow-wrap: anywhere; }
+.provider-unassigned { min-width: 0; }
+.provider-unassigned p { margin-top: 10px; color: var(--muted, #6f6f6f); line-height: 1.55; }
+.job-details-header { min-width: 0; flex-wrap: wrap; gap: 12px; }
+.job-details-header > div { min-width: 0; }
+@media (max-width: 760px) {
+  .job-details-main { width: 100%; padding: 18px 14px; grid-template-columns: minmax(0, 1fr); }
+  .job-details-header { align-items: flex-start; padding-inline: 14px; }
+  .job-details-header .header-actions { margin-left: auto; }
+  .job-facts { grid-template-columns: minmax(0, 1fr); }
+  .job-summary-card, .job-photos-card, .job-progress-card, .assigned-provider-card, .payment-overview-card { padding: 16px; }
+  .progress-step { grid-template-columns: 34px minmax(0, 1fr); }
+  .progress-time { grid-column: 2; }
+}
+@media (max-width: 360px) {
+  .job-details-main { padding-inline: 10px; }
+  .job-details-header { padding-inline: 10px; }
+  .job-details-header .header-actions button { min-height: 40px; padding-inline: 10px; }
+  .job-details-state-actions > button { width: 100%; }
+}
