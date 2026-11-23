@@ -52,7 +52,7 @@ The customer-facing marketplace currently includes:
 - Conversations and message composer
 - Customer account and profile preferences
 
-**Current limitations:** provider and job records are sample data; most actions use local component state. Job creation, cancellation, profile edits, messaging, favorites, uploads, reviews, and payment UI are not evidence of backend persistence or completed transactions. The customer app now includes a starter Vitest and Testing Library suite covering the home screen, provider search, and Post a Job navigation.
+**Current limitations:** provider and job records are sample data; most actions use local component state. Job creation, cancellation, profile edits, messaging, favorites, uploads, reviews, and payment UI are not evidence of backend persistence or completed transactions. The customer app includes Vitest and Testing Library coverage plus a proposed API client, authentication module, and customer resource module. These are not connected to the mock-driven screens.
 
 Run it:
 
@@ -83,9 +83,10 @@ The provider workspace currently includes:
 - Messages and account-related screens
 - Earnings, reviews, and settings screens
 - Shared HTTP transport client with normalized API errors
+- Proposed authentication and provider resource modules
 - Proposed API contract documentation
 
-**Current limitations:** dashboard and screen data remain illustrative unless explicitly connected to an approved service. The API client is transport infrastructure, not proof that endpoint contracts or authentication are configured. The API documents are proposals for backend review. Messages, earnings, reviews, and settings have unconfigured states where backend contracts or persistence are not available. No payout or payment success is simulated.
+**Current limitations:** dashboard and screen data remain illustrative unless explicitly connected to an approved service. The API client and resource modules are frontend scaffolding for the proposed endpoint catalogue. No backend service exists yet, so they are not live integrations. Messages, earnings, reviews, and settings have unconfigured states where backend contracts or persistence are not available. No payout or payment success is simulated.
 
 Run it:
 
@@ -126,7 +127,7 @@ The administration workspace currently includes:
 - Marketplace analytics
 - Administrative settings
 
-**Current limitations:** records, metrics, charts, notes, decisions, and preference changes are demo-only and held in browser state. The app does not currently provide authenticated admin access, backend authorization, persistent account/settings management, real verification decisions, support operations, refunds, or live analytics. An account-management page is not currently part of the merged application.
+**Current limitations:** records, metrics, charts, notes, decisions, and preference changes are demo-only and held in browser state. The app does not currently provide authenticated admin access, backend authorization, persistent account/settings management, real verification decisions, support operations, refunds, or live analytics. It now includes proposed API transport, authentication, and admin resource modules, but none are connected to the prototype screens. An account-management page is not currently part of the merged application.
 
 Run it:
 
