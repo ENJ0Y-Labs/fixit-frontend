@@ -207,7 +207,6 @@ function ProviderWorkspace() {
 function App() {
     const [status, setStatus] = useState('checking');
     const [user, setUser] = useState(null);
-    const [authError, setAuthError] = useState('');
 
     useEffect(() => {
         let active = true;
@@ -228,7 +227,6 @@ function App() {
     async function handleAuthenticated(nextUser) {
         setUser(nextUser);
         setStatus('authenticated');
-        setAuthError('');
         window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search + '#dashboard');
     }
 
