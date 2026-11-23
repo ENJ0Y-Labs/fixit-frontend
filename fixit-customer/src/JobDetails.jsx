@@ -5,7 +5,7 @@ import JobDetailsPageProps from './jobdetails/JobDetailsPageProps';
 function JobDetails({ job, loading = false, error = '', cancelError = '', onBack, onPayment, onCancel, onRetry }) {
     const [cancelling, setCancelling] = useState(false);
     const [actionError, setActionError] = useState('');
-    const canCancel = job && !['CANCELLED', 'COMPLETED'].includes(job.status);
+    const canCancel = job?.canCancel === true;
 
     const handleCancel = async () => {
         if (!canCancel || cancelling) return;
@@ -38,7 +38,7 @@ function JobDetails({ job, loading = false, error = '', cancelError = '', onBack
                 ) : job ? (
                     <div className="job-details-content">
                         {(actionError || cancelError) && <p className="job-action-error" role="alert">{actionError || cancelError}</p>}
-                        <JobDetailsPageProps {...job} providerName={job.providerName} agreedprice={job.agreedprice} onPayment={onPayment} />
+                        <JobDetailsPageProps {...job} providerName={job.providerName} agreedprice={job.agreedprice} paymentId={job.paymentId} onPayment={onPayment} />
                     </div>
                 ) : (
                     <section className="job-details-state" role="alert"><i className="fa-solid fa-circle-question" aria-hidden="true"></i><h2>No job selected</h2><p>Return to My Jobs and choose a service request to view its details.</p><button type="button" className="dark-button" onClick={onBack}>Back to My Jobs</button></section>
