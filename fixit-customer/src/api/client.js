@@ -126,7 +126,7 @@ function messageForStatus(status) {
 export function createApiClient({
     baseUrl = import.meta.env.VITE_API_BASE_URL,
     fetchImpl = globalThis.fetch,
-    credentials = 'same-origin',
+    credentials = 'include',
     headers: defaultHeaders = {},
 } = {}) {
     const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
