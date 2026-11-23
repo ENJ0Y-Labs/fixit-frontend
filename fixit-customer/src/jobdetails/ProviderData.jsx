@@ -1,42 +1,22 @@
 import avatarPlaceholder from '../assets/avatar-placeholder.svg';
 
-function ProviderData({
-    name = 'John Doe',
-    title = 'Unspecified',
-    avatarurl = '',
-    rating = 0,
-    reviewcount = 0,
-    isonline = false,
-}) {
+function ProviderData({ name, title, avatarurl, rating, reviewcount, isonline }) {
+    const hasRating = rating !== null && rating !== undefined && Number.isFinite(Number(rating)) && Number(reviewcount) > 0;
     return (
         <>
             <div className="provider-heading-row">
                 <h2>Assigned Provider</h2>
-                <span className={`online-badge ${isonline ? 'online' : 'offline'}`}>
-                    {isonline ? 'Online' : 'Offline'}
-                </span>
+                {typeof isonline === 'boolean' && <span className={'online-badge ' + (isonline ? 'online' : 'offline')}>{isonline ? 'Online' : 'Offline'}</span>}
             </div>
-
             <div className="provider-details">
-                <img src={avatarurl || avatarPlaceholder} alt={`${name} profile`} />
+                <img src={avatarurl || avatarPlaceholder} alt={name ? name + ' profile' : 'Provider profile placeholder'} />
                 <div>
-                    <h3>{name}</h3>
-                    <p>{title}</p>
-                    <div className="provider-rating">
-                        <i className="fa-solid fa-star"></i>
-                        <strong>{Number(rating).toFixed(1)}</strong>
-                        <span>({reviewcount} reviews)</span>
-                    </div>
+                    <h3>{name || 'Provider name unavailable'}</h3>
+                    {title && <p>{title}</p>}
+                    {hasRating && <div className="provider-rating"><i className="fa-solid fa-star" aria-hidden="true"></i><strong>{Number(rating).toFixed(1)}</strong><span>({Number(reviewcount)} reviews)</span></div>}
                 </div>
             </div>
-
-            <div className="contact-buttons">
-                <button type="button" className="outline-button">
-                    <i className="fa-solid fa-phone"></i>
-                    <span>Call Provider</span>
-                </button>
-            </div>
-            <button type="button" className="profile-link-button">VIEW FULL PROFILE</button>
+            <p className="job-detail-muted">Contact options are available when the platform enables them for this job.</p>
         </>
     );
 }
