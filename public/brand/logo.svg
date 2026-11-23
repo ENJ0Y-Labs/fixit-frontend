@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
-  <title id="title">FixIt</title>
-  <path fill="#08A765" d="M64 5 112 22v37c0 30-19 52-48 65C35 111 16 89 16 59V22L64 5Z"/>
-  <path fill="#fff" d="M64 14 103 28v31c0 24-14 42-39 54C39 101 25 83 25 59V28l39-14Z"/>
-  <path fill="#08A765" d="M64 23 94 34v25c0 19-10 33-30 44C44 92 34 78 34 59V34l30-11Z"/>
-  <path fill="#fff" d="M47 35c-9 0-16 7-16 16 0 6 3 11 8 14v22c0 4 3 7 7 7s7-3 7-7V65c5-3 8-8 8-14 0-4-1-7-3-10l-5 9-8 3-8-3-5-9c-2 3-3 6-3 10 0 9 7 16 16 16"/>
-  <path d="m50 69 12 12 27-29" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
-</svg>
