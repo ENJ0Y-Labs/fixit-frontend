@@ -6,7 +6,7 @@ const navItems = [
 
 function Nav({ activePage, onNavigate, user, onLogout, isOpen, onClose, sidebarRef }) {
     const displayName = user?.name || user?.fullName || user?.email || 'Customer account';
-    const initials = displayName.split(/[\\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'CU';
+    const initials = displayName.split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'CU';
 
     return (
         <aside ref={sidebarRef} className={`customer-sidebar${isOpen ? ' is-open' : ''}`} id="customer-navigation" aria-label="Customer navigation" role={isOpen ? 'dialog' : undefined} aria-modal={isOpen ? true : undefined}>
