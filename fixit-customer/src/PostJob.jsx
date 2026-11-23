@@ -38,6 +38,7 @@ function PostJob({ onBack, onJobPosted }) {
         }
 
         onJobPosted({
+            id: `JOB-${Date.now().toString().slice(-5)}`,
             ...form,
             title: form.title.trim(),
             location: form.location.trim(),
