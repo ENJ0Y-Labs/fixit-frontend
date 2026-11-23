@@ -60,7 +60,7 @@ describe('customer API client', () => {
             'https://api.example.test/api/v1/customer/me/jobs?status=active&tags=a&tags=b',
         );
         expect(options.method).toBe('GET');
-        expect(options.credentials).toBe('same-origin');
+        expect(options.credentials).toBe('include');
         expect(options.headers.get('Accept')).toBe('application/json');
     });
 
