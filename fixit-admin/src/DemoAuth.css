@@ -1,0 +1,35 @@
+.admin-demo-auth-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px 16px;
+    background-color: #f7f7f7;
+    background-image: linear-gradient(rgba(23, 23, 23, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(23, 23, 23, .035) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+.admin-demo-auth-card {
+    width: min(100%, 460px);
+    padding: clamp(24px, 5vw, 42px);
+    border: 1px solid #e8e8e8;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .08);
+}
+.admin-demo-brand { display: inline-flex; align-items: center; gap: 11px; margin-bottom: 34px; text-decoration: none; }
+.admin-demo-brand img { width: 40px; height: 40px; object-fit: contain; }
+.admin-demo-brand span { display: grid; gap: 2px; }
+.admin-demo-brand strong { color: #171717; font-size: 1.35rem; letter-spacing: -.04em; }
+.admin-demo-brand small { color: #6f6f6f; font-size: .72rem; }
+.admin-demo-description { margin: 10px 0 24px; color: #6f6f6f; font-size: .9rem; }
+.admin-demo-auth-card form { display: grid; gap: 10px; }
+.admin-demo-auth-card label { margin-top: 7px; color: #222; font-size: .84rem; font-weight: 700; }
+.admin-demo-auth-card input { width: 100%; min-height: 48px; padding: 0 13px; border: 1px solid #d6d6d6; border-radius: 9px; background: #fff; color: #222; font: inherit; }
+.admin-demo-submit { min-height: 50px; margin-top: 14px; border: 0; border-radius: 9px; background: #171717; color: #fff; font: inherit; font-weight: 750; cursor: pointer; }
+.admin-demo-submit:hover { background: #303030; }
+.admin-demo-error { margin: 0 0 14px; padding: 11px 13px; border: 1px solid #efc9c9; border-radius: 8px; background: #fff5f5; color: #922d2d; font-size: .82rem; }
+.admin-demo-hint { margin: 18px 0 0; padding: 13px; border: 1px solid #e8e8e8; border-radius: 9px; background: #fafafa; color: #555; font-size: .82rem; line-height: 1.8; }
+.admin-demo-hint strong { color: #171717; }
+.admin-demo-warning { margin: 14px 0 0; color: #777; font-size: .75rem; line-height: 1.5; }
+.admin-demo-loading { min-height: 100vh; display: grid; place-items: center; color: #6f6f6f; }
+.admin-demo-logout { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 10px; border: 1px solid #e8e8e8; border-radius: 8px; background: #fff; color: #444; font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; }
+.admin-demo-logout:hover { background: #f3f3f3; }

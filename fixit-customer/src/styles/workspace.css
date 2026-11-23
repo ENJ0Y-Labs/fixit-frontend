@@ -1,0 +1,153 @@
+/* Customer workspace shell aligned with the Admin and Provider applications. */
+body, button, input, select, textarea { font-family: inherit; }
+body { color: var(--text); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+}
+.customer-workspace-shell { min-height: 100vh; min-width: 0; }
+.customer-sidebar {
+    position: fixed;
+    z-index: 30;
+    inset: 0 auto 0 0;
+    display: flex;
+    width: var(--nav-width);
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding: 24px 16px 18px;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+}
+.customer-brand { display: flex; align-items: center; gap: 11px; padding: 0 10px 30px; text-decoration: none; }
+.customer-brand-logo { width: 38px; height: 38px; flex: 0 0 38px; object-fit: contain; }
+.customer-brand-copy { display: grid; gap: 2px; min-width: 0; }
+.customer-brand-copy strong { color: var(--black); font-size: 1.18rem; font-weight: 800; letter-spacing: -.04em; }
+.customer-brand-copy small { color: var(--muted); font-size: .68rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+.customer-brand-copy > span { color: var(--muted); font-size: .68rem; }
+.customer-nav-label { margin: 0 10px 10px; color: #898989; font-size: .68rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+.customer-nav-links { display: grid; gap: 5px; }
+.customer-nav-link { display: flex; min-height: 44px; align-items: center; gap: 12px; padding: 10px 12px; border: 0; border-radius: var(--radius-sm); background: transparent; color: #626262; font-size: .9rem; font-weight: 600; text-align: left; cursor: pointer; }
+.customer-nav-link:hover { background: var(--surface-soft); color: var(--black); }
+.customer-nav-link[aria-current="page"] { background: var(--primary); color: #fff; font-weight: 750; }
+.customer-nav-link[aria-current="page"]:hover { background: var(--primary-hover); color: #fff; }
+.customer-nav-icon { display: inline-grid; width: 22px; flex: 0 0 22px; place-items: center; font-size: 1.05rem; }
+.customer-post-job { display: flex; min-height: 44px; align-items: center; justify-content: center; gap: 9px; margin-top: 22px; padding: 10px 14px; border: 1px solid var(--primary); border-radius: var(--radius-sm); background: var(--primary); color: #fff; font-size: .86rem; font-weight: 700; cursor: pointer; }
+.customer-post-job:hover { border-color: var(--primary-hover); background: var(--primary-hover); }
+.customer-sidebar-footer { display: grid; gap: 14px; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border); }
+.customer-user { display: flex; min-width: 0; align-items: center; gap: 10px; }
+.customer-user-avatar, .customer-topbar-avatar { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border: 1px solid #e1e1e1; border-radius: 50%; background: #f0e8de; color: #5a4030; font-size: .75rem; font-weight: 800; }
+.customer-user-copy { display: grid; min-width: 0; gap: 3px; }
+.customer-user-copy strong { overflow: hidden; color: var(--black); font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
+.customer-user-copy small { color: var(--muted); font-size: .7rem; }
+.customer-signout { display: flex; min-height: 40px; align-items: center; gap: 11px; padding: 8px 10px; border: 0; border-radius: 8px; background: transparent; color: #626262; font-size: .82rem; font-weight: 650; text-align: left; cursor: pointer; }
+.customer-signout:hover { background: var(--surface-soft); color: var(--black); }
+.customer-workspace-main { min-height: 100vh; min-width: 0; margin-left: var(--nav-width); }
+.customer-workspace-topbar { position: sticky; z-index: 20; top: 0; display: flex; min-height: var(--topbar-height); align-items: center; justify-content: space-between; gap: 16px; padding: 12px clamp(20px, 3vw, 40px); border-bottom: 1px solid var(--border); background: rgba(255,255,255,.94); backdrop-filter: blur(12px); }
+.customer-topbar-left, .customer-topbar-actions { display: flex; min-width: 0; align-items: center; gap: 12px; }
+.customer-breadcrumb { overflow: hidden; margin: 0; color: #505862; font-size: .88rem; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.customer-breadcrumb span { padding: 0 7px; color: #a5abb3; }
+.customer-workspace-tag { padding: 5px 8px; border: 1px solid var(--border); border-radius: 5px; color: var(--muted); font-size: .62rem; font-weight: 850; letter-spacing: .1em; }
+.customer-topbar-icon, .customer-menu-button { display: inline-grid; width: 40px; height: 40px; flex: 0 0 auto; place-items: center; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
+.customer-topbar-icon:disabled { opacity: .5; cursor: not-allowed; }
+.customer-menu-button { display: none; cursor: pointer; }
+.customer-topbar-avatar { width: 36px; height: 36px; }
+.customer-workspace-content { width: 100%; min-width: 0; margin: 0 auto; padding: 0; }
+.customer-sidebar-close { display: none; }
+.customer-nav-backdrop { display: none; }
+@media (max-width: 1024px) {
+    .customer-sidebar { width: min(320px, calc(100vw - 48px)); transform: translateX(-105%); transition: transform 180ms ease; box-shadow: none; }
+    .customer-sidebar.is-open { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,.12); }
+    .customer-nav-backdrop.is-visible { position: fixed; z-index: 25; inset: 0; display: block; border: 0; background: rgba(20,20,20,.4); }
+    .customer-workspace-main { margin-left: 0; }
+    .customer-workspace-topbar { min-height: 64px; padding: 10px 16px; }
+    .customer-menu-button { display: inline-grid; }
+    .customer-workspace-content { padding: 0; }
+    .customer-sidebar-close { display: flex; min-height: 44px; align-items: center; justify-content: flex-end; margin-bottom: 18px; padding: 0 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-soft); color: var(--text); font: inherit; font-size: .82rem; font-weight: 700; }
+}
+@media (max-width: 560px) {
+    .customer-workspace-topbar { padding-inline: 12px; }
+    .customer-workspace-content { padding: 0; }
+    .customer-topbar-left, .customer-topbar-actions { gap: 8px; }
+    .customer-workspace-tag { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .customer-sidebar { transition: none; }
+}
+
+
+/* Legacy customer job and checkout screens brought up to the workspace scale. */
+.post-job-main { padding: clamp(20px, 3vw, 40px); }
+.job-form { width: min(1120px, 100%); gap: 20px; }
+.form-section, .job-summary-card, .job-photos-card, .job-progress-card,
+.assigned-provider-card, .payment-overview-card, .location-details-card,
+.escrow-payment, .payment-method, .promo-code, .order-summary, .help-card {
+    border-color: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.form-section { padding: 24px; }
+.form-field > label, .form-field > legend, .urgency-field > legend {
+    color: var(--text);
+    font-size: .875rem;
+    font-weight: 650;
+}
+.form-field input, .form-field select, .form-field textarea {
+    min-height: 44px;
+    padding: 10px 12px;
+    border-color: var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    font-size: .9rem;
+}
+.form-field textarea { min-height: 120px; }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0,105,72,.1);
+}
+.urgency-field label { color: var(--text); font-size: .85rem; }
+.urgency-field input { accent-color: var(--primary); }
+.upload-box { min-height: 140px; border-color: var(--border-strong); border-radius: var(--radius-sm); background: var(--surface-soft); }
+.upload-box:hover { border-color: var(--primary); background: var(--primary-soft); }
+.upload-main { color: var(--text); font-size: .88rem; }
+.upload-sub, .file-count { color: var(--muted); font-size: .78rem; }
+.info-note { color: var(--muted); font-size: .78rem; }
+.form-actions { gap: 12px; }
+.job-details-main { padding: clamp(20px, 3vw, 40px); gap: 20px; }
+.job-summary-card, .job-photos-card, .job-progress-card, .assigned-provider-card,
+.payment-overview-card, .location-details-card { padding: 22px; }
+.job-summary-badges span { font-size: .72rem; }
+.job-summary-card h2 { font-size: 1.2rem; }
+.job-description { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+.job-fact p { color: var(--muted); font-size: .72rem; }
+.job-fact strong { font-size: .88rem; }
+.job-photos-card .section-heading h2, .job-progress-card > h2,
+.payment-overview-card > h2 { font-size: 1rem; }
+.payment-main { padding: clamp(20px, 3vw, 40px); gap: 20px; }
+.escrow-payment, .payment-method { padding: 22px; }
+.escrow-payment h2, .payment-section-heading h2 { font-size: 1rem; }
+.escrow-payment p { color: var(--muted); font-size: .86rem; }
+.method { min-height: 64px; border-color: var(--border); }
+.method-copy strong { font-size: .88rem; }
+.method-copy small { font-size: .76rem; }
+.promo-code input { font-size: .88rem; }
+.promo-code > button { background: var(--primary); font-size: .84rem; }
+.promo-code > button:hover { background: var(--primary-hover); }
+.order-summary > h2 { font-size: 1.05rem; }
+.order-details strong { font-size: .86rem; }
+.order-details p, .payment-breakdown > div, .total-row { font-size: .82rem; }
+.ssl-note, .terms-copy { color: var(--muted); font-size: .72rem; }
+.help-card strong { font-size: .84rem; }
+.help-card small { font-size: .74rem; }
+@media (max-width: 760px) {
+    .job-form { grid-template-columns: minmax(0, 1fr); }
+    .job-details-main { grid-template-columns: minmax(0, 1fr); }
+    .payment-main { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+    .post-job-main, .job-details-main, .payment-main { padding: 16px 12px; }
+    .form-section { padding: 16px; }
+    .form-actions { flex-direction: column-reverse; }
+    .form-actions > button { width: 100%; }
+}

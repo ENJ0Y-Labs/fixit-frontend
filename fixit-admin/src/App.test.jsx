@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
 
 async function renderApp() {
@@ -428,4 +428,24 @@ describe('admin settings workspace', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Settings' }));
         expect(await screen.findByRole('heading', { name: 'Settings' })).toBeInTheDocument();
     });
+    it('requires the local demo credentials before opening the admin workspace', async () => {
+        vi.stubEnv('MODE', 'development');
+        vi.stubEnv('DEV', true);
+        localStorage.removeItem('fixit-demo-session:admin');
+        render(<App />);
+        expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
+        fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'wrong-password' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Sign in to admin workspace' }));
+        expect(screen.getByRole('alert')).toHaveTextContent(/incorrect/i);
+        fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'FixitDemo123!' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Sign in to admin workspace' }));
+        expect(await screen.findByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /log out/i })).toBeInTheDocument();
+        expect(JSON.parse(localStorage.getItem('fixit-demo-session:admin'))).toMatchObject({ role: 'admin', isDemo: true });
+        fireEvent.click(screen.getByRole('button', { name: /log out/i }));
+        expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
+        expect(localStorage.getItem('fixit-demo-session:admin')).toBeNull();
+        vi.unstubAllEnvs();
+    });
+
 });

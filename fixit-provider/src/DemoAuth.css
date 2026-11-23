@@ -1,0 +1,11 @@
+.provider-auth-demo-hint {
+    margin: -12px 0 18px;
+    padding: 11px 13px;
+    border: 1px solid #e7dfcf;
+    border-radius: 9px;
+    background: #fffaf0;
+    color: #65502a;
+    font-size: .78rem;
+    line-height: 1.6;
+}
+.provider-auth-demo-hint strong { color: #3d301b; }

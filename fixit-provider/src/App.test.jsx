@@ -17,6 +17,8 @@ beforeEach(() => {
 
 afterEach(() => {
     cleanup();
+    vi.unstubAllEnvs();
+    localStorage.removeItem('fixit-demo-session:provider');
     window.history.replaceState({}, '', window.location.pathname);
 });
 
@@ -75,4 +77,20 @@ describe('provider authentication entry', () => {
         expect(await screen.findByRole('alert')).toHaveTextContent(/not a provider account/i);
         expect(screen.queryByRole('heading', { name: /provider dashboard/i })).not.toBeInTheDocument();
     });
+    it('accepts the local demo account without calling the backend', async () => {
+        vi.stubEnv('MODE', 'development');
+        vi.stubEnv('DEV', true);
+        authApi.getCurrentUser.mockRejectedValue(new Error('Backend must not be called in local demo mode'));
+        render(<App />);
+        expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
+        expect(screen.getByText(/Local demo:/i)).toBeInTheDocument();
+        fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'demo@fixit.local' } });
+        fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'FixitDemo123!' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Sign in to provider workspace' }));
+        expect(await screen.findByRole('heading', { name: /provider dashboard/i })).toBeInTheDocument();
+        expect(authApi.getCurrentUser).not.toHaveBeenCalled();
+        expect(authApi.login).not.toHaveBeenCalled();
+        expect(JSON.parse(localStorage.getItem('fixit-demo-session:provider'))).toMatchObject({ role: 'provider', isDemo: true });
+    });
+
 });
