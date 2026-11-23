@@ -6,6 +6,7 @@ vi.mock('../api/customer.js', () => ({
     customerApi: {
         listProviders: vi.fn(),
         getProvider: vi.fn(),
+        listProviderReviews: vi.fn(),
     },
 }));
 
