@@ -104,7 +104,11 @@ export class ApiError extends Error {
     }
 }
 
-function messageForStatus(status) {
+function messageForStatus(status, payload) {
+    const serverMessage = payload?.error?.message || payload?.message;
+    if (typeof serverMessage === 'string' && serverMessage.trim() && serverMessage.length <= 240) {
+        return serverMessage.trim();
+    }
     if (HTTP_ERROR_MESSAGES[status]) {
         return HTTP_ERROR_MESSAGES[status];
     }
@@ -208,7 +212,7 @@ export function createApiClient({
         }
 
         if (!response.ok) {
-            throw new ApiError(messageForStatus(response.status), {
+            throw new ApiError(messageForStatus(response.status, payload), {
                 status: response.status,
                 code: 'HTTP_ERROR',
                 payload,
