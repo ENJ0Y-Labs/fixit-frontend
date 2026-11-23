@@ -35,7 +35,7 @@ function getPageFromHash() {
     return HASH_PAGES[hash] || (hash ? 'notFound' : 'home');
 }
 
-const initialJobs = [
+function navigateTo(route) {\n    const url = window.location.pathname + window.location.search + '#' + route;\n    window.history.pushState(window.history.state, '', url);\n    window.dispatchEvent(new PopStateEvent('popstate'));\n}\n\nconst initialJobs = [
     {
         id: 'JOB-09123',
         icon: 'fa-solid fa-faucet',
@@ -232,7 +232,7 @@ function CustomerWorkspace({ user, onLogout }) {
 }
 
 function getRouteFromHash() {
-    const hash = window.location.hash.replace(/^#\\/?/, '');
+    const hash = window.location.hash.replace(/^#\/?/, '');
     if (!hash) return 'landing';
     const route = hash.split('?')[0];
     return route === 'home' ? 'marketplace' : route;
@@ -242,7 +242,7 @@ const protectedRoutes = ['my-jobs', 'post-job', 'job-details', 'payment', 'revie
 
 function PublicExperience({ route, user, openAuth, requireAuth }) {
     const navigate = (nextRoute) => navigateTo(nextRoute);
-    const match = route.match(/^provider\\/([^/]+)$/);
+    const match = route.match(/^provider\/([^/]+)$/);
     if (match) return <ProviderProfile provider={providers.find((provider) => provider.id === match[1])} user={user} onNavigate={navigate} onAuth={openAuth} onRequireAuth={requireAuth} />;
     if (route === 'marketplace') return <Home user={user} isAuthenticated={Boolean(user)} onNavigate={navigate} onAuth={openAuth} onRequireAuth={requireAuth} onSelectProvider={(provider) => navigate(`provider/${provider.id}`)} />;
     return <LandingPage user={user} onNavigate={navigate} onAuth={openAuth} />;
