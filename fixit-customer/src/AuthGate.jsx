@@ -4,6 +4,7 @@ import { ApiError } from './api/client.js';
 import './styles/pages/auth.css';
 
 const protectedRoutes = ['my-jobs', 'post-job', 'job-details', 'payment', 'review', 'account'];
+const providerAppUrl = import.meta.env.VITE_PROVIDER_APP_URL || '/provider/';
 const getRoute = () => window.location.hash.replace(/^#\/?/, '').split('?')[0] || 'landing';
 function setRoute(route, replace = false) {
     const url = window.location.pathname + window.location.search + '#' + route;
@@ -35,31 +36,36 @@ function AuthForm({ mode, onModeChange, onAuthenticated, onBack }) {
                 setNotice('Your account request was submitted. Sign in once your account is ready.');
                 onModeChange('login');
             } else {
-                const payload = await authApi.login({ email, password: values.password });
-                const value = payload?.data ?? payload;
-                const user = value?.user ?? value?.customer ?? value;
+                const user = getUser(await authApi.login({ email, password: values.password }));
                 if (!user || typeof user !== 'object') throw new Error('The server did not return an authenticated customer account.');
+                const role = String(user.role ?? user.accountType ?? '').toLowerCase();
+                if (role && role !== 'customer') throw new Error('This is not a customer account. Use the provider sign-in for provider accounts.');
                 onAuthenticated(user);
             }
         } catch (requestError) {
             setError(requestError instanceof ApiError ? requestError.message : requestError?.message || 'We could not complete that request. Please try again.');
         } finally { setSubmitting(false); }
     }
-    return <main className="customer-auth-page"><section className="customer-auth-card" aria-labelledby="auth-title">
-        <button className="customer-auth-back" type="button" onClick={onBack}><i className="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to FixIt</button>
-        <a className="customer-auth-brand" href="#landing" aria-label="FixIt home"><img src="/brand/logo.png" alt="" /><span>FixIt</span></a>
-        <p className="customer-auth-eyebrow">CUSTOMER ACCOUNT</p><h1 id="auth-title">{isSignup ? 'Create your account' : 'Welcome back'}</h1>
-        <p className="customer-auth-description">{isSignup ? 'Create an account to request trusted help for your home.' : 'Sign in to book services and manage your requests.'}</p>
-        {notice && <p className="customer-auth-notice" role="status">{notice}</p>}{error && <p className="customer-auth-error" role="alert">{error}</p>}
-        <form onSubmit={submit} noValidate>
-            {isSignup && <><label htmlFor="auth-name">Full name</label><input id="auth-name" name="name" autoComplete="name" value={values.name} onChange={update} required /><label htmlFor="auth-phone">Phone number</label><input id="auth-phone" name="phone" type="tel" autoComplete="tel" value={values.phone} onChange={update} required /></>}
-            <label htmlFor="auth-email">Email address</label><input id="auth-email" name="email" type="email" autoComplete="email" value={values.email} onChange={update} required />
-            <label htmlFor="auth-password">Password</label><input id="auth-password" name="password" type="password" autoComplete={isSignup ? 'new-password' : 'current-password'} value={values.password} onChange={update} required />
-            <button className="customer-auth-submit" type="submit" disabled={submitting}>{submitting ? 'Please wait…' : isSignup ? 'Create account' : 'Sign in'}</button>
-        </form>
-        <p className="customer-auth-switch">{isSignup ? 'Already have an account?' : 'New to FixIt?'}{' '}<button type="button" onClick={() => onModeChange(isSignup ? 'login' : 'signup')}>{isSignup ? 'Sign in' : 'Create an account'}</button></p>
-        <p className="customer-auth-footnote">You can explore FixIt without an account. Sign in when you are ready to request a service.</p>
-    </section></main>;
+    return <main className="customer-auth-page">
+        <div className="customer-auth-back-wrap">
+            <button className="customer-auth-back" type="button" onClick={onBack}><i className="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Back to FixIt</span></button>
+        </div>
+        <section className="customer-auth-card" aria-labelledby="auth-title">
+            <a className="customer-auth-brand" href="#landing" aria-label="FixIt home"><img src="/brand/logo.png" alt="" /><span>FixIt</span></a>
+            <p className="customer-auth-eyebrow">CUSTOMER ACCOUNT</p><h1 id="auth-title">{isSignup ? 'Create your account' : 'Welcome back'}</h1>
+            <p className="customer-auth-description">{isSignup ? 'Create an account to request trusted help for your home.' : 'Sign in to book services and manage your requests.'}</p>
+            {notice && <p className="customer-auth-notice" role="status">{notice}</p>}{error && <p className="customer-auth-error" role="alert">{error}</p>}
+            <form onSubmit={submit} noValidate>
+                {isSignup && <><label htmlFor="auth-name">Full name</label><input id="auth-name" name="name" autoComplete="name" value={values.name} onChange={update} required /><label htmlFor="auth-phone">Phone number</label><input id="auth-phone" name="phone" type="tel" autoComplete="tel" value={values.phone} onChange={update} required /></>}
+                <label htmlFor="auth-email">Email address</label><input id="auth-email" name="email" type="email" autoComplete="email" value={values.email} onChange={update} required />
+                <label htmlFor="auth-password">Password</label><input id="auth-password" name="password" type="password" autoComplete={isSignup ? 'new-password' : 'current-password'} value={values.password} onChange={update} required />
+                <button className="customer-auth-submit" type="submit" disabled={submitting}>{submitting ? 'Please wait…' : isSignup ? 'Create account' : 'Sign in'}</button>
+            </form>
+            <p className="customer-auth-switch">{isSignup ? 'Already have an account?' : 'New to FixIt?'}{' '}<button type="button" onClick={() => onModeChange(isSignup ? 'login' : 'signup')}>{isSignup ? 'Sign in' : 'Create an account'}</button></p>
+            {!isSignup && <p className="customer-auth-provider-link">Offering services on FixIt? <a href={providerAppUrl}>Log in as a provider <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></p>}
+            <p className="customer-auth-footnote">You can explore FixIt without an account. Sign in when you are ready to request a service.</p>
+        </section>
+    </main>;
 }
 export default function AuthGate({ children }) {
     const [status, setStatus] = useState('checking');
@@ -105,9 +111,8 @@ export default function AuthGate({ children }) {
         const action = pendingAction.current; pendingAction.current = null; action?.();
     }
     function changeMode(nextMode) { setMode(nextMode); setShowAuth(true); setRoute(nextMode); }
-    // Keep public discovery visible while session restoration runs in the background.
-    if (showAuth && status !== 'checking' && status !== 'authenticated') return <AuthForm mode={mode} onModeChange={changeMode} onAuthenticated={completeAuthentication} onBack={() => { setShowAuth(false); setRoute(returnToRef.current || 'landing', true); }} />;
-    // Render-prop callbacks receive event handlers that close over auth refs.
+    if (showAuth && status !== 'checking' && status !== 'authenticated') return <AuthForm mode={mode} onModeChange={changeMode} onAuthenticated={completeAuthentication} onBack={() => { returnToRef.current = 'landing'; setShowAuth(false); setRoute('landing', true); }} />;
+    // Render-prop callbacks receive handlers that close over auth refs.
     // eslint-disable-next-line react-hooks/refs
     return children({ user, authStatus: status, onLogout: logout, openAuth, requireAuth });
 }
