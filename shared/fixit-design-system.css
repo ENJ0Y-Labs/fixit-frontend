@@ -248,3 +248,48 @@ small, .text-muted { color: var(--muted); }
 .fixit-error-state p { margin: 0; color: var(--muted); font-size: .88rem; }
 .fixit-error-state button { min-height: 44px; margin-top: 5px; padding: 0 16px; border: 0; border-radius: var(--radius-sm); background: var(--primary); color: var(--primary-contrast); font-weight: 700; cursor: pointer; }
 .fixit-error-state button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+
+/* FixIt brand assets and startup identity. */
+.brand-logo {
+  display: block;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  object-fit: contain;
+}
+.brand-tagline {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: .66rem;
+  line-height: 1.25;
+}
+.logo-copy { display: grid; gap: 1px; min-width: 0; }
+.customer-brand-logo { width: 36px; height: 36px; flex-basis: 36px; }
+.fixit-brand-splash {
+  position: fixed;
+  z-index: 100000;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  background: #f8f9ff;
+  color: #0b1c30;
+  animation: fixit-brand-splash-exit 1.8s ease-in-out forwards;
+}
+.fixit-brand-splash-logo { width: clamp(104px, 18vw, 156px); height: auto; aspect-ratio: 1; object-fit: contain; }
+.fixit-brand-splash-name { margin-top: 2px; color: #08a765; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 750; letter-spacing: -.06em; line-height: 1; }
+.fixit-brand-splash-tagline { margin: 0; color: #526174; font-size: .88rem; letter-spacing: .015em; }
+.fixit-brand-splash-loader { width: 26px; height: 26px; margin-top: 22px; border: 2px solid #dce8e1; border-top-color: #08a765; border-radius: 50%; animation: fixit-spin .8s linear infinite; }
+@keyframes fixit-brand-splash-exit {
+  0%, 68% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fixit-brand-splash { animation-duration: .15s; }
+  .fixit-brand-splash-loader { animation: none; }
+}
