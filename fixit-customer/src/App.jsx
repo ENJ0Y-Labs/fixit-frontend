@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import './styles/pages/jobs.css';
+import './styles/pages/account.css';
+import './styles/pages/my-jobs.css';
 import Nav from './Nav';
 import { FixitAsyncBoundary } from './FixitAsyncBoundary.jsx';
 import Home from './Home.jsx';
@@ -8,6 +11,25 @@ import JobDetails from './JobDetails.jsx';
 import Payment from './Payment.jsx';
 import Review from './Review.jsx';
 import Account from './Account.jsx';
+
+const PAGE_HASHES = {
+    home: 'home',
+    myJobs: 'my-jobs',
+    postJob: 'post-job',
+    jobDetails: 'job-details',
+    payment: 'payment',
+    review: 'review',
+    account: 'account',
+};
+
+const HASH_PAGES = Object.fromEntries(
+    Object.entries(PAGE_HASHES).map(([page, hash]) => [hash, page]),
+);
+
+function getPageFromHash() {
+    const hash = window.location.hash.replace(/^#\/?/, '').split('?')[0];
+    return HASH_PAGES[hash] || 'home';
+}
 
 const initialJobs = [
     {
@@ -55,14 +77,42 @@ const initialJobs = [
 ];
 
 function App() {
-    const [activePage, setActivePage] = useState('home');
+    const [activePage, setActivePage] = useState(getPageFromHash);
     const [jobs, setJobs] = useState(initialJobs);
     const [myJobsViewState, setMyJobsViewState] = useState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
     const [selectedJob, setSelectedJob] = useState(initialJobs[0]);
+    const hasSyncedInitialRoute = useRef(false);
+
+    useEffect(() => {
+        const syncPageWithHash = () => setActivePage(getPageFromHash());
+        window.addEventListener('popstate', syncPageWithHash);
+        window.addEventListener('hashchange', syncPageWithHash);
+        return () => {
+            window.removeEventListener('popstate', syncPageWithHash);
+            window.removeEventListener('hashchange', syncPageWithHash);
+        };
+    }, []);
+
+    useEffect(() => {
+        const nextHash = `#/${PAGE_HASHES[activePage]}`;
+        if (window.location.hash === nextHash) {
+            hasSyncedInitialRoute.current = true;
+            return;
+        }
+
+        const nextUrl = `${window.location.pathname}${window.location.search}${nextHash}`;
+        if (hasSyncedInitialRoute.current) {
+            window.history.pushState(window.history.state, '', nextUrl);
+        } else {
+            window.history.replaceState(window.history.state, '', nextUrl);
+            hasSyncedInitialRoute.current = true;
+        }
+    }, [activePage]);
 
     const navigate = (page, job = selectedJob) => {
+        const nextPage = PAGE_HASHES[page] ? page : 'home';
         if (job) setSelectedJob(job);
-        setActivePage(page);
+        setActivePage(nextPage);
     };
 
     const handleCancelJob = (job) => {
@@ -73,13 +123,12 @@ function App() {
                 ? current.map((item) => item.id === job.id ? cancelledJob : item)
                 : [cancelledJob, ...current];
         });
-        setSelectedJob(cancelledJob);
-        setActivePage('myJobs');
+        navigate('myJobs', cancelledJob);
     };
 
     const handleJobPosted = (job) => {
         const newJob = {
-            id: `JOB-${Date.now().toString().slice(-5)}`,
+            id: job.id,
             icon: job.category === 'Electrical'
                 ? 'fa-solid fa-bolt'
                 : job.category === 'Cleaning'
@@ -103,8 +152,7 @@ function App() {
 
         setJobs((current) => [newJob, ...current]);
         setMyJobsViewState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
-        setSelectedJob(newJob);
-        setActivePage('myJobs');
+        navigate('myJobs', newJob);
     };
 
     const selectedJobFromState = jobs.find((job) => job.id === selectedJob?.id) || selectedJob;
@@ -179,11 +227,9 @@ function App() {
             <Nav activePage={activePage} onNavigate={navigate} />
             <div className="app-content">
                 <FixitAsyncBoundary key={activePage}>
-                
                     <div key={activePage} className="fixit-page-transition">
                         {renderPage()}
                     </div>
-                
                 </FixitAsyncBoundary>
             </div>
         </div>
