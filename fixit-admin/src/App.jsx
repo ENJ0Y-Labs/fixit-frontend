@@ -27,7 +27,7 @@ const navigation = [
 function Brand() {
     return (
         <a className="admin-brand" href="#dashboard" aria-label="FixIt admin dashboard">
-            <img className="brand-logo" src="/brand/logo.svg" alt="" />
+            <img className="brand-logo" src="/brand/logo.png" alt="" />
             <span className="brand-copy">
                 <strong>FixIt</strong>
                 <span>ADMINISTRATION</span>
