@@ -89,7 +89,7 @@ describe('admin API client', () => {
             fetchImpl,
         });
 
-        await client.get('provider/me', {
+        await client.get('admin/me', {
             headers: { 'X-Request-Id': 'test-request' },
             credentials: 'include',
         });
