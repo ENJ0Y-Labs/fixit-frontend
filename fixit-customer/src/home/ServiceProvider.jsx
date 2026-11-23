@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import avatarPlaceholder from '../assets/avatar-placeholder.svg';
 
-function ServiceProvider({ img = '', name = 'Guest', job = 'Not specified', serviceTitle = '', location = '', available = false, availabilityKnown = false, rating = null, review = null, distance = null, price = null, id, source = 'sample', isAuthenticated = false, onRequireAuth, onSelect }) {
+function ServiceProvider({ img = '', name = 'Guest', job = 'Not specified', serviceTitle = '', location = '', available = false, availabilityKnown = false, rating = null, review = null, distance = null, price = null, id, source = 'sample', onSelect }) {
     return (
         <article className="service-card marketplace-provider-card" data-provider-id={id}>
             <div className="service-card-top marketplace-provider-card-top">
@@ -24,7 +24,6 @@ ServiceProvider.propTypes = {
     img: PropTypes.string, name: PropTypes.string, job: PropTypes.string, serviceTitle: PropTypes.string,
     location: PropTypes.string, available: PropTypes.bool, availabilityKnown: PropTypes.bool,
     rating: PropTypes.number, review: PropTypes.number, distance: PropTypes.number, price: PropTypes.number,
-    id: PropTypes.string, source: PropTypes.string, isAuthenticated: PropTypes.bool,
-    onRequireAuth: PropTypes.func, onSelect: PropTypes.func,
+    id: PropTypes.string, source: PropTypes.string, onSelect: PropTypes.func,
 };
 export default ServiceProvider;
