@@ -123,7 +123,7 @@ describe('customer job management API flow', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Cancel Job' }));
         expect(customerApi.cancelJob).toHaveBeenCalledWith('job-42');
         expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
-        expect(await screen.findByText('CANCELLED')).toBeInTheDocument();
+        expect(await screen.findByText('Cancelled', { selector: '.my-job-status' })).toBeInTheDocument();
         vi.restoreAllMocks();
     });
     it('creates a job through the API and displays the canonical saved record', async () => {
