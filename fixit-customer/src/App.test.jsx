@@ -9,6 +9,7 @@ async function renderApp() {
 
 afterEach(() => {
     cleanup();
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
 });
 
 describe('customer application', () => {
@@ -22,6 +23,30 @@ describe('customer application', () => {
             name: 'Primary navigation',
         })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /post a job/i })).toBeInTheDocument();
+    });
+
+    it('restores My Jobs when the page is opened or refreshed at its URL hash', async () => {
+        window.history.replaceState(null, '', '#/my-jobs');
+
+        await renderApp();
+
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+        expect(window.location.hash).toBe('#/my-jobs');
+    });
+
+    it('updates the URL hash when navigating and supports browser back navigation', async () => {
+        await renderApp();
+
+        fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+        expect(window.location.hash).toBe('#/my-jobs');
+
+        fireEvent.click(screen.getByRole('button', { name: 'Post a New Job' }));
+        expect(await screen.findByRole('heading', { name: /Post a New Job/i })).toBeInTheDocument();
+        expect(window.location.hash).toBe('#/post-job');
+
+        window.history.back();
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
     });
 
     it('filters the sample provider list using the service search', async () => {
@@ -48,6 +73,7 @@ describe('customer application', () => {
         expect(screen.queryByText('Blessing Okafor')).not.toBeInTheDocument();
         expect(screen.getByText('Emeka Nwachukwu')).toBeInTheDocument();
     });
+
     it('opens My Jobs and filters requests using the redesigned controls', async () => {
         await renderApp();
 
@@ -71,7 +97,6 @@ describe('customer application', () => {
         expect(await screen.findByRole('heading', { name: 'Job Details' })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /chat with provider/i })).not.toBeInTheDocument();
     });
-
 
     it('renders the customer profile settings without presenting demo wallet or verification claims as live data', async () => {
         await renderApp();
@@ -100,7 +125,6 @@ describe('customer application', () => {
         expect(screen.getByRole('status')).toHaveTextContent('Your profile changes have been saved in this session.');
     });
 
-
     it('preserves My Jobs search, status, category, and sort when returning from Post a Job', async () => {
         await renderApp();
 
@@ -124,10 +148,11 @@ describe('customer application', () => {
         expect(screen.getByRole('button', { name: /Awaiting Bids/ })).toHaveClass('active');
         expect(screen.getByLabelText('Filter by category')).toHaveValue('ELECTRICAL');
         expect(screen.getByLabelText('Sort jobs')).toHaveValue('price');
+        expect(document.querySelector('.my-jobs')).toHaveStyle({
+            backgroundColor: 'rgb(246, 249, 247)',
+        });
     });
-
 });
-
 
 describe('customer mobile filter sheet accessibility', () => {
     it('exposes the filter sheet as a dialog and closes it with Escape', async () => {
