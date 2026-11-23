@@ -46,7 +46,7 @@ function SettingsPage() {
     return (
         <div className="settings-page">
             <div className="demo-notice" role="note">
-                <span className="demo-notice-icon" aria-hidden="true">i</span>
+                <span className="demo-notice-icon" aria-hidden="true"><i className="fa-solid fa-circle-info" /></span>
                 <p><strong>Demo settings</strong> Changes on this page affect only temporary browser state. No production account or platform configuration is changed.</p>
             </div>
 
