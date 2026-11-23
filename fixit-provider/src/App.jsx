@@ -12,22 +12,22 @@ import ReviewsPage from './ReviewsPage.jsx';
 import SettingsPage from './SettingsPage.jsx';
 
 const navigation = [
-    { label: 'Dashboard', icon: '▦' },
-    { label: 'My Profile', icon: '○' },
-    { label: 'My Services', icon: '◇' },
-    { label: 'Availability', icon: '◷' },
-    { label: 'Available Jobs', icon: '⌕' },
-    { label: 'Job Details', icon: '↗' },
-    { label: 'My Jobs', icon: '▤' },
-    { label: 'Earnings', icon: '₦' },
-    { label: 'Reviews', icon: '☆' },
+    { label: 'Dashboard', icon: 'fa-solid fa-gauge-high' },
+    { label: 'My Profile', icon: 'fa-solid fa-user' },
+    { label: 'My Services', icon: 'fa-solid fa-toolbox' },
+    { label: 'Availability', icon: 'fa-regular fa-calendar-check' },
+    { label: 'Available Jobs', icon: 'fa-solid fa-magnifying-glass' },
+    { label: 'Job Details', icon: 'fa-solid fa-clipboard-list' },
+    { label: 'My Jobs', icon: 'fa-solid fa-briefcase' },
+    { label: 'Earnings', icon: 'fa-solid fa-naira-sign' },
+    { label: 'Reviews', icon: 'fa-solid fa-star' },
 ];
 
 function resolvePage(hash) {
     const slug = hash.replace(/^#/, '').trim().toLowerCase();
     if (!slug || slug === 'dashboard') return 'Dashboard';
 
-    const pages = [...navigation, { label: 'Settings', icon: '⚙' }];
+    const pages = [...navigation, { label: 'Settings', icon: 'fa-solid fa-gear' }];
     return pages.find((page) => page.label.toLowerCase().replace(/\s+/g, '-') === slug)?.label ?? 'Not found';
 }
 
@@ -59,7 +59,7 @@ function Sidebar({ activePage, onNavigate, isOpen, sidebarRef, onClose }) {
                         aria-current={activePage === item.label ? 'page' : undefined}
                         onClick={() => onNavigate(item.label)}
                     >
-                        <span className="nav-icon" aria-hidden="true">{item.icon}</span>
+                        <span className="nav-icon" aria-hidden="true"><i className={item.icon} aria-hidden="true" /></span>
                         <span>{item.label}</span>
                     </button>
                 ))}
@@ -180,12 +180,12 @@ function App() {
                             aria-controls="provider-navigation"
                             onClick={() => setMenuOpen((open) => !open)}
                         >
-                            <span aria-hidden="true">{menuOpen ? '×' : '☰'}</span>
+                            <span aria-hidden="true">{menuOpen ? <i className="fa-solid fa-xmark" aria-hidden="true" /> : <i className="fa-solid fa-bars" aria-hidden="true" />}</span>
                         </button>
                         <p className="topbar-title">{activePage === 'Dashboard' ? 'Provider dashboard' : activePage}</p>
                     </div>
                     <div className="topbar-actions">
-                        <button className="icon-button" type="button" aria-label="Notifications">♧</button>
+                        <button className="icon-button" type="button" aria-label="Notifications"><i className="fa-regular fa-bell" aria-hidden="true" /></button>
                         <span className="avatar" aria-label="Provider account">NP</span>
                     </div>
                 </header>
