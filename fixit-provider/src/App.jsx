@@ -3,6 +3,7 @@ import './App.css';
 import { FixitAsyncBoundary } from './FixitAsyncBoundary.jsx';
 import { authApi } from './api/auth.js';
 import { ApiError } from './api/client.js';
+import './DemoAuth.css';
 import { clearDemoSession, createDemoUser, isDemoAuthEnabled, isDemoCredentials, readDemoSession, writeDemoSession } from '../../shared/demo-auth.js';
 
 import DashboardPage from './DashboardPage.jsx';
@@ -91,6 +92,7 @@ function ProviderAuth({ onAuthenticated }) {
                 <p className="provider-auth-eyebrow">SERVICE PROVIDER</p>
                 <h1 id="provider-auth-title">Welcome back</h1>
                 <p className="provider-auth-description">Sign in to manage your services, jobs and earnings.</p>
+                {isDemoAuthEnabled() && <p className="provider-auth-demo-hint">Local demo: <strong>demo@fixit.local</strong> / <strong>FixitDemo123!</strong></p>}
                 {error && <p className="provider-auth-error" role="alert">{error}</p>}
                 <form onSubmit={submit} noValidate>
                     <label htmlFor="provider-email">Email address</label>
