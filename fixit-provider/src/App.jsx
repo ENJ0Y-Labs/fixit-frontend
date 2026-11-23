@@ -34,10 +34,11 @@ function resolvePage(hash) {
 function Brand() {
     return (
         <a className="brand" href="#dashboard" aria-label="FixIt provider home">
-            <span className="brand-mark" aria-hidden="true">F</span>
+            <img className="brand-logo" src="/brand/logo.svg" alt="" />
             <span>
                 <span className="brand-name">FixIt</span>
                 <span className="brand-caption">Provider workspace</span>
+                <span className="brand-tagline">Trusted help for every home.</span>
             </span>
         </a>
     );
