@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './styles/pages/jobs.css';
 import './styles/pages/account.css';
 import './styles/pages/my-jobs.css';
@@ -81,22 +81,38 @@ function App() {
     const [jobs, setJobs] = useState(initialJobs);
     const [myJobsViewState, setMyJobsViewState] = useState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
     const [selectedJob, setSelectedJob] = useState(initialJobs[0]);
+    const hasSyncedInitialRoute = useRef(false);
 
     useEffect(() => {
         const syncPageWithHash = () => setActivePage(getPageFromHash());
+        window.addEventListener('popstate', syncPageWithHash);
         window.addEventListener('hashchange', syncPageWithHash);
-        return () => window.removeEventListener('hashchange', syncPageWithHash);
+        return () => {
+            window.removeEventListener('popstate', syncPageWithHash);
+            window.removeEventListener('hashchange', syncPageWithHash);
+        };
     }, []);
+
+    useEffect(() => {
+        const nextHash = `#/${PAGE_HASHES[activePage]}`;
+        if (window.location.hash === nextHash) {
+            hasSyncedInitialRoute.current = true;
+            return;
+        }
+
+        const nextUrl = `${window.location.pathname}${window.location.search}${nextHash}`;
+        if (hasSyncedInitialRoute.current) {
+            window.history.pushState(window.history.state, '', nextUrl);
+        } else {
+            window.history.replaceState(window.history.state, '', nextUrl);
+            hasSyncedInitialRoute.current = true;
+        }
+    }, [activePage]);
 
     const navigate = (page, job = selectedJob) => {
         const nextPage = PAGE_HASHES[page] ? page : 'home';
         if (job) setSelectedJob(job);
         setActivePage(nextPage);
-
-        const nextHash = `#/${PAGE_HASHES[nextPage]}`;
-        if (window.location.hash !== nextHash) {
-            window.location.hash = nextHash;
-        }
     };
 
     const handleCancelJob = (job) => {
@@ -112,7 +128,7 @@ function App() {
 
     const handleJobPosted = (job) => {
         const newJob = {
-            id: `JOB-${Date.now().toString().slice(-5)}`,
+            id: job.id,
             icon: job.category === 'Electrical'
                 ? 'fa-solid fa-bolt'
                 : job.category === 'Cleaning'
