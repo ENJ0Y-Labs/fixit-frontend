@@ -13,7 +13,7 @@ function getUser(payload) {
 }
 
 function getAuthRouteMode() {
-    const route = window.location.hash.replace(/^#\\/?/, '').split('?')[0];
+    const route = (window.location.hash.startsWith('#/') ? window.location.hash.slice(2) : window.location.hash.slice(1)).split('?')[0];
     return route === 'signup' || route === 'login' ? route : null;
 }
 
