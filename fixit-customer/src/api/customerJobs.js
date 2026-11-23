@@ -108,7 +108,8 @@ export function extractJobList(response) {
 export function extractJob(response) {
     const payload = response?.data ?? response;
     const record = payload?.job ?? payload?.item ?? payload;
-    return normalizeJob(record);
+    const job = normalizeJob(record);
+    return job?.id ? job : null;
 }
 
 export function jobErrorMessage(error, fallback = 'We could not load your jobs. Please try again.') {
