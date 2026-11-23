@@ -1,8 +1,8 @@
 const demoMetrics = [
-    { label: 'Total customers', value: '1,284', change: '+8.2%', note: 'vs. previous month', tone: 'positive', icon: '♙' },
-    { label: 'Registered providers', value: '342', change: '+5.4%', note: 'vs. previous month', tone: 'positive', icon: '♧' },
-    { label: 'Jobs on platform', value: '856', change: '+12.6%', note: 'vs. previous month', tone: 'positive', icon: '▤' },
-    { label: 'Pending verification', value: '4', change: 'Needs review', note: 'Sample queue records', tone: 'attention', icon: '✓' },
+    { label: 'Total customers', value: '1,284', change: '+8.2%', note: 'vs. previous month', tone: 'positive', icon: 'fa-solid fa-users' },
+    { label: 'Registered providers', value: '342', change: '+5.4%', note: 'vs. previous month', tone: 'positive', icon: 'fa-solid fa-user-tie' },
+    { label: 'Jobs on platform', value: '856', change: '+12.6%', note: 'vs. previous month', tone: 'positive', icon: 'fa-solid fa-briefcase' },
+    { label: 'Pending verification', value: '4', change: 'Needs review', note: 'Sample queue records', tone: 'attention', icon: 'fa-solid fa-user-shield' },
 ];
 
 const demoActivity = [
@@ -30,7 +30,7 @@ export default function DashboardPage({ onNavigate }) {
     return (
         <>
             <div className="demo-notice" role="note">
-                <span className="demo-notice-icon" aria-hidden="true">i</span>
+                <span className="demo-notice-icon" aria-hidden="true"><i className="fa-solid fa-circle-info" /></span>
                 <p><strong>Demo environment</strong> These are illustrative sample figures and records, not live FixIt platform data.</p>
             </div>
             <section className="page-heading">
@@ -45,7 +45,7 @@ export default function DashboardPage({ onNavigate }) {
                 {demoMetrics.map((metric) => (
                     <article className="metric-card" key={metric.label}>
                         <div className="metric-topline">
-                            <span className="metric-icon" aria-hidden="true">{metric.icon}</span>
+                            <span className="metric-icon" aria-hidden="true"><i className={metric.icon} aria-hidden="true" /></span>
                             <span className={`metric-change ${metric.tone}`}>{metric.change}</span>
                         </div>
                         <p className="metric-label">{metric.label}</p>
@@ -80,17 +80,17 @@ export default function DashboardPage({ onNavigate }) {
                 <aside className="panel attention-panel" aria-labelledby="attention-heading">
                     <div className="panel-header"><div><h2 id="attention-heading">Needs attention</h2><p>Items an admin may need to review.</p></div></div>
                     <button className="attention-item" type="button" onClick={() => onNavigate('Verification')}>
-                        <span className="attention-icon warning" aria-hidden="true">✓</span>
+                        <span className="attention-icon warning" aria-hidden="true"><i className="fa-solid fa-circle-check" /></span>
                         <span className="attention-copy"><strong>Provider verification</strong><small>Applications awaiting review</small></span>
                         <strong className="attention-number">4</strong>
                     </button>
                     <button className="attention-item" type="button" onClick={() => onNavigate('Disputes & support')}>
-                        <span className="attention-icon danger" aria-hidden="true">!</span>
+                        <span className="attention-icon danger" aria-hidden="true"><i className="fa-solid fa-triangle-exclamation" /></span>
                         <span className="attention-copy"><strong>Open disputes</strong><small>Require investigation</small></span>
                         <strong className="attention-number">7</strong>
                     </button>
                     <button className="attention-item" type="button" onClick={() => onNavigate('Jobs')}>
-                        <span className="attention-icon neutral" aria-hidden="true">▤</span>
+                        <span className="attention-icon neutral" aria-hidden="true"><i className="fa-solid fa-briefcase" /></span>
                         <span className="attention-copy"><strong>Unassigned jobs</strong><small>Awaiting provider response</small></span>
                         <strong className="attention-number">23</strong>
                     </button>
