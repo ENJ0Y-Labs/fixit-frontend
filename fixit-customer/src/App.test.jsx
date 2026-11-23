@@ -56,6 +56,16 @@ describe('customer application', () => {
 
         window.history.back();
         expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+
+        window.history.forward();
+        expect(await screen.findByRole('heading', { name: /Post a New Job/i })).toBeInTheDocument();
+    });
+
+    it('renders a safe not-found screen for an unknown authenticated route', async () => {
+        window.history.replaceState(null, '', '#/route-that-does-not-exist');
+        await renderApp();
+        expect(await screen.findByRole('heading', { name: 'Page not found' })).toBeInTheDocument();
+        expect(window.location.hash).toBe('#/not-found');
     });
 
     it('filters the sample provider list using the service search', async () => {
