@@ -22,7 +22,7 @@ function Nav({ activePage, onNavigate, user, onLogout, isOpen, onClose }) {
             <p className="customer-nav-label">Workspace</p>
             <nav className="customer-nav-links" aria-label="Main navigation">
                 {navItems.map((item) => {
-                    const isActive = activePage === item.id;
+                    const isActive = activePage === item.id || (item.id === 'myJobs' && ['postJob', 'jobDetails', 'payment', 'review'].includes(activePage));
                     return (
                         <button key={item.id} type="button" className="customer-nav-link" onClick={() => onNavigate(item.id)} aria-current={isActive ? 'page' : undefined}>
                             <span className="customer-nav-icon" aria-hidden="true"><i className={item.icon} /></span>
