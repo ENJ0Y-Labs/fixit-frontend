@@ -35,12 +35,12 @@ describe('customer application', () => {
     });
 
     it('restores My Jobs when the page is opened or refreshed at its URL hash', async () => {
-        window.history.replaceState(null, '', '#/my-jobs');
+        window.history.replaceState(null, '', '#my-jobs');
 
         await renderApp();
 
         expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
-        expect(window.location.hash).toBe('#/my-jobs');
+        expect(window.location.hash).toBe('#my-jobs');
     });
 
     it('updates the URL hash when navigating and supports browser back navigation', async () => {
@@ -48,11 +48,11 @@ describe('customer application', () => {
 
         fireEvent.click(screen.getByRole('button', { name: 'My Jobs' }));
         expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
-        expect(window.location.hash).toBe('#/my-jobs');
+        expect(window.location.hash).toBe('#my-jobs');
 
         fireEvent.click(screen.getByRole('button', { name: 'Post a New Job' }));
         expect(await screen.findByRole('heading', { name: /Post a New Job/i })).toBeInTheDocument();
-        expect(window.location.hash).toBe('#/post-job');
+        expect(window.location.hash).toBe('#post-job');
 
         window.history.back();
         expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
@@ -62,10 +62,10 @@ describe('customer application', () => {
     });
 
     it('renders a safe not-found screen for an unknown authenticated route', async () => {
-        window.history.replaceState(null, '', '#/route-that-does-not-exist');
+        window.history.replaceState(null, '', '#route-that-does-not-exist');
         await renderApp();
         expect(await screen.findByRole('heading', { name: 'Page not found' })).toBeInTheDocument();
-        expect(window.location.hash).toBe('#/not-found');
+        expect(window.location.hash).toBe('#not-found');
     });
 
     it('filters the sample provider list using the service search', async () => {
