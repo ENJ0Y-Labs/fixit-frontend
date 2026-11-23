@@ -32,6 +32,7 @@ describe('provider workspace navigation', () => {
 
         expect(screen.getByRole('heading', { name: /provider dashboard/i })).toBeInTheDocument();
         expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument();
+        expect([...document.querySelectorAll('.provider-nav .nav-icon i')].every((icon) => [...icon.classList].some((name) => name.startsWith('fa-')))).toBe(true);
     });
 
     it.each(pageLabels)('opens the %s screen and marks it active', async (page) => {
