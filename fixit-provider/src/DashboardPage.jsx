@@ -154,11 +154,11 @@ export default function DashboardPage({ dataState = 'populated', onNavigate = ()
                     </div>
                     <div className="quick-actions">
                         <button className="quick-action" type="button" onClick={() => onNavigate('My Services')}>
-                            <span className="quick-action-icon" aria-hidden="true">＋</span>
+                            <span className="quick-action-icon" aria-hidden="true"><i className="fa-solid fa-plus" /></span>
                             <span className="quick-action-copy"><strong>Manage services</strong><span>Update the services you offer</span></span>
                         </button>
                         <button className="quick-action" type="button" onClick={() => onNavigate('Availability')}>
-                            <span className="quick-action-icon" aria-hidden="true">◷</span>
+                            <span className="quick-action-icon" aria-hidden="true"><i className="fa-regular fa-clock" /></span>
                             <span className="quick-action-copy"><strong>Set availability</strong><span>Keep your working hours current</span></span>
                         </button>
                     </div>
