@@ -41,6 +41,6 @@ describe('customer job data mapping', () => {
     it('extracts a single job response and handles invalid payloads', () => {
         expect(extractJob({ data: { job: { id: 'job-3', title: 'Paint room' } } }).id).toBe('job-3');
         expect(extractJob({ data: null })).toBeNull();
-        expect(extractJobList({ data: { items: 'invalid' } })).toEqual([]);
+        expect(() => extractJobList({ data: { items: 'invalid' } })).toThrow('invalid jobs response');
     });
 });
