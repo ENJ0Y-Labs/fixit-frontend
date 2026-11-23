@@ -96,7 +96,7 @@ function CustomerWorkspace({ user, onLogout }) {
     }, []);
 
     useEffect(() => {
-        const nextHash = `#/${PAGE_HASHES[activePage]}`;
+        const nextHash = `#${PAGE_HASHES[activePage]}`;
         if (window.location.hash === nextHash) {
             hasSyncedInitialRoute.current = true;
             return;
