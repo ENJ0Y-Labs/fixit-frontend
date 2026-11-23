@@ -47,6 +47,10 @@ function Nav({ activePage, onNavigate, user, onLogout }) {
                     <div className="user-role">Customer account</div>
                 </div>
             </div>
+            <button type="button" className="nav-item customer-logout-button" onClick={onLogout}>
+                <i aria-hidden="true" className="fa-solid fa-right-from-bracket"></i>
+                <span>Sign out</span>
+            </button>
         </nav>
     );
 }
