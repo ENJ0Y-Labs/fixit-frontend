@@ -61,3 +61,13 @@
 @media(max-width:650px){.fixit-public-header{min-height:64px;padding:0 12px;gap:6px}.fixit-public-brand{font-size:19px}.fixit-public-brand img{width:31px;height:31px}.fixit-public-links{gap:0}.fixit-public-links button{min-height:38px;padding:0 6px;font-size:10px}.fixit-public-links button:nth-child(3){display:none}.fixit-public-login{min-height:38px;padding:0 6px;font-size:10px}.fixit-public-primary{min-height:38px;padding:0 10px;font-size:10px}.fixit-landing-hero{padding:45px 20px 32px;grid-template-columns:1fr;gap:4px}.fixit-landing-copy h1{font-size:clamp(38px,11vw,54px)}.fixit-landing-copy>p:not(.fixit-landing-note){font-size:14px}.fixit-landing-art{min-height:220px}.fixit-landing-art-orbit{width:210px}.fixit-landing-tool{width:145px;height:145px;border-radius:28px;font-size:60px}.fixit-landing-art-card{right:2%;bottom:3px;padding:10px 12px;font-size:11px}.fixit-landing-categories,.fixit-landing-how{padding:40px 16px}.fixit-landing-section-heading{align-items:flex-start;flex-direction:column;gap:8px}.fixit-landing-category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.fixit-landing-category{min-height:140px;padding:14px}.fixit-landing-steps{grid-template-columns:1fr;gap:10px}.fixit-landing-steps article{min-height:150px}.fixit-landing-bottom-cta{margin:0 14px 36px;padding:22px;align-items:flex-start;flex-direction:column}.fixit-provider-profile{padding:24px 14px 42px}.fixit-provider-profile-card{grid-template-columns:1fr;gap:18px}.fixit-provider-profile-icon{width:86px;height:86px;font-size:32px}}
 @media(max-width:380px){.fixit-public-brand span{display:none}.fixit-public-links button{padding:0 4px;font-size:9px}}
 @media(prefers-reduced-motion:reduce){.fixit-landing-category{transition:none}.fixit-landing-category:hover{transform:none}}
+
+.marketplace-data-status,.marketplace-data-notice{margin:12px 0;padding:12px 14px;border-radius:9px;font-size:12px;line-height:1.6}
+.marketplace-data-status{background:#f1f5f2;color:#405b49}
+.marketplace-data-notice{border:1px solid #e8dfc8;background:#fffaf0;color:#765d2d}
+.fixit-provider-profile-icon img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.fixit-provider-detail-section{margin:20px 0;color:#526258}
+.fixit-provider-detail-section h2{margin-bottom:9px;color:#263c2e;font-size:16px}
+.fixit-provider-detail-section ul{padding-left:18px;display:grid;gap:10px}
+.fixit-provider-detail-section li{font-size:13px;line-height:1.6}
+.fixit-provider-detail-section li p{margin-top:3px;color:#748078}
