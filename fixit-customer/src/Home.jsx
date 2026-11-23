@@ -245,7 +245,7 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                             <div className="marketplace-results-heading">
                                 <div>
                                     <h2>Service providers near you</h2>
-                                    <p>{filteredProviders.length} {providerState.source === 'api' ? 'providers' : 'sample listings'}</p>
+                                    <p>{filteredProviders.length} matching {providerState.source === 'api' ? 'providers' : 'sample listings'}</p>
                                 </div>
                                 <label className="marketplace-sort">
                                     <span>Sort by</span>
