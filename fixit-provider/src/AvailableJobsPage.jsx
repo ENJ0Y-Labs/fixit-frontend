@@ -133,7 +133,7 @@ export function AvailableJobsPage({ dataState = 'populated', onRetry = () => {},
                         {pageJobs.map((job) => (
                             <article className="card available-job-card" key={job.id}>
                                 <div className="available-job-card-main"><div className="available-job-title-row"><span className="job-category-tag">{job.category}</span><span className="job-posted">Posted {job.postedAt.toLowerCase()}</span>{job.stale && <span className="status-badge status-warning">May be outdated</span>}</div><h2>{job.title}</h2><p className="available-job-location"><i className="fa-solid fa-location-dot" aria-hidden="true" /> {job.location}</p><p className="available-job-summary">{job.description}</p><div className="available-job-meta"><span>{job.urgency}</span><span>{job.duration}</span><span>{job.bids} {job.bids === 1 ? 'response' : 'responses'}</span></div></div>
-                                <div className="available-job-card-side"><span className="budget-label">Indicative budget</span><strong>{formatNaira(job.budget)}</strong><button className="btn btn-primary" type="button" onClick={() => setSelectedJobId(job.id)}>View details <span aria-hidden="true">↗</span></button></div>
+                                <div className="available-job-card-side"><span className="budget-label">Indicative budget</span><strong>{formatNaira(job.budget)}</strong><button className="btn btn-primary" type="button" onClick={() => setSelectedJobId(job.id)}>View details <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></button></div>
                             </article>
                         ))}
                     </div>
