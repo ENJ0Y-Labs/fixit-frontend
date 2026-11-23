@@ -21,7 +21,7 @@ describe('marketplace category browsing', () => {
         expect(popular).toBeInTheDocument();
 
         const categoryButtons = screen.getAllByRole('button', { name: /plumbing|electrical|cleaning|carpentry|painting|more/i });
-        expect(categoryButtons.map((button) => button.textContent.trim())).toEqual([
+        expect(categoryButtons.map((button) => button.getAttribute('aria-label'))).toEqual([
             'Plumbing', 'Electrical', 'Cleaning', 'Carpentry', 'Painting', 'More',
         ]);
         expect(document.querySelectorAll('.marketplace-category-list .category-symbol')).toHaveLength(6);
