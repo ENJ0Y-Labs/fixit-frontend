@@ -10,7 +10,7 @@ vi.mock('../api/customer.js', () => ({
 }));
 
 describe('public provider data', () => {
-    beforeEach(() => vi.clearAllMocks());
+    beforeEach(() => { vi.clearAllMocks(); customerApi.listProviderReviews.mockResolvedValue({ data: { items: [] } }); });
 
     it('normalizes only fields supplied by the public API', () => {
         const provider = normalizePublicProvider({
@@ -62,7 +62,7 @@ describe('public provider data', () => {
 
     it('loads a provider profile by its public ID', async () => {
         customerApi.getProvider.mockResolvedValue({
-            data: { id: 'provider-3', displayName: 'Chika Example', bio: 'Repairs and installations.' },
+            data: { id: 'provider-3', displayName: 'Chika Example', bio: 'Repairs and installations.', publicCredentials: [{ label: 'Trade certificate' }] },
         });
 
         const result = await loadPublicProvider('provider-3');
@@ -71,5 +71,7 @@ describe('public provider data', () => {
         expect(result.source).toBe('api');
         expect(result.provider.name).toBe('Chika Example');
         expect(result.provider.description).toBe('Repairs and installations.');
+        expect(result.provider.credentials).toEqual(['Trade certificate']);
+        expect(customerApi.listProviderReviews).toHaveBeenCalledWith('provider-3', { limit: 10 });
     });
 });
