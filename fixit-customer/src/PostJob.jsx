@@ -17,6 +17,7 @@ function PostJob({ onBack, onJobPosted }) {
         budget: '',
     });
     const [saved, setSaved] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
 
     const updateField = (field, value) => {
@@ -29,7 +30,7 @@ function PostJob({ onBack, onJobPosted }) {
         setSelectedFiles(Array.from(event.target.files ?? []).slice(0, 5));
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
 
         if (!form.title.trim() || !form.category || !form.location.trim() || !form.budget) {
@@ -37,14 +38,14 @@ function PostJob({ onBack, onJobPosted }) {
             return;
         }
 
-        onJobPosted({
-            id: `JOB-${Date.now().toString().slice(-5)}`,
-            ...form,
-            title: form.title.trim(),
-            location: form.location.trim(),
-            budget: Number(form.budget),
-            dateStr: form.date ? new Date(`${form.date}T12:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }) : 'Flexible date',
-        });
+        setSubmitting(true);
+        try {
+            await onJobPosted({ ...form, title: form.title.trim(), location: form.location.trim(), budget: Number(form.budget) });
+        } catch (submitError) {
+            setError(submitError?.message || 'Your job could not be posted. Please try again.');
+        } finally {
+            setSubmitting(false);
+        }
     }
 
     return (
@@ -109,7 +110,7 @@ function PostJob({ onBack, onJobPosted }) {
                                 <span className="upload-sub">Up to 5 photos • JPG, PNG</span>
                                 <input ref={fileInputRef} type="file" name="photos" id="job-photos" accept="image/jpeg,image/png" multiple onChange={handleFileChange} />
                             </label>
-                            {selectedFiles.length > 0 && <p className="file-count">{selectedFiles.length} photo{selectedFiles.length === 1 ? '' : 's'} selected.</p>}
+                            {selectedFiles.length > 0 && <p className="file-count">{selectedFiles.length} photo{selectedFiles.length === 1 ? '' : 's'} selected. Uploading photos is not connected yet.</p>}
                         </div>
 
                         <div className="form-field">
@@ -127,7 +128,7 @@ function PostJob({ onBack, onJobPosted }) {
 
                     <div className="form-actions">
                         <button type="button" className="outline-button" onClick={() => setSaved(true)}>Save as Draft</button>
-                        <button type="submit" className="dark-button">Post This Job</button>
+                        <button type="submit" className="dark-button" disabled={submitting}>{submitting ? 'Posting…' : 'Post This Job'}</button>
                     </div>
                 </form>
             </main>

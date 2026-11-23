@@ -12,11 +12,11 @@ function JobCard({
     priceValue = 0,
     priceSubtext = '',
     providerName = '',
-    providerRating = 0,
-    bidNo = 0,
+    providerRating = null,
+    bidNo = null,
     minBudget = 0,
     maxBudget = 0,
-    progressPercentage = 0,
+    progressPercentage = null,
     onDetails,
 }) {
     const normalized = status.toUpperCase();
@@ -24,9 +24,11 @@ function JobCard({
     const isAwaitingBids = normalized === 'AWAITING BIDS';
     const isInProgress = normalized === 'IN PROGRESS';
     const isCompleted = normalized === 'COMPLETED';
-    const priceText = isAwaitingBids
-        ? `₦${(minBudget || 0).toLocaleString('en-NG')} - ₦${(maxBudget || minBudget || 0).toLocaleString('en-NG')}`
-        : `₦${(priceValue || 0).toLocaleString('en-NG')}`;
+    const isCancelled = normalized === 'CANCELLED';
+    const hasPrice = Number.isFinite(Number(priceValue)) && priceValue !== null && priceValue !== '';
+    const priceText = !hasPrice ? 'Not provided' : isAwaitingBids
+        ? (minBudget || maxBudget ? `₦${Number(minBudget || 0).toLocaleString('en-NG')} - ₦${Number(maxBudget || minBudget || 0).toLocaleString('en-NG')}` : `₦${Number(priceValue).toLocaleString('en-NG')}`)
+        : `₦${Number(priceValue).toLocaleString('en-NG')}`;
     const initials = providerName
         ? providerName.split(' ').map((part) => part[0]).slice(0, 2).join('').toUpperCase()
         : '';
@@ -59,10 +61,10 @@ function JobCard({
                         <div className="my-job-provider">
                             <span className="my-job-provider-avatar" aria-hidden="true">{initials}</span>
                             <span className="my-job-provider-copy"><strong>{providerName}</strong><small>{isCompleted ? 'Service provider' : 'Assigned provider'}</small></span>
-                            {providerRating > 0 && <span className="my-job-rating"><i className="fa-solid fa-star" aria-hidden="true"></i>{providerRating.toFixed(1)}</span>}
+                            {providerRating !== null && providerRating !== undefined && Number.isFinite(Number(providerRating)) && <span className="my-job-rating"><i className="fa-solid fa-star" aria-hidden="true"></i>{Number(providerRating).toFixed(1)}</span>}
                         </div>
                     )}
-                    {isAwaitingBids && <p className="my-job-bids-copy">{bidNo > 0 ? `${bidNo} provider responses received for this request.` : 'Your request is open and waiting for provider responses.'}</p>}
+                    {isAwaitingBids && <p className="my-job-bids-copy">{bidNo > 0 ? `${bidNo} provider responses received for this request.` : bidNo === 0 ? 'No provider bids have been received yet.' : 'Provider response count is not available.'}</p>}
                 </div>
 
                 <div className="job-price my-job-price">
@@ -74,7 +76,7 @@ function JobCard({
                 </div>
 
                 <div className="my-job-progress-panel">
-                    {isInProgress ? (
+                    {isInProgress && progressPercentage !== null && Number.isFinite(Number(progressPercentage)) ? (
                         <>
                             <div className="my-job-progress-heading"><span>Job progress</span><strong>{Math.min(Math.max(progressPercentage, 0), 100)}%</strong></div>
                             <div className="progress-track" role="progressbar" aria-label="Job progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.min(Math.max(progressPercentage, 0), 100)}>
@@ -82,12 +84,16 @@ function JobCard({
                             </div>
                             <div className="my-job-progress-stages"><span>Booked</span><span>In progress</span><span>Completed</span></div>
                         </>
+                    ) : isInProgress ? (
+                        <><strong>Work in progress</strong><p>A progress percentage has not been provided.</p></>
                     ) : isAwaitingBids ? (
                         <><strong>Review provider bids</strong><p>Compare responses before choosing a provider.</p></>
                     ) : isCompleted ? (
                         <><strong>Service completed</strong><p>View the job summary and provider details.</p></>
-                    ) : (
+                     ) : isCancelled ? (
                         <><strong>Request cancelled</strong><p>This job is no longer active.</p></>
+                    ) : (
+                        <><strong>{status}</strong><p>Further job updates are not available yet.</p></>
                     )}
                 </div>
             </div>
@@ -95,7 +101,7 @@ function JobCard({
             <div className="my-job-card-footer">
                 <span className="my-job-location"><i className="fa-solid fa-location-dot" aria-hidden="true"></i>{location}</span>
                 <div className="my-job-actions">
-                    {isAwaitingBids && <button type="button" className="outline-button" onClick={onDetails}>Review bids ({bidNo})</button>}
+                    {isAwaitingBids && <button type="button" className="outline-button" onClick={onDetails}>{bidNo === null ? 'Review bids' : `Review bids (${bidNo})`}</button>}
                     <button type="button" className="dark-button" onClick={onDetails}>Job Details <i className="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>

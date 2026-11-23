@@ -13,8 +13,10 @@ export const customerApi = {
     listProviders: (query) => apiClient.get('public/providers', { query }),
     getProvider: (providerId) => apiClient.get(`public/providers/${encodeURIComponent(providerId)}`),
     listProviderReviews: (providerId, query) => apiClient.get(`public/providers/${encodeURIComponent(providerId)}/reviews`, { query }),
-    listJobs: (query) => apiClient.get('customer/me/jobs', { query }),
-    getJob: (jobId) => apiClient.get(`customer/me/jobs/${encodeURIComponent(jobId)}`),
+    listJobs: (query, options = {}) => apiClient.get('customer/me/jobs', { ...options, query }),
+    getJob: (jobId, options) => options
+        ? apiClient.get(`customer/me/jobs/${encodeURIComponent(jobId)}`, options)
+        : apiClient.get(`customer/me/jobs/${encodeURIComponent(jobId)}`),
     createJob: (payload) => apiClient.post('customer/me/jobs', payload),
     updateJob: (jobId, payload) => apiClient.patch(`customer/me/jobs/${encodeURIComponent(jobId)}`, payload),
     cancelJob: (jobId, payload = {}) => apiClient.post(`customer/me/jobs/${encodeURIComponent(jobId)}/cancel`, payload),
