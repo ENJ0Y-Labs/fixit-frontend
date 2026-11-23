@@ -40,12 +40,25 @@ function AuthForm({ mode, onModeChange, onAuthenticated }) {
         event.preventDefault();
         setError('');
         setNotice('');
+        const email = values.email.trim();
+        if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+            setError('Enter a valid email address.');
+            return;
+        }
+        if (!values.password) {
+            setError('Enter your password.');
+            return;
+        }
+        if (isSignup && (!values.name.trim() || !values.phone.trim())) {
+            setError('Enter your full name and phone number.');
+            return;
+        }
         setSubmitting(true);
         try {
             if (isSignup) {
                 await authApi.register({
                     name: values.name.trim(),
-                    email: values.email.trim(),
+                    email,
                     phone: values.phone.trim(),
                     password: values.password,
                     role: 'customer',
