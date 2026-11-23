@@ -165,7 +165,9 @@ function CustomerWorkspace({ user, onLogout }) {
         if (!cancelledJob?.id || cancelledJob.status !== 'CANCELLED') {
             throw new Error('The server did not confirm that this job was cancelled.');
         }
-        setJobs((current) => current.map((job) => job.id === cancelledJob.id ? cancelledJob : job));
+        setJobs((current) => current.some((job) => job.id === cancelledJob.id)
+            ? current.map((job) => job.id === cancelledJob.id ? cancelledJob : job)
+            : [cancelledJob, ...current]);
         setSelectedJob(cancelledJob);
         navigate('myJobs');
     };
