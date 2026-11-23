@@ -28,7 +28,7 @@ Use the repository's standard list envelope:
         "status": "IN_PROGRESS",
         "scheduledAt": "2026-11-23T10:00:00+01:00",
         "serviceLocation": "Rumuola, Port Harcourt",
-        "agreedPrice": 1200000,
+        "agreedPrice": "12000.00",
         "payment": {
           "id": "payment_456",
           "status": "ESCROWED"
@@ -49,7 +49,7 @@ Use the repository's standard list envelope:
 }
 ```
 
-The money example is illustrative only. Before implementation, backend and frontend teams must agree whether monetary values are integer kobo or decimal-string naira and update the example accordingly.
+The money example uses decimal-string naira for illustration. The backend and frontend teams must confirm the chosen representation before implementation; the client must be updated if the backend uses integer kobo instead.
 
 ## Single-job response
 
