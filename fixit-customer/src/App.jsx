@@ -247,7 +247,7 @@ function CustomerWorkspace({ user, onLogout }) {
     };
 
     const customerName = user?.name || user?.fullName || user?.email || 'Customer account';
-    const customerInitials = customerName.split(/[\\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'CU';
+    const customerInitials = customerName.split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'CU';
 
     const renderPage = () => {
         switch (activePage) {
