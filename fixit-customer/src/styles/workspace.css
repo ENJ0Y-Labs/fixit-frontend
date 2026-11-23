@@ -303,6 +303,11 @@
     display: none;
 }
 
+.home-marketplace.is-workspace-embedded .marketplace-header {
+    top: var(--topbar-height);
+    z-index: 10;
+}
+
 /* The shared body grid should show through every Customer page root. */
 .page-surface:not(.home-marketplace),
 .account,
@@ -492,6 +497,10 @@
         font-size: .82rem;
         font-weight: 700;
     }
+}
+
+@media (max-width: 1024px) {
+    .home-marketplace.is-workspace-embedded .marketplace-header { top: 64px; }
 }
 
 @media (max-width: 760px) {
