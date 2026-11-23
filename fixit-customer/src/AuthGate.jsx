@@ -22,7 +22,7 @@ function routeMode() {
 }
 
 function setRoute(mode, replace = false) {
-    const url = `${window.location.pathname}${window.location.search}#/${mode}`;
+    const url = `${window.location.pathname}${window.location.search}#${mode}`;
     if (replace) window.history.replaceState(window.history.state, '', url);
     else window.history.pushState(window.history.state, '', url);
     window.dispatchEvent(new PopStateEvent('popstate'));
@@ -94,7 +94,7 @@ function AuthForm({ mode, onModeChange, onAuthenticated }) {
     return (
         <main className="customer-auth-page">
             <section className="customer-auth-card" aria-labelledby="auth-title">
-                <a className="customer-auth-brand" href="#/login" aria-label="FixIt customer home">
+                <a className="customer-auth-brand" href="#login" aria-label="FixIt customer home">
                     <img src="/brand/logo.png" alt="" />
                     <span>FixIt</span>
                 </a>
