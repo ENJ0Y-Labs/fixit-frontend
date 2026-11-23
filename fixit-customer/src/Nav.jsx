@@ -8,7 +8,7 @@ function Nav({ activePage, onNavigate }) {
     return (
         <nav className="sidebar" aria-label="Primary navigation">
             <div className="logo">
-                <img className="brand-logo customer-brand-logo" src="/brand/logo.svg" alt="" />
+                <img className="brand-logo customer-brand-logo" src="/brand/logo.png" alt="" />
                 <div className="logo-copy">
                     <div className="logo-text">FixIt</div>
                     <span className="brand-tagline">Trusted help for every home.</span>
