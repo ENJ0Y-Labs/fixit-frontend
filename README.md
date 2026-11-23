@@ -52,7 +52,7 @@ The customer-facing marketplace currently includes:
 - Conversations and message composer
 - Customer account and profile preferences
 
-**Current limitations:** provider and job records are sample data; most actions use local component state. Job creation, cancellation, profile edits, messaging, favorites, uploads, reviews, and payment UI are not evidence of backend persistence or completed transactions. The customer app includes Vitest and Testing Library coverage plus a proposed API client, authentication module, and customer resource module. These are not connected to the mock-driven screens.
+**Current limitations:** provider and job records are sample data; most actions use local component state. Job creation, job cancellation, and job reads call the proposed customer API routes but are not live until a backend implements the contract. Profile edits, messaging, favorites, uploads, reviews, and payment UI remain prototype behavior and are not evidence of backend persistence or completed transactions. The customer app includes Vitest and Testing Library coverage plus a proposed API client, authentication module, and customer resource module. These are not connected to the mock-driven screens.
 
 Run it:
 
