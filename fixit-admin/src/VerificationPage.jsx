@@ -94,7 +94,7 @@ export default function VerificationPage() {
     return (
         <div className="verification-page">
             <div className="demo-notice" role="note">
-                <span className="demo-notice-icon" aria-hidden="true">i</span>
+                <span className="demo-notice-icon" aria-hidden="true"><i className="fa-solid fa-circle-info" /></span>
                 <p><strong>Verification demo</strong> All providers, document names, and review outcomes are illustrative. No real documents are attached, and demo decisions are not saved or sent to providers.</p>
             </div>
 
@@ -125,7 +125,7 @@ export default function VerificationPage() {
 
                 <div className="verification-filters">
                     <label className="provider-search">
-                        <span aria-hidden="true">⌕</span>
+                        <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
                         <input type="search" aria-label="Search verification cases" placeholder="Search provider, business, or case ID" value={search} onChange={(event) => changeSearch(event.target.value)} />
                     </label>
                     <label className="filter-control">
@@ -194,7 +194,7 @@ export default function VerificationPage() {
                         </div>
                         {selectedRecord.documents.map((document) => (
                             <article className="verification-document" key={document.name}>
-                                <span className="verification-file-icon" aria-hidden="true">▤</span>
+                                <span className="verification-file-icon" aria-hidden="true"><i className="fa-solid fa-file-lines" /></span>
                                 <div className="verification-document-copy">
                                     <strong>{document.name}</strong>
                                     <small>{document.fileName}</small>
