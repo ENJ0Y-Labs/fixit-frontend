@@ -34,7 +34,7 @@ function resolvePage(hash) {
 function Brand() {
     return (
         <a className="brand" href="#dashboard" aria-label="FixIt provider home">
-            <img className="brand-logo" src="/brand/logo.svg" alt="" />
+            <img className="brand-logo" src="/brand/logo.png" alt="" />
             <span>
                 <span className="brand-name">FixIt</span>
                 <span className="brand-caption">Provider workspace</span>
