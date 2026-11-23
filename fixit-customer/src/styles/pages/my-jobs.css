@@ -65,3 +65,54 @@
  .my-jobs-metrics,.my-jobs-controls,.my-jobs-list-heading,.my-jobs-list {margin-left:11px;margin-right:11px;}
 }
 @media(prefers-reduced-motion:reduce) { .my-jobs-enter,.my-jobs-metric,.my-job-card-lazy-wrap,.my-job-card-skeleton {animation:none!important;} .my-job-card,.my-jobs-tabs button,.my-jobs-post-button,.my-job-actions button {transition:none!important;} }
+
+
+/* Issue #32: resilient My Jobs layout and API states. */
+.my-jobs-content { width: min(100%, 1240px); min-width: 0; margin-inline: auto; padding-inline: clamp(12px, 3vw, 36px); }
+.my-jobs-titlebar { min-width: 0; flex-wrap: wrap; gap: 16px; }
+.my-jobs-heading-copy, .my-jobs-heading-line, .my-jobs-list-heading, .my-job-card-body, .my-job-main-details { min-width: 0; }
+.my-jobs-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.my-jobs-metric { min-width: 0; }
+.my-jobs-controls, .my-jobs-filter-row, .my-jobs-search, .my-jobs-selects { min-width: 0; max-width: 100%; }
+.my-jobs-search { flex: 1 1 240px; }
+.my-jobs-search input { width: 100%; min-width: 0; }
+.my-jobs-selects { display: flex; flex-wrap: wrap; gap: 8px; }
+.my-jobs-selects label, .my-jobs-selects select { min-width: 0; max-width: 100%; }
+.my-jobs-tabs { display: flex; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; }
+.my-jobs-tabs button { flex: 0 0 auto; white-space: nowrap; }
+.my-jobs-list { min-width: 0; }
+.my-job-card { min-width: 0; }
+.my-job-card-body > *, .my-job-card-footer > * { min-width: 0; }
+.my-job-main-details h2, .my-job-location, .my-job-card-reference { overflow-wrap: anywhere; }
+.my-job-price strong { overflow-wrap: anywhere; }
+.my-jobs-state { grid-column: 1 / -1; }
+@media (max-width: 1050px) {
+  .my-jobs-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .my-job-card-body { grid-template-columns: 52px minmax(0, 1fr); }
+  .my-job-price, .my-job-progress-panel { grid-column: 2; }
+}
+@media (max-width: 760px) {
+  .my-jobs-content { padding-inline: 16px; }
+  .my-jobs-titlebar { align-items: stretch; }
+  .my-jobs-post-button { width: 100%; justify-content: center; }
+  .my-jobs-filter-row { flex-wrap: wrap; }
+  .my-jobs-search { flex-basis: 100%; }
+  .my-jobs-selects { display: none; width: 100%; }
+  .my-jobs-selects.is-open { display: flex; }
+  .my-jobs-selects label { flex: 1 1 160px; }
+  .my-jobs-selects select { width: 100%; }
+  .my-jobs-list-heading { align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+  .my-job-card-body { grid-template-columns: minmax(0, 1fr); }
+  .my-job-price, .my-job-progress-panel { grid-column: 1; }
+  .my-job-card-footer { flex-wrap: wrap; gap: 12px; }
+  .my-job-actions { width: 100%; flex-wrap: wrap; }
+  .my-job-actions button { flex: 1 1 140px; }
+}
+@media (max-width: 440px) {
+  .my-jobs-content { padding-inline: 12px; }
+  .my-jobs-metrics { grid-template-columns: minmax(0, 1fr); }
+  .my-jobs-heading-line { flex-wrap: wrap; gap: 8px; }
+  .my-job-card { padding: 14px; }
+  .my-job-card-top { flex-wrap: wrap; gap: 8px; }
+  .my-job-card-reference { text-align: left; }
+}
