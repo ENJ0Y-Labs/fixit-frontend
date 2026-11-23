@@ -50,6 +50,9 @@ export function normalizeJob(record) {
     const status = normalizeJobStatus(firstValue(record.status, record.state));
     const providerName = firstValue(provider?.name, provider?.fullName, record.providerName, record.provider_name, record.assignedProvider?.name);
     const date = firstValue(record.scheduledAt, record.scheduled_at, record.preferredDate, record.preferred_date, record.createdAt, record.created_at, record.date);
+    const actions = firstValue(record.availableActions, record.available_actions, record.actions);
+    const canCancel = Array.isArray(actions) ? actions.includes('cancel') : actions && typeof actions === 'object' ? actions.cancel === true : record.canCancel === true || record.can_cancel === true;
+    const paymentStatus = firstValue(record.paymentStatus, record.payment_status, record.payment?.status);
     const location = firstValue(record.serviceLocation, record.service_location, record.location?.label, record.location?.address, record.location, record.address);
     const numericAmount = amount === undefined ? null : Number(amount);
     const safeAmount = Number.isFinite(numericAmount) ? numericAmount : null;
@@ -72,7 +75,9 @@ export function normalizeJob(record) {
         priceLabel: safeAmount === null ? '' : status === 'COMPLETED' ? 'PAID AMOUNT' : status === 'AWAITING BIDS' ? 'EST. BUDGET' : 'AGREED PRICE',
         minBudget: firstValue(record.minBudget, record.min_budget, safeAmount) ?? 0,
         maxBudget: firstValue(record.maxBudget, record.max_budget, safeAmount) ?? 0,
-        priceSubtext: firstValue(record.paymentStatus, record.payment_status) || '',
+        priceSubtext: paymentStatus || '',
+        paymentId: firstValue(record.paymentId, record.payment_id, record.payment?.id) || null,
+        canCancel: canCancel === true,
         providerName: providerName || '',
         providerRating: provider?.ratingSummary?.average ?? provider?.rating ?? null,
         provider: provider ? {
