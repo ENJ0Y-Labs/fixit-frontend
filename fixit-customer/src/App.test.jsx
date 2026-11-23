@@ -4,7 +4,7 @@ import { authApi } from './api/auth.js';
 vi.mock('./api/auth.js', () => ({ authApi: { getCurrentUser: vi.fn(), login: vi.fn(), register: vi.fn(), logout: vi.fn() } }));
 import App from './App.jsx';
 beforeEach(() => { vi.clearAllMocks(); window.history.replaceState(null, '', '/'); authApi.getCurrentUser.mockRejectedValue(new Error('No active session')); });
-async function renderApp(route = 'marketplace') { window.history.replaceState(null, '', route ? '/#' + route : '/'); render(<App />); await waitFor(() => expect(document.querySelector('.fixit-public-header, .fixit-page-transition')).toBeInTheDocument()); }
+async function renderApp(route = 'marketplace') { window.history.replaceState(null, '', route ? '/#' + route : '/'); render(<App />); await waitFor(() => expect(document.querySelector('.fixit-public-header, .fixit-page-transition')).toBeInTheDocument()); if (route === 'marketplace') await screen.findByText(/matching sample listings|matching providers/i); }
 afterEach(() => { cleanup(); window.history.replaceState(null, '', '/'); });
 describe('customer guest-first marketplace', () => {
  it('opens the landing page first and lets visitors enter the marketplace', async () => { await renderApp(''); expect(screen.getByRole('heading', { name: 'Good help for your home, without the guesswork.' })).toBeInTheDocument(); fireEvent.click(screen.getByRole('button', { name: /explore marketplace/i })); expect(await screen.findByRole('heading', { name: 'Find the right professional' })).toBeInTheDocument(); expect(window.location.hash).toBe('#marketplace'); });
