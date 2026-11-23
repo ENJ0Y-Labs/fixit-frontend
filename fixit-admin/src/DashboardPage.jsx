@@ -58,7 +58,7 @@ export default function DashboardPage({ onNavigate }) {
                 <article className="panel activity-panel">
                     <div className="panel-header">
                         <div><h2>Recent job activity</h2><p>Sample marketplace records for interface preview.</p></div>
-                        <button className="text-button" type="button" onClick={() => onNavigate('Jobs')}>View jobs <span aria-hidden="true">↗</span></button>
+                        <button className="text-button" type="button" onClick={() => onNavigate('Jobs')}>View jobs <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></button>
                     </div>
                     <div className="table-wrap">
                         <table className="activity-table">
