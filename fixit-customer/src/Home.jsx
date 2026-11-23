@@ -37,7 +37,7 @@ const quickFilters = [
     { id: 'available', label: 'Available now', icon: 'fa-solid fa-bolt' },
 ];
 
-function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAuthenticated = false }) {
+function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAuthenticated = false, showPublicHeader = true, embeddedInWorkspace = false }) {
     const [minPrice, setMinPrice] = useState(PRICE_MIN);
     const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
     const [search, setSearch] = useState(() => new URLSearchParams(window.location.hash.split('?')[1] || '').get('category') || '');
@@ -135,8 +135,8 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
     };
 
     return (
-        <div className="home page-surface home-marketplace">
-            <PublicHeader user={user} onNavigate={onNavigate} onAuth={onAuth} active="marketplace" />
+        <div className={`home page-surface home-marketplace${embeddedInWorkspace ? ' is-workspace-embedded' : ''}`}>
+            {showPublicHeader && !embeddedInWorkspace && <PublicHeader user={user} onNavigate={onNavigate} onAuth={onAuth} active="marketplace" />}
             <header className="home-header marketplace-header">
                 <div className="marketplace-location">
                     <span className="marketplace-location-label">Your location</span>

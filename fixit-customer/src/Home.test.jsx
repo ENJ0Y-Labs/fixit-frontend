@@ -50,6 +50,15 @@ describe('marketplace category browsing', () => {
     });
 });
 
+describe('marketplace workspace presentation', () => {
+    it('can omit public navigation when the marketplace is embedded in the customer workspace', async () => {
+        render(<Home embeddedInWorkspace onSelectProvider={vi.fn()} onNavigate={vi.fn()} onAuth={vi.fn()} onRequireAuth={vi.fn()} />);
+        expect(await screen.findByRole('heading', { name: 'Popular services' })).toBeInTheDocument();
+        expect(screen.queryByRole('navigation', { name: 'Public navigation' })).not.toBeInTheDocument();
+        expect(document.querySelector('.home-marketplace')).toHaveClass('is-workspace-embedded');
+    });
+});
+
 describe('customer footer branding', () => {
     it('uses the official FixIt PNG logo', () => {
         render(<Footer />);

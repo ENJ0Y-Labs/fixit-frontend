@@ -71,6 +71,14 @@ describe('customer guest-first marketplace', () => {
 
 describe('customer job management API flow', () => {
     const job = { id: 'job-42', title: 'Repair kitchen tap', status: 'IN_PROGRESS', category: 'PLUMBING', agreedPrice: 12000, serviceLocation: 'Rumuola, Port Harcourt' };
+    it('keeps authenticated marketplace navigation inside the customer workspace shell', async () => {
+        await renderApp('my-jobs', true);
+        fireEvent.click(screen.getByRole('button', { name: 'Marketplace' }));
+        expect(await screen.findByRole('heading', { name: 'Popular services' })).toBeInTheDocument();
+        expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
+        expect(screen.queryByRole('navigation', { name: 'Public navigation' })).not.toBeInTheDocument();
+    });
+
     it('loads real customer jobs and opens details for the selected record', async () => {
         customerApi.listJobs.mockResolvedValueOnce({ data: { items: [job] } });
         customerApi.getJob.mockResolvedValueOnce({ data: { ...job, description: 'The kitchen tap is leaking.' } });
