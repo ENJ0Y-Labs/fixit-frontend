@@ -4,7 +4,7 @@ import { authApi } from './api/auth.js';
 import { customerApi } from './api/customer.js';
 
 vi.mock('./api/auth.js', () => ({ authApi: { getCurrentUser: vi.fn(), login: vi.fn(), register: vi.fn(), logout: vi.fn() } }));
-vi.mock('./api/customer.js', () => ({ customerApi: { listJobs: vi.fn(), getJob: vi.fn(), cancelJob: vi.fn() } }));
+vi.mock('./api/customer.js', () => ({ customerApi: { listJobs: vi.fn(), getJob: vi.fn(), cancelJob: vi.fn(), createJob: vi.fn() } }));
 import App from './App.jsx';
 
 beforeEach(() => {
@@ -14,6 +14,7 @@ beforeEach(() => {
     customerApi.listJobs.mockRejectedValue(new Error('Customer jobs API unavailable'));
     customerApi.getJob.mockRejectedValue(new Error('Customer job API unavailable'));
     customerApi.cancelJob.mockRejectedValue(new Error('Cancellation unavailable'));
+    customerApi.createJob.mockRejectedValue(new Error('Job creation unavailable'));
 });
 async function renderApp(route = 'marketplace', authenticated = false) {
     if (authenticated) authApi.getCurrentUser.mockResolvedValueOnce({ data: { user: { id: 'c1', name: 'Ada' } } });
@@ -116,6 +117,25 @@ describe('customer job management API flow', () => {
         expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
         expect(await screen.findByText('CANCELLED')).toBeInTheDocument();
         vi.restoreAllMocks();
+    });
+    it('creates a job through the API and displays the canonical saved record', async () => {
+        customerApi.listJobs.mockResolvedValueOnce({ data: { items: [] } });
+        customerApi.createJob.mockResolvedValueOnce({ data: { id: 'job-new', title: 'New tap repair', category: 'Plumbing', status: 'AWAITING_BIDS', budget: 9000 } });
+        await renderApp('my-jobs', true);
+        await screen.findByRole('heading', { name: 'My Jobs' });
+        fireEvent.click(screen.getByRole('button', { name: /post a new job/i }));
+        fireEvent.change(screen.getByLabelText('Job Title'), { target: { value: 'New tap repair' } });
+        fireEvent.change(screen.getByLabelText('Service Category'), { target: { value: 'Plumbing' } });
+        fireEvent.change(screen.getByLabelText('Service Location'), { target: { value: 'Rumuola, Port Harcourt' } });
+        fireEvent.change(screen.getByLabelText('Estimated Budget (₦)'), { target: { value: '9000' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Post This Job' }));
+        expect(await screen.findByText('New tap repair')).toBeInTheDocument();
+        expect(customerApi.createJob).toHaveBeenCalledWith(expect.objectContaining({
+            title: 'New tap repair',
+            category: 'Plumbing',
+            serviceLocation: 'Rumuola, Port Harcourt',
+            budget: 9000,
+        }));
     });
     it('shows an API error and allows the customer to retry', async () => {
         customerApi.listJobs.mockRejectedValueOnce(new Error('Service temporarily unavailable')).mockResolvedValueOnce({ data: { items: [job] } });
