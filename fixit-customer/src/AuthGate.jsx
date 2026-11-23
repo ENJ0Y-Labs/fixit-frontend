@@ -159,7 +159,7 @@ export default function AuthGate({ children }) {
     }, []);
 
     useEffect(() => {
-        if (status === 'authenticated' && ['login', 'signup'].includes(routeMode())) {
+        if (status === 'authenticated' && getAuthRouteMode()) {
             setRoute('home', true);
         }
     }, [status]);
