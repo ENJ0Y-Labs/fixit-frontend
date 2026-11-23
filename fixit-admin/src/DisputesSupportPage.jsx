@@ -89,7 +89,7 @@ export default function DisputesSupportPage() {
     return (
         <div className="support-page">
             <div className="demo-notice" role="note">
-                <span className="demo-notice-icon" aria-hidden="true">i</span>
+                <span className="demo-notice-icon" aria-hidden="true"><i className="fa-solid fa-circle-info" /></span>
                 <p><strong>Disputes &amp; support demo</strong> All cases, messages, people, and activity are illustrative. No real support inbox, customer communication, evidence files, or dispute workflow is connected.</p>
             </div>
 
@@ -117,7 +117,7 @@ export default function DisputesSupportPage() {
                 </div>
                 <div className="support-filters">
                     <label className="provider-search">
-                        <span aria-hidden="true">⌕</span>
+                        <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
                         <input type="search" aria-label="Search support cases" placeholder="Search case, subject, customer, provider, or job" value={search} onChange={(event) => changeFilter(setSearch, event.target.value)} />
                     </label>
                     <label className="filter-control"><span>Case type</span><select aria-label="Case type" value={typeFilter} onChange={(event) => changeFilter(setTypeFilter, event.target.value)}><option>All</option><option>Dispute</option><option>Support</option></select></label>
@@ -179,7 +179,7 @@ export default function DisputesSupportPage() {
                         </section>
                         <aside className="support-side-panel">
                             <div className="support-section-heading"><div><h3>Evidence checklist</h3><p>Metadata only. No files are attached.</p></div></div>
-                            <ul className="support-evidence-list">{selectedCase.evidence.map((item) => <li key={item}><span aria-hidden="true">▤</span>{item}</li>)}</ul>
+                            <ul className="support-evidence-list">{selectedCase.evidence.map((item) => <li key={item}><i className="fa-solid fa-file-lines" aria-hidden="true" />{item}</li>)}</ul>
                             <div className="support-section-heading support-actions-heading"><div><h3>Demo case controls</h3><p>Local preview only. No real case changes.</p></div></div>
                             <label className="filter-control"><span>Update sample status</span><select aria-label="Demo case status" value={selectedCase.status} onChange={(event) => updateDemoStatus(event.target.value)}>{supportStatuses.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
                             <p className="support-readonly-note">Changing this status only updates temporary browser state. It does not contact either party, assign a case, issue a refund, or resolve a real dispute.</p>
