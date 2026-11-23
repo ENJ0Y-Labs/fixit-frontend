@@ -1,57 +1,51 @@
 const navItems = [
-    { id: 'home', label: 'Home', icon: 'fa-solid fa-house' },
+    { id: 'home', label: 'Marketplace', icon: 'fa-solid fa-house' },
     { id: 'myJobs', label: 'My Jobs', icon: 'fa-solid fa-briefcase' },
-    { id: 'account', label: 'Profile', icon: 'fa-solid fa-user' }
+    { id: 'account', label: 'My Account', icon: 'fa-solid fa-user' }
 ];
 
-function Nav({ activePage, onNavigate, user, onLogout }) {
-    return (
-        <nav className="sidebar" aria-label="Primary navigation">
-            <div className="logo">
-                <img className="brand-logo customer-brand-logo" src="/brand/logo.png" alt="" />
-                <div className="logo-copy">
-                    <div className="logo-text">FixIt</div>
-                    <span className="brand-tagline">Trusted help for every home.</span>
-                </div>
-            </div>
+function Nav({ activePage, onNavigate, user, onLogout, isOpen, onClose }) {
+    const displayName = user?.name || user?.fullName || user?.email || 'Customer account';
+    const initials = displayName.split(/[\\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'CU';
 
-            <div className="nav-links">
+    return (
+        <aside className={`customer-sidebar${isOpen ? ' is-open' : ''}`} id="customer-navigation" aria-label="Customer navigation" role={isOpen ? 'dialog' : undefined} aria-modal={isOpen ? true : undefined}>
+            <a className="customer-brand" href="#home" onClick={(event) => { event.preventDefault(); onNavigate('home'); }} aria-label="FixIt customer workspace">
+                <img className="customer-brand-logo" src="/brand/logo.png" alt="" />
+                <span className="customer-brand-copy">
+                    <strong>FixIt</strong>
+                    <small>Customer workspace</small>
+                    <span>Trusted help for every home.</span>
+                </span>
+            </a>
+            <button className="customer-sidebar-close" type="button" onClick={onClose}>Close navigation</button>
+            <p className="customer-nav-label">Workspace</p>
+            <nav className="customer-nav-links" aria-label="Main navigation">
                 {navItems.map((item) => {
                     const isActive = activePage === item.id;
                     return (
-                        <button
-                            key={item.id}
-                            type="button"
-                            className={`nav-item${isActive ? ' active' : ''}`}
-                            onClick={() => onNavigate(item.id)}
-                            aria-current={isActive ? 'page' : undefined}
-                        >
-                            <i aria-hidden="true" className={item.icon}></i>
+                        <button key={item.id} type="button" className="customer-nav-link" onClick={() => onNavigate(item.id)} aria-current={isActive ? 'page' : undefined}>
+                            <span className="customer-nav-icon" aria-hidden="true"><i className={item.icon} /></span>
                             <span>{item.label}</span>
                         </button>
                     );
                 })}
-            </div>
-
-            <button type="button" className="post-job-button" onClick={() => onNavigate('postJob')}>
-                <i aria-hidden="true" className="fa-solid fa-plus"></i>
+            </nav>
+            <button type="button" className="customer-post-job" onClick={() => onNavigate('postJob')}>
+                <i className="fa-solid fa-plus" aria-hidden="true" />
                 <span>Post a Job</span>
             </button>
-
-            <div className="user-profile">
-                <div className="user-avatar" aria-hidden="true">
-                    <i aria-hidden="true" className="fa-solid fa-user"></i>
+            <div className="customer-sidebar-footer">
+                <div className="customer-user">
+                    <span className="customer-user-avatar" aria-hidden="true">{initials}</span>
+                    <span className="customer-user-copy"><strong>{displayName}</strong><small>Customer account</small></span>
                 </div>
-                <div className="user-info">
-                    <div className="user-name">{user?.name || user?.fullName || user?.email || "Customer account"}</div>
-                    <div className="user-role">Customer account</div>
-                </div>
+                <button type="button" className="customer-signout" onClick={onLogout}>
+                    <i className="fa-solid fa-arrow-right-from-bracket" aria-hidden="true" />
+                    <span>Sign out</span>
+                </button>
             </div>
-            <button type="button" className="nav-item customer-logout-button" onClick={onLogout}>
-                <i aria-hidden="true" className="fa-solid fa-right-from-bracket"></i>
-                <span>Sign out</span>
-            </button>
-        </nav>
+        </aside>
     );
 }
 
