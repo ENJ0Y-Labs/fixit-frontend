@@ -4,7 +4,7 @@ import { ApiError } from './api/client.js';
 import './styles/pages/auth.css';
 
 const protectedRoutes = ['my-jobs', 'post-job', 'job-details', 'payment', 'review', 'account'];
-const providerAppUrl = import.meta.env.VITE_PROVIDER_APP_URL || '/provider/';
+const providerAppUrl = import.meta.env.VITE_PROVIDER_APP_URL || 'http://localhost:5174/';
 const getRoute = () => window.location.hash.replace(/^#\/?/, '').split('?')[0] || 'landing';
 function setRoute(route, replace = false) {
     const url = window.location.pathname + window.location.search + '#' + route;
