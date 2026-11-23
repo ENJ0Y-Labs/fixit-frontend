@@ -32,7 +32,7 @@ const quickFilters = [
 function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAuthenticated = false }) {
     const [minPrice, setMinPrice] = useState(PRICE_MIN);
     const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(() => new URLSearchParams(window.location.hash.split('?')[1] || '').get('category') || '');
     const [location, setLocation] = useState('');
     const [rating, setRating] = useState('');
     const [providerState, setProviderState] = useState({ providers: [], source: 'loading', error: null });
