@@ -202,7 +202,7 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                             {categories.map((category) => (
                                 <Category key={category.name} {...category} onSelect={() => selectCategory(category.name)} />
                             ))}
-                            <Category name="More" icon="＋" onSelect={() => setShowAllCategories(true)} />
+                            <Category name="More" icon="fa-solid fa-ellipsis" onSelect={() => setShowAllCategories(true)} />
                         </div>
                     )}
                 </section>
