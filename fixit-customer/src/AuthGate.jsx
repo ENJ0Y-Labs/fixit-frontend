@@ -6,7 +6,7 @@ import './styles/pages/auth.css';
 const protectedRoutes = ['my-jobs', 'post-job', 'job-details', 'payment', 'review', 'account'];
 const getRoute = () => window.location.hash.replace(/^#\/?/, '').split('?')[0] || 'landing';
 function setRoute(route, replace = false) {
-    const url = \`${window.location.pathname}${window.location.search}#${route}\`;
+    const url = window.location.pathname + window.location.search + '#' + route;
     if (replace) window.history.replaceState(window.history.state, '', url);
     else window.history.pushState(window.history.state, '', url);
     window.dispatchEvent(new PopStateEvent('popstate'));
