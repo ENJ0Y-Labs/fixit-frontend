@@ -7,28 +7,25 @@ import { loadPublicProvider } from './home/publicProviders.js';
 
 function ProviderProfile({ provider: initialProvider, user, onNavigate, onAuth, onRequireAuth }) {
     const [profileState, setProfileState] = useState({ provider: initialProvider || null, source: 'loading', error: null });
+    const providerId = initialProvider?.id || window.location.hash.replace(/^#\/?/, '').split('?')[0].replace(/^provider\//, '');
 
     useEffect(() => {
         let active = true;
-        const providerId = initialProvider?.id || window.location.hash.replace(/^#\/?/, '').split('?')[0].replace(/^provider\//, '');
-        if (!providerId) {
-            setProfileState({ provider: null, source: 'unavailable', error: 'A provider ID is required.' });
-            return () => { active = false; };
+        if (providerId) {
+            loadPublicProvider(providerId).then((result) => { if (active) setProfileState(result); });
         }
-        setProfileState((current) => ({ ...current, source: 'loading', error: null }));
-        loadPublicProvider(providerId).then((result) => { if (active) setProfileState(result); });
         return () => { active = false; };
-    }, [initialProvider?.id]);
+    }, [providerId]);
 
     const provider = profileState.provider;
     const requestService = () => onRequireAuth({ returnTo: 'post-job', action: () => onNavigate('post-job') });
 
     return <div className="fixit-landing">
         <PublicHeader user={user} onNavigate={onNavigate} onAuth={onAuth} active="marketplace" />
-        {profileState.source === 'loading' && <main className="fixit-provider-not-found" role="status"><p>Loading provider profile…</p></main>}
-        {profileState.source !== 'loading' && !provider && <main className="fixit-provider-not-found">
+        {profileState.source === 'loading' && providerId && <main className="fixit-provider-not-found" role="status"><p>Loading provider profile…</p></main>}
+        {(profileState.source !== 'loading' || !providerId) && !provider && <main className="fixit-provider-not-found">
             <h1>Provider profile unavailable</h1>
-            <p>{profileState.error || 'This provider profile could not be found or is not publicly available.'}</p>
+            <p>{profileState.error || (providerId ? 'This provider profile could not be found or is not publicly available.' : 'A provider ID is required.')}</p>
             <button type="button" onClick={() => onNavigate('marketplace')}>Back to marketplace</button>
         </main>}
         {provider && <main className="fixit-provider-profile">
