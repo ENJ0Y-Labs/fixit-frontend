@@ -60,7 +60,7 @@ export async function loadPublicProviders() {
         return { providers: unwrapProviderList(payload), source: 'api', error: null };
     } catch (error) {
         return {
-            providers: sampleProviders.map((provider) => ({ ...provider, source: 'sample' })),
+            providers: sampleProviders.map((provider) => ({ ...provider, availabilityKnown: true, source: 'sample' })),
             source: 'sample',
             error: error?.message || 'Live provider listings are temporarily unavailable.',
         };
