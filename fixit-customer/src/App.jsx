@@ -4,7 +4,9 @@ import './styles/pages/account.css';
 import './styles/pages/my-jobs.css';
 import Nav from './Nav';
 import { FixitAsyncBoundary } from './FixitAsyncBoundary.jsx';
-import Home from './Home.jsx';
+import Home, { providers } from './Home.jsx';
+import LandingPage from './LandingPage.jsx';
+import ProviderProfile from './ProviderProfile.jsx';
 import PostJob from './PostJob.jsx';
 import MyJobs from './MyJobs.jsx';
 import JobDetails from './JobDetails.jsx';
@@ -210,18 +212,7 @@ function CustomerWorkspace({ user, onLogout }) {
             case 'home':
             default:
                 return (
-                    <Home
-                        onSelectProvider={(provider) => navigate('jobDetails', {
-                            id: `PROVIDER-${provider.name}`,
-                            title: provider.serviceTitle,
-                            provider: provider.name,
-                            category: provider.category,
-                            price: provider.price,
-                            status: 'IN PROGRESS',
-                            priceValue: provider.price,
-                            progressPercentage: 0,
-                        })}
-                    />
+                    <Home user={user} isAuthenticated onNavigate={navigateTo} onAuth={() => {}} onRequireAuth={() => {}} onSelectProvider={(provider) => navigateTo(`provider/${provider.id}`)} />
                 );
         }
     };
@@ -240,10 +231,35 @@ function CustomerWorkspace({ user, onLogout }) {
     );
 }
 
+function getRouteFromHash() {
+    const hash = window.location.hash.replace(/^#\\/?/, '');
+    if (!hash) return 'landing';
+    const route = hash.split('?')[0];
+    return route === 'home' ? 'marketplace' : route;
+}
+
+const protectedRoutes = ['my-jobs', 'post-job', 'job-details', 'payment', 'review', 'account'];
+
+function PublicExperience({ route, user, openAuth, requireAuth }) {
+    const navigate = (nextRoute) => navigateTo(nextRoute);
+    const match = route.match(/^provider\\/([^/]+)$/);
+    if (match) return <ProviderProfile provider={providers.find((provider) => provider.id === match[1])} user={user} onNavigate={navigate} onAuth={openAuth} onRequireAuth={requireAuth} />;
+    if (route === 'marketplace') return <Home user={user} isAuthenticated={Boolean(user)} onNavigate={navigate} onAuth={openAuth} onRequireAuth={requireAuth} onSelectProvider={(provider) => navigate(`provider/${provider.id}`)} />;
+    return <LandingPage user={user} onNavigate={navigate} onAuth={openAuth} />;
+}
+
+function FixitApp({ user, onLogout, openAuth, requireAuth }) {
+    const [route, setRoute] = useState(getRouteFromHash);
+    useEffect(() => {
+        const sync = () => setRoute(getRouteFromHash());
+        window.addEventListener('popstate', sync);
+        window.addEventListener('hashchange', sync);
+        return () => { window.removeEventListener('popstate', sync); window.removeEventListener('hashchange', sync); };
+    }, []);
+    if (user && protectedRoutes.includes(route)) return <CustomerWorkspace user={user} onLogout={onLogout} />;
+    return <PublicExperience route={route} user={user} openAuth={openAuth} requireAuth={requireAuth} />;
+}
+
 export default function App() {
-    return (
-        <AuthGate>
-            {({ user, onLogout }) => <CustomerWorkspace user={user} onLogout={onLogout} />}
-        </AuthGate>
-    );
+    return <AuthGate>{(auth) => <FixitApp {...auth} />}</AuthGate>;
 }
