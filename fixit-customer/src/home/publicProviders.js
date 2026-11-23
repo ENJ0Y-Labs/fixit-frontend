@@ -41,6 +41,7 @@ export function normalizePublicProvider(record) {
         available: availability ? availability === 'available' : record.available === true,
         availabilityKnown: Boolean(availability) || typeof record.available === 'boolean',
         verificationStatus: verification,
+        credentials: (Array.isArray(record.publicCredentials) ? record.publicCredentials : []).map((item) => firstText(item?.label, item?.name, item)).filter(Boolean),
         avatarUrl: firstText(record.avatarUrl, record.profilePhotoUrl, record.photoUrl),
         source: 'api',
     };
@@ -66,15 +67,36 @@ export async function loadPublicProviders() {
     }
 }
 
+function normalizePublicReviews(payload) {
+    const value = payload?.data ?? payload;
+    const items = Array.isArray(value) ? value : value?.items;
+    if (!Array.isArray(items)) return [];
+    return items.map((review) => ({
+        id: review?.id === undefined || review?.id === null ? null : String(review.id),
+        author: firstText(review?.author?.displayName, review?.customerDisplayName, review?.authorName),
+        rating: finiteNumber(review?.rating),
+        comment: firstText(review?.comment, review?.body, review?.content),
+        createdAt: firstText(review?.createdAt, review?.publishedAt),
+    })).filter((review) => review.author || review.comment || review.rating !== null);
+}
+
 export async function loadPublicProvider(providerId) {
     try {
         const payload = await customerApi.getProvider(providerId);
         const provider = normalizePublicProvider(payload?.data ?? payload);
-        return { provider, source: 'api', error: null };
+        if (!provider) return { provider: null, source: 'unavailable', error: 'The provider profile response was incomplete.' };
+        let reviews = [];
+        let reviewsError = null;
+        try {
+            reviews = normalizePublicReviews(await customerApi.listProviderReviews(providerId, { limit: 10 }));
+        } catch (error) {
+            reviewsError = error?.message || 'Public reviews are temporarily unavailable.';
+        }
+        return { provider: { ...provider, reviews }, source: 'api', error: null, reviewsError };
     } catch (error) {
         const provider = sampleProviders.find((item) => item.id === providerId);
         return {
-            provider: provider ? { ...provider, source: 'sample' } : null,
+            provider: provider ? { ...provider, source: 'sample', credentials: [], reviews: [] } : null,
             source: provider ? 'sample' : 'unavailable',
             error: error?.message || 'This provider profile is temporarily unavailable.',
         };
