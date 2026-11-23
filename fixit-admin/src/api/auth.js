@@ -1,11 +1,10 @@
 import { apiClient } from './client.js';
 
 /**
- * Proposed authentication endpoints. The backend must implement and confirm
- * these routes and the session/CSRF contract before the UI calls them.
+ * Proposed authentication endpoints. Admin accounts are provisioned by an
+ * authorized operator; this module intentionally has no public register call.
  */
 export const authApi = {
-    register: (payload) => apiClient.post('auth/register', payload),
     login: (credentials) => apiClient.post('auth/login', credentials),
     logout: () => apiClient.post('auth/logout'),
     getCurrentUser: () => apiClient.get('auth/me'),
