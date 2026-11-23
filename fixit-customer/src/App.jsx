@@ -81,13 +81,15 @@ function CustomerWorkspace({ user, onLogout }) {
 
     useEffect(() => {
         if (!menuOpen) return undefined;
-        const focusable = sidebarRef.current?.querySelectorAll('a[href], button:not([disabled])');
+        const sidebar = sidebarRef.current;
+        const menuButton = menuButtonRef.current;
+        const focusable = sidebar?.querySelectorAll('a[href], button:not([disabled])');
         focusable?.[0]?.focus();
         function trapFocus(event) {
             if (event.key === 'Escape') {
                 event.preventDefault();
                 setMenuOpen(false);
-                menuButtonRef.current?.focus();
+                menuButton?.focus();
                 return;
             }
             if (event.key !== 'Tab' || !focusable?.length) return;
@@ -99,16 +101,20 @@ function CustomerWorkspace({ user, onLogout }) {
         document.addEventListener('keydown', trapFocus);
         return () => {
             document.removeEventListener('keydown', trapFocus);
-            if (sidebarRef.current?.contains(document.activeElement)) menuButtonRef.current?.focus();
+            if (sidebar?.contains(document.activeElement)) menuButton?.focus();
         };
     }, [menuOpen]);
 
     useEffect(() => {
         if (user?.isDemo) {
-            setJobs(demoCustomerJobs);
-            setJobsError('');
-            setJobsLoading(false);
-            return undefined;
+            let active = true;
+            Promise.resolve().then(() => {
+                if (!active) return;
+                setJobs(demoCustomerJobs);
+                setJobsError('');
+                setJobsLoading(false);
+            });
+            return () => { active = false; };
         }
         const controller = new AbortController();
         customerApi.listJobs({ limit: 50 }, { signal: controller.signal })
@@ -126,7 +132,7 @@ function CustomerWorkspace({ user, onLogout }) {
                 if (!controller.signal.aborted) setJobsLoading(false);
             });
         return () => controller.abort();
-    }, [user?.id, jobsReloadKey]);
+    }, [user?.id, user?.isDemo, jobsReloadKey]);
 
     useEffect(() => {
         const syncPageWithHash = () => {
@@ -164,11 +170,15 @@ function CustomerWorkspace({ user, onLogout }) {
         if (activePage !== 'jobDetails') return undefined;
         if (!selectedJobId) return undefined;
         if (user?.isDemo) {
-            const demoJob = jobs.find((job) => job.id === String(selectedJobId));
-            setSelectedJob(demoJob || null);
-            setDetailError(demoJob ? '' : 'This demo job could not be found.');
-            setDetailLoading(false);
-            return undefined;
+            let active = true;
+            Promise.resolve().then(() => {
+                if (!active) return;
+                const demoJob = jobs.find((job) => job.id === String(selectedJobId));
+                setSelectedJob(demoJob || null);
+                setDetailError(demoJob ? '' : 'This demo job could not be found.');
+                setDetailLoading(false);
+            });
+            return () => { active = false; };
         }
         const controller = new AbortController();
         customerApi.getJob(selectedJobId, { signal: controller.signal })
@@ -188,7 +198,7 @@ function CustomerWorkspace({ user, onLogout }) {
                 if (!controller.signal.aborted) setDetailLoading(false);
             });
         return () => controller.abort();
-    }, [activePage, selectedJobId]);
+    }, [activePage, selectedJobId, jobs, user?.isDemo]);
 
     const navigate = (page, job = null) => {
         const nextPage = PAGE_HASHES[page] ? page : 'home';
