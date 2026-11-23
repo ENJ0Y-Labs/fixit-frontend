@@ -27,10 +27,11 @@ const navigation = [
 function Brand() {
     return (
         <a className="admin-brand" href="#dashboard" aria-label="FixIt admin dashboard">
-            <span className="brand-mark" aria-hidden="true">F</span>
+            <img className="brand-logo" src="/brand/logo.png" alt="" />
             <span className="brand-copy">
                 <strong>FixIt</strong>
                 <span>ADMINISTRATION</span>
+                <span className="brand-tagline">Trusted help for every home.</span>
             </span>
         </a>
     );
