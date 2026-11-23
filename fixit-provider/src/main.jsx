@@ -1,5 +1,5 @@
 import { StrictMode } from 'react';
-import LoadingScreen from '../../shared/LoadingScreen.jsx';
+import LoadingScreen from './LoadingScreen.jsx';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
