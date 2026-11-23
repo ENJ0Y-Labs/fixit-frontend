@@ -131,7 +131,8 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
     };
 
     return (
-        <div className="home page-surface home-marketplace">\n            <PublicHeader user={user} onNavigate={onNavigate} onAuth={onAuth} active="marketplace" />
+        <div className="home page-surface home-marketplace">
+            <PublicHeader user={user} onNavigate={onNavigate} onAuth={onAuth} active="marketplace" />
             <header className="home-header marketplace-header">
                 <div className="marketplace-location">
                     <span className="marketplace-location-label">Your location</span>
