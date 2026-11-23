@@ -56,7 +56,7 @@ All dashboard figures, job/customer/provider records, document metadata, amounts
 - Support controls do not send messages, assign real cases, retrieve private evidence, resolve disputes, or issue refunds.
 - Category controls do not change customer discovery, provider listings, or existing jobs.
 - Settings preferences reset on reload and are not sent to a server.
-- No production admin authentication, backend authorization, persistence, or operational API is connected.
+- No production admin authentication, backend authorization, persistence, or operational API is connected. The app now includes `src/api/client.js`, `auth.js`, and `admin.js` as frontend API scaffolding. These proposed routes are listed in the [root README](../README.md#backend-api-contract-and-endpoint-catalogue). Admin registration is intentionally not exposed; admin accounts must be provisioned by an authorized operator. The modules are not connected to the prototype screens.
 
 The admin account-management page previously merged in PR #26 was reverted in PR #27. It was a temporary profile editor without an approved authentication/session contract or persistent account/security behavior. It is intentionally not listed as an available workspace. Revisit it only after product and backend owners define the supported account operations.
 
