@@ -4,7 +4,7 @@ const navItems = [
     { id: 'account', label: 'Profile', icon: 'fa-solid fa-user' }
 ];
 
-function Nav({ activePage, onNavigate }) {
+function Nav({ activePage, onNavigate, user, onLogout }) {
     return (
         <nav className="sidebar" aria-label="Primary navigation">
             <div className="logo">
@@ -43,10 +43,14 @@ function Nav({ activePage, onNavigate }) {
                     <i aria-hidden="true" className="fa-solid fa-user"></i>
                 </div>
                 <div className="user-info">
-                    <div className="user-name">Customer account</div>
-                    <div className="user-role">Manage your profile</div>
+                    <div className="user-name">{user?.name || user?.fullName || user?.email || "Customer account"}</div>
+                    <div className="user-role">Customer account</div>
                 </div>
             </div>
+            <button type="button" className="nav-item customer-logout-button" onClick={onLogout}>
+                <i aria-hidden="true" className="fa-solid fa-right-from-bracket"></i>
+                <span>Sign out</span>
+            </button>
         </nav>
     );
 }

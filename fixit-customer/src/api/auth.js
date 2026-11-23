@@ -1,8 +1,8 @@
 import { apiClient } from './client.js';
 
 /**
- * Proposed authentication endpoints. The backend must implement and confirm
- * these routes and the session/CSRF contract before the UI calls them.
+ * Customer authentication endpoints from the proposed FixIt v1 contract.
+ * The backend must implement these routes and its cookie/CSRF/CORS policy.
  */
 export const authApi = {
     register: (payload) => apiClient.post('auth/register', payload),
