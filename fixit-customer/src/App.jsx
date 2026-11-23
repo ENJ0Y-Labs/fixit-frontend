@@ -267,7 +267,7 @@ function CustomerWorkspace({ user, onLogout }) {
                 return <section className="page-surface" style={{ padding: '64px 36px' }}><p className="eyebrow">CUSTOMER WORKSPACE</p><h1>Page not found</h1><p>The page you requested does not exist.</p><button type="button" className="dark-button" onClick={() => navigate('home')}>Return home</button></section>;
             case 'home':
             default:
-                return <Home user={user} isAuthenticated showPublicHeader={false} onNavigate={navigateTo} onAuth={() => {}} onRequireAuth={() => {}} onSelectProvider={(provider) => navigateTo('provider/' + provider.id)} />;
+                return <Home user={user} isAuthenticated embeddedInWorkspace onNavigate={navigateTo} onAuth={() => {}} onRequireAuth={() => {}} onSelectProvider={(provider) => navigateTo('provider/' + provider.id)} />;
         }
     };
 
