@@ -126,7 +126,7 @@ export default function CategoriesPage() {
                     <h1>Categories</h1>
                     <p className="page-description">Organise the service categories customers use to find the right help.</p>
                 </div>
-                <button className="btn btn-primary category-create-button" type="button" onClick={openCreate}>＋ Add category</button>
+                <button className="btn btn-primary category-create-button" type="button" onClick={openCreate}><i className="fa-solid fa-plus" aria-hidden="true" /> Add category</button>
             </section>
 
             <section className="categories-summary" aria-label="Category summary">
