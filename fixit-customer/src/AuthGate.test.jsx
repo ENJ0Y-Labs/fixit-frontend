@@ -48,10 +48,10 @@ describe('customer authentication gate', () => {
     });
 
     it('preserves a protected deep link when an existing session is restored', async () => {
-        window.history.replaceState(null, '', '/#/my-jobs');
+        window.history.replaceState(null, '', '/#my-jobs');
         renderGate();
         expect(await screen.findByRole('heading', { name: 'Protected customer workspace' })).toBeInTheDocument();
-        expect(window.location.hash).toBe('#/my-jobs');
+        expect(window.location.hash).toBe('#my-jobs');
     });
 
     it('keeps protected content hidden when the session is missing', async () => {
@@ -63,7 +63,7 @@ describe('customer authentication gate', () => {
 
     it('submits login credentials and opens the protected workspace after success', async () => {
         authApi.getCurrentUser.mockRejectedValueOnce(new Error('No active session'));
-        window.history.replaceState(null, '', '/#/my-jobs');
+        window.history.replaceState(null, '', '/#my-jobs');
         renderGate();
         await screen.findByRole('heading', { name: 'Welcome back' });
         fireEvent.change(screen.getByLabelText('Email address'), { target: { value: 'ada@example.test' } });
@@ -71,7 +71,7 @@ describe('customer authentication gate', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
         expect(await screen.findByRole('heading', { name: 'Protected customer workspace' })).toBeInTheDocument();
         expect(authApi.login).toHaveBeenCalledWith({ email: 'ada@example.test', password: 'correct-horse' });
-        expect(window.location.hash).toBe('#/my-jobs');
+        expect(window.location.hash).toBe('#my-jobs');
     });
 
     it('rejects malformed email input before making a backend request', async () => {
@@ -99,7 +99,7 @@ describe('customer authentication gate', () => {
 
     it('submits customer registration with the customer role', async () => {
         authApi.getCurrentUser.mockRejectedValueOnce(new Error('No active session'));
-        window.history.replaceState(null, '', '/#/signup');
+        window.history.replaceState(null, '', '/#signup');
         renderGate();
         await screen.findByRole('heading', { name: 'Create your account' });
         fireEvent.change(screen.getByLabelText('Full name'), { target: { value: 'Ada Customer' } });
@@ -135,9 +135,9 @@ describe('customer authentication gate', () => {
 
     it('shows an unknown route login attempt without exposing protected content', async () => {
         authApi.getCurrentUser.mockRejectedValueOnce(new Error('No active session'));
-        window.history.replaceState(null, '', '/#/this-route-does-not-exist');
+        window.history.replaceState(null, '', '/#this-route-does-not-exist');
         renderGate();
         expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
-        expect(window.location.hash).toBe('#/this-route-does-not-exist');
+        expect(window.location.hash).toBe('#this-route-does-not-exist');
     });
 });
