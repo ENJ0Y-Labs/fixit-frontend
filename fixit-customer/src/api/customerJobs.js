@@ -53,6 +53,7 @@ export function normalizeJob(record) {
     const actions = firstValue(record.availableActions, record.available_actions, record.actions);
     const canCancel = Array.isArray(actions) ? actions.includes('cancel') : actions && typeof actions === 'object' ? actions.cancel === true : record.canCancel === true || record.can_cancel === true;
     const paymentStatus = firstValue(record.paymentStatus, record.payment_status, record.payment?.status);
+    const progressValue = firstValue(record.progressPercentage, record.progress_percentage);
     const location = firstValue(record.serviceLocation, record.service_location, record.location?.label, record.location?.address, record.location, record.address);
     const numericAmount = amount === undefined ? null : Number(amount);
     const safeAmount = Number.isFinite(numericAmount) ? numericAmount : null;
@@ -88,8 +89,8 @@ export function normalizeJob(record) {
             reviewcount: firstValue(provider.ratingSummary?.count, provider.reviewCount, provider.review_count, 0),
             isonline: typeof (provider.isOnline ?? provider.is_online) === 'boolean' ? (provider.isOnline ?? provider.is_online) : null,
         } : null,
-        bidNo: Number(firstValue(record.bidCount, record.bid_count, record.bidsCount, record.bids_count, 0)) || 0,
-        progressPercentage: Number(firstValue(record.progressPercentage, record.progress_percentage, 0)) || 0,
+        bidNo: firstValue(record.bidCount, record.bid_count, record.bidsCount, record.bids_count) === undefined ? null : Number(firstValue(record.bidCount, record.bid_count, record.bidsCount, record.bids_count)) || 0,
+        progressPercentage: progressValue === undefined || !Number.isFinite(Number(progressValue)) ? null : Number(progressValue),
         photos: Array.isArray(record.photos) ? record.photos.map((photo) => typeof photo === 'string' ? photo : firstValue(photo?.url, photo?.downloadUrl, photo?.download_url)).filter(Boolean) : [],
         progresstimeline: Array.isArray(record.progressTimeline) ? record.progressTimeline : Array.isArray(record.progress_timeline) ? record.progress_timeline : [],
         raw: record,
