@@ -48,6 +48,13 @@ describe('customer authentication gate', () => {
         expect(authApi.getCurrentUser).toHaveBeenCalledOnce();
     });
 
+    it('preserves a protected deep link when an existing session is restored', async () => {
+        window.history.replaceState(null, '', '/#/my-jobs');
+        renderGate();
+        expect(await screen.findByRole('heading', { name: 'Protected customer workspace' })).toBeInTheDocument();
+        expect(window.location.hash).toBe('#/my-jobs');
+    });
+
     it('keeps protected content hidden when the session is missing', async () => {
         authApi.getCurrentUser.mockRejectedValueOnce(new Error('Not signed in'));
         renderGate();
