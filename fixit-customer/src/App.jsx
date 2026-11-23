@@ -11,6 +11,7 @@ import JobDetails from './JobDetails.jsx';
 import Payment from './Payment.jsx';
 import Review from './Review.jsx';
 import Account from './Account.jsx';
+import AuthGate from './AuthGate.jsx';
 
 const PAGE_HASHES = {
     home: 'home',
@@ -20,6 +21,7 @@ const PAGE_HASHES = {
     payment: 'payment',
     review: 'review',
     account: 'account',
+    notFound: 'not-found',
 };
 
 const HASH_PAGES = Object.fromEntries(
@@ -28,7 +30,7 @@ const HASH_PAGES = Object.fromEntries(
 
 function getPageFromHash() {
     const hash = window.location.hash.replace(/^#\/?/, '').split('?')[0];
-    return HASH_PAGES[hash] || 'home';
+    return HASH_PAGES[hash] || (hash ? 'notFound' : 'home');
 }
 
 const initialJobs = [
@@ -76,7 +78,7 @@ const initialJobs = [
     },
 ];
 
-function App() {
+function CustomerWorkspace({ user, onLogout }) {
     const [activePage, setActivePage] = useState(getPageFromHash);
     const [jobs, setJobs] = useState(initialJobs);
     const [myJobsViewState, setMyJobsViewState] = useState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
@@ -203,6 +205,8 @@ function App() {
                 );
             case 'account':
                 return <Account />;
+            case 'notFound':
+                return <section className="page-surface" style={{ padding: '64px 36px' }}><p className="eyebrow">CUSTOMER WORKSPACE</p><h1>Page not found</h1><p>The page you requested does not exist.</p><button type="button" className="dark-button" onClick={() => navigate('home')}>Return home</button></section>;
             case 'home':
             default:
                 return (
@@ -224,7 +228,7 @@ function App() {
 
     return (
         <div className="app-shell">
-            <Nav activePage={activePage} onNavigate={navigate} />
+            <Nav activePage={activePage} onNavigate={navigate} user={user} onLogout={onLogout} />
             <div className="app-content">
                 <FixitAsyncBoundary key={activePage}>
                     <div key={activePage} className="fixit-page-transition">
@@ -236,4 +240,10 @@ function App() {
     );
 }
 
-export default App;
+export default function App() {
+    return (
+        <AuthGate>
+            {({ user, onLogout }) => <CustomerWorkspace user={user} onLogout={onLogout} />}
+        </AuthGate>
+    );
+}
