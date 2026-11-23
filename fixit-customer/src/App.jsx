@@ -61,14 +61,11 @@ function CustomerWorkspace({ user, onLogout }) {
     const [detailError, setDetailError] = useState('');
     const [selectedJobId, setSelectedJobId] = useState(getJobIdFromHash);
     const [selectedJob, setSelectedJob] = useState(null);
-    const [cancelError, setCancelError] = useState('');
     const [myJobsViewState, setMyJobsViewState] = useState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
     const hasSyncedInitialRoute = useRef(false);
 
     useEffect(() => {
         const controller = new AbortController();
-        setJobsLoading(true);
-        setJobsError('');
         customerApi.listJobs({ limit: 50 }, { signal: controller.signal })
             .then((response) => {
                 if (controller.signal.aborted) return;
@@ -118,15 +115,8 @@ function CustomerWorkspace({ user, onLogout }) {
 
     useEffect(() => {
         if (activePage !== 'jobDetails') return undefined;
-        if (!selectedJobId) {
-            setSelectedJob(null);
-            setDetailError('No job was selected. Return to My Jobs and choose a request.');
-            setDetailLoading(false);
-            return undefined;
-        }
+        if (!selectedJobId) return undefined;
         const controller = new AbortController();
-        setDetailLoading(true);
-        setDetailError('');
         customerApi.getJob(selectedJobId, { signal: controller.signal })
             .then((response) => {
                 if (controller.signal.aborted) return;
@@ -151,9 +141,17 @@ function CustomerWorkspace({ user, onLogout }) {
         if (job?.id) {
             setSelectedJob(job);
             setSelectedJobId(String(job.id));
-            setCancelError('');
-        } else if (nextPage !== 'jobDetails') {
+        } else if (nextPage === 'jobDetails') {
+            setSelectedJob(null);
             setSelectedJobId(null);
+            setDetailError('No job was selected. Return to My Jobs and choose a request.');
+            setDetailLoading(false);
+        } else {
+            setSelectedJobId(null);
+        }
+        if (nextPage === 'jobDetails' && job?.id) {
+            setDetailLoading(true);
+            setDetailError('');
         }
         setActivePage(nextPage);
     };
@@ -167,18 +165,20 @@ function CustomerWorkspace({ user, onLogout }) {
         }
         setJobs((current) => current.map((job) => job.id === cancelledJob.id ? cancelledJob : job));
         setSelectedJob(cancelledJob);
-        setCancelError('');
         navigate('myJobs');
     };
 
     const handleJobPosted = async () => {
         setMyJobsViewState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
+        setJobsLoading(true);
+        setJobsError('');
         setJobsReloadKey((current) => current + 1);
         navigate('myJobs');
     };
 
     const retryJobDetails = () => {
         if (!selectedJobId) return;
+        setDetailLoading(true);
         setDetailError('');
         setDetailLoading(true);
         customerApi.getJob(selectedJobId)
@@ -195,11 +195,11 @@ function CustomerWorkspace({ user, onLogout }) {
     const renderPage = () => {
         switch (activePage) {
             case 'myJobs':
-                return <MyJobs jobs={jobs} loading={jobsLoading} error={jobsError} onRetry={() => setJobsReloadKey((current) => current + 1)} viewState={myJobsViewState} onViewStateChange={setMyJobsViewState} onPostJob={() => navigate('postJob')} onViewDetails={(job) => navigate('jobDetails', job)} />;
+                return <MyJobs jobs={jobs} loading={jobsLoading} error={jobsError} onRetry={() => { setJobsLoading(true); setJobsError(''); setJobsReloadKey((current) => current + 1); }} viewState={myJobsViewState} onViewStateChange={setMyJobsViewState} onPostJob={() => navigate('postJob')} onViewDetails={(job) => navigate('jobDetails', job)} />;
             case 'postJob':
                 return <PostJob onBack={() => navigate('myJobs')} onJobPosted={handleJobPosted} />;
             case 'jobDetails':
-                return <JobDetails job={selectedJob} loading={detailLoading} error={detailError} cancelError={cancelError} onRetry={retryJobDetails} onBack={() => navigate('myJobs')} onPayment={() => navigate('payment', selectedJob)} onCancel={handleCancelJob} />;
+                return <JobDetails job={selectedJob} loading={detailLoading} error={detailError} onRetry={retryJobDetails} onBack={() => navigate('myJobs')} onPayment={() => navigate('payment', selectedJob)} onCancel={handleCancelJob} />;
             case 'payment':
                 return <Payment job={selectedJob} onBack={() => navigate('jobDetails', selectedJob)} onPaymentComplete={() => navigate('review', selectedJob)} />;
             case 'review':
