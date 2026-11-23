@@ -8,6 +8,7 @@ This document describes the proposed customer job endpoints consumed by the cust
 | --- | --- | --- |
 | GET | `/customer/me/jobs?limit=50&cursor=<opaque>` | List jobs owned by the authenticated customer |
 | GET | `/customer/me/jobs/{jobId}` | Read one job owned by the authenticated customer |
+| POST | `/customer/me/jobs` | Create a customer job request and return the canonical saved resource |
 | POST | `/customer/me/jobs/{jobId}/cancel` | Request cancellation; server validates whether the current state permits it |
 
 All paths are relative to the configured `VITE_API_BASE_URL`. The backend must enforce customer authentication and ownership. A frontend route or hidden control is not authorization.
@@ -50,6 +51,18 @@ Use the repository's standard list envelope:
 ```
 
 The money example uses decimal-string naira for illustration. The backend and frontend teams must confirm the chosen representation before implementation; the client must be updated if the backend uses integer kobo instead.
+
+## Create request
+
+The customer form sends the following JSON fields to `POST /customer/me/jobs`:
+
+- `title` and `category`
+- `description` and `urgency`
+- `preferredDate` and `preferredTime` (nullable)
+- `serviceLocation`
+- `budget` (numeric; its unit must follow the agreed money representation)
+
+The endpoint must validate the request and return the canonical saved job using the single-job response envelope below. The client does not generate a local job ID or insert a mock record when the request fails. Photo upload is not included in this request; the UI explicitly tells customers that photo upload is not connected.
 
 ## Single-job response
 
