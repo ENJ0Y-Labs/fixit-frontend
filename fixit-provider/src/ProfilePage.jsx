@@ -232,7 +232,7 @@ export default function ProfilePage() {
 
                 <div className="profile-form-actions">
                     <button className="btn btn-secondary" type="button" onClick={discardChanges}>Discard changes</button>
-                    <button className="btn btn-primary" type="submit">Preview profile <span aria-hidden="true">↗</span></button>
+                    <button className="btn btn-primary" type="submit">Preview profile <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></button>
                 </div>
                 <p className="profile-demo-note">Frontend demo only. Profile edits are held in page state and are not sent to a server.</p>
             </form>
