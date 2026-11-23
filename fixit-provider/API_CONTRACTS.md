@@ -129,6 +129,8 @@ Agree on whether the API uses this wrapper or direct resource objects before wri
 
 ## Authentication and browser security
 
+The provider frontend uses the proposed shared endpoints `POST /auth/login`, `GET /auth/me`, and `POST /auth/logout`. The login/session response must include the authenticated account's canonical `role` (`provider` or `service_provider` for provider accounts). The provider app rejects an explicitly non-provider role in the login response. The backend must still enforce provider authorization on every protected API route.
+
 The backend owner must explicitly choose the authentication model before implementation.
 
 - If using an HttpOnly cookie session, the client will normally need `credentials: "include"`, a precise CORS allowlist, and appropriate CSRF protection for state-changing requests.

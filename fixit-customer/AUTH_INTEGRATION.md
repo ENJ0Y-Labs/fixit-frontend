@@ -11,7 +11,7 @@ The customer UI now consumes the proposed shared FixIt v1 authentication endpoin
 | GET | `/auth/me` | No body; restores the current session |
 | POST | `/auth/logout` | No body; invalidates the current session |
 
-The UI currently expects the login and session response to contain a user in either `{ data: { user: {...} } }` or `{ data: {...userFields} }`. The API client also supports the recommended `{ error: { message } }` and `{ message }` error message shapes.
+The UI currently expects the login and session response to contain a user in either `{ data: { user: {...} } }` or `{ data: {...userFields} }`. The returned user should include a canonical `role: "customer"` field; the frontend rejects an explicitly different role on customer login. The API client also supports the recommended `{ error: { message } }` and `{ message }` error message shapes.
 
 These field names and response shapes are frontend proposals, not implemented backend guarantees. Confirm them with the backend before changing the API client or releasing the integration.
 
