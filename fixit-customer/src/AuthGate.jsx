@@ -107,5 +107,5 @@ export default function AuthGate({ children }) {
     function changeMode(nextMode) { setMode(nextMode); setShowAuth(true); setRoute(nextMode); }
     // Keep public discovery visible while session restoration runs in the background.
     if (showAuth && status !== 'checking' && status !== 'authenticated') return <AuthForm mode={mode} onModeChange={changeMode} onAuthenticated={completeAuthentication} onBack={() => { setShowAuth(false); setRoute(returnToRef.current || 'landing', true); }} />;
-    return children({ user, authStatus: status, onLogout: logout, openAuth, requireAuth });
+    // Render-prop callbacks receive event handlers that close over auth refs.\n    // eslint-disable-next-line react-hooks/refs\n    return children({ user, authStatus: status, onLogout: logout, openAuth, requireAuth });
 }
