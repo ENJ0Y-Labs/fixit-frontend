@@ -10,7 +10,7 @@ function ProviderProfile({ provider: initialProvider, user, onNavigate, onAuth, 
 
     useEffect(() => {
         let active = true;
-        const providerId = initialProvider?.id || window.location.hash.replace(/^#\\/?/, '').split('?')[0].replace(/^provider\\//, '');
+        const providerId = initialProvider?.id || window.location.hash.replace(/^#\/?/, '').split('?')[0].replace(/^provider\//, '');
         if (!providerId) {
             setProfileState({ provider: null, source: 'unavailable', error: 'A provider ID is required.' });
             return () => { active = false; };
