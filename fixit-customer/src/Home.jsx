@@ -4,15 +4,13 @@ import './styles/pages/landing.css';
 import { useEffect, useMemo, useState } from 'react';
 import Footer from './Footer';
 import PublicHeader from './PublicHeader';
-import { providers } from './home/providers.js';
+import { loadPublicProviders } from './home/publicProviders.js';
 import Category from './home/Category';
 import ServiceProvider from './home/ServiceProvider';
 import DoubleRangeSlider from './DoubleRangeSlider';
 
 const PRICE_MIN = 1500;
 const PRICE_MAX = 15000;
-
-const locations = ['Lekki Phase 1', 'Victoria Island', 'Ikoyi', 'Yaba', 'Surulere', 'Ikeja'];
 
 const categories = [
     { name: 'Plumbing', icon: 'fa-solid fa-faucet' },
@@ -29,7 +27,6 @@ const quickFilters = [
     { id: 'rating', label: '4.8+ rating', icon: 'fa-solid fa-star' },
     { id: 'price', label: 'Under ₦5,000/hr', icon: 'fa-solid fa-naira-sign' },
     { id: 'available', label: 'Available now', icon: 'fa-solid fa-bolt' },
-    { id: 'nearby', label: 'Within 3 km', icon: 'fa-solid fa-location-crosshairs' },
 ];
 
 function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAuthenticated = false }) {
@@ -38,12 +35,19 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
     const [search, setSearch] = useState('');
     const [location, setLocation] = useState('');
     const [rating, setRating] = useState('');
-    const [distance, setDistance] = useState('');
+    const [providerState, setProviderState] = useState({ providers: [], source: 'loading', error: null });
     const [availableNow, setAvailableNow] = useState(false);
     const [sortBy, setSortBy] = useState('popular');
     const [visibleCount, setVisibleCount] = useState(4);
     const [quickFilter, setQuickFilter] = useState('all');
     const [filtersOpen, setFiltersOpen] = useState(false);
+    const locations = useMemo(() => [...new Set(providerState.providers.map((provider) => provider.location).filter(Boolean))].sort(), [providerState.providers]);
+
+    useEffect(() => {
+        let active = true;
+        loadPublicProviders().then((result) => { if (active) setProviderState(result); });
+        return () => { active = false; };
+    }, []);
 
     useEffect(() => {
         if (!filtersOpen || window.innerWidth > 760) return undefined;
@@ -76,28 +80,27 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
 
     const filteredProviders = useMemo(() => {
         const searchValue = search.trim().toLowerCase();
-        const result = providers.filter((provider) => {
+        const result = providerState.providers.filter((provider) => {
             const searchable = [provider.name, provider.job, provider.serviceTitle, provider.category].join(' ').toLowerCase();
             const matchesSearch = !searchValue || searchable.includes(searchValue);
             const matchesLocation = !location || provider.location === location;
-            const matchesRating = (!rating || provider.rating >= Number(rating))
-                && (quickFilter !== 'rating' || provider.rating >= 4.8);
-            const matchesDistance = (!distance || provider.distance <= Number(distance))
-                && (quickFilter !== 'nearby' || provider.distance <= 3);
+            const matchesRating = (!rating || (provider.rating !== null && provider.rating >= Number(rating)))
+                && (quickFilter !== 'rating' || (provider.rating !== null && provider.rating >= 4.8));
             const matchesAvailability = (!availableNow || provider.available)
                 && (quickFilter !== 'available' || provider.available);
-            const matchesPrice = provider.price >= minPrice
-                && provider.price <= maxPrice
-                && (quickFilter !== 'price' || provider.price < 5000);
-            return matchesSearch && matchesLocation && matchesRating && matchesDistance && matchesAvailability && matchesPrice;
+            const hasPriceFilter = minPrice !== PRICE_MIN || maxPrice !== PRICE_MAX || quickFilter === 'price';
+            const matchesPrice = provider.price === null ? !hasPriceFilter
+                : provider.price >= minPrice && provider.price <= maxPrice
+                    && (quickFilter !== 'price' || provider.price < 5000);
+            return matchesSearch && matchesLocation && matchesRating && matchesAvailability && matchesPrice;
         });
 
         return [...result].sort((a, b) => {
-            if (sortBy === 'rating') return b.rating - a.rating;
-            if (sortBy === 'price') return a.price - b.price;
-            return (b.rating * 1000 + b.review) - (a.rating * 1000 + a.review);
+            if (sortBy === 'rating') return (b.rating ?? -1) - (a.rating ?? -1);
+            if (sortBy === 'price') return (a.price ?? Infinity) - (b.price ?? Infinity);
+            return ((b.rating ?? -1) * 1000 + (b.review ?? 0)) - ((a.rating ?? -1) * 1000 + (a.review ?? 0));
         });
-    }, [search, location, rating, distance, availableNow, minPrice, maxPrice, sortBy, quickFilter]);
+    }, [providerState.providers, search, location, rating, availableNow, minPrice, maxPrice, sortBy, quickFilter]);
 
     const resetFilters = () => {
         setMinPrice(PRICE_MIN);
@@ -105,7 +108,6 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
         setSearch('');
         setLocation('');
         setRating('');
-        setDistance('');
         setAvailableNow(false);
         setSortBy('popular');
         setQuickFilter('all');
@@ -232,15 +234,7 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                                 <button type="button" className="marketplace-clear-option" onClick={() => setRating('')}>Any rating</button>
                             </fieldset>
 
-                            <fieldset className="filter-group option-group">
-                                <legend>Distance</legend>
-                                <label><input type="radio" name="distance" value="3" checked={distance === '3'} onChange={(event) => setDistance(event.target.value)} /> Within 3 km</label>
-                                <label><input type="radio" name="distance" value="5" checked={distance === '5'} onChange={(event) => setDistance(event.target.value)} /> Within 5 km</label>
-                                <label><input type="radio" name="distance" value="10" checked={distance === '10'} onChange={(event) => setDistance(event.target.value)} /> Within 10 km</label>
-                                <button type="button" className="marketplace-clear-option" onClick={() => setDistance('')}>Any distance</button>
-                            </fieldset>
-
-                            <label className="marketplace-availability">
+<label className="marketplace-availability">
                                 <span><strong>Available now</strong><small>Only show providers marked available</small></span>
                                 <input type="checkbox" checked={availableNow} onChange={(event) => setAvailableNow(event.target.checked)} />
                             </label>
@@ -251,7 +245,7 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                             <div className="marketplace-results-heading">
                                 <div>
                                     <h2>Service providers near you</h2>
-                                    <p>{filteredProviders.length} matching sample listings</p>
+                                    <p>{filteredProviders.length} {providerState.source === 'api' ? 'providers' : 'sample listings'}</p>
                                 </div>
                                 <label className="marketplace-sort">
                                     <span>Sort by</span>
@@ -263,13 +257,15 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
                                 </label>
                             </div>
 
+                            {providerState.source === 'loading' && <p className="marketplace-data-status" role="status">Loading available providers…</p>}
+                            {providerState.source === 'sample' && <p className="marketplace-data-notice" role="status">Showing clearly labelled sample listings because live provider data is unavailable. {providerState.error}</p>}
                             <div className="marketplace-provider-grid">
                                 {filteredProviders.slice(0, visibleCount).map((provider) => (
-                                    <ServiceProvider key={provider.id} {...provider} isAuthenticated={isAuthenticated} onRequireAuth={onRequireAuth} onSelect={() => onSelectProvider(provider)} />
+                                    <ServiceProvider key={provider.id} {...provider} img={provider.avatarUrl || ''} isAuthenticated={isAuthenticated} onRequireAuth={onRequireAuth} onSelect={() => onSelectProvider(provider)} />
                                 ))}
                             </div>
 
-                            {filteredProviders.length === 0 && (
+                            {providerState.source !== 'loading' && filteredProviders.length === 0 && (
                                 <div className="empty-state marketplace-empty-state">
                                     <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                                     <strong>No providers found</strong>
