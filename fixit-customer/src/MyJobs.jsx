@@ -54,7 +54,7 @@ function MyJobs({ jobs = [], demoMode = false, viewState, onViewStateChange, onP
     const clearFilters = () => onViewStateChange ? onViewStateChange(EMPTY_VIEW_STATE) : setLocalViewState(EMPTY_VIEW_STATE);
 
     return (
-        <main className="account my-jobs page-surface my-jobs-workspace my-jobs-enter">
+        <div className="account my-jobs page-surface my-jobs-workspace my-jobs-enter">
             <div className="my-jobs-content">
                 <nav className="account-breadcrumb my-jobs-breadcrumb" aria-label="Breadcrumb"><span>FixIt Workspace</span><i className="fa-solid fa-chevron-right" aria-hidden="true"></i><strong>My Jobs</strong></nav>
                 <header className="account-header my-jobs-titlebar">
@@ -101,7 +101,7 @@ function MyJobs({ jobs = [], demoMode = false, viewState, onViewStateChange, onP
                     </>
                 )}
             </div>
-        </main>
+        </div>
     );
 }
 
