@@ -93,6 +93,30 @@ describe('customer job management API flow', () => {
         expect(await screen.findByRole('heading', { name: 'No jobs yet' })).toBeInTheDocument();
         expect(screen.queryByText('Fixing Kitchen Sink Leak')).not.toBeInTheDocument();
     });
+    it('shows a failed direct lookup and retries the same job ID', async () => {
+        customerApi.listJobs.mockResolvedValueOnce({ data: { items: [] } });
+        customerApi.getJob.mockRejectedValueOnce(Object.assign(new Error('Job unavailable'), { status: 404 })).mockResolvedValueOnce({ data: job });
+        await renderApp('job-details/job-42', true);
+        expect(await screen.findByRole('heading', { name: 'Job unavailable' })).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /try again/i }));
+        expect(await screen.findByRole('heading', { name: 'Repair kitchen tap' })).toBeInTheDocument();
+    });
+    it('cancels only when the API exposes the cancel action and confirms the saved state', async () => {
+        const cancellableJob = { ...job, availableActions: ['cancel'] };
+        customerApi.listJobs.mockResolvedValueOnce({ data: { items: [cancellableJob] } });
+        customerApi.getJob.mockResolvedValueOnce({ data: cancellableJob });
+        customerApi.cancelJob.mockResolvedValueOnce({ data: { ...cancellableJob, status: 'CANCELLED', availableActions: [] } });
+        vi.spyOn(window, 'confirm').mockReturnValue(true);
+        await renderApp('my-jobs', true);
+        await screen.findByText('Repair kitchen tap');
+        fireEvent.click(screen.getByRole('button', { name: /job details/i }));
+        await screen.findByRole('heading', { name: 'Repair kitchen tap' });
+        fireEvent.click(screen.getByRole('button', { name: 'Cancel Job' }));
+        expect(customerApi.cancelJob).toHaveBeenCalledWith('job-42');
+        expect(await screen.findByRole('heading', { name: 'My Jobs' })).toBeInTheDocument();
+        expect(await screen.findByText('CANCELLED')).toBeInTheDocument();
+        vi.restoreAllMocks();
+    });
     it('shows an API error and allows the customer to retry', async () => {
         customerApi.listJobs.mockRejectedValueOnce(new Error('Service temporarily unavailable')).mockResolvedValueOnce({ data: { items: [job] } });
         await renderApp('my-jobs', true);
