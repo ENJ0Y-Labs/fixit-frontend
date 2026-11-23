@@ -31,4 +31,5 @@ export const adminApi = {
     getSettings: () => apiClient.get('admin/settings'),
     updateSettings: (payload) => apiClient.patch('admin/settings', payload),
     listAuditEvents: (query) => apiClient.get('admin/audit-events', { query }),
+    refundPayment: (paymentId, payload) => apiClient.post(`admin/payments/${encodeURIComponent(paymentId)}/refund`, payload),
 };
