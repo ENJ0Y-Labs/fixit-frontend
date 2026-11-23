@@ -172,11 +172,23 @@ function CustomerWorkspace({ user, onLogout }) {
         navigate('myJobs');
     };
 
-    const handleJobPosted = async () => {
-        setMyJobsViewState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
-        setJobsLoading(true);
+    const handleJobPosted = async (draft) => {
+        const response = await customerApi.createJob({
+            title: draft.title,
+            category: draft.category,
+            description: draft.description,
+            urgency: draft.urgency,
+            preferredDate: draft.date || null,
+            preferredTime: draft.time || null,
+            serviceLocation: draft.location,
+            budget: Number(draft.budget),
+        });
+        const createdJob = extractJob(response);
+        if (!createdJob?.id) throw new Error('The server did not return the saved job. Please refresh My Jobs before trying again.');
+        setJobs((current) => [createdJob, ...current.filter((job) => job.id !== createdJob.id)]);
         setJobsError('');
-        setJobsReloadKey((current) => current + 1);
+        setJobsLoading(false);
+        setMyJobsViewState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
         navigate('myJobs');
     };
 
