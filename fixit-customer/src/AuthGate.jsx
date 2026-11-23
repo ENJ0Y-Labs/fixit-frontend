@@ -12,8 +12,13 @@ function getUser(payload) {
     return value?.user ?? value?.customer ?? value ?? null;
 }
 
+function getAuthRouteMode() {
+    const route = window.location.hash.replace(/^#\\/?/, '').split('?')[0];
+    return route === 'signup' || route === 'login' ? route : null;
+}
+
 function routeMode() {
-    return window.location.hash.replace(/^#\/?/, '').split('?')[0] === 'signup' ? 'signup' : 'login';
+    return getAuthRouteMode() || 'login';
 }
 
 function setRoute(mode, replace = false) {
