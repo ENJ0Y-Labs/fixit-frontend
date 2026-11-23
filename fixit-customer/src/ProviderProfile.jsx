@@ -48,8 +48,10 @@ function ProviderProfile({ provider: initialProvider, user, onNavigate, onAuth, 
                     </div>
                     {provider.services?.length > 0 && <section className="fixit-provider-detail-section"><h2>Services</h2><ul>{provider.services.map((service, index) => <li key={service.name + index}><strong>{service.name || 'Service'}</strong>{service.description && <p>{service.description}</p>}</li>)}</ul></section>}
                     {provider.serviceAreas?.length > 0 && <section className="fixit-provider-detail-section"><h2>Service areas</h2><p>{provider.serviceAreas.join(', ')}</p></section>}
+                    {provider.credentials?.length > 0 && <section className="fixit-provider-detail-section"><h2>Public credentials</h2><ul>{provider.credentials.map((credential) => <li key={credential}>{credential}</li>)}</ul></section>}
+                    {provider.reviews?.length > 0 && <section className="fixit-provider-detail-section"><h2>Customer reviews</h2><ul>{provider.reviews.map((review, index) => <li key={review.id || index}>{review.author && <strong>{review.author}</strong>}{review.rating !== null && <span> · {review.rating.toFixed(1)}/5</span>}{review.comment && <p>{review.comment}</p>}</li>)}</ul></section>}
                     {profileState.source === 'sample' && <p className="fixit-provider-disclaimer">This is illustrative sample data, not a live or verified provider profile. No real rating, review, credential or verification claim is being made.</p>}
-                    {profileState.source === 'api' && profileState.error && <p className="fixit-provider-disclaimer" role="status">{profileState.error}</p>}
+                    {profileState.source === 'api' && profileState.reviewsError && <p className="fixit-provider-disclaimer" role="status">{profileState.reviewsError}</p>}
                     <button type="button" className="fixit-landing-primary" onClick={requestService}>Request this service <i className="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </section>
