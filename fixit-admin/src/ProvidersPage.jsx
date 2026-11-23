@@ -58,7 +58,7 @@ export default function ProvidersPage() {
     return (
         <div className="providers-page">
             <div className="demo-notice" role="note">
-                <span className="demo-notice-icon" aria-hidden="true">i</span>
+                <span className="demo-notice-icon" aria-hidden="true"><i className="fa-solid fa-circle-info" /></span>
                 <p><strong>Demo records</strong> Provider profiles and counts below are illustrative only. No live provider data or admin actions are connected.</p>
             </div>
 
@@ -106,7 +106,7 @@ export default function ProvidersPage() {
                 <div className="provider-filters">
                     <label className="provider-search">
                         <span className="sr-only">Search providers</span>
-                        <span aria-hidden="true">⌕</span>
+                        <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
                         <input
                             type="search"
                             value={search}
@@ -165,7 +165,7 @@ export default function ProvidersPage() {
                                     <td>{provider.location}</td>
                                     <td><VerificationBadge status={provider.verification} /></td>
                                     <td><AccountBadge status={provider.account} /></td>
-                                    <td className="provider-rating">{provider.rating.toFixed(1)} <span aria-label="out of 5 stars">★</span></td>
+                                    <td className="provider-rating">{provider.rating.toFixed(1)} <i className="fa-solid fa-star" aria-label="out of 5 stars" /></td>
                                     <td><button className="provider-view-button" type="button" onClick={() => setSelectedProvider(provider)}>View</button></td>
                                 </tr>
                             ))}
