@@ -71,7 +71,7 @@ function Sidebar({ activePage, onNavigate, isOpen, sidebarRef, onClose }) {
                     aria-current={activePage === 'Settings' ? 'page' : undefined}
                     onClick={() => onNavigate('Settings')}
                 >
-                    <span className="nav-icon" aria-hidden="true">⚙</span>
+                    <span className="nav-icon" aria-hidden="true"><i className="fa-solid fa-gear" /></span>
                     <span>Settings</span>
                 </button>
                 <p className="text-muted" style={{ margin: '16px 10px 0', fontSize: '0.75rem' }}>
