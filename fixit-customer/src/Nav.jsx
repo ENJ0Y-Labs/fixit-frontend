@@ -4,12 +4,12 @@ const navItems = [
     { id: 'account', label: 'My Account', icon: 'fa-solid fa-user' }
 ];
 
-function Nav({ activePage, onNavigate, user, onLogout, isOpen, onClose }) {
+function Nav({ activePage, onNavigate, user, onLogout, isOpen, onClose, sidebarRef }) {
     const displayName = user?.name || user?.fullName || user?.email || 'Customer account';
     const initials = displayName.split(/[\\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'CU';
 
     return (
-        <aside className={`customer-sidebar${isOpen ? ' is-open' : ''}`} id="customer-navigation" aria-label="Customer navigation" role={isOpen ? 'dialog' : undefined} aria-modal={isOpen ? true : undefined}>
+        <aside ref={sidebarRef} className={`customer-sidebar${isOpen ? ' is-open' : ''}`} id="customer-navigation" aria-label="Customer navigation" role={isOpen ? 'dialog' : undefined} aria-modal={isOpen ? true : undefined}>
             <a className="customer-brand" href="#home" onClick={(event) => { event.preventDefault(); onNavigate('home'); }} aria-label="FixIt customer workspace">
                 <img className="customer-brand-logo" src="/brand/logo.png" alt="" />
                 <span className="customer-brand-copy">
