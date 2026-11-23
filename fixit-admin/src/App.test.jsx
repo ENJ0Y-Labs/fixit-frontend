@@ -439,7 +439,8 @@ describe('admin settings workspace', () => {
         expect(screen.getByRole('alert')).toHaveTextContent(/incorrect/i);
         fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'FixitDemo123!' } });
         fireEvent.click(screen.getByRole('button', { name: 'Sign in to admin workspace' }));
-        expect(await screen.findByRole('heading', { name: 'Platform overview' })).toBeInTheDocument();
+        expect(await screen.findByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /log out/i })).toBeInTheDocument();
         expect(JSON.parse(localStorage.getItem('fixit-demo-session:admin'))).toMatchObject({ role: 'admin', isDemo: true });
         fireEvent.click(screen.getByRole('button', { name: /log out/i }));
         expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
