@@ -128,7 +128,9 @@ The current frontend direction is:
 - JavaScript
 - CSS
 - ESLint
-- Font Awesome where appropriate
+- Font Awesome 7 across all three applications for interface icons
+- Use `fa-solid`, `fa-regular`, or `fa-brands` classes from the shared Font Awesome stylesheet
+- Do not use emoji or Unicode symbols as substitutes for interface icons
 
 Do not introduce a new framework, state-management library, CSS framework, or UI library without a clear reason.
 
