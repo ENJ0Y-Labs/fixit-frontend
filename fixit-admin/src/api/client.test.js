@@ -33,7 +33,7 @@ describe('admin API client', () => {
         const fetchImpl = vi.fn();
         const client = createApiClient({ baseUrl: '', fetchImpl });
 
-        await expect(client.get('/admin/me')).rejects.toMatchObject({
+        await expect(client.get('/admin/dashboard')).rejects.toMatchObject({
             name: 'ApiError',
             code: 'API_CONFIG_ERROR',
             status: null,
@@ -48,7 +48,7 @@ describe('admin API client', () => {
             fetchImpl,
         });
 
-        const result = await client.get('/admin/me/jobs', {
+        const result = await client.get('/admin/jobs', {
             query: { status: 'active', empty: '', omitted: null, tags: ['a', 'b'] },
         });
 
@@ -57,7 +57,7 @@ describe('admin API client', () => {
 
         const [url, options] = fetchImpl.mock.calls[0];
         expect(url).toBe(
-            'https://api.example.test/api/v1/admin/me/jobs?status=active&tags=a&tags=b',
+            'https://api.example.test/api/v1/admin/jobs?status=active&tags=a&tags=b',
         );
         expect(options.method).toBe('GET');
         expect(options.credentials).toBe('include');
@@ -73,7 +73,7 @@ describe('admin API client', () => {
         });
         const payload = { body: 'Please contact me' };
 
-        await client.post('/admin/me/conversations/123/messages', payload);
+        await client.post('/admin/support-cases/case-1/messages', payload);
 
         const [, options] = fetchImpl.mock.calls[0];
         expect(options.method).toBe('POST');
@@ -89,7 +89,7 @@ describe('admin API client', () => {
             fetchImpl,
         });
 
-        await client.get('admin/me', {
+        await client.get('admin/dashboard', {
             headers: { 'X-Request-Id': 'test-request' },
             credentials: 'include',
         });
@@ -103,7 +103,7 @@ describe('admin API client', () => {
         const fetchImpl = vi.fn().mockResolvedValue(response({ status: 204, body: null }));
         const client = createApiClient({ baseUrl: 'https://api.example.test/api/v1', fetchImpl });
 
-        await expect(client.delete('/admin/me/services/service-1')).resolves.toBeNull();
+        await expect(client.delete('/admin/categories/category-1')).resolves.toBeNull();
         expect(fetchImpl.mock.calls[0][1].method).toBe('DELETE');
     });
 
@@ -112,7 +112,7 @@ describe('admin API client', () => {
         const fetchImpl = vi.fn().mockResolvedValue(response({ status: 401, body: payload }));
         const client = createApiClient({ baseUrl: 'https://api.example.test/api/v1', fetchImpl });
 
-        await expect(client.get('/admin/me')).rejects.toMatchObject({
+        await expect(client.get('/admin/dashboard')).rejects.toMatchObject({
             name: 'ApiError',
             code: 'HTTP_ERROR',
             status: 401,
@@ -129,7 +129,7 @@ describe('admin API client', () => {
         }));
         const client = createApiClient({ baseUrl: 'https://api.example.test/api/v1', fetchImpl });
 
-        await expect(client.get('/admin/me/jobs')).rejects.toMatchObject({
+        await expect(client.get('/admin/jobs')).rejects.toMatchObject({
             status: 429,
             retryAfter: '30',
         });
@@ -142,7 +142,7 @@ describe('admin API client', () => {
 
         let thrown;
         try {
-            await client.get('/admin/me');
+            await client.get('/admin/dashboard');
         } catch (error) {
             thrown = error;
         }
@@ -157,7 +157,7 @@ describe('admin API client', () => {
         const fetchImpl = vi.fn().mockRejectedValue(new TypeError('Failed to fetch'));
         const client = createApiClient({ baseUrl: 'https://api.example.test/api/v1', fetchImpl });
 
-        await expect(client.get('/admin/me')).rejects.toMatchObject({
+        await expect(client.get('/admin/dashboard')).rejects.toMatchObject({
             name: 'ApiError',
             code: 'NETWORK_ERROR',
             status: null,
