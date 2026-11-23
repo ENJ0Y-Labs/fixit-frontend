@@ -63,7 +63,33 @@ function CustomerWorkspace({ user, onLogout }) {
     const [selectedJob, setSelectedJob] = useState(null);
     const [myJobsViewState, setMyJobsViewState] = useState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
     const hasSyncedInitialRoute = useRef(false);
+    const sidebarRef = useRef(null);
+    const menuButtonRef = useRef(null);
     const [menuOpen, setMenuOpen] = useState(false);
+
+    useEffect(() => {
+        if (!menuOpen) return undefined;
+        const focusable = sidebarRef.current?.querySelectorAll('a[href], button:not([disabled])');
+        focusable?.[0]?.focus();
+        function trapFocus(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                setMenuOpen(false);
+                menuButtonRef.current?.focus();
+                return;
+            }
+            if (event.key !== 'Tab' || !focusable?.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+        document.addEventListener('keydown', trapFocus);
+        return () => {
+            document.removeEventListener('keydown', trapFocus);
+            if (sidebarRef.current?.contains(document.activeElement)) menuButtonRef.current?.focus();
+        };
+    }, [menuOpen]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -233,12 +259,12 @@ function CustomerWorkspace({ user, onLogout }) {
 
     return (
         <div className="customer-workspace-shell">
-            <Nav activePage={activePage} onNavigate={navigate} user={user} onLogout={onLogout} isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+            <Nav activePage={activePage} onNavigate={navigate} user={user} onLogout={onLogout} isOpen={menuOpen} onClose={() => setMenuOpen(false)} sidebarRef={sidebarRef} />
             <button className={`customer-nav-backdrop${menuOpen ? ' is-visible' : ''}`} type="button" aria-label="Close navigation menu" tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} />
             <main className="customer-workspace-main">
                 <header className="customer-workspace-topbar">
                     <div className="customer-topbar-left">
-                        <button className="customer-menu-button" type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="customer-navigation" onClick={() => setMenuOpen((open) => !open)}>
+                        <button ref={menuButtonRef} className="customer-menu-button" type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="customer-navigation" onClick={() => setMenuOpen((open) => !open)}>
                             <i className={`fa-solid ${menuOpen ? 'fa-xmark' : 'fa-bars'}`} aria-hidden="true" />
                         </button>
                         <p className="customer-breadcrumb">FixIt <span aria-hidden="true">/</span> {activePage === 'home' ? 'Marketplace' : activePage === 'myJobs' ? 'My Jobs' : activePage === 'postJob' ? 'Post a Job' : activePage === 'jobDetails' ? 'Job Details' : activePage === 'account' ? 'Account' : activePage}</p>
