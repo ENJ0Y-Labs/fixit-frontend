@@ -13,7 +13,7 @@ import EarningsPage from './EarningsPage.jsx';
 import ReviewsPage from './ReviewsPage.jsx';
 import SettingsPage from './SettingsPage.jsx';
 
-const customerAppUrl = import.meta.env.VITE_CUSTOMER_APP_URL || '/';
+const customerAppUrl = import.meta.env.VITE_CUSTOMER_APP_URL || 'http://localhost:5173/';
 const navigation = [
     { label: 'Dashboard', icon: 'fa-solid fa-gauge-high' },
     { label: 'My Profile', icon: 'fa-solid fa-user' },
@@ -92,7 +92,7 @@ function ProviderAuth({ onAuthenticated }) {
                     <input id="provider-password" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
                     <button className="provider-auth-submit" type="submit" disabled={submitting}>{submitting ? 'Please wait…' : 'Sign in to provider workspace'}</button>
                 </form>
-                <p className="provider-auth-customer-link">Looking for home services? <a href={customerAppUrl}>Customer sign in</a></p>
+                <p className="provider-auth-customer-link">Looking for home services? <a href={customerAppUrl}>Log in as a customer</a></p>
             </section>
         </main>
     );
@@ -182,7 +182,7 @@ function ProviderWorkspace() {
             <main className="provider-main">
                 <header className="provider-topbar">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <button ref={menuButtonRef} className="icon-button mobile-menu-button" type="button" aria-label="Open navigation menu" aria-expanded={menuOpen} aria-controls="provider-navigation" onClick={() => setMenuOpen((open) => !open)}>
+                        <button ref={menuButtonRef} className="icon-button mobile-menu-button" type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="provider-navigation" onClick={() => setMenuOpen((open) => !open)}>
                             <span aria-hidden="true">{menuOpen ? <i className="fa-solid fa-xmark" aria-hidden="true" /> : <i className="fa-solid fa-bars" aria-hidden="true" />}</span>
                         </button>
                         <p className="topbar-title">{activePage === 'Dashboard' ? 'Provider dashboard' : activePage}</p>

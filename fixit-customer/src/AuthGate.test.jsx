@@ -19,7 +19,7 @@ describe('guest-first authentication', () => {
   const back = screen.getByRole('button', { name: /back to fixit/i });
   expect(back.closest('.customer-auth-card')).toBeNull();
   expect(back.parentElement).toHaveClass('customer-auth-back-wrap');
-  expect(screen.getByRole('link', { name: /log in as a provider/i })).toHaveAttribute('href', '/provider/');
+  expect(screen.getByRole('link', { name: /log in as a provider/i })).toHaveAttribute('href', 'http://localhost:5174/');
  });
  it('returns to the public marketplace when the floating back control is used', async () => {
   window.history.replaceState(null, '', '/#login');

@@ -32,7 +32,8 @@ describe('provider authentication entry', () => {
         render(<App />);
         expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
         expect(screen.getByText('SERVICE PROVIDER')).toBeInTheDocument();
-        expect(screen.getByRole('link', { name: /back to fixit/i })).toHaveAttribute('href', '/');
+        expect(screen.getByRole('link', { name: /log in as a customer/i })).toHaveAttribute('href', 'http://localhost:5173/');
+        expect(screen.getByRole('link', { name: /back to fixit/i })).toHaveAttribute('href', 'http://localhost:5173/');
     });
 
     it('logs in with the provider API and opens the provider dashboard', async () => {
@@ -45,6 +46,22 @@ describe('provider authentication entry', () => {
         expect(await screen.findByRole('heading', { name: /provider dashboard/i })).toBeInTheDocument();
         expect(authApi.login).toHaveBeenCalledWith({ email: 'provider@example.test', password: 'secret' });
         expect(window.location.hash).toBe('#dashboard');
+    });
+
+    it('keeps workspace navigation accessible through the mobile menu control', async () => {
+        render(<App />);
+        await screen.findByRole('heading', { name: /provider dashboard/i });
+        const menuButton = document.querySelector('.mobile-menu-button');
+        expect(menuButton).not.toBeNull();
+        expect(menuButton).toHaveAttribute('aria-label', 'Open navigation menu');
+        expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+        fireEvent.click(menuButton);
+        expect(screen.getByRole('dialog', { name: 'Provider navigation' })).toBeInTheDocument();
+        const closeButton = document.querySelector('.sidebar-close-button');
+        expect(closeButton).not.toBeNull();
+        fireEvent.click(closeButton);
+        expect(screen.queryByRole('dialog', { name: 'Provider navigation' })).not.toBeInTheDocument();
+        expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
     });
 
     it('rejects a customer account from the provider login', async () => {

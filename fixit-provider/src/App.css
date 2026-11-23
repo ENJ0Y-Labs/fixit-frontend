@@ -252,14 +252,14 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
     .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .dashboard-grid { grid-template-columns: minmax(0, 1fr); }
 }
-@media (max-width: 767px) {
-    .provider-sidebar { width: min(300px, calc(100vw - 56px)); transform: translateX(-105%); transition: transform 180ms ease; box-shadow: none; }
+@media (max-width: 1024px) {
+    .provider-sidebar { width: min(320px, calc(100vw - 48px)); transform: translateX(-105%); transition: transform 180ms ease; box-shadow: none; }
     .provider-sidebar.is-open { transform: translateX(0); box-shadow: 20px 0 50px rgba(0, 0, 0, 0.12); }
     .mobile-nav-backdrop.is-visible { position: fixed; z-index: 25; inset: 0; display: block; border: 0; background: rgba(20, 20, 20, 0.4); }
     .provider-main { margin-left: 0; }
     .provider-topbar { min-height: 64px; padding: 10px 16px; }
     .mobile-menu-button { display: inline-grid; }
-    .topbar-title { display: none; }
+    .topbar-title { display: block; }
     .provider-content { padding: 24px 16px 32px; }
     .page-heading { align-items: flex-start; flex-direction: column; margin-bottom: 22px; }
     .heading-actions { width: 100%; }
@@ -332,7 +332,7 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
 
 /* Tablet and narrow-desktop layout corrections. The sidebar and content
    use one token so the fixed rail can never drift away from the main column. */
-@media (min-width: 768px) and (max-width: 1100px) {
+@media (min-width: 1025px) and (max-width: 1100px) {
   :root { --nav-width: 220px; }
   .provider-sidebar { width: var(--nav-width); }
   .provider-main { margin-left: var(--nav-width); min-width: 0; }
@@ -363,7 +363,7 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
 }
 
 .sidebar-close-button { display: none; }
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
     .sidebar-close-button {
         display: flex;
         min-height: 44px;
