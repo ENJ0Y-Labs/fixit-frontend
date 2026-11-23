@@ -15,6 +15,8 @@ import Payment from './Payment.jsx';
 import Review from './Review.jsx';
 import Account from './Account.jsx';
 import AuthGate from './AuthGate.jsx';
+import { customerApi } from './api/customer.js';
+import { extractJob, extractJobList, jobErrorMessage } from './api/customerJobs.js';
 
 const PAGE_HASHES = {
     home: 'home',
@@ -26,14 +28,21 @@ const PAGE_HASHES = {
     account: 'account',
     notFound: 'not-found',
 };
+const HASH_PAGES = Object.fromEntries(Object.entries(PAGE_HASHES).map(([page, hash]) => [hash, page]));
 
-const HASH_PAGES = Object.fromEntries(
-    Object.entries(PAGE_HASHES).map(([page, hash]) => [hash, page]),
-);
+function getHashPath() {
+    return window.location.hash.replace(/^#\/?/, '').split('?')[0];
+}
 
 function getPageFromHash() {
-    const hash = window.location.hash.replace(/^#\/?/, '').split('?')[0];
-    return HASH_PAGES[hash] || (hash ? 'notFound' : 'home');
+    const route = getHashPath();
+    return HASH_PAGES[route.split('/')[0]] || (route ? 'notFound' : 'home');
+}
+
+function getJobIdFromHash() {
+    const match = getHashPath().match(/^job-details\/([^/]+)$/);
+    if (!match) return null;
+    try { return decodeURIComponent(match[1]); } catch { return match[1]; }
 }
 
 function navigateTo(route) {
@@ -42,60 +51,47 @@ function navigateTo(route) {
     window.dispatchEvent(new PopStateEvent('popstate'));
 }
 
-const initialJobs = [
-    {
-        id: 'JOB-09123',
-        icon: 'fa-solid fa-faucet',
-        category: 'PLUMBING',
-        status: 'IN PROGRESS',
-        title: 'Fixing Kitchen Sink Leak',
-        dateStr: 'Sat, 21 Feb 2026',
-        location: 'Victoria Island, Lagos',
-        priceLabel: 'AGREED PRICE',
-        priceValue: 12500,
-        priceSubtext: 'Escrow Secured',
-        providerName: 'Emeka Nwachukwu',
-        progressPercentage: 75,
-    },
-    {
-        id: 'JOB-09124',
-        icon: 'fa-solid fa-bolt',
-        category: 'ELECTRICAL',
-        status: 'AWAITING BIDS',
-        title: 'Circuit Breaker Tripping Frequently',
-        dateStr: 'Mon, 23 Feb 2026',
-        location: 'Ikeja, Lagos',
-        priceLabel: 'EST. BUDGET',
-        minBudget: 8000,
-        maxBudget: 15000,
-        priceValue: 8000,
-        bidNo: 3,
-        providerName: 'Tunde Bello',
-    },
-    {
-        id: 'JOB-09125',
-        icon: 'fa-solid fa-broom',
-        category: 'CLEANING',
-        status: 'COMPLETED',
-        title: 'Deep House Cleaning (3BR)',
-        dateStr: 'Wed, 10 Feb 2026',
-        location: 'Surulere, Lagos',
-        priceLabel: 'PAID AMOUNT',
-        priceValue: 25000,
-        providerName: 'Chioma Adeyemi',
-        providerRating: 5,
-    },
-];
-
 function CustomerWorkspace({ user, onLogout }) {
     const [activePage, setActivePage] = useState(getPageFromHash);
-    const [jobs, setJobs] = useState(initialJobs);
+    const [jobs, setJobs] = useState([]);
+    const [jobsLoading, setJobsLoading] = useState(true);
+    const [jobsError, setJobsError] = useState('');
+    const [jobsReloadKey, setJobsReloadKey] = useState(0);
+    const [detailLoading, setDetailLoading] = useState(false);
+    const [detailError, setDetailError] = useState('');
+    const [selectedJobId, setSelectedJobId] = useState(getJobIdFromHash);
+    const [selectedJob, setSelectedJob] = useState(null);
+    const [cancelError, setCancelError] = useState('');
     const [myJobsViewState, setMyJobsViewState] = useState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
-    const [selectedJob, setSelectedJob] = useState(initialJobs[0]);
     const hasSyncedInitialRoute = useRef(false);
 
     useEffect(() => {
-        const syncPageWithHash = () => setActivePage(getPageFromHash());
+        const controller = new AbortController();
+        setJobsLoading(true);
+        setJobsError('');
+        customerApi.listJobs({ limit: 50 }, { signal: controller.signal })
+            .then((response) => {
+                if (controller.signal.aborted) return;
+                setJobs(extractJobList(response));
+                setJobsError('');
+            })
+            .catch((error) => {
+                if (controller.signal.aborted) return;
+                setJobs([]);
+                setJobsError(jobErrorMessage(error));
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setJobsLoading(false);
+            });
+        return () => controller.abort();
+    }, [user?.id, jobsReloadKey]);
+
+    useEffect(() => {
+        const syncPageWithHash = () => {
+            setActivePage(getPageFromHash());
+            const nextJobId = getJobIdFromHash();
+            setSelectedJobId(nextJobId);
+        };
         window.addEventListener('popstate', syncPageWithHash);
         window.addEventListener('hashchange', syncPageWithHash);
         return () => {
@@ -105,122 +101,116 @@ function CustomerWorkspace({ user, onLogout }) {
     }, []);
 
     useEffect(() => {
-        const nextHash = `#${PAGE_HASHES[activePage]}`;
+        const nextHash = activePage === 'jobDetails'
+            ? '#job-details' + (selectedJobId ? '/' + encodeURIComponent(selectedJobId) : '')
+            : '#' + PAGE_HASHES[activePage];
         if (window.location.hash === nextHash) {
             hasSyncedInitialRoute.current = true;
             return;
         }
-
-        const nextUrl = `${window.location.pathname}${window.location.search}${nextHash}`;
-        if (hasSyncedInitialRoute.current) {
-            window.history.pushState(window.history.state, '', nextUrl);
-        } else {
+        const nextUrl = window.location.pathname + window.location.search + nextHash;
+        if (hasSyncedInitialRoute.current) window.history.pushState(window.history.state, '', nextUrl);
+        else {
             window.history.replaceState(window.history.state, '', nextUrl);
             hasSyncedInitialRoute.current = true;
         }
-    }, [activePage]);
+    }, [activePage, selectedJobId]);
 
-    const navigate = (page, job = selectedJob) => {
+    useEffect(() => {
+        if (activePage !== 'jobDetails') return undefined;
+        if (!selectedJobId) {
+            setSelectedJob(null);
+            setDetailError('No job was selected. Return to My Jobs and choose a request.');
+            setDetailLoading(false);
+            return undefined;
+        }
+        const controller = new AbortController();
+        setDetailLoading(true);
+        setDetailError('');
+        customerApi.getJob(selectedJobId, { signal: controller.signal })
+            .then((response) => {
+                if (controller.signal.aborted) return;
+                const job = extractJob(response);
+                if (!job?.id) throw new Error('The server returned an invalid job record.');
+                setSelectedJob(job);
+                setSelectedJobId(job.id);
+            })
+            .catch((error) => {
+                if (controller.signal.aborted) return;
+                setSelectedJob(null);
+                setDetailError(jobErrorMessage(error, 'We could not load this job. Please try again.'));
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setDetailLoading(false);
+            });
+        return () => controller.abort();
+    }, [activePage, selectedJobId]);
+
+    const navigate = (page, job = null) => {
         const nextPage = PAGE_HASHES[page] ? page : 'home';
-        if (job) setSelectedJob(job);
+        if (job?.id) {
+            setSelectedJob(job);
+            setSelectedJobId(String(job.id));
+            setCancelError('');
+        } else if (nextPage !== 'jobDetails') {
+            setSelectedJobId(null);
+        }
         setActivePage(nextPage);
     };
 
-    const handleCancelJob = (job) => {
-        const cancelledJob = { ...job, status: 'CANCELLED', progressPercentage: 0 };
-        setJobs((current) => {
-            const exists = current.some((item) => item.id === job.id);
-            return exists
-                ? current.map((item) => item.id === job.id ? cancelledJob : item)
-                : [cancelledJob, ...current];
-        });
-        navigate('myJobs', cancelledJob);
+    const handleCancelJob = async () => {
+        if (!selectedJobId) throw new Error('The selected job could not be identified.');
+        const response = await customerApi.cancelJob(selectedJobId);
+        const cancelledJob = extractJob(response);
+        if (!cancelledJob?.id || cancelledJob.status !== 'CANCELLED') {
+            throw new Error('The server did not confirm that this job was cancelled.');
+        }
+        setJobs((current) => current.map((job) => job.id === cancelledJob.id ? cancelledJob : job));
+        setSelectedJob(cancelledJob);
+        setCancelError('');
+        navigate('myJobs');
     };
 
-    const handleJobPosted = (job) => {
-        const newJob = {
-            id: job.id,
-            icon: job.category === 'Electrical'
-                ? 'fa-solid fa-bolt'
-                : job.category === 'Cleaning'
-                    ? 'fa-solid fa-broom'
-                    : job.category === 'Carpentry'
-                        ? 'fa-solid fa-hammer'
-                        : job.category === 'Painting'
-                            ? 'fa-solid fa-paint-roller'
-                            : 'fa-solid fa-faucet',
-            category: job.category.toUpperCase(),
-            status: 'AWAITING BIDS',
-            title: job.title,
-            dateStr: job.dateStr,
-            location: job.location,
-            priceLabel: 'EST. BUDGET',
-            priceValue: Number(job.budget) || 0,
-            minBudget: Number(job.budget) || 0,
-            maxBudget: Number(job.budget) || 0,
-            bidNo: 0,
-        };
-
-        setJobs((current) => [newJob, ...current]);
+    const handleJobPosted = async () => {
         setMyJobsViewState({ search: '', statusFilter: 'ALL', categoryFilter: 'ALL', sortBy: 'recent' });
-        navigate('myJobs', newJob);
+        setJobsReloadKey((current) => current + 1);
+        navigate('myJobs');
     };
 
-    const selectedJobFromState = jobs.find((job) => job.id === selectedJob?.id) || selectedJob;
+    const retryJobDetails = () => {
+        if (!selectedJobId) return;
+        setDetailError('');
+        setDetailLoading(true);
+        customerApi.getJob(selectedJobId)
+            .then((response) => {
+                const job = extractJob(response);
+                if (!job?.id) throw new Error('The server returned an invalid job record.');
+                setSelectedJob(job);
+                setDetailError('');
+            })
+            .catch((error) => setDetailError(jobErrorMessage(error, 'We could not load this job. Please try again.')))
+            .finally(() => setDetailLoading(false));
+    };
 
     const renderPage = () => {
         switch (activePage) {
             case 'myJobs':
-                return (
-                    <MyJobs
-                        jobs={jobs}
-                        viewState={myJobsViewState}
-                        onViewStateChange={setMyJobsViewState}
-                        onPostJob={() => navigate('postJob')}
-                        onViewDetails={(job) => navigate('jobDetails', job)}
-                    />
-                );
+                return <MyJobs jobs={jobs} loading={jobsLoading} error={jobsError} onRetry={() => setJobsReloadKey((current) => current + 1)} viewState={myJobsViewState} onViewStateChange={setMyJobsViewState} onPostJob={() => navigate('postJob')} onViewDetails={(job) => navigate('jobDetails', job)} />;
             case 'postJob':
-                return (
-                    <PostJob
-                        onBack={() => navigate('myJobs')}
-                        onJobPosted={handleJobPosted}
-                    />
-                );
+                return <PostJob onBack={() => navigate('myJobs')} onJobPosted={handleJobPosted} />;
             case 'jobDetails':
-                return (
-                    <JobDetails
-                        job={selectedJobFromState}
-                        onBack={() => navigate('myJobs', selectedJobFromState)}
-                        onPayment={() => navigate('payment', selectedJobFromState)}
-                        onCancel={() => handleCancelJob(selectedJobFromState)}
-                    />
-                );
+                return <JobDetails job={selectedJob} loading={detailLoading} error={detailError} cancelError={cancelError} onRetry={retryJobDetails} onBack={() => navigate('myJobs')} onPayment={() => navigate('payment', selectedJob)} onCancel={handleCancelJob} />;
             case 'payment':
-                return (
-                    <Payment
-                        job={selectedJobFromState}
-                        onBack={() => navigate('jobDetails', selectedJobFromState)}
-                        onPaymentComplete={() => navigate('review', selectedJobFromState)}
-                    />
-                );
+                return <Payment job={selectedJob} onBack={() => navigate('jobDetails', selectedJob)} onPaymentComplete={() => navigate('review', selectedJob)} />;
             case 'review':
-                return (
-                    <Review
-                        job={selectedJobFromState}
-                        onClose={() => navigate('myJobs', selectedJobFromState)}
-                        onSubmit={() => navigate('myJobs', selectedJobFromState)}
-                    />
-                );
+                return <Review job={selectedJob} onClose={() => navigate('myJobs')} onSubmit={() => navigate('myJobs')} />;
             case 'account':
                 return <Account />;
             case 'notFound':
                 return <section className="page-surface" style={{ padding: '64px 36px' }}><p className="eyebrow">CUSTOMER WORKSPACE</p><h1>Page not found</h1><p>The page you requested does not exist.</p><button type="button" className="dark-button" onClick={() => navigate('home')}>Return home</button></section>;
             case 'home':
             default:
-                return (
-                    <Home user={user} isAuthenticated onNavigate={navigateTo} onAuth={() => {}} onRequireAuth={() => {}} onSelectProvider={(provider) => navigateTo(`provider/${provider.id}`)} />
-                );
+                return <Home user={user} isAuthenticated onNavigate={navigateTo} onAuth={() => {}} onRequireAuth={() => {}} onSelectProvider={(provider) => navigateTo('provider/' + provider.id)} />;
         }
     };
 
@@ -229,9 +219,7 @@ function CustomerWorkspace({ user, onLogout }) {
             <Nav activePage={activePage} onNavigate={navigate} user={user} onLogout={onLogout} />
             <div className="app-content">
                 <FixitAsyncBoundary key={activePage}>
-                    <div key={activePage} className="fixit-page-transition">
-                        {renderPage()}
-                    </div>
+                    <div key={activePage} className="fixit-page-transition">{renderPage()}</div>
                 </FixitAsyncBoundary>
             </div>
         </div>
@@ -251,7 +239,7 @@ function PublicExperience({ route, user, openAuth, requireAuth }) {
     const navigate = (nextRoute) => navigateTo(nextRoute);
     const match = route.match(/^provider\/([^/]+)$/);
     if (match) return <ProviderProfile provider={providers.find((provider) => provider.id === match[1])} user={user} onNavigate={navigate} onAuth={openAuth} onRequireAuth={requireAuth} />;
-    if (route === 'marketplace') return <Home user={user} isAuthenticated={Boolean(user)} onNavigate={navigate} onAuth={openAuth} onRequireAuth={requireAuth} onSelectProvider={(provider) => navigate(`provider/${provider.id}`)} />;
+    if (route === 'marketplace') return <Home user={user} isAuthenticated={Boolean(user)} onNavigate={navigate} onAuth={openAuth} onRequireAuth={requireAuth} onSelectProvider={(provider) => navigate('provider/' + provider.id)} />;
     return <LandingPage user={user} onNavigate={navigate} onAuth={openAuth} />;
 }
 
@@ -263,7 +251,8 @@ function FixitApp({ user, onLogout, openAuth, requireAuth }) {
         window.addEventListener('hashchange', sync);
         return () => { window.removeEventListener('popstate', sync); window.removeEventListener('hashchange', sync); };
     }, []);
-    if (user && protectedRoutes.includes(route)) return <CustomerWorkspace user={user} onLogout={onLogout} />;
+    const routeKey = route.split('/')[0];
+    if (user && protectedRoutes.includes(routeKey)) return <CustomerWorkspace key={user.id || user.email || 'customer'} user={user} onLogout={onLogout} />;
     return <PublicExperience route={route} user={user} openAuth={openAuth} requireAuth={requireAuth} />;
 }
 
