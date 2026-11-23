@@ -158,7 +158,7 @@ function CustomerWorkspace({ user, onLogout }) {
             window.history.replaceState(window.history.state, '', nextUrl);
             hasSyncedInitialRoute.current = true;
         }
-    }, [activePage, selectedJobId]);
+    }, [activePage, selectedJobId, jobs, user?.isDemo]);
 
     useEffect(() => {
         if (activePage !== 'jobDetails') return undefined;
@@ -266,7 +266,7 @@ function CustomerWorkspace({ user, onLogout }) {
     const renderPage = () => {
         switch (activePage) {
             case 'myJobs':
-                return <MyJobs jobs={jobs} loading={jobsLoading} error={jobsError} onRetry={() => { setJobsLoading(true); setJobsError(''); setJobsReloadKey((current) => current + 1); }} viewState={myJobsViewState} onViewStateChange={setMyJobsViewState} onPostJob={() => navigate('postJob')} onViewDetails={(job) => navigate('jobDetails', job)} />;
+                return <MyJobs jobs={jobs} demoMode={Boolean(user?.isDemo)} loading={jobsLoading} error={jobsError} onRetry={() => { setJobsLoading(true); setJobsError(''); setJobsReloadKey((current) => current + 1); }} viewState={myJobsViewState} onViewStateChange={setMyJobsViewState} onPostJob={() => navigate('postJob')} onViewDetails={(job) => navigate('jobDetails', job)} />;
             case 'postJob':
                 return <PostJob onBack={() => navigate('myJobs')} onJobPosted={handleJobPosted} />;
             case 'jobDetails':
