@@ -103,7 +103,7 @@ describe('customer API client', () => {
         const fetchImpl = vi.fn().mockResolvedValue(response({ status: 204, body: null }));
         const client = createApiClient({ baseUrl: 'https://api.example.test/api/v1', fetchImpl });
 
-        await expect(client.delete('/customer/me/services/service-1')).resolves.toBeNull();
+        await expect(client.delete('/customer/me/favorites/provider-1')).resolves.toBeNull();
         expect(fetchImpl.mock.calls[0][1].method).toBe('DELETE');
     });
 
