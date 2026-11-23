@@ -81,7 +81,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .customer-topbar-icon:disabled { opacity: .5; cursor: not-allowed; }
 .customer-menu-button { display: none; cursor: pointer; }
 .customer-topbar-avatar { width: 36px; height: 36px; }
-.customer-workspace-content { width: min(100%, 1540px); min-width: 0; margin: 0 auto; padding: clamp(22px, 3vw, 40px); }
+.customer-workspace-content { width: 100%; min-width: 0; margin: 0 auto; padding: 0; }
 .customer-sidebar-close { display: none; }
 .customer-nav-backdrop { display: none; }
 @media (max-width: 1024px) {
@@ -91,12 +91,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     .customer-workspace-main { margin-left: 0; }
     .customer-workspace-topbar { min-height: 64px; padding: 10px 16px; }
     .customer-menu-button { display: inline-grid; }
-    .customer-workspace-content { padding: 24px 16px 32px; }
+    .customer-workspace-content { padding: 0; }
     .customer-sidebar-close { display: flex; min-height: 44px; align-items: center; justify-content: flex-end; margin-bottom: 18px; padding: 0 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-soft); color: var(--text); font: inherit; font-size: .82rem; font-weight: 700; }
 }
 @media (max-width: 560px) {
     .customer-workspace-topbar { padding-inline: 12px; }
-    .customer-workspace-content { padding: 20px 12px 28px; }
+    .customer-workspace-content { padding: 0; }
     .customer-topbar-left, .customer-topbar-actions { gap: 8px; }
     .customer-workspace-tag { display: none; }
 }
