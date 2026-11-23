@@ -70,7 +70,7 @@ export default function DashboardPage({ dataState = 'populated', onNavigate = ()
                 </div>
                 <div className="heading-actions">
                     <button className="btn btn-secondary" type="button" onClick={() => onNavigate('My Profile')}>Edit profile</button>
-                    <button className="btn btn-primary" type="button" onClick={() => onNavigate('Available Jobs')}>Find jobs <span aria-hidden="true">↗</span></button>
+                    <button className="btn btn-primary" type="button" onClick={() => onNavigate('Available Jobs')}>Find jobs <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" /></button>
                 </div>
             </div>
 
