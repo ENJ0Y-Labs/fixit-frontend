@@ -30,6 +30,17 @@ const PAGE_HASHES = {
 };
 const HASH_PAGES = Object.fromEntries(Object.entries(PAGE_HASHES).map(([page, hash]) => [hash, page]));
 
+const PAGE_LABELS = {
+    home: 'Marketplace',
+    myJobs: 'My Jobs',
+    postJob: 'Post a Job',
+    jobDetails: 'Job Details',
+    payment: 'Checkout',
+    review: 'Review',
+    account: 'My Account',
+    notFound: 'Page not found',
+};
+
 function getHashPath() {
     return window.location.hash.replace(/^#\/?/, '').split('?')[0];
 }
@@ -235,6 +246,9 @@ function CustomerWorkspace({ user, onLogout }) {
             .finally(() => setDetailLoading(false));
     };
 
+    const customerName = user?.name || user?.fullName || user?.email || 'Customer account';
+    const customerInitials = customerName.split(/[\\s@._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'CU';
+
     const renderPage = () => {
         switch (activePage) {
             case 'myJobs':
@@ -253,7 +267,7 @@ function CustomerWorkspace({ user, onLogout }) {
                 return <section className="page-surface" style={{ padding: '64px 36px' }}><p className="eyebrow">CUSTOMER WORKSPACE</p><h1>Page not found</h1><p>The page you requested does not exist.</p><button type="button" className="dark-button" onClick={() => navigate('home')}>Return home</button></section>;
             case 'home':
             default:
-                return <Home user={user} isAuthenticated onNavigate={navigateTo} onAuth={() => {}} onRequireAuth={() => {}} onSelectProvider={(provider) => navigateTo('provider/' + provider.id)} />;
+                return <Home user={user} isAuthenticated showPublicHeader={false} onNavigate={navigateTo} onAuth={() => {}} onRequireAuth={() => {}} onSelectProvider={(provider) => navigateTo('provider/' + provider.id)} />;
         }
     };
 
@@ -267,12 +281,12 @@ function CustomerWorkspace({ user, onLogout }) {
                         <button ref={menuButtonRef} className="customer-menu-button" type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="customer-navigation" onClick={() => setMenuOpen((open) => !open)}>
                             <i className={`fa-solid ${menuOpen ? 'fa-xmark' : 'fa-bars'}`} aria-hidden="true" />
                         </button>
-                        <p className="customer-breadcrumb">FixIt <span aria-hidden="true">/</span> {activePage === 'home' ? 'Marketplace' : activePage === 'myJobs' ? 'My Jobs' : activePage === 'postJob' ? 'Post a Job' : activePage === 'jobDetails' ? 'Job Details' : activePage === 'account' ? 'Account' : activePage}</p>
+                        <p className="customer-breadcrumb">FixIt <span aria-hidden="true">/</span> {PAGE_LABELS[activePage] || 'Customer workspace'}</p>
                     </div>
                     <div className="customer-topbar-actions">
                         <span className="customer-workspace-tag">CUSTOMER</span>
                         <button className="customer-topbar-icon" type="button" aria-label="Notifications are not connected" disabled><i className="fa-regular fa-bell" aria-hidden="true" /></button>
-                        <span className="customer-topbar-avatar" aria-label="Customer account">CU</span>
+                        <span className="customer-topbar-avatar" aria-label={customerName}>{customerInitials}</span>
                     </div>
                 </header>
                 <div className="customer-workspace-content">
