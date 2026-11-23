@@ -134,7 +134,7 @@ function MyJobs({
                 {error ? (
                     <section className="my-jobs-empty my-jobs-state" role="alert">
                         <span><i className="fa-solid fa-triangle-exclamation" aria-hidden="true" /></span>
-                        <h2>We couldn’t load your jobs</h2>
+                        <h2>We couldn't load your jobs</h2>
                         <p>{error}</p>
                         <button type="button" className="my-jobs-primary-action" onClick={onRetry}>Try again</button>
                     </section>
@@ -234,7 +234,7 @@ function MyJobs({
                             {!loading && visibleJobs.length === 0 && (
                                 <div className="my-jobs-empty">
                                     <span><i className="fa-solid fa-clipboard-list" aria-hidden="true" /></span>
-                                    <h2>{jobs.length === 0 ? 'No jobs yet' : 'No jobs match these filters'}</h2>
+                                    <h2>{jobs.length === 0 ? 'No jobs yet' : 'No matching jobs'}</h2>
                                     <p>{jobs.length === 0
                                         ? 'You have not posted any service requests yet.'
                                         : 'Try changing your search, category or status filter.'}</p>
