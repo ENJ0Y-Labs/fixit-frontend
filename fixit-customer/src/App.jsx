@@ -260,7 +260,7 @@ function CustomerWorkspace({ user, onLogout }) {
     return (
         <div className="customer-workspace-shell">
             <Nav activePage={activePage} onNavigate={navigate} user={user} onLogout={onLogout} isOpen={menuOpen} onClose={() => setMenuOpen(false)} sidebarRef={sidebarRef} />
-            <button className={`customer-nav-backdrop${menuOpen ? ' is-visible' : ''}`} type="button" aria-label="Close navigation menu" tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} />
+            <button className={`customer-nav-backdrop${menuOpen ? ' is-visible' : ''}`} type="button" aria-label="Close navigation menu" tabIndex={menuOpen ? 0 : -1} onClick={() => { setMenuOpen(false); menuButtonRef.current?.focus(); }} />
             <main className="customer-workspace-main">
                 <header className="customer-workspace-topbar">
                     <div className="customer-topbar-left">
