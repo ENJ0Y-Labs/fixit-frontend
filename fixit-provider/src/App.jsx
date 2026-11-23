@@ -215,20 +215,14 @@ function ProviderWorkspace({ onLogout }) {
 }
 
 function App() {
-    const [status, setStatus] = useState('checking');
-    const [user, setUser] = useState(null);
+    const [status, setStatus] = useState(() => isDemoAuthEnabled()
+        ? (readDemoSession('provider') ? 'authenticated' : 'unauthenticated')
+        : 'checking');
+    const [user, setUser] = useState(() => isDemoAuthEnabled() ? readDemoSession('provider') : null);
 
     useEffect(() => {
         let active = true;
-        if (isDemoAuthEnabled()) {
-            const demoUser = readDemoSession('provider');
-            if (demoUser) {
-                setUser(demoUser);
-                setStatus('authenticated');
-            } else {
-                setStatus('unauthenticated');
-            }
-        } else {
+        if (!isDemoAuthEnabled()) {
             authApi.getCurrentUser()
                 .then((response) => {
                     if (!active) return;
