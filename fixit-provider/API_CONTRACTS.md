@@ -162,4 +162,4 @@ Before integration starts, record decisions for:
 - [ ] Rate limits, retry behavior, and idempotency for mutations
 - [ ] Contract tests or a staging environment with representative responses
 
-The UI phase is not server integration. Implement the API layer only after these decisions are confirmed.
+The frontend has now implemented transport, authentication-call scaffolding, and provider resource-call scaffolding against this proposed route map. No backend repository or deployed API currently exists, so these calls are not live integrations. The future backend implementation must either honor this proposal or update this document and the root README before the UI is connected. Confirm the remaining decisions above before treating any route or payload as production contract.
