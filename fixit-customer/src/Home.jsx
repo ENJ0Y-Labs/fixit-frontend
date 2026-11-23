@@ -89,9 +89,9 @@ function Home({ onSelectProvider, onNavigate, onAuth, onRequireAuth, user, isAut
             const matchesAvailability = (!availableNow || provider.available)
                 && (quickFilter !== 'available' || provider.available);
             const hasPriceFilter = minPrice !== PRICE_MIN || maxPrice !== PRICE_MAX || quickFilter === 'price';
-            const matchesPrice = provider.price === null ? !hasPriceFilter
-                : provider.price >= minPrice && provider.price <= maxPrice
-                    && (quickFilter !== 'price' || provider.price < 5000);
+            const matchesPrice = quickFilter === 'price'
+                ? provider.price !== null && provider.price < 5000
+                : !hasPriceFilter || provider.price === null || (provider.price >= minPrice && provider.price <= maxPrice);
             return matchesSearch && matchesLocation && matchesRating && matchesAvailability && matchesPrice;
         });
 
