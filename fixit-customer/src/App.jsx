@@ -17,6 +17,7 @@ import Account from './Account.jsx';
 import AuthGate from './AuthGate.jsx';
 import { customerApi } from './api/customer.js';
 import { extractJob, extractJobList, jobErrorMessage } from './api/customerJobs.js';
+import { demoCustomerJobs } from './demo/customerJobs.js';
 
 const PAGE_HASHES = {
     home: 'home',
@@ -103,6 +104,12 @@ function CustomerWorkspace({ user, onLogout }) {
     }, [menuOpen]);
 
     useEffect(() => {
+        if (user?.isDemo) {
+            setJobs(demoCustomerJobs);
+            setJobsError('');
+            setJobsLoading(false);
+            return undefined;
+        }
         const controller = new AbortController();
         customerApi.listJobs({ limit: 50 }, { signal: controller.signal })
             .then((response) => {
@@ -156,6 +163,13 @@ function CustomerWorkspace({ user, onLogout }) {
     useEffect(() => {
         if (activePage !== 'jobDetails') return undefined;
         if (!selectedJobId) return undefined;
+        if (user?.isDemo) {
+            const demoJob = jobs.find((job) => job.id === String(selectedJobId));
+            setSelectedJob(demoJob || null);
+            setDetailError(demoJob ? '' : 'This demo job could not be found.');
+            setDetailLoading(false);
+            return undefined;
+        }
         const controller = new AbortController();
         customerApi.getJob(selectedJobId, { signal: controller.signal })
             .then((response) => {
