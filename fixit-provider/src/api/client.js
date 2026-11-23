@@ -117,11 +117,12 @@ function messageForStatus(status) {
 }
 
 /**
- * Creates the provider app's shared HTTP client.
+ * Creates this app's shared HTTP client.
  *
- * This layer deliberately does not assume an API success envelope, an error
- * envelope, or an authentication scheme. Those must be confirmed with the
- * backend before resource-specific API functions are added.
+ * The transport does not assume a success/error envelope or an authentication
+ * scheme. App resource modules use the proposed routes in the repository root
+ * README; the backend must implement and confirm that contract before UI
+ * integration.
  */
 export function createApiClient({
     baseUrl = import.meta.env.VITE_API_BASE_URL,
