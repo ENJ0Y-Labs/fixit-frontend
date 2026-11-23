@@ -244,8 +244,11 @@ function App() {
         window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search + '#dashboard');
     }
 
-    function handleLogout() {
+    async function handleLogout() {
         if (user?.isDemo) clearDemoSession('provider');
+        else {
+            try { await authApi.logout(); } catch { /* Clear local access even if the server cannot confirm logout. */ }
+        }
         setUser(null);
         setStatus('unauthenticated');
         window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
