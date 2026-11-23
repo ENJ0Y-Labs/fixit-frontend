@@ -12,7 +12,7 @@ function JobCard({
     priceValue = 0,
     priceSubtext = '',
     providerName = '',
-    providerRating = 0,
+    providerRating = null,
     bidNo = 0,
     minBudget = 0,
     maxBudget = 0,
@@ -61,7 +61,7 @@ function JobCard({
                         <div className="my-job-provider">
                             <span className="my-job-provider-avatar" aria-hidden="true">{initials}</span>
                             <span className="my-job-provider-copy"><strong>{providerName}</strong><small>{isCompleted ? 'Service provider' : 'Assigned provider'}</small></span>
-                            {providerRating > 0 && <span className="my-job-rating"><i className="fa-solid fa-star" aria-hidden="true"></i>{providerRating.toFixed(1)}</span>}
+                            {providerRating !== null && providerRating !== undefined && Number.isFinite(Number(providerRating)) && <span className="my-job-rating"><i className="fa-solid fa-star" aria-hidden="true"></i>{Number(providerRating).toFixed(1)}</span>}
                         </div>
                     )}
                     {isAwaitingBids && <p className="my-job-bids-copy">{bidNo > 0 ? `${bidNo} provider responses received for this request.` : 'Your request is open and waiting for provider responses.'}</p>}
