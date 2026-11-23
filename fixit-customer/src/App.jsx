@@ -35,7 +35,13 @@ function getPageFromHash() {
     return HASH_PAGES[hash] || (hash ? 'notFound' : 'home');
 }
 
-function navigateTo(route) {\n    const url = window.location.pathname + window.location.search + '#' + route;\n    window.history.pushState(window.history.state, '', url);\n    window.dispatchEvent(new PopStateEvent('popstate'));\n}\n\nconst initialJobs = [
+function navigateTo(route) {
+    const url = window.location.pathname + window.location.search + '#' + route;
+    window.history.pushState(window.history.state, '', url);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+}
+
+const initialJobs = [
     {
         id: 'JOB-09123',
         icon: 'fa-solid fa-faucet',
